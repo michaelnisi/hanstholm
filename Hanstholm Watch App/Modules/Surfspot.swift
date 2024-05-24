@@ -31,7 +31,7 @@ extension SurfSpot {
         
         var body: some View {
             TabView {
-                WindView()
+                WindView(name: surfEntry.name, wind: surfEntry.wind)
                     .navigationTitle("Wind")
                     .containerBackground(Color.accentColor.gradient, for: .tabView)
                 WaveView()                    .navigationTitle("Wave")

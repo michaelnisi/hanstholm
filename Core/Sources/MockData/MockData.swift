@@ -15,9 +15,17 @@ public struct MockData {
                 date: .now,
                 name: "Hanstholm",
                 status: .ok,
-                wave: .init(max: 2.0, middle: 1.2, period: 12),
-                wind: .init(speed: .init(gust: 10, middle: 7, current: 5), direction: .init(cardinal: .southWest))
+                wave: makeWave(),
+                wind: makeWind()
             )
+        }
+        
+        public static func makeWind() -> DomainTypes.SurfEntry.Wind {
+            .init(speed: .init(gust: 10, middle: 7, current: 5), direction: .init(cardinal: .southWest))
+        }
+        
+        public static func makeWave() -> DomainTypes.SurfEntry.Wave {
+            .init(max: 2.0, middle: 1.2, period: 12)
         }
     }
 }

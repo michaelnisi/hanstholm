@@ -7,20 +7,22 @@
 
 import SwiftUI
 import DomainTypes
+import MockData
 
 struct WindView: View {
-    @State private var progress = 0.2
+    let name: String
+    let wind: SurfEntry.Wind
     
     var body: some View {
         ZStack {
-            ProgressView(value: progress, total: 1.0)
+            ProgressView(value: wind.speed.middle, total: wind.speed.gust)
                 .progressViewStyle(GaugeProgressStyle())
             
             WindInfo(
-                location: "Hanstholm",
-                speed: 20.2,
-                maximum: 35,
-                degrees: Direction(cardinal: .southWest).degrees
+                name: name,
+                speed: wind.speed.current,
+                maximum: wind.speed.gust,
+                degrees: wind.direction.degrees
             )
         }
         .overlay(alignment: .bottom) {
@@ -31,7 +33,7 @@ struct WindView: View {
 }
 
 struct WindInfo: View {
-    let location: String
+    let name: String
     let speed: Double
     let maximum: Double
     let degrees: Double
@@ -46,7 +48,7 @@ struct WindInfo: View {
                 Image(systemName: "location.fill")
                     .rotationEffect(.degrees(locationDegrees))
                 
-                Text(location)
+                Text(name)
                     .font(.caption)
             }
     
@@ -58,5 +60,8 @@ struct WindInfo: View {
 }
 
 #Preview {
-    WindView()
+    WindView(
+        name: "Hanstholm",
+        wind: MockData.SurfEntry.makeWind()
+    )
 }
