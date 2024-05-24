@@ -15,25 +15,37 @@ public struct SurfEntry: TimelineEntry, Identifiable, Hashable {
     }
    
     public struct Wave: Hashable {
+        public let max: Double
+        public let middle: Double
+        public let period: Double
+        
         public init(max: Double, middle: Double, period: Double) {
             self.max = max
             self.middle = middle
             self.period = period
         }
-        
-        public let max: Double
-        public let middle: Double
-        public let period: Double
     }
     
     public struct Wind: Hashable {
-        public init(speed: Double, direction: Direction) {
+        public struct Speed: Hashable {
+            public let gust: Double
+            public let middle: Double
+            public let current: Double
+            
+            public init(gust: Double, middle: Double, current: Double) {
+                self.gust = gust
+                self.middle = middle
+                self.current = current
+            }
+        }
+        
+        public let speed: Speed
+        public let direction: Direction
+        
+        public init(speed: Speed, direction: Direction) {
             self.speed = speed
             self.direction = direction
         }
-        
-        public let speed: Double
-        public let direction: Direction
     }
     
     public let date: Date
@@ -68,7 +80,7 @@ extension SurfEntry {
             self.name = "Somewhere"
             self.status = .initial
             self.wave = .init(max: 0, middle: 0, period: 0)
-            self.wind = .init(speed: 0, direction: .init(cardinal: .southWest))
+            self.wind = .init(speed: .init(gust: 10, middle: 6, current: 5), direction: .init(cardinal: .southWest))
             return
         }
         
@@ -80,7 +92,15 @@ extension SurfEntry {
             middle: dto.wave.height.middle,
             period: dto.wave.period
         )
-        self.wind = .init(speed: dto.wind.speed, direction: direction)
+        
+        self.wind = .init(
+            speed: .init(
+                gust: dto.wind.speed.gust,
+                middle: dto.wind.speed.middle,
+                current: dto.wind.speed.current
+            ),
+            direction: direction
+        )
     }
 }
 
@@ -90,6 +110,6 @@ extension SurfEntry {
         self.name = name
         self.status = .initial
         self.wave = .init(max: 0, middle: 0, period: 0)
-        self.wind = .init(speed: 0, direction: .init(cardinal: .southWest))
+        self.wind = .init(speed: .init(gust: 0, middle: 0, current: 0), direction: .init(cardinal: .southWest))
     }
 }

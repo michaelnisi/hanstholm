@@ -20,7 +20,7 @@ struct SurfEntryProvider: TimelineProvider {
             name: "Hanstholm",
             status: .ok,
             wave: .init(max: 2.0, middle: 1.2, period: 12),
-            wind: .init(speed: 6, direction: .init(cardinal: .southWest))
+            wind: .init(speed: .init(gust: 10, middle: 7, current: 5), direction: .init(cardinal: .southWest))
         )
     }
     

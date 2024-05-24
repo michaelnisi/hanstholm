@@ -36,10 +36,22 @@ public struct Hyde: Equatable, Codable, Identifiable, TimelineEntry {
     }
     
     public struct Wind: Equatable, Codable {
-        public let speed: Double
+        public struct Speed: Equatable, Codable {
+            public init(gust: Double, middle: Double, current: Double) {
+                self.gust = gust
+                self.middle = middle
+                self.current = current
+            }
+            
+            public let gust: Double
+            public let middle: Double
+            public let current: Double
+        }
+        
+        public let speed: Speed
         public let direction: String
         
-        public init(speed: Double, direction: String) {
+        public init(speed: Speed, direction: String) {
             self.speed = speed
             self.direction = direction
         }
@@ -96,8 +108,16 @@ extension Hyde {
             throw Fault.missing("wave period")
         }
         
-        guard let windSpeedSubstring = parts.windSpeed() else {
-            throw Fault.missing("wind speed")
+        guard let windGustSubstring = parts.windGust() else {
+            throw Fault.missing("wind gust")
+        }
+        
+        guard let windMiddleSubstring = parts.windMiddle() else {
+            throw Fault.missing("wind middle")
+        }
+        
+        guard let windCurrentSubstring = parts.windCurrent() else {
+            throw Fault.missing("wind current")
         }
         
         guard let windDirectionSubstring = parts.windDirection() else {
@@ -116,12 +136,21 @@ extension Hyde {
             throw Fault.transform("wave period")
         }
         
-        guard let windSpeed = windSpeedSubstring.double() else {
-            throw Fault.transform("wind speed")
+        guard let windGust = windGustSubstring.double() else {
+            throw Fault.transform("wind gust")
         }
         
-        let height = Wave.Height(max: maxWaveHeight, middle: middleWaveHeight)
-        let wave = Wave(height: height, period: wavePeriod)
+        guard let windCurrent = windCurrentSubstring.double() else {
+            throw Fault.transform("wind current")
+        }
+        
+        guard let windMiddle = windMiddleSubstring.double() else {
+            throw Fault.transform("wind middle")
+        }
+        
+        let waveHeight = Wave.Height(max: maxWaveHeight, middle: middleWaveHeight)
+        let wave = Wave(height: waveHeight, period: wavePeriod)
+        let windSpeed = Wind.Speed(gust: windGust, middle: windMiddle, current: windCurrent)
         let wind = Wind(speed: windSpeed, direction: String(windDirectionSubstring))
         
         self.init(date: .now, place: place, wave: wave, wind: wind)

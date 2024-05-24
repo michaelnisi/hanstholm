@@ -77,7 +77,7 @@ extension HanstholmWidgetEntryView {
             VStack(alignment: .leading) {
                 Text(Image(systemName: "water.waves")) + Text(" ") + Text(entry.wave.middle.meters()).fontWeight(.black) + Text(" @ ") + Text(entry.wave.period.seconds())
                 
-                Text(Image(systemName: "wind")) + Text(" ") + Text(entry.wind.direction.formatted()).fontWeight(.black) + Text(" ") + Text(entry.wind.speed.metersPerSecond())
+                Text(Image(systemName: "wind")) + Text(" ") + Text(entry.wind.direction.formatted()).fontWeight(.black) + Text(" ") + Text(entry.wind.speed.current.metersPerSecond())
                 
                 Text(entry.name)
                     .font(.caption)
@@ -118,7 +118,7 @@ struct HanstholmWidget: Widget {
             date: .now,
             place: .hanstholm,
             wave: .init(height: .init(max: 2, middle: 1.2), period: 12),
-            wind: .init(speed: 12, direction: "SW")
+            wind: .init(speed: .init(gust: 17, middle: 12, current: 8), direction: "SW")
         )
     )
 }

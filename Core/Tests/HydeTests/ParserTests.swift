@@ -20,10 +20,13 @@ final class ParserTests: XCTestCase {
     func testWave() async throws {
         XCTAssertEqual(String(parts.middleWaveHeight()!), "1,05")
         XCTAssertEqual(String(parts.maxWaveHeight()!), "2,03")
+        XCTAssertEqual(String(parts.wavePeriod()!), "5,7")
     }
     
     func testWind() async throws {
-        XCTAssertEqual(String(parts.windSpeed()!), "17,4")
+        XCTAssertEqual(String(parts.windGust()!), "17,4")
+        XCTAssertEqual(String(parts.windMiddle()!), "12,9")
+        XCTAssertEqual(String(parts.windCurrent()!), "10,9")
         XCTAssertEqual(String(parts.windDirection()!), "SV")
     }
 }

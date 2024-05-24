@@ -64,8 +64,16 @@ extension Array where Element == String.SubSequence {
         substring(after: "Bølgeperiode")
     }
     
-    func windSpeed() -> Substring? {
+    func windGust() -> Substring? {
         substring(after: "Vindstød")
+    }
+    
+    func windMiddle() -> Substring? {
+        substring(after: "Middel vindhastighed ")
+    }
+    
+    func windCurrent() -> Substring? {
+        substring(after: "Aktuel vindhastighed")
     }
     
     func windDirection() -> Substring? {
