@@ -1,0 +1,788 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4C10AF8C2BCC261B000F2D2B /* Hanstholm Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 4C10AF8B2BCC261B000F2D2B /* Hanstholm Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		4C10AF912BCC261B000F2D2B /* HanstholmApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C10AF902BCC261B000F2D2B /* HanstholmApp.swift */; };
+		4C10AF932BCC261B000F2D2B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C10AF922BCC261B000F2D2B /* ContentView.swift */; };
+		4C10AF952BCC261C000F2D2B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C10AF942BCC261C000F2D2B /* Assets.xcassets */; };
+		4C10AF982BCC261C000F2D2B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C10AF972BCC261C000F2D2B /* Preview Assets.xcassets */; };
+		4C10AFAB2BCC264E000F2D2B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C10AFAA2BCC264E000F2D2B /* WidgetKit.framework */; };
+		4C10AFAD2BCC264E000F2D2B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C10AFAC2BCC264E000F2D2B /* SwiftUI.framework */; };
+		4C10AFB02BCC264E000F2D2B /* HanstholmWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C10AFAF2BCC264E000F2D2B /* HanstholmWidget.swift */; };
+		4C10AFB22BCC264F000F2D2B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C10AFB12BCC264F000F2D2B /* Assets.xcassets */; };
+		4C10AFB72BCC264F000F2D2B /* HanstholmWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 4C10AFA92BCC264E000F2D2B /* HanstholmWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		4C15661E2BEFBF17006E6D56 /* Hyde in Frameworks */ = {isa = PBXBuildFile; productRef = 4C15661D2BEFBF17006E6D56 /* Hyde */; };
+		4C1566202BEFBF1B006E6D56 /* Hyde in Frameworks */ = {isa = PBXBuildFile; productRef = 4C15661F2BEFBF1B006E6D56 /* Hyde */; };
+		4C15662B2BEFDDBD006E6D56 /* SurfProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C15662A2BEFDDBD006E6D56 /* SurfProvider.swift */; };
+		4C15662D2BEFE6C7006E6D56 /* DomainTypes in Frameworks */ = {isa = PBXBuildFile; productRef = 4C15662C2BEFE6C7006E6D56 /* DomainTypes */; };
+		4C15662F2BEFE6D0006E6D56 /* DomainTypes in Frameworks */ = {isa = PBXBuildFile; productRef = 4C15662E2BEFE6D0006E6D56 /* DomainTypes */; };
+		4C1566312BEFE9F4006E6D56 /* MockData in Frameworks */ = {isa = PBXBuildFile; productRef = 4C1566302BEFE9F4006E6D56 /* MockData */; };
+		4C1566332BF0C557006E6D56 /* Surfspot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1566322BF0C557006E6D56 /* Surfspot.swift */; };
+		4C1566362BF1131B006E6D56 /* Puddles in Frameworks */ = {isa = PBXBuildFile; productRef = 4C1566352BF1131B006E6D56 /* Puddles */; };
+		4C1566382BF113B0006E6D56 /* View+mockProviders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1566372BF113B0006E6D56 /* View+mockProviders.swift */; };
+		4C15663A2BF139D8006E6D56 /* WindView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1566392BF139D8006E6D56 /* WindView.swift */; };
+		4C15663C2BF139FA006E6D56 /* WaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C15663B2BF139FA006E6D56 /* WaveView.swift */; };
+		4C29EA072C00899900F420C0 /* GaugeProgressStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C29EA062C00899900F420C0 /* GaugeProgressStyle.swift */; };
+		4CB972942BDE15DD00ECCFAD /* SurfEntryProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB972932BDE15DD00ECCFAD /* SurfEntryProvider.swift */; };
+		4CBD01DF2BFB3D52009DE551 /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = 4CBD01DE2BFB3D52009DE551 /* Cache */; };
+		4CBD01E12BFB596D009DE551 /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = 4CBD01E02BFB596D009DE551 /* Cache */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4C10AF8D2BCC261B000F2D2B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C10AF7F2BCC261B000F2D2B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4C10AF8A2BCC261B000F2D2B;
+			remoteInfo = "Hanstholm Watch App";
+		};
+		4C10AFB42BCC264F000F2D2B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C10AF7F2BCC261B000F2D2B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4C10AFA82BCC264E000F2D2B;
+			remoteInfo = HanstholmWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		4C10AF9E2BCC261C000F2D2B /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				4C10AF8C2BCC261B000F2D2B /* Hanstholm Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C10AFB62BCC264F000F2D2B /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				4C10AFB72BCC264F000F2D2B /* HanstholmWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		4C10AF852BCC261B000F2D2B /* Hanstholm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hanstholm.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C10AF8B2BCC261B000F2D2B /* Hanstholm Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Hanstholm Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C10AF902BCC261B000F2D2B /* HanstholmApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HanstholmApp.swift; sourceTree = "<group>"; };
+		4C10AF922BCC261B000F2D2B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		4C10AF942BCC261C000F2D2B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4C10AF972BCC261C000F2D2B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		4C10AFA92BCC264E000F2D2B /* HanstholmWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = HanstholmWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C10AFAA2BCC264E000F2D2B /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		4C10AFAC2BCC264E000F2D2B /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		4C10AFAF2BCC264E000F2D2B /* HanstholmWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HanstholmWidget.swift; sourceTree = "<group>"; };
+		4C10AFB12BCC264F000F2D2B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4C10AFB32BCC264F000F2D2B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4C15661C2BEFBDF8006E6D56 /* Core */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Core; sourceTree = "<group>"; };
+		4C1566212BEFC2AC006E6D56 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		4C15662A2BEFDDBD006E6D56 /* SurfProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurfProvider.swift; sourceTree = "<group>"; };
+		4C1566322BF0C557006E6D56 /* Surfspot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Surfspot.swift; sourceTree = "<group>"; };
+		4C1566372BF113B0006E6D56 /* View+mockProviders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+mockProviders.swift"; sourceTree = "<group>"; };
+		4C1566392BF139D8006E6D56 /* WindView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindView.swift; sourceTree = "<group>"; };
+		4C15663B2BF139FA006E6D56 /* WaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveView.swift; sourceTree = "<group>"; };
+		4C29EA062C00899900F420C0 /* GaugeProgressStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaugeProgressStyle.swift; sourceTree = "<group>"; };
+		4CB972932BDE15DD00ECCFAD /* SurfEntryProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurfEntryProvider.swift; sourceTree = "<group>"; };
+		4CBD01DB2BFB3849009DE551 /* Hanstholm Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Hanstholm Watch App.entitlements"; sourceTree = "<group>"; };
+		4CBD01DC2BFB38AF009DE551 /* HanstholmWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HanstholmWidgetExtension.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4C10AF882BCC261B000F2D2B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C1566362BF1131B006E6D56 /* Puddles in Frameworks */,
+				4C15661E2BEFBF17006E6D56 /* Hyde in Frameworks */,
+				4C1566312BEFE9F4006E6D56 /* MockData in Frameworks */,
+				4C15662F2BEFE6D0006E6D56 /* DomainTypes in Frameworks */,
+				4CBD01DF2BFB3D52009DE551 /* Cache in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C10AFA62BCC264E000F2D2B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C15662D2BEFE6C7006E6D56 /* DomainTypes in Frameworks */,
+				4C10AFAD2BCC264E000F2D2B /* SwiftUI.framework in Frameworks */,
+				4C1566202BEFBF1B006E6D56 /* Hyde in Frameworks */,
+				4C10AFAB2BCC264E000F2D2B /* WidgetKit.framework in Frameworks */,
+				4CBD01E12BFB596D009DE551 /* Cache in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4C10AF7E2BCC261B000F2D2B = {
+			isa = PBXGroup;
+			children = (
+				4C1566212BEFC2AC006E6D56 /* README.md */,
+				4C15661C2BEFBDF8006E6D56 /* Core */,
+				4C10AF8F2BCC261B000F2D2B /* Hanstholm Watch App */,
+				4C10AFAE2BCC264E000F2D2B /* HanstholmWidget */,
+				4C10AF862BCC261B000F2D2B /* Products */,
+				4C10AFA22BCC2637000F2D2B /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		4C10AF862BCC261B000F2D2B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4C10AF852BCC261B000F2D2B /* Hanstholm.app */,
+				4C10AF8B2BCC261B000F2D2B /* Hanstholm Watch App.app */,
+				4C10AFA92BCC264E000F2D2B /* HanstholmWidgetExtension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4C10AF8F2BCC261B000F2D2B /* Hanstholm Watch App */ = {
+			isa = PBXGroup;
+			children = (
+				4CBD01DB2BFB3849009DE551 /* Hanstholm Watch App.entitlements */,
+				4C1566292BEFDD5B006E6D56 /* Router */,
+				4C1566282BEFDD48006E6D56 /* Providers */,
+				4C1566272BEFDD41006E6D56 /* Modules */,
+				4C1566262BEFDD3A006E6D56 /* Helpers */,
+				4C1566252BEFDD28006E6D56 /* Components */,
+				4C10AF902BCC261B000F2D2B /* HanstholmApp.swift */,
+				4C10AF922BCC261B000F2D2B /* ContentView.swift */,
+				4C10AF942BCC261C000F2D2B /* Assets.xcassets */,
+				4C10AF962BCC261C000F2D2B /* Preview Content */,
+			);
+			path = "Hanstholm Watch App";
+			sourceTree = "<group>";
+		};
+		4C10AF962BCC261C000F2D2B /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				4C10AF972BCC261C000F2D2B /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		4C10AFA22BCC2637000F2D2B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4C10AFAA2BCC264E000F2D2B /* WidgetKit.framework */,
+				4C10AFAC2BCC264E000F2D2B /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4C10AFAE2BCC264E000F2D2B /* HanstholmWidget */ = {
+			isa = PBXGroup;
+			children = (
+				4CBD01DC2BFB38AF009DE551 /* HanstholmWidgetExtension.entitlements */,
+				4C10AFAF2BCC264E000F2D2B /* HanstholmWidget.swift */,
+				4CB972932BDE15DD00ECCFAD /* SurfEntryProvider.swift */,
+				4C10AFB12BCC264F000F2D2B /* Assets.xcassets */,
+				4C10AFB32BCC264F000F2D2B /* Info.plist */,
+			);
+			path = HanstholmWidget;
+			sourceTree = "<group>";
+		};
+		4C1566252BEFDD28006E6D56 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				4C29EA062C00899900F420C0 /* GaugeProgressStyle.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		4C1566262BEFDD3A006E6D56 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				4C1566372BF113B0006E6D56 /* View+mockProviders.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		4C1566272BEFDD41006E6D56 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				4C1566322BF0C557006E6D56 /* Surfspot.swift */,
+				4C1566392BF139D8006E6D56 /* WindView.swift */,
+				4C15663B2BF139FA006E6D56 /* WaveView.swift */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		4C1566282BEFDD48006E6D56 /* Providers */ = {
+			isa = PBXGroup;
+			children = (
+				4C15662A2BEFDDBD006E6D56 /* SurfProvider.swift */,
+			);
+			path = Providers;
+			sourceTree = "<group>";
+		};
+		4C1566292BEFDD5B006E6D56 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4C10AF842BCC261B000F2D2B /* Hanstholm */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4C10AF9F2BCC261C000F2D2B /* Build configuration list for PBXNativeTarget "Hanstholm" */;
+			buildPhases = (
+				4C10AF832BCC261B000F2D2B /* Resources */,
+				4C10AF9E2BCC261C000F2D2B /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4C10AF8E2BCC261B000F2D2B /* PBXTargetDependency */,
+			);
+			name = Hanstholm;
+			productName = Hanstholm;
+			productReference = 4C10AF852BCC261B000F2D2B /* Hanstholm.app */;
+			productType = "com.apple.product-type.application.watchapp2-container";
+		};
+		4C10AF8A2BCC261B000F2D2B /* Hanstholm Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4C10AF9B2BCC261C000F2D2B /* Build configuration list for PBXNativeTarget "Hanstholm Watch App" */;
+			buildPhases = (
+				4C10AF872BCC261B000F2D2B /* Sources */,
+				4C10AF882BCC261B000F2D2B /* Frameworks */,
+				4C10AF892BCC261B000F2D2B /* Resources */,
+				4C10AFB62BCC264F000F2D2B /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4C10AFB52BCC264F000F2D2B /* PBXTargetDependency */,
+			);
+			name = "Hanstholm Watch App";
+			packageProductDependencies = (
+				4C15661D2BEFBF17006E6D56 /* Hyde */,
+				4C15662E2BEFE6D0006E6D56 /* DomainTypes */,
+				4C1566302BEFE9F4006E6D56 /* MockData */,
+				4C1566352BF1131B006E6D56 /* Puddles */,
+				4CBD01DE2BFB3D52009DE551 /* Cache */,
+			);
+			productName = "Hanstholm Watch App";
+			productReference = 4C10AF8B2BCC261B000F2D2B /* Hanstholm Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		4C10AFA82BCC264E000F2D2B /* HanstholmWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4C10AFB82BCC264F000F2D2B /* Build configuration list for PBXNativeTarget "HanstholmWidgetExtension" */;
+			buildPhases = (
+				4C10AFA52BCC264E000F2D2B /* Sources */,
+				4C10AFA62BCC264E000F2D2B /* Frameworks */,
+				4C10AFA72BCC264E000F2D2B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HanstholmWidgetExtension;
+			packageProductDependencies = (
+				4C15661F2BEFBF1B006E6D56 /* Hyde */,
+				4C15662C2BEFE6C7006E6D56 /* DomainTypes */,
+				4CBD01E02BFB596D009DE551 /* Cache */,
+			);
+			productName = HanstholmWidgetExtension;
+			productReference = 4C10AFA92BCC264E000F2D2B /* HanstholmWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4C10AF7F2BCC261B000F2D2B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1510;
+				LastUpgradeCheck = 1530;
+				TargetAttributes = {
+					4C10AF842BCC261B000F2D2B = {
+						CreatedOnToolsVersion = 15.1;
+					};
+					4C10AF8A2BCC261B000F2D2B = {
+						CreatedOnToolsVersion = 15.1;
+					};
+					4C10AFA82BCC264E000F2D2B = {
+						CreatedOnToolsVersion = 15.1;
+					};
+				};
+			};
+			buildConfigurationList = 4C10AF822BCC261B000F2D2B /* Build configuration list for PBXProject "Hanstholm" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 4C10AF7E2BCC261B000F2D2B;
+			packageReferences = (
+				4C1566342BF1131B006E6D56 /* XCRemoteSwiftPackageReference "Puddles" */,
+			);
+			productRefGroup = 4C10AF862BCC261B000F2D2B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4C10AF842BCC261B000F2D2B /* Hanstholm */,
+				4C10AF8A2BCC261B000F2D2B /* Hanstholm Watch App */,
+				4C10AFA82BCC264E000F2D2B /* HanstholmWidgetExtension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4C10AF832BCC261B000F2D2B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C10AF892BCC261B000F2D2B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C10AF982BCC261C000F2D2B /* Preview Assets.xcassets in Resources */,
+				4C10AF952BCC261C000F2D2B /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C10AFA72BCC264E000F2D2B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C10AFB22BCC264F000F2D2B /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4C10AF872BCC261B000F2D2B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C15663A2BF139D8006E6D56 /* WindView.swift in Sources */,
+				4C10AF932BCC261B000F2D2B /* ContentView.swift in Sources */,
+				4C29EA072C00899900F420C0 /* GaugeProgressStyle.swift in Sources */,
+				4C15663C2BF139FA006E6D56 /* WaveView.swift in Sources */,
+				4C1566382BF113B0006E6D56 /* View+mockProviders.swift in Sources */,
+				4C15662B2BEFDDBD006E6D56 /* SurfProvider.swift in Sources */,
+				4C10AF912BCC261B000F2D2B /* HanstholmApp.swift in Sources */,
+				4C1566332BF0C557006E6D56 /* Surfspot.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C10AFA52BCC264E000F2D2B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4CB972942BDE15DD00ECCFAD /* SurfEntryProvider.swift in Sources */,
+				4C10AFB02BCC264E000F2D2B /* HanstholmWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4C10AF8E2BCC261B000F2D2B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4C10AF8A2BCC261B000F2D2B /* Hanstholm Watch App */;
+			targetProxy = 4C10AF8D2BCC261B000F2D2B /* PBXContainerItemProxy */;
+		};
+		4C10AFB52BCC264F000F2D2B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4C10AFA82BCC264E000F2D2B /* HanstholmWidgetExtension */;
+			targetProxy = 4C10AFB42BCC264F000F2D2B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		4C10AF992BCC261C000F2D2B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		4C10AF9A2BCC261C000F2D2B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		4C10AF9C2BCC261C000F2D2B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Hanstholm Watch App/Hanstholm Watch App.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Hanstholm Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = X23V32HT8X;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Hanstholm;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKWatchOnly = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Hanstholm.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.2;
+			};
+			name = Debug;
+		};
+		4C10AF9D2BCC261C000F2D2B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Hanstholm Watch App/Hanstholm Watch App.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Hanstholm Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = X23V32HT8X;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Hanstholm;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKWatchOnly = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Hanstholm.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 10.2;
+			};
+			name = Release;
+		};
+		4C10AFA02BCC261C000F2D2B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X23V32HT8X;
+				INFOPLIST_KEY_CFBundleDisplayName = Hanstholm;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Hanstholm;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		4C10AFA12BCC261C000F2D2B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X23V32HT8X;
+				INFOPLIST_KEY_CFBundleDisplayName = Hanstholm;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Hanstholm;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		4C10AFB92BCC264F000F2D2B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = HanstholmWidget/HanstholmWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X23V32HT8X;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HanstholmWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = HanstholmWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Hanstholm.watchkitapp.HanstholmWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.2;
+			};
+			name = Debug;
+		};
+		4C10AFBA2BCC264F000F2D2B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = HanstholmWidget/HanstholmWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X23V32HT8X;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HanstholmWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = HanstholmWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Hanstholm.watchkitapp.HanstholmWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 10.2;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4C10AF822BCC261B000F2D2B /* Build configuration list for PBXProject "Hanstholm" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C10AF992BCC261C000F2D2B /* Debug */,
+				4C10AF9A2BCC261C000F2D2B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4C10AF9B2BCC261C000F2D2B /* Build configuration list for PBXNativeTarget "Hanstholm Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C10AF9C2BCC261C000F2D2B /* Debug */,
+				4C10AF9D2BCC261C000F2D2B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4C10AF9F2BCC261C000F2D2B /* Build configuration list for PBXNativeTarget "Hanstholm" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C10AFA02BCC261C000F2D2B /* Debug */,
+				4C10AFA12BCC261C000F2D2B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4C10AFB82BCC264F000F2D2B /* Build configuration list for PBXNativeTarget "HanstholmWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C10AFB92BCC264F000F2D2B /* Debug */,
+				4C10AFBA2BCC264F000F2D2B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4C1566342BF1131B006E6D56 /* XCRemoteSwiftPackageReference "Puddles" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftedMind/Puddles";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4C15661D2BEFBF17006E6D56 /* Hyde */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Hyde;
+		};
+		4C15661F2BEFBF1B006E6D56 /* Hyde */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Hyde;
+		};
+		4C15662C2BEFE6C7006E6D56 /* DomainTypes */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DomainTypes;
+		};
+		4C15662E2BEFE6D0006E6D56 /* DomainTypes */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DomainTypes;
+		};
+		4C1566302BEFE9F4006E6D56 /* MockData */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MockData;
+		};
+		4C1566352BF1131B006E6D56 /* Puddles */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4C1566342BF1131B006E6D56 /* XCRemoteSwiftPackageReference "Puddles" */;
+			productName = Puddles;
+		};
+		4CBD01DE2BFB3D52009DE551 /* Cache */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Cache;
+		};
+		4CBD01E02BFB596D009DE551 /* Cache */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Cache;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 4C10AF7F2BCC261B000F2D2B /* Project object */;
+}
