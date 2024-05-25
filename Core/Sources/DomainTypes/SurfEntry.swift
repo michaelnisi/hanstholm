@@ -74,12 +74,12 @@ extension SurfEntry: Equatable {
 }
 
 extension SurfEntry {
-    public init(dto: Hyde?) {
+    public init(dto: Hyde?, name: String = "Somewhere") {
         guard let dto, let direction = Direction(danish: dto.wind.direction) else {
             self.date = .now
-            self.name = "Somewhere"
+            self.name = name
             self.status = .initial
-            self.wave = .init(max: 0, middle: 0, period: 0)
+            self.wave = .init(max: 2, middle: 1.2, period: 12)
             self.wind = .init(speed: .init(gust: 10, middle: 6, current: 5), direction: .init(cardinal: .southWest))
             return
         }
@@ -106,10 +106,6 @@ extension SurfEntry {
 
 extension SurfEntry {
     public init(name: String) {
-        self.date = .distantPast
-        self.name = name
-        self.status = .initial
-        self.wave = .init(max: 0, middle: 0, period: 0)
-        self.wind = .init(speed: .init(gust: 0, middle: 0, current: 0), direction: .init(cardinal: .southWest))
+        self.init(dto: nil, name: name)
     }
 }

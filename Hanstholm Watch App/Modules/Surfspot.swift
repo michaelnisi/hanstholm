@@ -13,14 +13,7 @@ struct SurfSpot: View {
     let surfEntry: SurfEntry
     
     var body: some View {
-        switch surfEntry.status {
-        case .error:
-            Text("Sorry, there's a problem")
-        case .initial:
-            ProgressView()
-        case .ok:
-            Content(surfEntry: surfEntry)
-        }
+        Content(surfEntry: surfEntry)
     }
 }
 
@@ -34,7 +27,8 @@ extension SurfSpot {
                 WindView(name: surfEntry.name, wind: surfEntry.wind)
                     .navigationTitle("Wind")
                     .containerBackground(Color.accentColor.gradient, for: .tabView)
-                WaveView()                    .navigationTitle("Wave")
+                WaveView(name: surfEntry.name, wave: surfEntry.wave)
+                    .navigationTitle("Wave")
                     .containerBackground(Color.accentColor.gradient, for: .tabView)
             }
             .tabViewStyle(.verticalPage)

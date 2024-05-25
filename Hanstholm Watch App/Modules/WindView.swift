@@ -16,7 +16,7 @@ struct WindView: View {
     var body: some View {
         ZStack {
             ProgressView(value: wind.speed.middle, total: wind.speed.gust)
-                .progressViewStyle(GaugeProgressStyle())
+                .progressViewStyle(GaugeProgressStyle(strokeColor: .teal))
             
             WindInfo(
                 name: name,
@@ -26,7 +26,8 @@ struct WindView: View {
             )
         }
         .overlay(alignment: .bottom) {
-            Text("km/h")
+            Text("\(wind.speed.gust.metersPerSecond(width: .narrow))")
+                .font(.headline)
         }
         .fontDesign(.rounded)
     }
@@ -52,8 +53,8 @@ struct WindInfo: View {
                     .font(.caption)
             }
     
-            Text("\(speed.formatted())")
-                .font(.largeTitle)
+            Text("\(speed.metersPerSecond(width: .narrow))")
+                .font(.title2)
                 .fontWeight(.bold)
         }
     }

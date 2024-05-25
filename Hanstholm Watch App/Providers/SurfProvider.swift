@@ -13,9 +13,6 @@ import Cache
 import WidgetKit
 
 @MainActor final class SurfProvider: ObservableObject {
-    @Published var entries = Hyde.Place.allCases.map(\.name).map(SurfEntry.init)
-    @Published var selected: SurfEntry?
-    
     struct Dependencies {
         var fetchHyde: () async throws -> Hyde
     }
@@ -28,16 +25,9 @@ import WidgetKit
 }
 
 extension SurfProvider {
-    func update() async throws {
+    func fetch() async throws -> SurfEntry {
         let hyde = try await dependencies.fetchHyde()
-        let new = SurfEntry(dto: hyde)
-        var acc = [SurfEntry]()
-        for entry in entries {
-            acc.append(new.name == entry.name ? new : entry)
-        }
-        
-        entries = acc
-        selected = new
+        return SurfEntry(dto: hyde)
     }
 }
 

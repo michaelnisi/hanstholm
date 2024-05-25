@@ -9,6 +9,7 @@ import WidgetKit
 import SwiftUI
 import Hyde
 import DomainTypes
+import MockData
 
 struct HanstholmWidgetEntryView : View {
     @Environment(\.widgetFamily) var widgetFamily
@@ -113,12 +114,5 @@ struct HanstholmWidget: Widget {
 #Preview(as: .accessoryRectangular) {
     HanstholmWidget()
 } timeline: {
-    SurfEntry(
-        dto: .init(
-            date: .now,
-            place: .hanstholm,
-            wave: .init(height: .init(max: 2, middle: 1.2), period: 12),
-            wind: .init(speed: .init(gust: 17, middle: 12, current: 8), direction: "SW")
-        )
-    )
+    MockData.SurfEntry.makeSurfEntry()
 }

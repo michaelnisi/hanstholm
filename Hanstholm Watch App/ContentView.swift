@@ -11,29 +11,23 @@ import MockData
 import Puddles
 
 struct ContentView: View {
-    @EnvironmentObject private var surfProvider: SurfProvider
-    @Environment(\.scenePhase) private var scenePhase
+    @EnvironmentObject var surfProvider: SurfProvider
+    @State var surfEntry: SurfEntry?
     
     var body: some View {
-        NavigationSplitView {
-            List(surfProvider.entries, selection: $surfProvider.selected) { surfEntry in
-                Text(surfEntry.name)
-                    .tag(surfEntry)
-            }
-        } detail: {
-            if let selected = surfProvider.selected {
-                SurfSpot(surfEntry: selected)
-                    .onAppear {
-                        Task {
-                            try? await surfProvider.update()
-                        }
-                    }
+        Group {
+            if let surfEntry {
+                SurfSpot(surfEntry: surfEntry)
             } else {
-                Text("Sorry")
+                ProgressView()
             }
         }
         .task {
-            try? await surfProvider.update()
+            do {
+                surfEntry = try await surfProvider.fetch()
+            } catch {
+                logger.error("could not fetch: \(error)")
+            }
         }
     }
 }

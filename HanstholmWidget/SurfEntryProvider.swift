@@ -15,13 +15,7 @@ struct SurfEntryProvider: TimelineProvider {
     private let cache = Cache()
     
     func placeholder(in context: Context) -> SurfEntry {
-        .init(
-            date: .now,
-            name: "Hanstholm",
-            status: .ok,
-            wave: .init(max: 2.0, middle: 1.2, period: 12),
-            wind: .init(speed: .init(gust: 10, middle: 7, current: 5), direction: .init(cardinal: .southWest))
-        )
+        .init(name: "Hanstholm")
     }
     
     func getSnapshot(in context: Context, completion: @escaping (SurfEntry) -> ()) {

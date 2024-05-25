@@ -81,13 +81,13 @@ extension Direction {
         "SØ": .southEast,
         "SSØ": .southSouthEast,
         "S": .south,
-        "SSW": .southSouthWest,
-        "SW": .southWest,
-        "WSW": .westSouthWest,
-        "W": .west,
-        "WNW": .westNorthWest,
-        "NW": .northWest,
-        "NNW": .northNorthWest
+        "SSV": .southSouthWest,
+        "SV": .southWest,
+        "VSV": .westSouthWest,
+        "V": .west,
+        "VNV": .westNorthWest,
+        "NV": .northWest,
+        "NNV": .northNorthWest
     ]
     
     public init?(danish string: String) {
