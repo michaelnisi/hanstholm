@@ -90,8 +90,8 @@ extension Direction {
         "NNV": .northNorthWest
     ]
     
-    public init?(danish string: String) {
-        guard let cardinal = Direction.danishToCardinal[string] else {
+    public init?(danish string: String?) {
+        guard let string, let cardinal = Direction.danishToCardinal[string] else {
             return nil
         }
         

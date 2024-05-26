@@ -1,14 +1,12 @@
 # Hanstholm
 
-The Hanstholm Apple watch app keeps you in the loop about the surf conditions in Hanstholm, Nordjylland, Denmark.
+With the Hanstholm app for Apple watch I explore watchOS 10 and building complications with WidgetKit. As a bonus the app 
+helps me not miss good surf in Hanstholm, Nordjylland, Denmark.
 
 ## TODO
 
 - Write README
-- Use Puddles
 - What's with this warning? MessagesApplicationStub.xcassets: Could not get trait set for device Watch7,2 with version 10.3.1
-- Display min, middle, max wave gauge (in watch app)
 - Put on GitHub
-- Store app data in app container
 - Build website
-- Convert km/h to m/s
+- Display swell direction

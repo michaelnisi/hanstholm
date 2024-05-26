@@ -25,9 +25,8 @@ import WidgetKit
 }
 
 extension SurfProvider {
-    func fetch() async throws -> SurfEntry {
-        let hyde = try await dependencies.fetchHyde()
-        return SurfEntry(dto: hyde)
+    func fetch() async throws -> SurfEntry? {
+        .init(dto: try await dependencies.fetchHyde())
     }
 }
 
@@ -44,6 +43,8 @@ extension SurfProvider {
                     let cached = try cache.cachedConditions(matching: place, newer: date)
                     
                     if let cached {
+                        logger.debug("cached: \(cached.date.ISO8601Format())")
+                        
                         conditions = cached
                     } else {
                         conditions = try await Hyde.fetch()
@@ -51,7 +52,7 @@ extension SurfProvider {
                         try cache.cacheConditions(conditions)
                         WidgetCenter.shared.reloadAllTimelines()
                     }
-                        
+                    
                     return conditions
                 }
             )

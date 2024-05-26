@@ -7,7 +7,6 @@
 
 import WidgetKit
 import SwiftUI
-import Hyde
 
 public struct SurfEntry: TimelineEntry, Identifiable, Hashable {
     public enum Status: Hashable {
@@ -18,11 +17,13 @@ public struct SurfEntry: TimelineEntry, Identifiable, Hashable {
         public let max: Double
         public let middle: Double
         public let period: Double
+        public let direction: Direction
         
-        public init(max: Double, middle: Double, period: Double) {
+        public init(max: Double, middle: Double, period: Double, direction: Direction) {
             self.max = max
             self.middle = middle
             self.period = period
+            self.direction = direction
         }
     }
     
@@ -73,39 +74,3 @@ extension SurfEntry: Equatable {
     }
 }
 
-extension SurfEntry {
-    public init(dto: Hyde?, name: String = "Somewhere") {
-        guard let dto, let direction = Direction(danish: dto.wind.direction) else {
-            self.date = .now
-            self.name = name
-            self.status = .initial
-            self.wave = .init(max: 2, middle: 1.2, period: 12)
-            self.wind = .init(speed: .init(gust: 10, middle: 6, current: 5), direction: .init(cardinal: .southWest))
-            return
-        }
-        
-        self.date = dto.date
-        self.name = dto.place.name
-        self.status = .ok
-        self.wave = .init(
-            max: dto.wave.height.max,
-            middle: dto.wave.height.middle,
-            period: dto.wave.period
-        )
-        
-        self.wind = .init(
-            speed: .init(
-                gust: dto.wind.speed.gust,
-                middle: dto.wind.speed.middle,
-                current: dto.wind.speed.current
-            ),
-            direction: direction
-        )
-    }
-}
-
-extension SurfEntry {
-    public init(name: String) {
-        self.init(dto: nil, name: name)
-    }
-}

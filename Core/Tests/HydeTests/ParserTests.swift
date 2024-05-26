@@ -21,6 +21,7 @@ final class ParserTests: XCTestCase {
         XCTAssertEqual(String(parts.middleWaveHeight()!), "1,05")
         XCTAssertEqual(String(parts.maxWaveHeight()!), "2,03")
         XCTAssertEqual(String(parts.wavePeriod()!), "5,7")
+        XCTAssertEqual(String(parts.currentDirection()!), "ØNØ")
     }
     
     func testWind() async throws {

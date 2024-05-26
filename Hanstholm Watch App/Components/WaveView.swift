@@ -23,7 +23,7 @@ struct WaveView: View {
                 max: wave.max,
                 middle: wave.middle,
                 period: wave.period,
-                degrees: 90 // TODO: Add swell direction
+                degrees: wave.direction.degrees
             )
         }
         .overlay(alignment: .bottom) {

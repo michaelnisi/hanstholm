@@ -5,53 +5,55 @@
 //  Created by Michael Nisi on 07.04.24.
 //
 
-import WidgetKit
 import os.log
+import Foundation
 
 private let logger = Logger(subsystem: "ink.codes.Hyde", category: "Hyde")
 
-public struct Hyde: Equatable, Codable, Identifiable, TimelineEntry {
+public struct Hyde: Equatable, Codable {
     public enum Place: Codable, CaseIterable {
         case hanstholm
     }
     
     public struct Wave: Equatable, Codable {
         public struct Height: Equatable, Codable {
-            public let max: Double
-            public let middle: Double
+            public let max: Double?
+            public let middle: Double?
             
-            public init(max: Double, middle: Double) {
+            public init(max: Double?, middle: Double?) {
                 self.max = max
                 self.middle = middle
             }
         }
         
-        public let height: Height
-        public let period: Double
+        public let height: Height?
+        public let period: Double?
+        public let direction: String?
         
-        public init(height: Height, period: Double) {
+        public init(height: Height?, period: Double?, direction: String?) {
             self.height = height
             self.period = period
+            self.direction = direction
         }
     }
     
     public struct Wind: Equatable, Codable {
         public struct Speed: Equatable, Codable {
-            public init(gust: Double, middle: Double, current: Double) {
+            public init(gust: Double?, middle: Double?, current: Double?) {
                 self.gust = gust
                 self.middle = middle
                 self.current = current
             }
             
-            public let gust: Double
-            public let middle: Double
-            public let current: Double
+            public let gust: Double?
+            public let middle: Double?
+            public let current: Double?
         }
         
-        public let speed: Speed
-        public let direction: String
+        public let speed: Speed?
+        public let direction: String?
         
-        public init(speed: Speed, direction: String) {
+        public init(speed: Speed?, direction: String?) {
             self.speed = speed
             self.direction = direction
         }
@@ -64,18 +66,14 @@ public struct Hyde: Equatable, Codable, Identifiable, TimelineEntry {
         case unexpectedMediaType
     }
     
-    public let date: Date
     public let place: Place
-    public let wave: Wave
-    public let wind: Wind
+    public let date: Date
+    public let wave: Wave?
+    public let wind: Wind?
     
-    public var id: String {
-        date.ISO8601Format()
-    }
-    
-    public init(date: Date, place: Place, wave: Wave, wind: Wind) {
-        self.date = date
+    public init(place: Place, date: Date, wave: Wave?, wind: Wind?) {
         self.place = place
+        self.date = date
         self.wave = wave
         self.wind = wind
     }
@@ -96,64 +94,25 @@ extension Hyde {
         
         logger.debug("data parsed: \(parts)")
         
-        guard let middleWaveHeightSubstring = parts.middleWaveHeight() else {
-            throw Fault.missing("middle wave height")
-        }
+        let wave = Wave(
+            height: .init(
+                max: parts.maxWaveHeight()?.double(),
+                middle: parts.middleWaveHeight()?.double()
+            ),
+            period: parts.wavePeriod()?.double(),
+            direction: String(parts.currentDirection() ?? "")
+        )
         
-        guard let maxWaveHeightSubstring = parts.maxWaveHeight() else {
-            throw Fault.missing("max wave height")
-        }
+        let wind = Wind(
+            speed: .init(
+                gust: parts.windGust()?.double(),
+                middle: parts.windMiddle()?.double(),
+                current: parts.windCurrent()?.double()
+            ),
+            direction: String(parts.windDirection() ?? "")
+        )
         
-        guard let wavePeriodSubstring = parts.wavePeriod() else {
-            throw Fault.missing("wave period")
-        }
-        
-        guard let windGustSubstring = parts.windGust() else {
-            throw Fault.missing("wind gust")
-        }
-        
-        guard let windMiddleSubstring = parts.windMiddle() else {
-            throw Fault.missing("wind middle")
-        }
-        
-        guard let windCurrentSubstring = parts.windCurrent() else {
-            throw Fault.missing("wind current")
-        }
-        
-        guard let windDirectionSubstring = parts.windDirection() else {
-            throw Fault.missing("wind direction")
-        }
-        
-        guard let middleWaveHeight = middleWaveHeightSubstring.double() else {
-            throw Fault.transform("middle wave height")
-        }
-        
-        guard let maxWaveHeight = maxWaveHeightSubstring.double() else {
-            throw Fault.transform("max wave height")
-        }
-        
-        guard let wavePeriod = wavePeriodSubstring.double() else {
-            throw Fault.transform("wave period")
-        }
-        
-        guard let windGust = windGustSubstring.double() else {
-            throw Fault.transform("wind gust")
-        }
-        
-        guard let windCurrent = windCurrentSubstring.double() else {
-            throw Fault.transform("wind current")
-        }
-        
-        guard let windMiddle = windMiddleSubstring.double() else {
-            throw Fault.transform("wind middle")
-        }
-        
-        let waveHeight = Wave.Height(max: maxWaveHeight, middle: middleWaveHeight)
-        let wave = Wave(height: waveHeight, period: wavePeriod)
-        let windSpeed = Wind.Speed(gust: windGust, middle: windMiddle, current: windCurrent)
-        let wind = Wind(speed: windSpeed, direction: String(windDirectionSubstring))
-        
-        self.init(date: .now, place: place, wave: wave, wind: wind)
+        self.init(place: place, date: .now, wave: wave, wind: wind)
     }
 }
 

@@ -10,18 +10,20 @@ import SwiftUI
 import Hyde
 import DomainTypes
 import Cache
+import MockData
 
 struct SurfEntryProvider: TimelineProvider {
     private let cache = Cache()
     
     func placeholder(in context: Context) -> SurfEntry {
-        .init(name: "Hanstholm")
+        MockData.SurfEntry.makeSurfEntry()
     }
     
     func getSnapshot(in context: Context, completion: @escaping (SurfEntry) -> ()) {
         Task {
-            let hyde = try await getHyde()
-            let entry = SurfEntry(dto: hyde)
+            let place: Hyde.Place = .hanstholm
+            let conditions = try cache.cachedConditions(matching: place, newer: .distantPast)
+            let entry = SurfEntry(dto: conditions) ?? MockData.SurfEntry.makeSurfEntry()
             
             completion(entry)
         }
@@ -32,7 +34,13 @@ struct SurfEntryProvider: TimelineProvider {
         
         Task {
             let hyde = try await getHyde()
-            let entry = SurfEntry(dto: hyde)
+            
+            if let hyde {
+                try cache.cacheConditions(hyde)
+            }
+            
+            let entry = SurfEntry(dto: hyde) ?? MockData.SurfEntry.makeSurfEntry()
+         
             let entries = [entry]
             let timeline = Timeline(entries: entries, policy: .never)
             

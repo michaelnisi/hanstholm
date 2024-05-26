@@ -64,6 +64,10 @@ extension Array where Element == String.SubSequence {
         substring(after: "Bølgeperiode")
     }
     
+    func currentDirection() -> Substring? {
+        substring(after: "Strømretning")
+    }
+    
     func windGust() -> Substring? {
         substring(after: "Vindstød")
     }

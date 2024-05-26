@@ -100,6 +100,7 @@
 		4CB972932BDE15DD00ECCFAD /* SurfEntryProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurfEntryProvider.swift; sourceTree = "<group>"; };
 		4CBD01DB2BFB3849009DE551 /* Hanstholm Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Hanstholm Watch App.entitlements"; sourceTree = "<group>"; };
 		4CBD01DC2BFB38AF009DE551 /* HanstholmWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HanstholmWidgetExtension.entitlements; sourceTree = "<group>"; };
+		4CEB52292C03111600821EDC /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				4C1566212BEFC2AC006E6D56 /* README.md */,
+				4CEB52292C03111600821EDC /* LICENSE */,
 				4C15661C2BEFBDF8006E6D56 /* Core */,
 				4C10AF8F2BCC261B000F2D2B /* Hanstholm Watch App */,
 				4C10AFAE2BCC264E000F2D2B /* HanstholmWidget */,
@@ -201,6 +203,8 @@
 		4C1566252BEFDD28006E6D56 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				4C1566392BF139D8006E6D56 /* WindView.swift */,
+				4C15663B2BF139FA006E6D56 /* WaveView.swift */,
 				4C29EA062C00899900F420C0 /* GaugeProgressStyle.swift */,
 			);
 			path = Components;
@@ -218,8 +222,6 @@
 			isa = PBXGroup;
 			children = (
 				4C1566322BF0C557006E6D56 /* Surfspot.swift */,
-				4C1566392BF139D8006E6D56 /* WindView.swift */,
-				4C15663B2BF139FA006E6D56 /* WaveView.swift */,
 			);
 			path = Modules;
 			sourceTree = "<group>";

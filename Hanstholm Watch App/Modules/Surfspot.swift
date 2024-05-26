@@ -13,26 +13,14 @@ struct SurfSpot: View {
     let surfEntry: SurfEntry
     
     var body: some View {
-        Content(surfEntry: surfEntry)
-    }
-}
-
-extension SurfSpot {
-    struct Content: View {
-        let surfEntry: SurfEntry
-        let gradient = Gradient(colors: [.green, .yellow, .orange, .red])
-        
-        var body: some View {
-            TabView {
-                WindView(name: surfEntry.name, wind: surfEntry.wind)
-                    .navigationTitle("Wind")
-                    .containerBackground(Color.accentColor.gradient, for: .tabView)
-                WaveView(name: surfEntry.name, wave: surfEntry.wave)
-                    .navigationTitle("Wave")
-                    .containerBackground(Color.accentColor.gradient, for: .tabView)
-            }
-            .tabViewStyle(.verticalPage)
+        TabView {
+            WindView(name: surfEntry.name, wind: surfEntry.wind)
+                .containerBackground(Color.accentColor.gradient, for: .tabView)
+            
+            WaveView(name: surfEntry.name, wave: surfEntry.wave)
+                .containerBackground(Color.accentColor.gradient, for: .tabView)
         }
+        .tabViewStyle(.verticalPage)
     }
 }
 

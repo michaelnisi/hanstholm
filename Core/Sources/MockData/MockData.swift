@@ -25,7 +25,7 @@ public struct MockData {
         }
         
         public static func makeWave() -> DomainTypes.SurfEntry.Wave {
-            .init(max: 2.0, middle: 1.2, period: 12)
+            .init(max: 2.0, middle: 1.2, period: 12, direction: .init(cardinal: .eastNorthEast))
         }
     }
 }
