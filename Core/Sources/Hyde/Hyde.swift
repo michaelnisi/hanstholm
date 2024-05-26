@@ -8,7 +8,7 @@
 import os.log
 import Foundation
 
-private let logger = Logger(subsystem: "ink.codes.Hyde", category: "Hyde")
+private let logger = Logger(subsystem: "ink.codes.Hanstholm", category: "Hyde")
 
 public struct Hyde: Equatable, Codable {
     public enum Place: Codable, CaseIterable {

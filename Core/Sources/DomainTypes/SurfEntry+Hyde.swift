@@ -7,6 +7,9 @@
 
 import Foundation
 import Hyde
+import os.log
+
+private let logger = Logger(subsystem: "ink.codes.Hanstholm", category: "DomainTypes")
 
 extension SurfEntry.Wave {
     public init?(dto: Hyde.Wave?) {
@@ -15,6 +18,7 @@ extension SurfEntry.Wave {
             let max = dto?.height?.max,
             let middle = dto?.height?.middle,
             let period = dto?.period else {
+            logger.error("incomplete DTO: \(String(describing: dto))")
             return nil
         }
         
@@ -30,6 +34,7 @@ extension SurfEntry.Wind {
         guard
             let direction = Direction(danish: dto?.direction),
             let speed = Speed(dto: dto?.speed) else {
+            logger.error("incomplete DTO: \(String(describing: dto))")
             return nil
         }
         
@@ -44,6 +49,7 @@ extension SurfEntry.Wind.Speed {
             let current = dto?.current,
             let gust = dto?.gust,
             let middle = dto?.middle else {
+            logger.error("incomplete DTO: \(String(describing: dto))")
             return nil
         }
         
@@ -60,6 +66,7 @@ extension SurfEntry {
             let wind = Wind(dto: dto?.wind),
             let date = dto?.date,
             let name = dto?.place.name else {
+            logger.error("incomplete DTO: \(String(describing: dto))")
             return nil
         }
         
