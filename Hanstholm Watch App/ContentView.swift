@@ -25,33 +25,26 @@ struct ContentView: View {
             }
         }
         .task {
-            update()
+            guard task == nil else {
+                return
+            }
+            
+            surfEntry = try? await surfProvider.fetch()
         }
         .onChange(of: scenePhase) {
             switch scenePhase {
             case .active:
-                update()
+                task = Task {
+                    do {
+                        surfEntry = try await surfProvider.fetch()
+                    } catch {
+                        logger.error("could not fetch: \(error)")
+                    }
+                }
             case .background, .inactive:
                 task?.cancel()
             @unknown default:
                 break
-            }
-        }
-    }
-}
-
-extension ContentView {
-    private func update() {
-        guard task == nil else {
-            return
-        }
-        
-        task = Task {
-            do {
-                surfEntry = try await surfProvider.fetch()
-                task = nil
-            } catch {
-                logger.error("could not fetch: \(error)")
             }
         }
     }
