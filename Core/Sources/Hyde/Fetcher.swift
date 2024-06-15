@@ -8,12 +8,12 @@
 import Foundation
 import WidgetKit
 
-class Fetcher: NSObject {
+actor Fetcher: NSObject {
     let host = "www.hyde.dk"
     
     static let shared = Fetcher()
     
-    private var completion: (() -> Void)?
+    var completion: (@Sendable () async -> Void)?
     var cached: Data?
     
     private lazy var baseURL: URL = {
@@ -39,7 +39,7 @@ class Fetcher: NSObject {
         let config = URLSessionConfiguration.background(withIdentifier: host)
         config.sessionSendsLaunchEvents = true
                 
-        return URLSession(configuration: config, delegate: self, delegateQueue: nil)
+        return URLSession(configuration: config, delegate: DownloadDelegate(fetcher: self), delegateQueue: nil)
     }()
 }
 
@@ -57,10 +57,8 @@ extension Fetcher {
 }
 
 extension Fetcher {
-    func setCompletion(_ completion: @escaping () -> Void) -> String {
+    func setCompletion(_ completion: @escaping @Sendable () async -> Void) {
         self.completion = completion
-        
-        return backgroundSession.configuration.identifier!
     }
     
     func background() {
@@ -71,13 +69,25 @@ extension Fetcher {
         
         backgroundTask.resume()
     }
-}
-
-extension Fetcher: URLSessionDownloadDelegate {
-    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+    
+    func update(location: URL) async {
         cached = try? Data(contentsOf: location)
         
         WidgetCenter.shared.reloadAllTimelines()
-        completion?()
+        await completion?()
+    }
+}
+
+final class DownloadDelegate: NSObject, URLSessionDownloadDelegate {
+    let fetcher: Fetcher
+    
+    init(fetcher: Fetcher) {
+        self.fetcher = fetcher
+    }
+    
+    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+        Task {
+            await self.fetcher.update(location: location)
+        }
     }
 }

@@ -19,24 +19,23 @@ struct SurfEntryProvider: TimelineProvider {
         MockData.SurfEntry.makeSurfEntry()
     }
     
-    func getSnapshot(in context: Context, completion: @escaping (SurfEntry) -> ()) {
+    func getSnapshot(in context: Context, completion: @escaping @Sendable (SurfEntry) -> ()) {
         Task {
             let place: Hyde.Place = .hanstholm
-            let conditions = try cache.cachedConditions(matching: place, newer: .distantPast)
+            let conditions = try await cache.conditions(matching: place, newer: .distantPast)
             let entry = SurfEntry(dto: conditions) ?? MockData.SurfEntry.makeSurfEntry()
             
             completion(entry)
         }
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<SurfEntry>) -> ()) {
-        Hyde.backgroundFetch()
-        
+    func getTimeline(in context: Context, completion: @escaping @Sendable  (Timeline<SurfEntry>) -> ()) {
         Task {
+            await Hyde.backgroundFetch()
             let hyde = try await getHyde()
             
             if let hyde {
-                try cache.cacheConditions(hyde)
+                try await cache.setConditions(hyde)
             }
             
             let entry = SurfEntry(dto: hyde) ?? MockData.SurfEntry.makeSurfEntry()
@@ -54,8 +53,8 @@ extension SurfEntryProvider {
         let conditions: Hyde?
         let place: Hyde.Place = .hanstholm
         let date: Date = .now.addingTimeInterval(-15 * 60)
-        let cached = try cache.cachedConditions(matching: place, newer: date)
-        let background = Hyde.backgroundResult()
+        let cached = try await cache.conditions(matching: place, newer: date)
+        let background = await Hyde.backgroundResult()
 
         if let cached {
             conditions = cached

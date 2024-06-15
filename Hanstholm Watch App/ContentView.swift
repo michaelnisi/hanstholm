@@ -13,8 +13,9 @@ import Puddles
 struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
     @EnvironmentObject var surfProvider: SurfProvider
-    @State var surfEntry: SurfEntry?
-    @State var task: Task<Void, Never>?
+    @State private var surfEntry: SurfEntry?
+    @State private var task: Task<Void, Never>?
+    var isPreview = false
     
     var body: some View {
         Group {
@@ -25,7 +26,7 @@ struct ContentView: View {
             }
         }
         .task {
-            guard task == nil else {
+            guard isPreview else {
                 return
             }
             
@@ -51,6 +52,6 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    ContentView(isPreview: true)
         .withMockProviders()
 }

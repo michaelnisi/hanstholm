@@ -104,12 +104,20 @@ struct HanstholmWidget: Widget {
             }
         }
         .onBackgroundURLSessionEvents(matching: "www.hyde.dk") { urlSessionEvent, completion in
-            Hyde.setCompletion(completion)
+            Task {
+                await Hyde.setCompletion {
+                    MainActor.assumeIsolated {
+                        completion()
+                    }
+                }
+            }
         }
         .configurationDisplayName("Hanstholm")
         .description("Vejret Hanstholm Havn")
     }
 }
+
+
 
 #Preview(as: .accessoryRectangular) {
     HanstholmWidget()

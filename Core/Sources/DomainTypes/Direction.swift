@@ -7,8 +7,8 @@
 
 import Foundation
 
-public struct Direction: Hashable, Equatable {
-    public enum Cardinal {
+public struct Direction: Hashable, Equatable, Sendable {
+    public enum Cardinal: Sendable {
         case north
         case northNorthEast
         case northEast

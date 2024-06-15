@@ -13,13 +13,13 @@ import Cache
 import WidgetKit
 
 @MainActor final class SurfProvider: ObservableObject {
-    struct Dependencies {
-        var fetchHyde: () async throws -> Hyde
+    struct Dependencies: Sendable {
+        var fetchHyde: @Sendable () async throws -> Hyde
     }
     
     private let dependencies: Dependencies
     
-    init(dependencies: Dependencies) {
+    nonisolated init(dependencies: Dependencies) {
         self.dependencies = dependencies
     }
 }
@@ -31,7 +31,7 @@ extension SurfProvider {
 }
 
 extension SurfProvider {
-    static var live: SurfProvider = {
+    static let live: SurfProvider = {
         let cache = Cache()
         
         return .init(
@@ -40,7 +40,7 @@ extension SurfProvider {
                     let place: Hyde.Place = .hanstholm
                     let conditions: Hyde
                     let date: Date = .now.addingTimeInterval(-5 * 60)
-                    let cached = try cache.cachedConditions(matching: place, newer: date)
+                    let cached = try cache.conditions(matching: place, newer: date)
                     
                     if let cached {
                         logger.debug("cached: \(cached.date.ISO8601Format())")
@@ -49,7 +49,7 @@ extension SurfProvider {
                     } else {
                         conditions = try await Hyde.fetch()
                         
-                        try cache.cacheConditions(conditions)
+                        try cache.setConditions(conditions)
                         WidgetCenter.shared.reloadAllTimelines()
                     }
                     

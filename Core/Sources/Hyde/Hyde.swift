@@ -10,13 +10,13 @@ import Foundation
 
 private let logger = Logger(subsystem: "ink.codes.Hanstholm", category: "Hyde")
 
-public struct Hyde: Equatable, Codable {
-    public enum Place: Codable, CaseIterable {
+public struct Hyde: Equatable, Codable, Sendable {
+    public enum Place: Codable, CaseIterable, Sendable {
         case hanstholm
     }
     
-    public struct Wave: Equatable, Codable {
-        public struct Height: Equatable, Codable {
+    public struct Wave: Equatable, Codable, Sendable {
+        public struct Height: Equatable, Codable, Sendable {
             public let max: Double?
             public let middle: Double?
             
@@ -37,8 +37,8 @@ public struct Hyde: Equatable, Codable {
         }
     }
     
-    public struct Wind: Equatable, Codable {
-        public struct Speed: Equatable, Codable {
+    public struct Wind: Equatable, Codable, Sendable {
+        public struct Speed: Equatable, Codable, Sendable {
             public init(gust: Double?, middle: Double?, current: Double?) {
                 self.gust = gust
                 self.middle = middle
@@ -121,21 +121,28 @@ extension Hyde {
         try .init(place: place, data: try await Fetcher.shared.retrieve())
     }
     
-    public static func backgroundFetch(place: Place = .hanstholm) {
-        Fetcher.shared.background()
+    public static func backgroundFetch(place: Place = .hanstholm) async {
+        await Fetcher.shared.background()
     }
     
-    public static func backgroundResult(place: Place = .hanstholm) -> Hyde? {
-        guard let data = Fetcher.shared.cached else {
+    public static func backgroundResult(place: Place = .hanstholm) async -> Hyde? {
+        guard let data = await Fetcher.shared.cached else {
             return nil
         }
         
         return try? .init(place: place, data: data)
     }
     
-    @discardableResult
-    public static func setCompletion(_ completion: @escaping () -> Void) -> String {
-        Fetcher.shared.setCompletion(completion)
+ 
+    
+    public static func setCompletion(_ completion: @escaping BackgroundCompletion) async {
+        await Fetcher.shared.setCompletion {
+            await MainActor.run {
+                completion()
+            }
+        }
+        
     }
 }
 
+public typealias BackgroundCompletion = @Sendable @MainActor () -> Void
