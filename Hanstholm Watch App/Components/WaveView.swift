@@ -11,6 +11,7 @@ import MockData
 
 struct WaveView: View {
     let name: String
+    let date: Date
     let wave: SurfEntry.Wave
     
     var body: some View {
@@ -20,6 +21,7 @@ struct WaveView: View {
             
             WaveInfo(
                 name: name,
+                date: date,
                 max: wave.max,
                 middle: wave.middle,
                 period: wave.period,
@@ -36,6 +38,7 @@ struct WaveView: View {
 
 struct WaveInfo: View {
     let name: String
+    let date: Date
     let max: Double
     let middle: Double
     let period: Double
@@ -46,7 +49,7 @@ struct WaveInfo: View {
     }
     
     var body: some View {
-        VStack{
+        VStack {
             HStack {
                 Image(systemName: "location.fill")
                     .rotationEffect(.degrees(locationDegrees))
@@ -54,13 +57,18 @@ struct WaveInfo: View {
                 Text(name)
                     .font(.caption)
             }
-    
+            
             Text("\(middle.meters(width: .narrow))")
                 .font(.title2)
                 .fontWeight(.bold)
+            
+            Text(date.formatted(date: .omitted, time: .shortened))
+                .font(.caption)
+                .foregroundStyle(.blue)
         }
     }
 }
+
 #Preview {
-    WaveView(name: "Hanstholm", wave: MockData.SurfEntry.makeWave())
+    WaveView(name: "Hanstholm", date: .now, wave: MockData.SurfEntry.makeWave())
 }

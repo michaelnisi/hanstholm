@@ -7,7 +7,6 @@
 
 import Foundation
 import Hyde
-import MockData
 
 public actor Cache {
     struct Key {
@@ -66,7 +65,7 @@ extension Cache {
 }
 
 extension String {
-    fileprivate static let selectedPlaceKey: String = "\(Cache.Key.surfEntry)-selected"
+    fileprivate static let selectedPlaceKey = "\(Cache.Key.surfEntry)-selected"
     
     fileprivate static func makePlaceKey(place: Hyde.Place) -> String {
         "\(Cache.Key.surfEntry)-id-\(place.name)"

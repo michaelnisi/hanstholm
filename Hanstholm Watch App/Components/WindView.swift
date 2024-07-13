@@ -11,6 +11,7 @@ import MockData
 
 struct WindView: View {
     let name: String
+    let date: Date
     let wind: SurfEntry.Wind
     
     var body: some View {
@@ -20,6 +21,7 @@ struct WindView: View {
             
             WindInfo(
                 name: name,
+                date: date,
                 speed: wind.speed.current,
                 maximum: wind.speed.gust,
                 degrees: wind.direction.degrees
@@ -35,16 +37,17 @@ struct WindView: View {
 
 struct WindInfo: View {
     let name: String
+    let date: Date
     let speed: Double
     let maximum: Double
     let degrees: Double
-    
+
     var locationDegrees: Double {
         degrees - 45
     }
     
     var body: some View {
-        VStack{
+        VStack {
             HStack {
                 Image(systemName: "location.fill")
                     .rotationEffect(.degrees(locationDegrees))
@@ -52,10 +55,14 @@ struct WindInfo: View {
                 Text(name)
                     .font(.caption)
             }
-    
+            
             Text("\(speed.metersPerSecond(width: .narrow))")
                 .font(.title2)
                 .fontWeight(.bold)
+            
+            Text(date.formatted(date: .omitted, time: .shortened))
+                .font(.caption)
+                .foregroundStyle(.teal)
         }
     }
 }
@@ -63,6 +70,7 @@ struct WindInfo: View {
 #Preview {
     WindView(
         name: "Hanstholm",
+        date: .now,
         wind: MockData.SurfEntry.makeWind()
     )
 }

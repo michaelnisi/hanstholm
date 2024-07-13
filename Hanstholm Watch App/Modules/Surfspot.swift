@@ -14,10 +14,10 @@ struct SurfSpot: View {
     
     var body: some View {
         TabView {
-            WindView(name: surfEntry.name, wind: surfEntry.wind)
+            WindView(name: surfEntry.name, date: surfEntry.date, wind: surfEntry.wind)
                 .containerBackground(Color.accentColor.gradient, for: .tabView)
             
-            WaveView(name: surfEntry.name, wave: surfEntry.wave)
+            WaveView(name: surfEntry.name, date: surfEntry.date, wave: surfEntry.wave)
                 .containerBackground(Color.accentColor.gradient, for: .tabView)
         }
         .tabViewStyle(.verticalPage)
