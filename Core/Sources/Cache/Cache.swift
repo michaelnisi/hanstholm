@@ -55,12 +55,13 @@ extension Cache {
         db?.setValue(data, forKey: .selectedPlaceKey)
     }
     
-    public func place() throws -> Hyde.Place? {
-        guard let data = db?.data(forKey: .selectedPlaceKey) else {
-            return nil
+    public func place() -> Hyde.Place {
+        guard let data = db?.data(forKey: .selectedPlaceKey),
+              let place = try? decoder.decode(Hyde.Place.self, from: data) else {
+            return .hanstholm
         }
         
-        return try decoder.decode(Hyde.Place.self, from: data)
+        return place
     }
 }
 

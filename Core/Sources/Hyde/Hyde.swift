@@ -117,15 +117,15 @@ extension Hyde {
 }
 
 extension Hyde {
-    public static func fetch(place: Place = .hanstholm) async throws -> Hyde {
+    public static func fetch(place: Place) async throws -> Hyde {
         try .init(place: place, data: try await Fetcher.shared.retrieve())
     }
     
-    public static func backgroundFetch(place: Place = .hanstholm) async {
+    public static func backgroundFetch(place: Place) async {
         await Fetcher.shared.background()
     }
     
-    public static func backgroundResult(place: Place = .hanstholm) async -> Hyde? {
+    public static func backgroundResult(place: Place) async -> Hyde? {
         guard let data = await Fetcher.shared.cached else {
             return nil
         }

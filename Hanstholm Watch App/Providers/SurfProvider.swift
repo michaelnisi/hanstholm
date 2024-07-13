@@ -37,17 +37,17 @@ extension SurfProvider {
         return .init(
             dependencies: .init(
                 fetchHyde: {
-                    let place: Hyde.Place = .hanstholm
+                    let place = cache.place() 
                     let conditions: Hyde
                     let date: Date = .now.addingTimeInterval(-5 * 60)
-                    let cached = try cache.conditions(matching: place, newer: date)
+                    let cached = try? cache.conditions(matching: place, newer: date)
                     
                     if let cached {
                         logger.debug("cached: \(cached.date.ISO8601Format())")
                         
                         conditions = cached
                     } else {
-                        conditions = try await Hyde.fetch()
+                        conditions = try await Hyde.fetch(place: place)
                         
                         try cache.setConditions(conditions)
                         WidgetCenter.shared.reloadAllTimelines()
