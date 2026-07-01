@@ -8,11 +8,10 @@
 import SwiftUI
 import DomainTypes
 import MockData
-import Puddles
 
 struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
-    @EnvironmentObject var surfProvider: SurfProvider
+    @Environment(SurfProvider.self) var surfProvider
     @State private var surfEntry: SurfEntry?
     @State private var task: Task<Void, Never>?
     var isPreview = false

@@ -8,8 +8,8 @@
 import SwiftUI
 
 extension View {
-    @MainActor func withMockProviders() -> some View {
+    func withMockProviders() -> some View {
         self
-            .environmentObject(SurfProvider.mock)
+            .environment(SurfProvider.mock)
     }
 }

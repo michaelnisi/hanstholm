@@ -79,15 +79,15 @@ extension Fetcher {
 }
 
 final class DownloadDelegate: NSObject, URLSessionDownloadDelegate {
-    let fetcher: Fetcher
-    
-    init(fetcher: Fetcher) {
+    nonisolated let fetcher: Fetcher
+
+    nonisolated init(fetcher: Fetcher) {
         self.fetcher = fetcher
     }
-    
-    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+
+    nonisolated func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         Task {
-            await self.fetcher.update(location: location)
+            await fetcher.update(location: location)
         }
     }
 }

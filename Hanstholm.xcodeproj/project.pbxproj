@@ -24,7 +24,6 @@
 		4C15662F2BEFE6D0006E6D56 /* DomainTypes in Frameworks */ = {isa = PBXBuildFile; productRef = 4C15662E2BEFE6D0006E6D56 /* DomainTypes */; };
 		4C1566312BEFE9F4006E6D56 /* MockData in Frameworks */ = {isa = PBXBuildFile; productRef = 4C1566302BEFE9F4006E6D56 /* MockData */; };
 		4C1566332BF0C557006E6D56 /* Surfspot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1566322BF0C557006E6D56 /* Surfspot.swift */; };
-		4C1566362BF1131B006E6D56 /* Puddles in Frameworks */ = {isa = PBXBuildFile; productRef = 4C1566352BF1131B006E6D56 /* Puddles */; };
 		4C1566382BF113B0006E6D56 /* View+mockProviders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1566372BF113B0006E6D56 /* View+mockProviders.swift */; };
 		4C15663A2BF139D8006E6D56 /* WindView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1566392BF139D8006E6D56 /* WindView.swift */; };
 		4C15663C2BF139FA006E6D56 /* WaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C15663B2BF139FA006E6D56 /* WaveView.swift */; };
@@ -108,7 +107,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C1566362BF1131B006E6D56 /* Puddles in Frameworks */,
 				4C15661E2BEFBF17006E6D56 /* Hyde in Frameworks */,
 				4C1566312BEFE9F4006E6D56 /* MockData in Frameworks */,
 				4C15662F2BEFE6D0006E6D56 /* DomainTypes in Frameworks */,
@@ -280,7 +278,6 @@
 				4C15661D2BEFBF17006E6D56 /* Hyde */,
 				4C15662E2BEFE6D0006E6D56 /* DomainTypes */,
 				4C1566302BEFE9F4006E6D56 /* MockData */,
-				4C1566352BF1131B006E6D56 /* Puddles */,
 				4CBD01DE2BFB3D52009DE551 /* Cache */,
 			);
 			productName = "Hanstholm Watch App";
@@ -340,7 +337,6 @@
 			);
 			mainGroup = 4C10AF7E2BCC261B000F2D2B;
 			packageReferences = (
-				4C1566342BF1131B006E6D56 /* XCRemoteSwiftPackageReference "Puddles" */,
 			);
 			productRefGroup = 4C10AF862BCC261B000F2D2B /* Products */;
 			projectDirPath = "";
@@ -563,8 +559,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				OTHER_SWIFT_FLAGS = "-default-isolation MainActor";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 10.2;
@@ -595,8 +591,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				OTHER_SWIFT_FLAGS = "-default-isolation MainActor";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				VALIDATE_PRODUCT = YES;
@@ -659,8 +655,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				OTHER_SWIFT_FLAGS = "-default-isolation MainActor";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 10.2;
@@ -691,8 +687,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				OTHER_SWIFT_FLAGS = "-default-isolation MainActor";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				VALIDATE_PRODUCT = YES;
@@ -741,16 +737,6 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		4C1566342BF1131B006E6D56 /* XCRemoteSwiftPackageReference "Puddles" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SwiftedMind/Puddles";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		4C15661D2BEFBF17006E6D56 /* Hyde */ = {
@@ -772,11 +758,6 @@
 		4C1566302BEFE9F4006E6D56 /* MockData */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MockData;
-		};
-		4C1566352BF1131B006E6D56 /* Puddles */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4C1566342BF1131B006E6D56 /* XCRemoteSwiftPackageReference "Puddles" */;
-			productName = Puddles;
 		};
 		4CBD01DE2BFB3D52009DE551 /* Cache */ = {
 			isa = XCSwiftPackageProductDependency;

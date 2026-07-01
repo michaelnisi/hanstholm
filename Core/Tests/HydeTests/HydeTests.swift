@@ -10,8 +10,8 @@ import XCTest
 
 final class HydeTests: XCTestCase {
     func testFetch() async throws {
-        let conditions = try await Hyde.fetch()
-        
+        let conditions = try await Hyde.fetch(place: .hanstholm)
+
         XCTAssertNotNil(conditions)
         print(conditions)
     }

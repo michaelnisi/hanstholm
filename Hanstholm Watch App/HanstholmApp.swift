@@ -7,17 +7,16 @@
 
 import SwiftUI
 import MockData
-import Puddles
 import os.log
 
-let logger = Logger(subsystem: "ink.codes.hanstholm", category: "App")
+nonisolated let logger = Logger(subsystem: "ink.codes.hanstholm", category: "App")
 
 @main
 struct Hanstholm_Watch_AppApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(SurfProvider.live)
+                .environment(SurfProvider.live)
         }
     }
 }

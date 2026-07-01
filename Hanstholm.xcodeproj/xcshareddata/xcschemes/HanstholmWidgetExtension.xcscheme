@@ -77,7 +77,6 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4C10AFA82BCC264E000F2D2B"
             BuildableName = "HanstholmWidgetExtension.appex"
-            BlueprintName = "HanstholmWidgetExtension"
             ReferencedContainer = "container:Hanstholm.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -120,7 +119,6 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4C10AFA82BCC264E000F2D2B"
             BuildableName = "HanstholmWidgetExtension.appex"
-            BlueprintName = "HanstholmWidgetExtension"
             ReferencedContainer = "container:Hanstholm.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

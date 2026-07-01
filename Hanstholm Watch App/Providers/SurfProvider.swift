@@ -5,20 +5,20 @@
 //  Created by Michael Nisi on 11.05.24.
 //
 
-import Foundation
+import Observation
 import Hyde
 import MockData
 import DomainTypes
 import Cache
 import WidgetKit
 
-@MainActor final class SurfProvider: ObservableObject {
+@Observable final class SurfProvider {
     struct Dependencies: Sendable {
         var fetchHyde: @Sendable () async throws -> Hyde
     }
-    
+
     private let dependencies: Dependencies
-    
+
     nonisolated init(dependencies: Dependencies) {
         self.dependencies = dependencies
     }
@@ -31,16 +31,16 @@ extension SurfProvider {
 }
 
 extension SurfProvider {
-    static let live: SurfProvider = {
+    nonisolated static let live: SurfProvider = {
         let cache = Cache()
         
         return .init(
             dependencies: .init(
                 fetchHyde: {
-                    let place = cache.place() 
+                    let place = await cache.place()
                     let conditions: Hyde
                     let date: Date = .now.addingTimeInterval(-5 * 60)
-                    let cached = try? cache.conditions(matching: place, newer: date)
+                    let cached = try? await cache.conditions(matching: place, newer: date)
                     
                     if let cached {
                         logger.debug("cached: \(cached.date.ISO8601Format())")
@@ -49,7 +49,7 @@ extension SurfProvider {
                     } else {
                         conditions = try await Hyde.fetch(place: place)
                         
-                        try cache.setConditions(conditions)
+                        try await cache.setConditions(conditions)
                         WidgetCenter.shared.reloadAllTimelines()
                     }
                     
@@ -61,7 +61,7 @@ extension SurfProvider {
 }
 
 extension SurfProvider {
-    static var mock: SurfProvider = {
+    nonisolated static let mock: SurfProvider = {
         .init(
             dependencies: .init(
                 fetchHyde: {
