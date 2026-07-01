@@ -3,32 +3,19 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		4C10AF8C2BCC261B000F2D2B /* Hanstholm Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 4C10AF8B2BCC261B000F2D2B /* Hanstholm Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		4C10AF912BCC261B000F2D2B /* HanstholmApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C10AF902BCC261B000F2D2B /* HanstholmApp.swift */; };
-		4C10AF932BCC261B000F2D2B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C10AF922BCC261B000F2D2B /* ContentView.swift */; };
-		4C10AF952BCC261C000F2D2B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C10AF942BCC261C000F2D2B /* Assets.xcassets */; };
-		4C10AF982BCC261C000F2D2B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C10AF972BCC261C000F2D2B /* Preview Assets.xcassets */; };
 		4C10AFAB2BCC264E000F2D2B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C10AFAA2BCC264E000F2D2B /* WidgetKit.framework */; };
 		4C10AFAD2BCC264E000F2D2B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C10AFAC2BCC264E000F2D2B /* SwiftUI.framework */; };
-		4C10AFB02BCC264E000F2D2B /* HanstholmWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C10AFAF2BCC264E000F2D2B /* HanstholmWidget.swift */; };
-		4C10AFB22BCC264F000F2D2B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C10AFB12BCC264F000F2D2B /* Assets.xcassets */; };
 		4C10AFB72BCC264F000F2D2B /* HanstholmWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 4C10AFA92BCC264E000F2D2B /* HanstholmWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		4C15661E2BEFBF17006E6D56 /* Hyde in Frameworks */ = {isa = PBXBuildFile; productRef = 4C15661D2BEFBF17006E6D56 /* Hyde */; };
 		4C1566202BEFBF1B006E6D56 /* Hyde in Frameworks */ = {isa = PBXBuildFile; productRef = 4C15661F2BEFBF1B006E6D56 /* Hyde */; };
-		4C15662B2BEFDDBD006E6D56 /* SurfProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C15662A2BEFDDBD006E6D56 /* SurfProvider.swift */; };
 		4C15662D2BEFE6C7006E6D56 /* DomainTypes in Frameworks */ = {isa = PBXBuildFile; productRef = 4C15662C2BEFE6C7006E6D56 /* DomainTypes */; };
 		4C15662F2BEFE6D0006E6D56 /* DomainTypes in Frameworks */ = {isa = PBXBuildFile; productRef = 4C15662E2BEFE6D0006E6D56 /* DomainTypes */; };
 		4C1566312BEFE9F4006E6D56 /* MockData in Frameworks */ = {isa = PBXBuildFile; productRef = 4C1566302BEFE9F4006E6D56 /* MockData */; };
-		4C1566332BF0C557006E6D56 /* Surfspot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1566322BF0C557006E6D56 /* Surfspot.swift */; };
-		4C1566382BF113B0006E6D56 /* View+mockProviders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1566372BF113B0006E6D56 /* View+mockProviders.swift */; };
-		4C15663A2BF139D8006E6D56 /* WindView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1566392BF139D8006E6D56 /* WindView.swift */; };
-		4C15663C2BF139FA006E6D56 /* WaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C15663B2BF139FA006E6D56 /* WaveView.swift */; };
-		4C29EA072C00899900F420C0 /* GaugeProgressStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C29EA062C00899900F420C0 /* GaugeProgressStyle.swift */; };
-		4CB972942BDE15DD00ECCFAD /* SurfEntryProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB972932BDE15DD00ECCFAD /* SurfEntryProvider.swift */; };
 		4CBD01DF2BFB3D52009DE551 /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = 4CBD01DE2BFB3D52009DE551 /* Cache */; };
 		4CBD01E12BFB596D009DE551 /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = 4CBD01E02BFB596D009DE551 /* Cache */; };
 /* End PBXBuildFile section */
@@ -78,29 +65,28 @@
 /* Begin PBXFileReference section */
 		4C10AF852BCC261B000F2D2B /* Hanstholm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hanstholm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C10AF8B2BCC261B000F2D2B /* Hanstholm Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Hanstholm Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4C10AF902BCC261B000F2D2B /* HanstholmApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HanstholmApp.swift; sourceTree = "<group>"; };
-		4C10AF922BCC261B000F2D2B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		4C10AF942BCC261C000F2D2B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		4C10AF972BCC261C000F2D2B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		4C10AFA92BCC264E000F2D2B /* HanstholmWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = HanstholmWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C10AFAA2BCC264E000F2D2B /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		4C10AFAC2BCC264E000F2D2B /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		4C10AFAF2BCC264E000F2D2B /* HanstholmWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HanstholmWidget.swift; sourceTree = "<group>"; };
-		4C10AFB12BCC264F000F2D2B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		4C10AFB32BCC264F000F2D2B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4C15661C2BEFBDF8006E6D56 /* Core */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Core; sourceTree = "<group>"; };
 		4C1566212BEFC2AC006E6D56 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		4C15662A2BEFDDBD006E6D56 /* SurfProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurfProvider.swift; sourceTree = "<group>"; };
-		4C1566322BF0C557006E6D56 /* Surfspot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Surfspot.swift; sourceTree = "<group>"; };
-		4C1566372BF113B0006E6D56 /* View+mockProviders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+mockProviders.swift"; sourceTree = "<group>"; };
-		4C1566392BF139D8006E6D56 /* WindView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindView.swift; sourceTree = "<group>"; };
-		4C15663B2BF139FA006E6D56 /* WaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveView.swift; sourceTree = "<group>"; };
-		4C29EA062C00899900F420C0 /* GaugeProgressStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaugeProgressStyle.swift; sourceTree = "<group>"; };
-		4CB972932BDE15DD00ECCFAD /* SurfEntryProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurfEntryProvider.swift; sourceTree = "<group>"; };
-		4CBD01DB2BFB3849009DE551 /* Hanstholm Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Hanstholm Watch App.entitlements"; sourceTree = "<group>"; };
-		4CBD01DC2BFB38AF009DE551 /* HanstholmWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HanstholmWidgetExtension.entitlements; sourceTree = "<group>"; };
 		4CEB52292C03111600821EDC /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		4C10AFBC2BCC265000000001 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 4C10AFA82BCC264E000F2D2B /* HanstholmWidgetExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		4C10AF8F2BCC261B000F2D2B /* Hanstholm Watch App */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Hanstholm Watch App"; sourceTree = "<group>"; };
+		4C10AFAE2BCC264E000F2D2B /* HanstholmWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (4C10AFBC2BCC265000000001 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = HanstholmWidget; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		4C10AF882BCC261B000F2D2B /* Frameworks */ = {
@@ -152,31 +138,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		4C10AF8F2BCC261B000F2D2B /* Hanstholm Watch App */ = {
-			isa = PBXGroup;
-			children = (
-				4CBD01DB2BFB3849009DE551 /* Hanstholm Watch App.entitlements */,
-				4C1566292BEFDD5B006E6D56 /* Router */,
-				4C1566282BEFDD48006E6D56 /* Providers */,
-				4C1566272BEFDD41006E6D56 /* Modules */,
-				4C1566262BEFDD3A006E6D56 /* Helpers */,
-				4C1566252BEFDD28006E6D56 /* Components */,
-				4C10AF902BCC261B000F2D2B /* HanstholmApp.swift */,
-				4C10AF922BCC261B000F2D2B /* ContentView.swift */,
-				4C10AF942BCC261C000F2D2B /* Assets.xcassets */,
-				4C10AF962BCC261C000F2D2B /* Preview Content */,
-			);
-			path = "Hanstholm Watch App";
-			sourceTree = "<group>";
-		};
-		4C10AF962BCC261C000F2D2B /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				4C10AF972BCC261C000F2D2B /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
-			sourceTree = "<group>";
-		};
 		4C10AFA22BCC2637000F2D2B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -184,59 +145,6 @@
 				4C10AFAC2BCC264E000F2D2B /* SwiftUI.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		4C10AFAE2BCC264E000F2D2B /* HanstholmWidget */ = {
-			isa = PBXGroup;
-			children = (
-				4CBD01DC2BFB38AF009DE551 /* HanstholmWidgetExtension.entitlements */,
-				4C10AFAF2BCC264E000F2D2B /* HanstholmWidget.swift */,
-				4CB972932BDE15DD00ECCFAD /* SurfEntryProvider.swift */,
-				4C10AFB12BCC264F000F2D2B /* Assets.xcassets */,
-				4C10AFB32BCC264F000F2D2B /* Info.plist */,
-			);
-			path = HanstholmWidget;
-			sourceTree = "<group>";
-		};
-		4C1566252BEFDD28006E6D56 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				4C1566392BF139D8006E6D56 /* WindView.swift */,
-				4C15663B2BF139FA006E6D56 /* WaveView.swift */,
-				4C29EA062C00899900F420C0 /* GaugeProgressStyle.swift */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
-		4C1566262BEFDD3A006E6D56 /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				4C1566372BF113B0006E6D56 /* View+mockProviders.swift */,
-			);
-			path = Helpers;
-			sourceTree = "<group>";
-		};
-		4C1566272BEFDD41006E6D56 /* Modules */ = {
-			isa = PBXGroup;
-			children = (
-				4C1566322BF0C557006E6D56 /* Surfspot.swift */,
-			);
-			path = Modules;
-			sourceTree = "<group>";
-		};
-		4C1566282BEFDD48006E6D56 /* Providers */ = {
-			isa = PBXGroup;
-			children = (
-				4C15662A2BEFDDBD006E6D56 /* SurfProvider.swift */,
-			);
-			path = Providers;
-			sourceTree = "<group>";
-		};
-		4C1566292BEFDD5B006E6D56 /* Router */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Router;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -273,6 +181,9 @@
 			dependencies = (
 				4C10AFB52BCC264F000F2D2B /* PBXTargetDependency */,
 			);
+			fileSystemSynchronizedGroups = (
+				4C10AF8F2BCC261B000F2D2B /* Hanstholm Watch App */,
+			);
 			name = "Hanstholm Watch App";
 			packageProductDependencies = (
 				4C15661D2BEFBF17006E6D56 /* Hyde */,
@@ -295,6 +206,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				4C10AFAE2BCC264E000F2D2B /* HanstholmWidget */,
 			);
 			name = HanstholmWidgetExtension;
 			packageProductDependencies = (
@@ -361,8 +275,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C10AF982BCC261C000F2D2B /* Preview Assets.xcassets in Resources */,
-				4C10AF952BCC261C000F2D2B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,7 +282,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C10AFB22BCC264F000F2D2B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,14 +292,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C15663A2BF139D8006E6D56 /* WindView.swift in Sources */,
-				4C10AF932BCC261B000F2D2B /* ContentView.swift in Sources */,
-				4C29EA072C00899900F420C0 /* GaugeProgressStyle.swift in Sources */,
-				4C15663C2BF139FA006E6D56 /* WaveView.swift in Sources */,
-				4C1566382BF113B0006E6D56 /* View+mockProviders.swift in Sources */,
-				4C15662B2BEFDDBD006E6D56 /* SurfProvider.swift in Sources */,
-				4C10AF912BCC261B000F2D2B /* HanstholmApp.swift in Sources */,
-				4C1566332BF0C557006E6D56 /* Surfspot.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,8 +299,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4CB972942BDE15DD00ECCFAD /* SurfEntryProvider.swift in Sources */,
-				4C10AFB02BCC264E000F2D2B /* HanstholmWidget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -555,11 +456,11 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_SWIFT_FLAGS = "-default-isolation MainActor";
 				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Hanstholm.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
-				OTHER_SWIFT_FLAGS = "-default-isolation MainActor";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -587,11 +488,11 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_SWIFT_FLAGS = "-default-isolation MainActor";
 				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Hanstholm.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
-				OTHER_SWIFT_FLAGS = "-default-isolation MainActor";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -651,11 +552,11 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_SWIFT_FLAGS = "-default-isolation MainActor";
 				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Hanstholm.watchkitapp.HanstholmWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
-				OTHER_SWIFT_FLAGS = "-default-isolation MainActor";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -683,11 +584,11 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_SWIFT_FLAGS = "-default-isolation MainActor";
 				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Hanstholm.watchkitapp.HanstholmWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
-				OTHER_SWIFT_FLAGS = "-default-isolation MainActor";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -736,7 +637,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
 
 /* Begin XCSwiftPackageProductDependency section */
 		4C15661D2BEFBF17006E6D56 /* Hyde */ = {
