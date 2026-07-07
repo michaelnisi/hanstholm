@@ -31,7 +31,8 @@ actor Fetcher: NSObject {
     private lazy var session: URLSession = {
         let config = URLSessionConfiguration.default
         config.waitsForConnectivity = true
-        
+        config.timeoutIntervalForResource = 20
+
         return URLSession(configuration: config)
     }()
     
@@ -45,7 +46,6 @@ actor Fetcher: NSObject {
 
 extension Fetcher {
     func retrieve() async throws -> Data {
-        dump(hanstholm)
         let (data, response) = try await session.data(from: hanstholm)
         
         guard response.mimeType == "text/html" else {

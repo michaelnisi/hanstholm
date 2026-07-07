@@ -13,7 +13,10 @@ import Cache
 import WidgetKit
 
 @Observable final class SurfProvider {
+    var surfEntry: SurfEntry?
+
     struct Dependencies: Sendable {
+        var cachedHyde: @Sendable () async -> Hyde?
         var fetchHyde: @Sendable () async throws -> Hyde
     }
 
@@ -25,35 +28,42 @@ import WidgetKit
 }
 
 extension SurfProvider {
-    func fetch() async throws -> SurfEntry? {
-        .init(dto: try await dependencies.fetchHyde())
+    func load() async {
+        if let stale = await dependencies.cachedHyde() {
+            surfEntry = .init(dto: stale)
+        }
+
+        do {
+            let fresh = try await dependencies.fetchHyde()
+            surfEntry = .init(dto: fresh)
+        } catch {
+            logger.error("fetch failed: \(error)")
+        }
     }
 }
 
 extension SurfProvider {
     nonisolated static let live: SurfProvider = {
         let cache = Cache()
-        
+
         return .init(
             dependencies: .init(
+                cachedHyde: {
+                    let place = await cache.place()
+                    return try? await cache.conditions(matching: place)
+                },
                 fetchHyde: {
                     let place = await cache.place()
-                    let conditions: Hyde
-                    let date: Date = .now.addingTimeInterval(-5 * 60)
-                    let cached = try? await cache.conditions(matching: place, newer: date)
-                    
-                    if let cached {
-                        logger.debug("cached: \(cached.date.ISO8601Format())")
-                        
-                        conditions = cached
-                    } else {
-                        conditions = try await Hyde.fetch(place: place)
-                        
-                        try await cache.setConditions(conditions)
-                        WidgetCenter.shared.reloadAllTimelines()
+                    let cutoff = Date.now.addingTimeInterval(-5 * 60)
+
+                    if let fresh = try? await cache.conditions(matching: place, newer: cutoff) {
+                        return fresh
                     }
-                    
-                    return conditions
+
+                    let fetched = try await Hyde.fetch(place: place)
+                    try? await cache.setConditions(fetched)
+                    WidgetCenter.shared.reloadAllTimelines()
+                    return fetched
                 }
             )
         )
@@ -64,9 +74,9 @@ extension SurfProvider {
     nonisolated static let mock: SurfProvider = {
         .init(
             dependencies: .init(
+                cachedHyde: { nil },
                 fetchHyde: {
                     try await Task.sleep(nanoseconds: 500_000_000)
-                    
                     return MockData.HydeAPI.makeHyde()
                 }
             )

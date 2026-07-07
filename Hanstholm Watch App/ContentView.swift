@@ -12,13 +12,12 @@ import MockData
 struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
     @Environment(SurfProvider.self) var surfProvider
-    @State private var surfEntry: SurfEntry?
     @State private var task: Task<Void, Never>?
     var isPreview = false
-    
+
     var body: some View {
         Group {
-            if let surfEntry {
+            if let surfEntry = surfProvider.surfEntry {
                 SurfSpot(surfEntry: surfEntry)
             } else {
                 ProgressView()
@@ -28,18 +27,14 @@ struct ContentView: View {
             guard isPreview else {
                 return
             }
-            
-            surfEntry = try? await surfProvider.fetch()
+
+            await surfProvider.load()
         }
         .onChange(of: scenePhase) {
             switch scenePhase {
             case .active:
                 task = Task {
-                    do {
-                        surfEntry = try await surfProvider.fetch()
-                    } catch {
-                        logger.error("could not fetch: \(error)")
-                    }
+                    await surfProvider.load()
                 }
             case .background, .inactive:
                 task?.cancel()
