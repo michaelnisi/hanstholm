@@ -9,10 +9,8 @@ import Foundation
 
 extension Double {
     public func feet(width: Measurement<UnitLength>.FormatStyle.UnitWidth = .abbreviated) -> String {
-        let converted = Measurement<UnitLength>(value: self, unit: .meters)
-            .converted(to: .feet)
-        return Measurement<UnitLength>(value: ceil(converted.value), unit: .feet)
-            .formatted(.measurement(width: width, usage: .asProvided))
+        let value = Int(ceil(Measurement<UnitLength>(value: self, unit: .meters).converted(to: .feet).value))
+        return width == .narrow ? "\(value)ft" : "\(value) ft"
     }
     
     public func seconds(width: Measurement<UnitDuration>.FormatStyle.UnitWidth = .abbreviated) -> String {
