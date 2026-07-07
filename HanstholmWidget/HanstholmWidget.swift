@@ -78,7 +78,7 @@ extension HanstholmWidgetEntryView {
             VStack(alignment: .leading) {
                 Text(Image(systemName: "water.waves")) + Text(" ") + Text(entry.wave.middle.meters()).fontWeight(.black) + Text(" @ ") + Text(entry.wave.period.seconds())
                 
-                Text(Image(systemName: "wind")) + Text(" ") + Text(entry.wind.direction.formatted()).fontWeight(.black) + Text(" ") + Text(entry.wind.speed.current.metersPerSecond())
+                Text(Image(systemName: "wind")) + Text(" ") + Text(entry.wind.direction.formatted()).fontWeight(.black) + Text(" ") + Text(entry.wind.speed.current.knots())
                
                 Text("\(entry.name), \(entry.date.formatted(date: .omitted, time: .shortened))")
                     .font(.caption)
