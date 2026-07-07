@@ -28,7 +28,7 @@ struct WindView: View {
             )
         }
         .overlay(alignment: .bottom) {
-            Text("\(wind.speed.gust.knots(width: .narrow))")
+            wind.speed.gust.knotsText()
                 .font(.headline)
         }
         .fontDesign(.rounded)
@@ -56,7 +56,7 @@ struct WindInfo: View {
                     .font(.caption)
             }
             
-            Text("\(speed.knots(width: .narrow))")
+            speed.knotsText()
                 .font(.title2)
                 .fontWeight(.bold)
             
