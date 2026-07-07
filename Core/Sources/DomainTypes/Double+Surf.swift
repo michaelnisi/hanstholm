@@ -19,8 +19,9 @@ extension Double {
     }
     
     public func knots(width: Measurement<UnitSpeed>.FormatStyle.UnitWidth = .abbreviated) -> String {
-        Measurement<UnitSpeed>(value: self, unit: .metersPerSecond)
+        let converted = Measurement<UnitSpeed>(value: self, unit: .metersPerSecond)
             .converted(to: .knots)
+        return Measurement<UnitSpeed>(value: ceil(converted.value), unit: .knots)
             .formatted(.measurement(width: width, usage: .asProvided))
     }
 }
