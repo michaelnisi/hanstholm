@@ -14,7 +14,7 @@ extension MockData {
             .init(
                 place: .hanstholm,
                 date: .now,
-                wave: .init(height: .init(max: 2, middle: 1.2), period: 8, direction: "NØ"),
+                wave: .init(height: .init(max: 2, middle: 1.2), period: 8, direction: "NV"),
                 wind: .init(speed: .init(gust: 15, middle: 7, current: 8), direction: "SV")
             )
         }
