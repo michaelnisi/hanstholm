@@ -1,0 +1,25 @@
+name: Core tests
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "Core/**"
+      - ".github/workflows/core-tests.yml"
+  pull_request:
+    paths:
+      - "Core/**"
+      - ".github/workflows/core-tests.yml"
+
+jobs:
+  test:
+    runs-on: macos-15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # HydeTests.testFetch hits the live hyde.dk network, so CI runs only
+      # ParserTests, which uses a hardcoded HTML fixture.
+      - name: Run ParserTests
+        working-directory: Core
+        run: swift test --filter ParserTests
