@@ -16,14 +16,14 @@ import AppKit
 
 extension Data {
     func string() -> String? {
-        String(data: self, encoding: .isoLatin1)
+        String(data: self, encoding: .utf8)
     }
-    
+
     func parsed() throws -> [String.SubSequence] {
         guard let string = string() else {
             throw Hyde.Fault.parsing
         }
-        
+
         return try string
             .stripOutHtml()
             .splitLines()
@@ -31,88 +31,101 @@ extension Data {
 }
 
 extension String {
-    func stripOutHtml() throws  -> String {
+    func stripOutHtml() throws -> String {
         guard let data = self.data(using: .unicode) else {
             throw Hyde.Fault.parsing
         }
-        
-        let options: [NSAttributedString.DocumentReadingOptionKey : Any] = [
+
+        let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
             .documentType: NSAttributedString.DocumentType.html,
             .characterEncoding: String.Encoding.utf8.rawValue
         ]
         let attributed = try NSAttributedString(data: data, options: options, documentAttributes: nil)
-        
+
         return attributed.string
-        
     }
-    
+
     func splitLines() -> [Self.SubSequence] {
         split(separator: "\n")
     }
 }
 
 extension Array where Element == String.SubSequence {
-    func middleWaveHeight() -> Substring? {
-        substring(after: "Middel Bølgehøjde")
-    }
-    
+
+    // MARK: Wave
+
     func maxWaveHeight() -> Substring? {
-        substring(after: "Max Bølgehøjde")
+        substring(after: "max", within: "Bølger")
     }
-    
+
+    func middleWaveHeight() -> Substring? {
+        substring(after: "middel", within: "Bølger")
+    }
+
     func wavePeriod() -> Substring? {
         substring(after: "Bølgeperiode")
     }
-    
+
     func waveDirection() -> Substring? {
         substring(after: "Bølgeretning")
     }
 
-    func currentDirection() -> Substring? {
-        substring(after: "Strømretning")
-    }
-    
-    func windGust() -> Substring? {
-        substring(after: "Vindstød")
-    }
-    
-    func windMiddle() -> Substring? {
-        substring(after: "Middel vindhastighed")
-    }
-    
+    // MARK: Wind speed
+
     func windCurrent() -> Substring? {
-        substring(after: "Aktuel vindhastighed")
+        substring(after: "aktuelt", within: "Vindhastighed")
     }
-    
+
+    func windMiddle() -> Substring? {
+        substring(after: "middel", within: "Vindhastighed")
+    }
+
+    func windGust() -> Substring? {
+        substring(after: "vindstød")
+    }
+
+    // MARK: Wind direction
+
     func windDirection() -> Substring? {
-        substring(after: "Middel vindretning")
+        substring(after: "middel", within: "Vindretning")
     }
-    
-    func substring(after label: Substring) -> Substring? {
-        guard let labelIndex = firstIndex(of: label) else {
+
+    // MARK: Lookup
+
+    func substring(after label: Substring, within section: Substring? = nil) -> Substring? {
+        let startIndex: Int
+
+        if let section {
+            guard let sectionIndex = firstIndex(of: section) else { return nil }
+            startIndex = sectionIndex + 1
+        } else {
+            startIndex = 0
+        }
+
+        guard startIndex < count,
+              let labelIndex = self[startIndex...].firstIndex(of: label),
+              labelIndex + 1 < count else {
             return nil
         }
-        
-        let index = labelIndex + 1
-        
-        return self[index]
+
+        return self[labelIndex + 1]
     }
 }
 
 private let decimalFormatter: NumberFormatter = {
     let formatter = NumberFormatter()
-    formatter.numberStyle = NumberFormatter.Style.decimal
+    formatter.numberStyle = .decimal
     formatter.locale = Locale(identifier: Locale.LanguageCode.danish.identifier)
-    
     return formatter
 }()
 
 extension Substring {
     func double() -> Double? {
-        guard let number = decimalFormatter.number(from: String(self)) else {
+        // Values include units ("3,88 m", "18,6 m/s") — take the numeric prefix only.
+        let numeric = prefix(while: { !$0.isWhitespace })
+        guard let number = decimalFormatter.number(from: String(numeric)) else {
             return nil
         }
-        
         return Double(truncating: number)
     }
 }

@@ -9,23 +9,15 @@ import Foundation
 import WidgetKit
 
 actor Fetcher: NSObject {
-    let host = "www.hyde.dk"
-    
+    let host = "hyde.dk"
+
     static let shared = Fetcher()
-    
+
     var completion: (@Sendable () async -> Void)?
     var cached: Data?
-    
-    private lazy var baseURL: URL = {
-        var components: URLComponents = .init()
-        components.host = host
-        components.scheme = "https"
-        
-        return components.url!
-    }()
-    
+
     private lazy var hanstholm: URL = {
-        baseURL.appendingPathComponent("/hanstholm/vejrstation.asp")
+        URL(string: "https://hyde.dk/default_hanstholm.asp")!
     }()
     
     private lazy var session: URLSession = {
