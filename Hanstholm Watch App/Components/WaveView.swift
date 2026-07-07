@@ -58,7 +58,7 @@ struct WaveInfo: View {
                     .font(.caption)
             }
             
-            Text("\(middle.feet(width: .narrow))")
+            middle.feetText()
                 .font(.title2)
                 .fontWeight(.bold)
             
