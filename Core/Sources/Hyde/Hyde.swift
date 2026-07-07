@@ -100,7 +100,7 @@ extension Hyde {
                 middle: parts.middleWaveHeight()?.double()
             ),
             period: parts.wavePeriod()?.double(),
-            direction: String(parts.currentDirection() ?? "")
+            direction: String(parts.waveDirection() ?? "")
         )
         
         let wind = Wind(
