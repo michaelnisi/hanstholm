@@ -103,7 +103,7 @@ struct HanstholmWidget: Widget {
                     .background()
             }
         }
-        .onBackgroundURLSessionEvents(matching: "www.hyde.dk") { urlSessionEvent, completion in
+        .onBackgroundURLSessionEvents(matching: "hyde.dk") { urlSessionEvent, completion in
             Task {
                 await Hyde.setCompletion {
                     MainActor.assumeIsolated {

@@ -10,308 +10,68 @@ import XCTest
 
 final class ParserTests: XCTestCase {
     private var parts: [String.SubSequence]!
-    
+
     override func setUp() async throws {
         try await super.setUp()
-        
+
         self.parts = try html.stripOutHtml().splitLines()
     }
-    
+
     func testWave() async throws {
-        XCTAssertEqual(String(parts.middleWaveHeight()!), "1,05")
-        XCTAssertEqual(String(parts.maxWaveHeight()!), "2,03")
-        XCTAssertEqual(String(parts.wavePeriod()!), "5,7")
-        XCTAssertEqual(String(parts.waveDirection()!), "NV")
+        XCTAssertEqual(String(parts.middleWaveHeight()!), "2,48\u{A0}m")
+        XCTAssertEqual(String(parts.maxWaveHeight()!), "3,88\u{A0}m")
+        XCTAssertEqual(String(parts.wavePeriod()!), "6\u{A0}sek")
+        XCTAssertEqual(String(parts.waveDirection()!), "N")
     }
-    
+
     func testWind() async throws {
-        XCTAssertEqual(String(parts.windGust()!), "17,4")
-        XCTAssertEqual(String(parts.windMiddle()!), "12,9")
-        XCTAssertEqual(String(parts.windCurrent()!), "10,9")
-        XCTAssertEqual(String(parts.windDirection()!), "SV")
+        XCTAssertEqual(String(parts.windGust()!), "22 m/s")
+        XCTAssertEqual(String(parts.windMiddle()!), "17 m/s")
+        XCTAssertEqual(String(parts.windCurrent()!), "18,6 m/s")
+        XCTAssertEqual(String(parts.windDirection()!), "VNV")
     }
 }
 
 let html = """
-<html>
-
-<head>
-<script Language="JavaScript">
-
- 
-function tooltip(billede,navn)
-  {
-  var tooltipPot = open('stat.asp', 'Kurver', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=no,directories=no,top=0,left=20,width=700, height=800 ');
-      
-  }
-
-</script>
-<meta http-equiv="Content-Language" content="da">
-<meta http-equiv="REFRESH" content="60">
-
-<title>Hanstholm Havn</title>
-
-<meta NAME="robots" CONTENT="index,follow">
-<meta NAME="revisit-after" CONTENT="21 days"><link rel="stylesheet" href="style.css" type="text/css">
-<script language="JavaScript" SRC="../_struktur/css/1script.js"></script>
-</head>
-
-<body topmargin="10" leftmargin="0">
-<div align="center">
-  <center>
-  <table border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" class="vstable">
-    <tr>
-      <td width="100%"><p align="center"><font size="5" color="#005599">Vejret Hanstholm Havn</font></p></td>
-    </tr>
-    <tr>
-      <td width="100%">
-    <!--1***********************************************************-->
-    <table border="0" cellpadding="4" style="border-collapse: collapse" bordercolor="#111111" width="100%">
-        <tr>
-          <td width="25%" align="center">
-   <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" class="vsdatatable">
-      <tr>
-        <td nowrap colspan="2" class="vsdataoverskrift">Strømretning</td>
-      </tr>
-      <tr>
-        <td nowrap class="vsdatavalue" valign="bottom">ØNØ</td>
-        <td nowrap valign="bottom" class="vsdatavaluev">65°</td>
-      </tr>
-      
-    </table>
-          </td>
-          <td width="25%" align="center">
-    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" class="vsdatatable">
-   <tr>
-        <td nowrap colspan="2" class="vsdataoverskrift">Aktuel vindhastighed</td>
-      </tr>
-      <tr>
-        <td nowrap class="vsdatavalue" valign="bottom">10,9</td>
-        <td nowrap valign="bottom" class="vsdatavaluev">m/s</td>
-      </tr>
-    
-    </table>
-          </td>
-          <td width="25%" align="center">
-    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" class="vsdatatable">
-       <tr>
-        <td nowrap colspan="3" class="vsdataoverskrift">Aktuel vindretning</td>
-      </tr>
-      <tr>
-        <td nowrap align="center"></td>
-        <td nowrap class="vsdatavalue" valign="bottom">SV</td>
-        <td nowrap valign="bottom" class="vsdatavaluev">218°</td>
-      </tr>
-            
-    </table>
-      </td>
-        <td width="25%" align="center">
-    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" class="vsdatatable">
-     <tr>
-        <td nowrap colspan="2" class="vsdataoverskrift">Max Bølgehøjde  </td>
-      </tr>
-      <tr>
-        <td nowrap class="vsdatavalue" valign="bottom">2,03</td>
-        <td nowrap valign="bottom" class="vsdatavaluev">m</td>
-      </tr>
-    </table>
-          </td>
-        </tr>
-   <!--2***********************************************************-->
-        <tr>
-          <td width="25%" align="center">
-   
-    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" class="vsdatatable">
-      <tr>
-        <td nowrap colspan="2" class="vsdataoverskrift">Strømhastighed</td>
-      </tr>
-      <tr>
-        <td nowrap class="vsdatavalue" valign="bottom">1,5</td>
-        <td nowrap valign="bottom" class="vsdatavaluev">knob</td>
-      </tr>
-      
-    </table>
-          </td>
-          <td width="25%" align="center">
-    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" class="vsdatatable">
-      <tr>
-        <td nowrap colspan="2" class="vsdataoverskrift">Middel vindhastighed </td>
-      </tr>
-      <tr>
-        <td nowrap class="vsdatavalue" valign="bottom">12,9</td>
-        <td nowrap valign="bottom" class="vsdatavaluev">m/s</td>
-      </tr>
-      
-    </table>
-          </td>
-          <td width="25%" align="center">
-    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" class="vsdatatable">
-      <tr>
-        <td nowrap colspan="3" class="vsdataoverskrift">Middel vindretning</td>
-      </tr>
-      <tr>
-        <td nowrap align="center"></td>
-        <td nowrap class="vsdatavalue" valign="bottom">SV</td>
-        <td nowrap valign="bottom" class="vsdatavaluev">218°</td>
-      </tr>
-    </table>
-          </td>
-          <td width="25%" align="center">
-    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" class="vsdatatable">
-   <tr>
-        <td nowrap colspan="2" class="vsdataoverskrift">Middel Bølgehøjde</td>
-      </tr>
-      <tr>
-        <td nowrap class="vsdatavalue" valign="bottom">1,05</td>
-        <td nowrap valign="bottom" class="vsdatavaluev">m</td>
-      </tr>
-    </table>
-          </td>
-        </tr>
-        <!--3***********************************************************-->
-        <tr>
-          <td width="25%" align="center">
-          <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" class="vsdatatable">
-     <tr>
-        <td nowrap colspan="2" class="vsdataoverskrift">Luft Temperatur
-        </td>
-      </tr>
-      <tr>
-        <td nowrap class="vsdatavalue" valign="bottom">10,7</td>
-        <td nowrap valign="bottom" class="vsdatavaluev">°C</td>
-      </tr>
-    </table>
-          </td>
-          <td width="25%" align="center">
-    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" class="vsdatatable">
-      <tr>
-        <td nowrap colspan="2" class="vsdataoverskrift">Vindstød</td>
-      </tr>
-      <tr>
-        <td nowrap class="vsdatavalue" valign="bottom">17,4</td>
-        <td nowrap valign="bottom" class="vsdatavaluev">m/s</td>
-      </tr>
-      
-    </table>
-          </td>
-          <td width="25%" align="center">
-          <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" class="vsdatatable">
-      <tr>
-        <td nowrap colspan="2" class="vsdataoverskrift">Barometer</td>
-      </tr>
-      <tr>
-        <td nowrap class="vsdatavalue" valign="bottom">1007</td>
-        <td nowrap valign="bottom" class="vsdatavaluev">hPA</td>
-      </tr>
-      
-    </table>
-          </td>
-          <td width="25%" align="center">
-    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" class="vsdatatable">
-      <tr>
-        <td nowrap colspan="2" class="vsdataoverskrift">Bølgeperiode</td>
-      </tr>
-      <tr>
-        <td nowrap class="vsdatavalue" valign="bottom">5,7</td>
-        <td nowrap valign="bottom" class="vsdatavaluev">sek</td>
-      </tr>
-    </table>
-          </td>
-        </tr>
-        <!--4***********************************************************-->
-        <tr>
-          <td width="25%" align="center">
-         <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" class="vsdatatable">
-          <tr>
-         <td width="25%" align="center">
-          
-          <br>
-          <input onclick="javascript:self.close();" type="button" value="Luk Vinduet" name="button">
-          <br>
-          <br>
-          <input type="submit" value="  Se kurver  " onClick="tooltip('stat.asp','Vejrstation')" name="button">
-    
-          </td>
-      </tr>
-    </table>
-          </td>
-          <td width="25%" align="center">
-    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" class="vsdatatable">
-          <tr>
-         <td width="25%" align="center">
-          
-          <br>
-          
-          <br>
-          <br>
-          
-    
-          </td>
-      </tr>
-    </table>
-          </td>
-          <td width="25%" align="center">
-          <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" class="vsdatatable">
-          <tr>
-         <td width="25%" align="center">
-          
-          <br>
-          
-          <br>
-          <br>
-          
-    
-          </td>
-      </tr>
-    </table>
-          </td>
-          <td width="25%" align="center">
-  <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" class="vsdatatable">
-          <tr>
-         <td width="25%" align="center">
-          
-          <br>
-          
-          <br>
-          <br>
-          
-    
-          </td>
-      </tr>
-    </table>
-          </td>
-        </tr>
-        <!--4b***********************************************************-->
-        <tr>
-          <td width="25%" align="center">
-    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" class="vsdatatable">
-      <tr>
-        <td nowrap colspan="2" class="vsdataoverskrift">Bølgeretning</td>
-      </tr>
-      <tr>
-        <td nowrap class="vsdatavalue" valign="bottom">NV</td>
-        <td nowrap valign="bottom" class="vsdatavaluev">315°</td>
-      </tr>
-    </table>
-          </td>
-        </tr>
-        <!--5***********************************************************-->
-        <tr>
-          <td width="100%" align="center" colspan="4">
-          <p align="center"><b>Senest opdateret : 07. april 2024 kl. 10:51
-          </b></td>
-        </tr>
-        <tr>
-          <td width="100%" align="center" colspan="4">
-          <p align="center"><b>Få vejrdata på mobiltelefon på http://mobil.vejret-hanstholm.dk<br>
-          </b></td>
-        </tr>
-      </table>
-      </td>
-    </tr>
-    
-    </table>
-  </center>
+<!DOCTYPE html>
+<html lang="da-DK">
+<head><meta charset="utf-8" /></head>
+<body>
+<div class="one-half">
+    <div class="one-half block inner30">
+        <h2>Vind <span class="floatright">18,6 m/s</span></h2>
+        <table>
+            <tr><thead><td colspan="2">Vindhastighed</td></thead></tr>
+            <tr><td>aktuelt</td><td class="alignright">18,6 m/s</td></tr>
+            <tr><td>middel</td><td class="alignright">17 m/s</td></tr>
+            <tr><td>vindstød</td><td class="alignright">22 m/s</td></tr>
+            <tr><td colspan="2">&nbsp;</td></tr>
+            <tr><td>Barometer</td><td class="alignright">1002&nbsp;hPA</td></tr>
+        </table>
+    </div>
+    <div class="one-half block inner30">
+        <h2>Retning <span class="floatright">VNV</span></h2>
+        <table>
+            <tr><thead><td colspan="2">Vindretning</td></thead></tr>
+            <tr><td>aktuelt</td><td class="alignright">VNV<br><span>299&deg;</span></td></tr>
+            <tr><td>middel</td><td class="alignright">VNV<br><span>296&deg;</span></td></tr>
+        </table>
+    </div>
+</div>
+<div class="one-half">
+    <div class="one-half block inner30">
+        <h2>Bølger<span class="floatright extra-narrow">3,88 m</span></h2>
+        <table class="mb0 pb0">
+            <tr><thead><td colspan="2">Bølger</td></thead></tr>
+            <tr><td>max</td><td class="alignright">3,88&nbsp;m</td></tr>
+            <tr><td>middel</td><td class="alignright">2,48&nbsp;m</td></tr>
+            <tr><td>Bølgeperiode</td><td class="alignright">6&nbsp;sek</td></tr>
+            <tr><td>Bølgeretning</td><td class="alignright">N<br><span>0&deg;</span></td></tr>
+            <tr><thead><td colspan="2">Strøm</td></thead></tr>
+            <tr><td>Retning</td><td class="alignright">Ø<br><span>96&deg;</span></td></tr>
+            <tr><td>Fart</td><td class="alignright">0,74&nbsp;knob</td></tr>
+        </table>
+    </div>
 </div>
 </body>
 </html>
