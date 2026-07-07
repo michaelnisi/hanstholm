@@ -57,13 +57,17 @@ extension Array where Element == String.SubSequence {
     }
     
     func maxWaveHeight() -> Substring? {
-        substring(after: "Max Bølgehøjde ")
+        substring(after: "Max Bølgehøjde")
     }
     
     func wavePeriod() -> Substring? {
         substring(after: "Bølgeperiode")
     }
     
+    func waveDirection() -> Substring? {
+        substring(after: "Bølgeretning")
+    }
+
     func currentDirection() -> Substring? {
         substring(after: "Strømretning")
     }
@@ -73,7 +77,7 @@ extension Array where Element == String.SubSequence {
     }
     
     func windMiddle() -> Substring? {
-        substring(after: "Middel vindhastighed ")
+        substring(after: "Middel vindhastighed")
     }
     
     func windCurrent() -> Substring? {

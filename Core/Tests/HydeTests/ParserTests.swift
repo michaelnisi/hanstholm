@@ -21,7 +21,7 @@ final class ParserTests: XCTestCase {
         XCTAssertEqual(String(parts.middleWaveHeight()!), "1,05")
         XCTAssertEqual(String(parts.maxWaveHeight()!), "2,03")
         XCTAssertEqual(String(parts.wavePeriod()!), "5,7")
-        XCTAssertEqual(String(parts.currentDirection()!), "ØNØ")
+        XCTAssertEqual(String(parts.waveDirection()!), "NV")
     }
     
     func testWind() async throws {
@@ -277,6 +277,20 @@ function tooltip(billede,navn)
           
     
           </td>
+      </tr>
+    </table>
+          </td>
+        </tr>
+        <!--4b***********************************************************-->
+        <tr>
+          <td width="25%" align="center">
+    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" class="vsdatatable">
+      <tr>
+        <td nowrap colspan="2" class="vsdataoverskrift">Bølgeretning</td>
+      </tr>
+      <tr>
+        <td nowrap class="vsdatavalue" valign="bottom">NV</td>
+        <td nowrap valign="bottom" class="vsdatavaluev">315°</td>
       </tr>
     </table>
           </td>
