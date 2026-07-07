@@ -43,7 +43,7 @@ extension HanstholmWidgetEntryView {
                     .widgetAccentable()
             }
             .widgetLabel {
-                Text(entry.wave.middle.meters() + " @ " + entry.wave.period.seconds())
+                Text(entry.wave.middle.feet() + " @ " + entry.wave.period.seconds())
             }
         }
     }
@@ -55,7 +55,7 @@ extension HanstholmWidgetEntryView {
             ZStack {
                 AccessoryWidgetBackground()
                 VStack {
-                    Text(entry.wave.middle.meters(width: .narrow))
+                    Text(entry.wave.middle.feet(width: .narrow))
                     Text(entry.wave.period.seconds(width: .narrow))
                 }
                 .widgetAccentable()
@@ -67,7 +67,7 @@ extension HanstholmWidgetEntryView {
         var entry: SurfEntry
         
         var body: some View {
-            Text("\(entry.wave.middle.meters()) @ \(entry.wave.period.seconds())")
+            Text("\(entry.wave.middle.feet()) @ \(entry.wave.period.seconds())")
         }
     }
     
@@ -76,7 +76,7 @@ extension HanstholmWidgetEntryView {
         
         var body: some View {
             VStack(alignment: .leading) {
-                Text(Image(systemName: "water.waves")) + Text(" ") + Text(entry.wave.middle.meters()).fontWeight(.black) + Text(" @ ") + Text(entry.wave.period.seconds())
+                Text(Image(systemName: "water.waves")) + Text(" ") + Text(entry.wave.middle.feet()).fontWeight(.black) + Text(" @ ") + Text(entry.wave.period.seconds())
                 
                 Text(Image(systemName: "wind")) + Text(" ") + Text(entry.wind.direction.formatted()).fontWeight(.black) + Text(" ") + Text(entry.wind.speed.current.knots())
                

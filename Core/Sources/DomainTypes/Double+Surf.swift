@@ -8,9 +8,11 @@
 import Foundation
 
 extension Double {
-    public func meters(width: Measurement<UnitLength>.FormatStyle.UnitWidth = .abbreviated) -> String {
-        Measurement<UnitLength>(value: self, unit: .meters)
-            .formatted(.measurement(width: width))
+    public func feet(width: Measurement<UnitLength>.FormatStyle.UnitWidth = .abbreviated) -> String {
+        let converted = Measurement<UnitLength>(value: self, unit: .meters)
+            .converted(to: .feet)
+        return Measurement<UnitLength>(value: ceil(converted.value), unit: .feet)
+            .formatted(.measurement(width: width, usage: .asProvided))
     }
     
     public func seconds(width: Measurement<UnitDuration>.FormatStyle.UnitWidth = .abbreviated) -> String {
