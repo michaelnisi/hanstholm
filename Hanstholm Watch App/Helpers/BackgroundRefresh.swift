@@ -14,12 +14,12 @@ func backgroundRefresh() async {
     let cache = Cache()
     let place = await cache.place()
 
-    guard let fresh = try? await Hyde.fetch(place: place) else {
-        return
+    if let fresh = try? await Hyde.fetch(place: place) {
+        try? await cache.setConditions(fresh)
+        WidgetCenter.shared.reloadAllTimelines()
     }
 
-    try? await cache.setConditions(fresh)
-    WidgetCenter.shared.reloadAllTimelines()
+    scheduleBackgroundRefresh()
 }
 
 func scheduleBackgroundRefresh() {

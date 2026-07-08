@@ -20,7 +20,6 @@ struct Hanstholm_Watch_AppApp: App {
         }
         .backgroundTask(.appRefresh("ink.codes.Hanstholm")) {
             await backgroundRefresh()
-            scheduleBackgroundRefresh()
         }
     }
 }
