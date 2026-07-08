@@ -81,10 +81,17 @@
 			);
 			target = 4C10AFA82BCC264E000F2D2B /* HanstholmWidgetExtension */;
 		};
+		4C7DC2892FFE99DC000D63F0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Hanstholm-Watch-App-Info.plist",
+			);
+			target = 4C10AF8A2BCC261B000F2D2B /* Hanstholm Watch App */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		4C10AF8F2BCC261B000F2D2B /* Hanstholm Watch App */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Hanstholm Watch App"; sourceTree = "<group>"; };
+		4C10AF8F2BCC261B000F2D2B /* Hanstholm Watch App */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (4C7DC2892FFE99DC000D63F0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Hanstholm Watch App"; sourceTree = "<group>"; };
 		4C10AFAE2BCC264E000F2D2B /* HanstholmWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (4C10AFBC2BCC265000000001 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = HanstholmWidget; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -451,6 +458,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Hanstholm Watch App/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Hanstholm-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Hanstholm;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
@@ -482,6 +490,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Hanstholm Watch App/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Hanstholm-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Hanstholm;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
