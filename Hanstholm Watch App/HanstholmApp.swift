@@ -18,5 +18,8 @@ struct Hanstholm_Watch_AppApp: App {
             ContentView()
                 .environment(SurfProvider.live)
         }
+        .backgroundTask(.appRefresh("ink.codes.Hanstholm")) {
+            await backgroundRefresh()
+        }
     }
 }
