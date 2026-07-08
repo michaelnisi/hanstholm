@@ -36,6 +36,7 @@ struct ContentView: View {
                 task = Task {
                     await surfProvider.load()
                 }
+                scheduleBackgroundRefresh()
             case .background, .inactive:
                 task?.cancel()
             @unknown default:

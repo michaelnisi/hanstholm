@@ -6,6 +6,10 @@
 //
 
 import SwiftUI
+import WatchKit
+import Hyde
+import Cache
+import WidgetKit
 import MockData
 import os.log
 
@@ -18,5 +22,28 @@ struct Hanstholm_Watch_AppApp: App {
             ContentView()
                 .environment(SurfProvider.live)
         }
+        .backgroundTask(.appRefresh("ink.codes.Hanstholm")) {
+            await backgroundRefresh()
+            scheduleBackgroundRefresh()
+        }
     }
+}
+
+private func backgroundRefresh() async {
+    let cache = Cache()
+    let place = await cache.place()
+
+    guard let fresh = try? await Hyde.fetch(place: place) else {
+        return
+    }
+
+    try? await cache.setConditions(fresh)
+    WidgetCenter.shared.reloadAllTimelines()
+}
+
+func scheduleBackgroundRefresh() {
+    WKApplication.shared().scheduleBackgroundRefresh(
+        withPreferredDate: .now.addingTimeInterval(15 * 60),
+        userInfo: nil
+    ) { _ in }
 }

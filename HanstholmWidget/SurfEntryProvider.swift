@@ -41,7 +41,7 @@ struct SurfEntryProvider: TimelineProvider {
             let entry = SurfEntry(dto: hyde) ?? MockData.SurfEntry.makeSurfEntry()
 
             let entries = [entry]
-            let timeline = Timeline(entries: entries, policy: .never)
+            let timeline = Timeline(entries: entries, policy: .after(.now.addingTimeInterval(15 * 60)))
 
             completion(timeline)
         }
