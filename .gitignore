@@ -1,4 +1,5 @@
 .DS_Store
+*-Info.plist
 /.build
 /Packages
 xcuserdata/
