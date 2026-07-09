@@ -6,6 +6,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Hanstholm is a watchOS 10 app (with a WidgetKit complication) that fetches live surf and wind conditions from the weather station at Hanstholm Harbour, Denmark (`hyde.dk`). The data source is a Danish-language HTML page; parsing involves stripping HTML with `NSAttributedString` and mapping Danish labels and direction abbreviations to typed domain values.
 
+## Workflow for New Features
+
+When discussing a new thing (a feature, change, or non-trivial fix), follow this sequence rather than jumping straight to code:
+
+1. **Basic plan** — a short back-and-forth with the user to sketch the approach and confirm scope/direction.
+2. **GitHub issue** — file an issue capturing that basic plan before doing detailed design work.
+3. **Detailed plan** — work out the concrete implementation plan (e.g. via plan mode), referencing the issue.
+4. **Branch** — create a feature branch for the work.
+5. **PR** — implement on the branch and open a pull request that closes the issue.
+
+Skip this sequence for small, obviously-scoped fixes (typos, one-line bugs) — it's for things substantial enough to warrant discussion first.
+
 ## Repository Structure
 
 ```
