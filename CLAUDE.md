@@ -18,6 +18,8 @@ When discussing a new thing (a feature, change, or non-trivial fix), follow this
 
 Skip this sequence for small, obviously-scoped fixes (typos, one-line bugs) — it's for things substantial enough to warrant discussion first.
 
+Every distinct piece of work gets its own issue, branch, and PR — never stack unrelated changes onto one branch/PR. If the conversation seems to move on to a new topic partway through, ask whether a new issue should be opened for it rather than folding it into the current one.
+
 ## Repository Structure
 
 ```
