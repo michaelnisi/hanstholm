@@ -12,9 +12,11 @@ When discussing a new thing (a feature, change, or non-trivial fix), follow this
 
 1. **Basic plan** — a short back-and-forth with the user to sketch the approach and confirm scope/direction.
 2. **GitHub issue** — file an issue capturing that basic plan before doing detailed design work.
-3. **Detailed plan** — work out the concrete implementation plan (e.g. via plan mode), referencing the issue.
+3. **Detailed plan** — work out the concrete implementation plan (e.g. via plan mode), then post it to the issue (update the body or add a comment) before branching.
 4. **Branch** — create a feature branch for the work.
 5. **PR** — implement on the branch and open a pull request that closes the issue.
+
+The reason for the strict ordering: work should be abortable at any stage and still leave one coherent, self-contained artifact behind — either the issue (basic plan, or basic + detailed plan once step 3 is done) or the PR (once code exists). A branch by itself isn't that artifact, so don't leave one open without a PR, and don't let a detailed plan live only in chat — it must land in the issue before a branch is created.
 
 Skip this sequence for small, obviously-scoped fixes (typos, one-line bugs) — it's for things substantial enough to warrant discussion first.
 
