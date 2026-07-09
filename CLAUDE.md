@@ -11,12 +11,12 @@ Hanstholm is a watchOS 10 app (with a WidgetKit complication) that fetches live 
 When discussing a new thing (a feature, change, or non-trivial fix), follow this sequence rather than jumping straight to code:
 
 1. **Basic plan** — a short back-and-forth with the user to sketch the approach and confirm scope/direction.
-2. **GitHub issue** — file an issue capturing that basic plan before doing detailed design work.
-3. **Detailed plan** — work out the concrete implementation plan (e.g. via plan mode), then post it to the issue (update the body or add a comment) before branching.
+2. **GitHub issue** — file an issue capturing that basic plan. This is a snapshot of the initial understanding, not a living document — don't go back and update it as the detailed plan or implementation evolves.
+3. **Detailed plan** — work out the concrete implementation plan (e.g. via plan mode). This stays in the session/plan file; it doesn't get written back into the issue.
 4. **Branch** — create a feature branch for the work.
-5. **PR** — implement on the branch and open a pull request that closes the issue.
+5. **PR** — implement on the branch and open a pull request that closes the issue. The PR description is where the detailed, as-built understanding gets written down.
 
-The reason for the strict ordering: work should be abortable at any stage and still leave one coherent, self-contained artifact behind — either the issue (basic plan, or basic + detailed plan once step 3 is done) or the PR (once code exists). A branch by itself isn't that artifact, so don't leave one open without a PR, and don't let a detailed plan live only in chat — it must land in the issue before a branch is created.
+The reason for the strict ordering: work should be abortable at any stage and still leave one coherent artifact behind. Before the issue exists, aborting just drops the chat — that's fine, nothing was committed to yet. Once the issue exists, it's the recoverable checkpoint: the initial understanding is enough to pick the thread back up later, even if the detailed plan or a branch never materialized, which is exactly why the issue doesn't need to be kept in sync with later changes of mind. A branch with no PR isn't a coherent artifact, so don't leave one open without a PR.
 
 Skip this sequence for small, obviously-scoped fixes (typos, one-line bugs) — it's for things substantial enough to warrant discussion first.
 
