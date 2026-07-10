@@ -12,7 +12,7 @@ When discussing a new thing (a feature, change, or non-trivial fix), follow this
 
 1. **Basic plan** — a short back-and-forth with the user to sketch the approach and confirm scope/direction.
 2. **GitHub issue** — file an issue capturing that basic plan. This is a snapshot of the initial understanding, not a living document — don't go back and update it as the detailed plan or implementation evolves.
-3. **Detailed plan** — work out the concrete implementation plan (e.g. via plan mode). This stays in the session/plan file; it doesn't get written back into the issue.
+3. **Detailed plan** — work out the concrete implementation plan in plan mode. The plan stays in the session; the issue from step 2 doesn't need to be updated to reflect it.
 4. **Branch** — create a feature branch for the work.
 5. **PR** — implement on the branch and open a pull request that closes the issue. The PR description is where the detailed, as-built understanding gets written down.
 
