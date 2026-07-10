@@ -6,6 +6,22 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Hanstholm is a watchOS 10 app (with a WidgetKit complication) that fetches live surf and wind conditions from the weather station at Hanstholm Harbour, Denmark (`hyde.dk`). The data source is a Danish-language HTML page; parsing involves stripping HTML with `NSAttributedString` and mapping Danish labels and direction abbreviations to typed domain values.
 
+## Workflow for New Features
+
+When discussing a new thing (a feature, change, or non-trivial fix), follow this sequence rather than jumping straight to code:
+
+1. **Basic plan** — a short back-and-forth with the user to sketch the approach and confirm scope/direction.
+2. **GitHub issue** — file an issue capturing that basic plan. This is a snapshot of the initial understanding, not a living document — don't go back and update it as the detailed plan or implementation evolves.
+3. **Detailed plan** — work out the concrete implementation plan in plan mode. The plan stays in the session; the issue from step 2 doesn't need to be updated to reflect it.
+4. **Branch** — create a feature branch for the work.
+5. **PR** — implement on the branch and open a pull request that closes the issue. The PR description is where the detailed, as-built understanding gets written down.
+
+The reason for the strict ordering: work should be abortable at any stage and still leave one coherent artifact behind. Before the issue exists, aborting just drops the chat — that's fine, nothing was committed to yet. Once the issue exists, it's the recoverable checkpoint: the initial understanding is enough to pick the thread back up later, even if the detailed plan or a branch never materialized, which is exactly why the issue doesn't need to be kept in sync with later changes of mind. A branch with no PR isn't a coherent artifact, so don't leave one open without a PR.
+
+Skip this sequence for small, obviously-scoped fixes (typos, one-line bugs) — it's for things substantial enough to warrant discussion first.
+
+Every distinct piece of work gets its own issue, branch, and PR — never stack unrelated changes onto one branch/PR. If the conversation seems to move on to a new topic partway through, ask whether a new issue should be opened for it rather than folding it into the current one.
+
 ## Repository Structure
 
 ```
