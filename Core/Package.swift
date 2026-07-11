@@ -49,7 +49,7 @@ let package = Package(
         ),
         .target(
             name: "Cache",
-            dependencies: ["Hyde", "MockData"]
+            dependencies: ["Hyde"]
         )
     ]
 )
