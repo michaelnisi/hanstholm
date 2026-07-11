@@ -17,24 +17,27 @@ struct HanstholmWidgetEntryView : View {
     
     var body: some View {
         switch widgetFamily {
+        #if os(watchOS)
         case .accessoryCorner:
             AccessoryCorner(entry: entry)
+        #endif
         case .accessoryCircular:
             AccessoryCircular(entry: entry)
         case .accessoryInline:
             AccessoryInline(entry: entry)
         case .accessoryRectangular:
             AccessoryRectangular(entry: entry)
-        @unknown default:
+        default:
             AccessoryInline(entry: entry)
         }
     }
 }
 
 extension HanstholmWidgetEntryView {
+    #if os(watchOS)
     struct AccessoryCorner: View {
         var entry: SurfEntry
-        
+
         var body: some View {
             ZStack {
                 AccessoryWidgetBackground()
@@ -47,7 +50,8 @@ extension HanstholmWidgetEntryView {
             }
         }
     }
-    
+    #endif
+
     struct AccessoryCircular: View {
         var entry: SurfEntry
         
@@ -114,6 +118,11 @@ struct HanstholmWidget: Widget {
         }
         .configurationDisplayName("Hanstholm")
         .description("Vejret Hanstholm Havn")
+        #if os(watchOS)
+        .supportedFamilies([.accessoryCorner, .accessoryCircular, .accessoryInline, .accessoryRectangular])
+        #else
+        .supportedFamilies([.accessoryCircular, .accessoryInline, .accessoryRectangular])
+        #endif
     }
 }
 
