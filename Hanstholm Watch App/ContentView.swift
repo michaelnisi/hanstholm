@@ -13,7 +13,6 @@ struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
     @Environment(SurfProvider.self) var surfProvider
     @State private var task: Task<Void, Never>?
-    var isPreview = false
 
     var body: some View {
         Group {
@@ -24,10 +23,6 @@ struct ContentView: View {
             }
         }
         .task {
-            guard isPreview else {
-                return
-            }
-
             await surfProvider.load()
         }
         .onChange(of: scenePhase) {
@@ -47,6 +42,6 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView(isPreview: true)
+    ContentView()
         .withMockProviders()
 }
