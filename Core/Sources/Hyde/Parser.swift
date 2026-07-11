@@ -50,6 +50,8 @@ extension String {
     }
 }
 
+private let sectionHeadings: Set<Substring> = ["Vindhastighed", "Vindretning", "Bølger", "Strøm"]
+
 extension Array where Element == String.SubSequence {
 
     // MARK: Wave
@@ -94,16 +96,19 @@ extension Array where Element == String.SubSequence {
 
     func substring(after label: Substring, within section: Substring? = nil) -> Substring? {
         let startIndex: Int
+        let endIndex: Int
 
         if let section {
             guard let sectionIndex = firstIndex(of: section) else { return nil }
             startIndex = sectionIndex + 1
+            endIndex = self[startIndex...].firstIndex(where: { sectionHeadings.contains($0) }) ?? count
         } else {
             startIndex = 0
+            endIndex = count
         }
 
-        guard startIndex < count,
-              let labelIndex = self[startIndex...].firstIndex(of: label),
+        guard startIndex < endIndex,
+              let labelIndex = self[startIndex..<endIndex].firstIndex(of: label),
               labelIndex + 1 < count else {
             return nil
         }
