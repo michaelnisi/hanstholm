@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1504BD93907C58128114BC9C /* DomainTypes in Frameworks */ = {isa = PBXBuildFile; productRef = C2D9BCBFE851B4B512D02150 /* DomainTypes */; };
 		3D87A834F829A7B230EE930B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C10AFAA2BCC264E000F2D2B /* WidgetKit.framework */; };
 		4C10AF8C2BCC261B000F2D2B /* Hanstholm Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 4C10AF8B2BCC261B000F2D2B /* Hanstholm Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		4C10AFAB2BCC264E000F2D2B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C10AFAA2BCC264E000F2D2B /* WidgetKit.framework */; };
@@ -20,8 +21,11 @@
 		4CBD01DF2BFB3D52009DE551 /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = 4CBD01DE2BFB3D52009DE551 /* Cache */; };
 		4CBD01E12BFB596D009DE551 /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = 4CBD01E02BFB596D009DE551 /* Cache */; };
 		55BC1ABC39B5AF85965EB437 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C10AFAC2BCC264E000F2D2B /* SwiftUI.framework */; };
+		64A3B8EBEE730C83484C8EA8 /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = BD14614C92A5E84F2364E2EA /* Cache */; };
 		6D38697F17A1B5766CC71C19 /* DomainTypes in Frameworks */ = {isa = PBXBuildFile; productRef = 16816F9C820813AFB090B62D /* DomainTypes */; };
 		8BD0B599DCB921DFD3B4A5D5 /* HanstholmWidgetIOSExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1185A5E4D55D2EF1C2258BBE /* HanstholmWidgetIOSExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A78094D38FED1ED3F12F0D3B /* MockData in Frameworks */ = {isa = PBXBuildFile; productRef = FFA60F65963B9076CEBF0839 /* MockData */; };
+		B5C8A1BBD1860574C857CCD6 /* Hyde in Frameworks */ = {isa = PBXBuildFile; productRef = 27EF0B5A3F3D177BAFC84209 /* Hyde */; };
 		B82C4D5E6F7A8B9C0D1E2F3A /* MockData in Frameworks */ = {isa = PBXBuildFile; productRef = A71B3C4D5E6F7A8B9C0D1E2F /* MockData */; };
 		D29EF06163141EFABC166AB2 /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = 91EAEB150EFBE13A8AD4C78A /* Cache */; };
 		DA4E6F7A8B9C0D1E2F3A4B5C /* MockData in Frameworks */ = {isa = PBXBuildFile; productRef = C93D5E6F7A8B9C0D1E2F3A4B /* MockData */; };
@@ -163,6 +167,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		72A229A204E38987BDED2274 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B5C8A1BBD1860574C857CCD6 /* Hyde in Frameworks */,
+				1504BD93907C58128114BC9C /* DomainTypes in Frameworks */,
+				64A3B8EBEE730C83484C8EA8 /* Cache in Frameworks */,
+				A78094D38FED1ED3F12F0D3B /* MockData in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AF368122831099BCBE6CC384 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -230,6 +245,7 @@
 			buildConfigurationList = 4C10AF9F2BCC261C000F2D2B /* Build configuration list for PBXNativeTarget "Hanstholm" */;
 			buildPhases = (
 				F2A3B4C5D6E7F8A9B0C1D2E3 /* Sources */,
+				72A229A204E38987BDED2274 /* Frameworks */,
 				4C10AF832BCC261B000F2D2B /* Resources */,
 				4C10AF9E2BCC261C000F2D2B /* Embed Watch Content */,
 				3EC0E3782DC4D0D6D543D296 /* Embed Foundation Extensions */,
@@ -244,6 +260,12 @@
 				E1F2A3B4C5D6E7F8A9B0C1D2 /* Hanstholm */,
 			);
 			name = Hanstholm;
+			packageProductDependencies = (
+				27EF0B5A3F3D177BAFC84209 /* Hyde */,
+				C2D9BCBFE851B4B512D02150 /* DomainTypes */,
+				BD14614C92A5E84F2364E2EA /* Cache */,
+				FFA60F65963B9076CEBF0839 /* MockData */,
+			);
 			productName = Hanstholm;
 			productReference = 4C10AF852BCC261B000F2D2B /* Hanstholm.app */;
 			productType = "com.apple.product-type.application";
@@ -648,6 +670,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Hanstholm/Hanstholm.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -674,6 +697,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Hanstholm/Hanstholm.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -881,6 +905,10 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Hyde;
 		};
+		27EF0B5A3F3D177BAFC84209 /* Hyde */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Hyde;
+		};
 		4C15661D2BEFBF17006E6D56 /* Hyde */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Hyde;
@@ -917,7 +945,19 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = MockData;
 		};
+		BD14614C92A5E84F2364E2EA /* Cache */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Cache;
+		};
+		C2D9BCBFE851B4B512D02150 /* DomainTypes */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DomainTypes;
+		};
 		C93D5E6F7A8B9C0D1E2F3A4B /* MockData */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MockData;
+		};
+		FFA60F65963B9076CEBF0839 /* MockData */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MockData;
 		};
