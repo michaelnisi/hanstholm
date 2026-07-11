@@ -11,7 +11,7 @@ import Foundation
 private let logger = Logger(subsystem: "ink.codes.Hanstholm", category: "Hyde")
 
 public struct Hyde: Equatable, Codable, Sendable {
-    public enum Place: Codable, CaseIterable, Sendable {
+    public enum Place: Codable, CaseIterable, Equatable, Sendable {
         case hanstholm
     }
     
