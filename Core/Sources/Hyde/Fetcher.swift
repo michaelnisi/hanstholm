@@ -7,6 +7,9 @@
 
 import Foundation
 import WidgetKit
+import os.log
+
+private let logger = Logger(subsystem: "ink.codes.Hanstholm", category: "Hyde")
 
 actor Fetcher: NSObject {
     let host = "hyde.dk"
@@ -62,11 +65,20 @@ extension Fetcher {
         backgroundTask.resume()
     }
     
-    func update(location: URL) async {
-        cached = try? Data(contentsOf: location)
-        
+    func update(data: Data?) async {
+        cached = data
+
         WidgetCenter.shared.reloadAllTimelines()
         await completion?()
+    }
+}
+
+func readDownloadedFile(at location: URL) -> Data? {
+    do {
+        return try Data(contentsOf: location)
+    } catch {
+        logger.error("failed to read downloaded file: \(error)")
+        return nil
     }
 }
 
@@ -78,8 +90,10 @@ final class DownloadDelegate: NSObject, URLSessionDownloadDelegate {
     }
 
     nonisolated func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+        let data = readDownloadedFile(at: location)
+
         Task {
-            await fetcher.update(location: location)
+            await fetcher.update(data: data)
         }
     }
 }
