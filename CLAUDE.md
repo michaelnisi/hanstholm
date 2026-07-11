@@ -26,6 +26,7 @@ Every distinct piece of work gets its own issue, branch, and PR — never stack 
 
 ```
 Core/                 # Swift Package — shared logic, no UI
+Hanstholm/            # iOS companion app target (hosts the Watch app and the iOS widget extension)
 Hanstholm Watch App/  # watchOS target
 HanstholmWidget/      # WidgetKit extension source, shared by two Xcode targets:
                        #   HanstholmWidgetExtension    (watchOS, embedded in the Watch App)
@@ -68,6 +69,12 @@ hyde.dk HTML → Fetcher → Parser → Hyde (DTO)
                               → Cache (App Group UserDefaults)
                               → UI / Widget timeline
 ```
+
+### Container App
+
+`Hanstholm/` uses `fileSystemSynchronizedGroups`, like the Watch App and widget targets — files dropped in the folder are picked up automatically, no manual pbxproj membership needed. The target is a real `application` product type (not the watch-only-companion stub it started as), declaring `INFOPLIST_KEY_WKCompanionAppBundleIdentifier` to pair with the Watch app.
+
+`ContentView.swift` is a minimal, read-only screen: it reads `Cache().conditions(matching:)` on `.task` and whenever `scenePhase` becomes `.active`, and renders the resulting `SurfEntry` (or a `ContentUnavailableView` prompt if nothing's cached yet). It never fetches — it only shows what some other *iOS-side* process has already written to the shared App Group `Cache`. Note the Watch app doesn't count: App Groups only share storage between processes on the same device, so the Watch's cache and the iPhone's cache are entirely separate — this screen only has data once the iOS widget extension (or some other iOS-side fetcher) has populated the cache. `MockData` is preview-only here, never a runtime fallback, so the screen can't show fabricated data as if it were live.
 
 ### Watch App
 

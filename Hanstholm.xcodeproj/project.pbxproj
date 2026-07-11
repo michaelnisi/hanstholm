@@ -26,6 +26,10 @@
 		D29EF06163141EFABC166AB2 /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = 91EAEB150EFBE13A8AD4C78A /* Cache */; };
 		DA4E6F7A8B9C0D1E2F3A4B5C /* MockData in Frameworks */ = {isa = PBXBuildFile; productRef = C93D5E6F7A8B9C0D1E2F3A4B /* MockData */; };
 		F629759C2C9F61E5566989EF /* Hyde in Frameworks */ = {isa = PBXBuildFile; productRef = 25D3B949921775929C21687C /* Hyde */; };
+		B5C8A1BBD1860574C857CCD6 /* Hyde in Frameworks */ = {isa = PBXBuildFile; productRef = 27EF0B5A3F3D177BAFC84209 /* Hyde */; };
+		1504BD93907C58128114BC9C /* DomainTypes in Frameworks */ = {isa = PBXBuildFile; productRef = C2D9BCBFE851B4B512D02150 /* DomainTypes */; };
+		64A3B8EBEE730C83484C8EA8 /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = BD14614C92A5E84F2364E2EA /* Cache */; };
+		A78094D38FED1ED3F12F0D3B /* MockData in Frameworks */ = {isa = PBXBuildFile; productRef = FFA60F65963B9076CEBF0839 /* MockData */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -176,6 +180,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		72A229A204E38987BDED2274 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B5C8A1BBD1860574C857CCD6 /* Hyde in Frameworks */,
+				1504BD93907C58128114BC9C /* DomainTypes in Frameworks */,
+				64A3B8EBEE730C83484C8EA8 /* Cache in Frameworks */,
+				A78094D38FED1ED3F12F0D3B /* MockData in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -230,6 +245,7 @@
 			buildConfigurationList = 4C10AF9F2BCC261C000F2D2B /* Build configuration list for PBXNativeTarget "Hanstholm" */;
 			buildPhases = (
 				F2A3B4C5D6E7F8A9B0C1D2E3 /* Sources */,
+				72A229A204E38987BDED2274 /* Frameworks */,
 				4C10AF832BCC261B000F2D2B /* Resources */,
 				4C10AF9E2BCC261C000F2D2B /* Embed Watch Content */,
 				3EC0E3782DC4D0D6D543D296 /* Embed Foundation Extensions */,
@@ -244,6 +260,12 @@
 				E1F2A3B4C5D6E7F8A9B0C1D2 /* Hanstholm */,
 			);
 			name = Hanstholm;
+			packageProductDependencies = (
+				27EF0B5A3F3D177BAFC84209 /* Hyde */,
+				C2D9BCBFE851B4B512D02150 /* DomainTypes */,
+				BD14614C92A5E84F2364E2EA /* Cache */,
+				FFA60F65963B9076CEBF0839 /* MockData */,
+			);
 			productName = Hanstholm;
 			productReference = 4C10AF852BCC261B000F2D2B /* Hanstholm.app */;
 			productType = "com.apple.product-type.application";
@@ -648,6 +670,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Hanstholm/Hanstholm.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -674,6 +697,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Hanstholm/Hanstholm.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -876,6 +900,22 @@
 		16816F9C820813AFB090B62D /* DomainTypes */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = DomainTypes;
+		};
+		27EF0B5A3F3D177BAFC84209 /* Hyde */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Hyde;
+		};
+		C2D9BCBFE851B4B512D02150 /* DomainTypes */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DomainTypes;
+		};
+		BD14614C92A5E84F2364E2EA /* Cache */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Cache;
+		};
+		FFA60F65963B9076CEBF0839 /* MockData */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MockData;
 		};
 		25D3B949921775929C21687C /* Hyde */ = {
 			isa = XCSwiftPackageProductDependency;
