@@ -27,7 +27,9 @@ Every distinct piece of work gets its own issue, branch, and PR — never stack 
 ```
 Core/                 # Swift Package — shared logic, no UI
 Hanstholm Watch App/  # watchOS target
-HanstholmWidget/      # WidgetKit extension target
+HanstholmWidget/      # WidgetKit extension source, shared by two Xcode targets:
+                       #   HanstholmWidgetExtension    (watchOS, embedded in the Watch App)
+                       #   HanstholmWidgetIOSExtension (iOS, embedded in the "Hanstholm" container app)
 ```
 
 ## Building and Testing
@@ -78,6 +80,8 @@ hyde.dk HTML → Fetcher → Parser → Hyde (DTO)
 ### Widget Extension
 
 `SurfEntryProvider` implements `TimelineProvider`. `getTimeline` schedules a background download (earliest begin: 15 minutes), then resolves data with this priority: cached (<15 min old) → background download result → foreground fetch. The timeline policy is `.after(15 min)` as a guaranteed fallback; the background session also drives refresh. The widget registers for `onBackgroundURLSessionEvents` matching `"hyde.dk"`.
+
+The `HanstholmWidget/` source compiles unchanged into two separate Xcode targets — `HanstholmWidgetExtension` (watchOS complications) and `HanstholmWidgetIOSExtension` (iOS Lock Screen widgets) — via a shared `fileSystemSynchronizedGroups` membership, plus a shared `Info.plist` and `HanstholmWidgetExtension.entitlements`. Only the four accessory widget families (`.accessoryCorner/.accessoryCircular/.accessoryInline/.accessoryRectangular`) are wired up; there's no Home Screen (`.systemSmall`/`.systemMedium`) layout yet. Each extension is a separate process/bundle ID, so the shared `"hyde.dk"` background session identifier doesn't collide between them.
 
 ## Concurrency Model
 
