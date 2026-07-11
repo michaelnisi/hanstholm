@@ -16,27 +16,29 @@ struct ContentView: View {
     @State private var surfEntry: SurfEntry?
 
     var body: some View {
-        Group {
-            if let surfEntry {
-                ConditionsView(surfEntry: surfEntry)
-            } else {
-                ContentUnavailableView(
-                    "No Data Yet",
-                    systemImage: "water.waves",
-                    description: Text("Add the Hanstholm widget to your Lock Screen to fetch conditions.")
-                )
+        NavigationStack {
+            Group {
+                if let surfEntry {
+                    ConditionsView(surfEntry: surfEntry)
+                } else {
+                    ContentUnavailableView(
+                        "No Data Yet",
+                        systemImage: "water.waves",
+                        description: Text("Add the Hanstholm widget to your Lock Screen to fetch conditions.")
+                    )
+                }
             }
-        }
-        .task {
-            await load()
-        }
-        .onChange(of: scenePhase) {
-            guard scenePhase == .active else {
-                return
-            }
-
-            Task {
+            .task {
                 await load()
+            }
+            .onChange(of: scenePhase) {
+                guard scenePhase == .active else {
+                    return
+                }
+
+                Task {
+                    await load()
+                }
             }
         }
     }
