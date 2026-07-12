@@ -50,6 +50,10 @@ extension String {
     }
 }
 
+// Keep in sync with every `within:` argument used below — a section-scoped
+// lookup only stays bounded to its own section if its heading is listed here.
+private let sectionHeadings: Set<Substring> = ["Vindhastighed", "Vindretning", "Bølger", "Strøm"]
+
 extension Array where Element == String.SubSequence {
 
     // MARK: Wave
@@ -94,17 +98,20 @@ extension Array where Element == String.SubSequence {
 
     func substring(after label: Substring, within section: Substring? = nil) -> Substring? {
         let startIndex: Int
+        let endIndex: Int
 
         if let section {
             guard let sectionIndex = firstIndex(of: section) else { return nil }
             startIndex = sectionIndex + 1
+            endIndex = self[startIndex...].firstIndex(where: { sectionHeadings.contains($0) }) ?? count
         } else {
             startIndex = 0
+            endIndex = count
         }
 
-        guard startIndex < count,
-              let labelIndex = self[startIndex...].firstIndex(of: label),
-              labelIndex + 1 < count else {
+        guard startIndex < endIndex,
+              let labelIndex = self[startIndex..<endIndex].firstIndex(of: label),
+              labelIndex + 1 < endIndex else {
             return nil
         }
 
