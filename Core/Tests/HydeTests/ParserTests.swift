@@ -52,6 +52,27 @@ final class ParserTests: XCTestCase {
 
         XCTAssertNil(parts.middleWaveHeight())
     }
+
+    func testSectionScopedLookupDoesNotReturnNextSectionHeadingAsValue() {
+        // "Bølger" section's "middel" label has no value row before "Strøm"
+        // begins. The lookup must return nil, not "Strøm" itself.
+        let parts: [String.SubSequence] = [
+            "Vindhastighed",
+            "aktuelt", "18,6 m/s",
+            "middel", "17 m/s",
+            "vindstød", "22 m/s",
+            "Vindretning",
+            "aktuelt", "VNV",
+            "middel", "VNV",
+            "Bølger",
+            "max", "3,88 m",
+            "middel",
+            "Strøm",
+            "Retning", "Ø",
+        ]
+
+        XCTAssertNil(parts.middleWaveHeight())
+    }
 }
 
 let html = """
