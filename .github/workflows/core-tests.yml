@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v4
 
       # HydeTests.testFetch hits the live hyde.dk network, so CI runs only
-      # ParserTests, which uses a hardcoded HTML fixture.
-      - name: Run ParserTests
+      # ParserTests and FetcherTests, which use fixtures/no network.
+      - name: Run ParserTests and FetcherTests
         working-directory: Core
-        run: swift test --filter ParserTests
+        run: swift test --filter 'ParserTests|FetcherTests'
