@@ -9,19 +9,19 @@ import XCTest
 @testable import Hyde
 
 final class FetcherTests: XCTestCase {
-    func testReadDownloadedFileReturnsData() throws {
+    func testDownloadedDataReturnsData() throws {
         let location = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         let expected = Data("<html></html>".utf8)
         try expected.write(to: location)
         defer { try? FileManager.default.removeItem(at: location) }
 
-        XCTAssertEqual(readDownloadedFile(at: location), expected)
+        XCTAssertEqual(location.downloadedData(), expected)
     }
 
-    func testReadDownloadedFileReturnsNilForMissingFile() {
+    func testDownloadedDataReturnsNilForMissingFile() {
         let missing = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
 
-        XCTAssertNil(readDownloadedFile(at: missing))
+        XCTAssertNil(missing.downloadedData())
     }
 
     func testUpdateStoresData() async throws {
