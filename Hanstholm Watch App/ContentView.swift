@@ -13,7 +13,6 @@ struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
     @Environment(SurfProvider.self) var surfProvider
     @State private var task: Task<Void, Never>?
-    var isPreview = false
 
     var body: some View {
         Group {
@@ -24,11 +23,8 @@ struct ContentView: View {
             }
         }
         .task {
-            // In SwiftUI previews we load manually.
-            guard isPreview else {
-                return
-            }
-
+            // `onChange(of: scenePhase)` below only fires on a *transition*, not for the
+            // phase the app launches into, so the very first load has to happen here.
             await surfProvider.load()
         }
         .onChange(of: scenePhase) {
@@ -48,6 +44,6 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView(isPreview: true)
+    ContentView()
         .withMockProviders()
 }
