@@ -203,6 +203,7 @@
 				4C15661C2BEFBDF8006E6D56 /* Core */,
 				4C10AF8F2BCC261B000F2D2B /* Hanstholm Watch App */,
 				4C10AFAE2BCC264E000F2D2B /* HanstholmWidget */,
+				E1F2A3B4C5D6E7F8A9B0C1D2 /* Hanstholm */,
 				4C10AF862BCC261B000F2D2B /* Products */,
 				4C10AFA22BCC2637000F2D2B /* Frameworks */,
 				4C651E2530014F7300CB0367 /* Recovered References */,
@@ -232,7 +233,6 @@
 		4C651E2530014F7300CB0367 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
-				E1F2A3B4C5D6E7F8A9B0C1D2 /* Hanstholm */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";

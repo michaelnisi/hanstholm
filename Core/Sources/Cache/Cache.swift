@@ -8,16 +8,22 @@
 import Foundation
 import Hyde
 
+// UserDefaults is documented as thread-safe but isn't marked Sendable by the SDK,
+// so passing an injected instance across the Cache actor boundary needs this.
+extension UserDefaults: @retroactive @unchecked Sendable {}
+
 public actor Cache {
     struct Key {
         static let surfEntry = "ink.codes.Hanstholm.Cache.Hyde"
     }
     
-    private let db = UserDefaults(suiteName: "group.ink.codes.Hanstholm")
+    private let db: UserDefaults?
     private let decoder = JSONDecoder()
     private let encoder = JSONEncoder()
-    
-    public init() {}
+
+    public init(userDefaults: UserDefaults? = UserDefaults(suiteName: "group.ink.codes.Hanstholm")) {
+        self.db = userDefaults
+    }
     
     public func dump() -> [String : Any] {
         db?.dictionaryRepresentation() ?? [:]

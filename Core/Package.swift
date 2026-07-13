@@ -43,6 +43,10 @@ let package = Package(
             name: "DomainTypes",
             dependencies: ["Hyde"]
         ),
+        .testTarget(
+            name: "DomainTypesTests",
+            dependencies: ["DomainTypes", "Hyde"]
+        ),
         .target(
             name: "MockData",
             dependencies: ["Hyde", "DomainTypes"]
@@ -50,6 +54,10 @@ let package = Package(
         .target(
             name: "Cache",
             dependencies: ["Hyde"]
+        ),
+        .testTarget(
+            name: "CacheTests",
+            dependencies: ["Cache", "Hyde"]
         )
     ]
 )
