@@ -10,8 +10,26 @@ import Hyde
 @testable import Cache
 
 final class CacheTests: XCTestCase {
+    private var suiteName: String!
+    private var userDefaults: UserDefaults!
+
+    override func setUp() {
+        super.setUp()
+
+        suiteName = "ink.codes.Hanstholm.CacheTests.\(UUID().uuidString)"
+        userDefaults = UserDefaults(suiteName: suiteName)
+    }
+
+    override func tearDown() {
+        userDefaults.removePersistentDomain(forName: suiteName)
+        userDefaults = nil
+        suiteName = nil
+
+        super.tearDown()
+    }
+
     func testSetConditionsRoundTripsThroughConditionsMatching() async throws {
-        let cache = Cache()
+        let cache = Cache(userDefaults: userDefaults)
         let hyde = Hyde(place: .hanstholm, date: .now, wave: nil, wind: nil)
 
         try await cache.setConditions(hyde)
@@ -21,7 +39,7 @@ final class CacheTests: XCTestCase {
     }
 
     func testConditionsMatchingNewerReturnsValueWhenFresh() async throws {
-        let cache = Cache()
+        let cache = Cache(userDefaults: userDefaults)
         let now = Date.now
         let hyde = Hyde(place: .hanstholm, date: now, wave: nil, wind: nil)
 
@@ -32,7 +50,7 @@ final class CacheTests: XCTestCase {
     }
 
     func testConditionsMatchingNewerReturnsNilWhenStale() async throws {
-        let cache = Cache()
+        let cache = Cache(userDefaults: userDefaults)
         let staleDate = Date.now.addingTimeInterval(-3600)
         let hyde = Hyde(place: .hanstholm, date: staleDate, wave: nil, wind: nil)
 
@@ -43,7 +61,7 @@ final class CacheTests: XCTestCase {
     }
 
     func testSetPlaceRoundTripsThroughPlace() async throws {
-        let cache = Cache()
+        let cache = Cache(userDefaults: userDefaults)
 
         try await cache.setPlace(.hanstholm)
         let place = await cache.place()
