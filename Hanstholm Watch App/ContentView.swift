@@ -24,6 +24,7 @@ struct ContentView: View {
             }
         }
         .task {
+            // In SwiftUI previews we load manually.
             guard isPreview else {
                 return
             }

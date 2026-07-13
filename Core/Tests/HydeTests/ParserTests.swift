@@ -30,6 +30,49 @@ final class ParserTests: XCTestCase {
         XCTAssertEqual(String(parts.windCurrent()!), "18,6 m/s")
         XCTAssertEqual(String(parts.windDirection()!), "VNV")
     }
+
+    func testSectionScopedLookupDoesNotLeakIntoLaterSections() {
+        // "Bølger" is missing its own "middel" row, but "Strøm" — a later,
+        // unrelated section — happens to contain a line also named "middel".
+        // A section-scoped lookup must not leak across that boundary.
+        let parts: [String.SubSequence] = [
+            "Vindhastighed",
+            "aktuelt", "18,6 m/s",
+            "middel", "17 m/s",
+            "vindstød", "22 m/s",
+            "Vindretning",
+            "aktuelt", "VNV",
+            "middel", "VNV",
+            "Bølger",
+            "max", "3,88 m",
+            "Strøm",
+            "Retning", "Ø",
+            "middel", "should not leak into Bølger's scope",
+        ]
+
+        XCTAssertNil(parts.middleWaveHeight())
+    }
+
+    func testSectionScopedLookupDoesNotReturnNextSectionHeadingAsValue() {
+        // "Bølger" section's "middel" label has no value row before "Strøm"
+        // begins. The lookup must return nil, not "Strøm" itself.
+        let parts: [String.SubSequence] = [
+            "Vindhastighed",
+            "aktuelt", "18,6 m/s",
+            "middel", "17 m/s",
+            "vindstød", "22 m/s",
+            "Vindretning",
+            "aktuelt", "VNV",
+            "middel", "VNV",
+            "Bølger",
+            "max", "3,88 m",
+            "middel",
+            "Strøm",
+            "Retning", "Ø",
+        ]
+
+        XCTAssertNil(parts.middleWaveHeight())
+    }
 }
 
 let html = """

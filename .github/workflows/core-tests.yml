@@ -22,4 +22,4 @@ jobs:
       # the offline test targets.
       - name: Run offline tests
         working-directory: Core
-        run: swift test --filter 'ParserTests|DomainTypesTests|CacheTests'
+        run: swift test --filter 'ParserTests|FetcherTests|DomainTypesTests|CacheTests'
