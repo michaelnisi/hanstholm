@@ -41,7 +41,7 @@ struct SurfEntryProvider: TimelineProvider {
             let entry = SurfEntry(dto: hyde) ?? MockData.SurfEntry.makeSurfEntry(status: .error)
 
             let entries = [entry]
-            let timeline = Timeline(entries: entries, policy: .after(.now.addingTimeInterval(15 * 60)))
+            let timeline = Timeline(entries: entries, policy: .after(.now.addingTimeInterval(SurfEntry.cacheTTL)))
 
             completion(timeline)
         }
@@ -52,7 +52,7 @@ extension SurfEntryProvider {
     private func getHyde() async throws -> Hyde? {
         let conditions: Hyde?
         let place = await cache.place()
-        let date: Date = .now.addingTimeInterval(-15 * 60)
+        let date: Date = .now.addingTimeInterval(-SurfEntry.cacheTTL)
         let cached = try await cache.conditions(matching: place, newer: date)
         let background = await Hyde.backgroundResult(place: place)
 

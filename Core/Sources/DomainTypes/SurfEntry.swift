@@ -59,10 +59,13 @@ public struct SurfEntry: TimelineEntry, Identifiable, Hashable, Sendable {
         "\(name)-\(date.formatted())"
     }
 
+    /// How long cached/widget-fetched conditions are considered fresh, in seconds.
+    public static let cacheTTL: TimeInterval = 15 * 60
+
     public var relevance: TimelineEntryRelevance? {
         switch status {
         case .ok:
-            TimelineEntryRelevance(score: 50, duration: 15 * 60)
+            TimelineEntryRelevance(score: 50, duration: Self.cacheTTL)
         case .error, .initial:
             TimelineEntryRelevance(score: 0)
         }
