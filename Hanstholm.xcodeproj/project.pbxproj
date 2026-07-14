@@ -123,7 +123,7 @@
 		4C7DC2892FFE99DC000D63F0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				"Hanstholm-Watch-App-Info.plist",
+				Info.plist,
 			);
 			target = 4C10AF8A2BCC261B000F2D2B /* Hanstholm Watch App */;
 		};
@@ -611,7 +611,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Hanstholm Watch App/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Hanstholm-Watch-App-Info.plist";
+				INFOPLIST_FILE = "Hanstholm Watch App/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Hanstholm;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = ink.codes.Hanstholm;
@@ -643,7 +643,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Hanstholm Watch App/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Hanstholm-Watch-App-Info.plist";
+				INFOPLIST_FILE = "Hanstholm Watch App/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Hanstholm;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = ink.codes.Hanstholm;
