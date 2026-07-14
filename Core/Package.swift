@@ -53,7 +53,7 @@ let package = Package(
         ),
         .target(
             name: "Cache",
-            dependencies: ["Hyde", "MockData"]
+            dependencies: ["Hyde"]
         ),
         .testTarget(
             name: "CacheTests",
