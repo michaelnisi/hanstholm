@@ -6,13 +6,6 @@
 //
 
 import Foundation
-#if os(watchOS)
-import WatchKit
-#elseif os(iOS)
-import SwiftUI
-#elseif os(macOS)
-import AppKit
-#endif
 
 extension Data {
     func string() -> String? {
