@@ -10,11 +10,11 @@ import DomainTypes
 
 public struct MockData {
     public struct SurfEntry {
-        public static func makeSurfEntry() -> DomainTypes.SurfEntry {
+        public static func makeSurfEntry(status: DomainTypes.SurfEntry.Status = .ok) -> DomainTypes.SurfEntry {
             .init(
                 date: .now,
                 name: "Hanstholm",
-                status: .ok,
+                status: status,
                 wave: makeWave(),
                 wind: makeWind()
             )

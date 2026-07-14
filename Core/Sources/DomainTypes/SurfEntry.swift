@@ -58,7 +58,16 @@ public struct SurfEntry: TimelineEntry, Identifiable, Hashable, Sendable {
     public var id: String {
         "\(name)-\(date.formatted())"
     }
-    
+
+    public var relevance: TimelineEntryRelevance? {
+        switch status {
+        case .ok:
+            TimelineEntryRelevance(score: 50, duration: 15 * 60)
+        case .error, .initial:
+            TimelineEntryRelevance(score: 0)
+        }
+    }
+
     public init(date: Date, name: String, status: Status, wave: Wave, wind: Wind) {
         self.date = date
         self.name = name

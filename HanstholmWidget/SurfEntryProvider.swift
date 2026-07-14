@@ -22,7 +22,7 @@ struct SurfEntryProvider: TimelineProvider {
     func getSnapshot(in context: Context, completion: @escaping @Sendable (SurfEntry) -> ()) {
         _ = Task {
             let conditions = try? await cache.conditions(matching: cache.place(), newer: .distantPast)
-            let entry = SurfEntry(dto: conditions) ?? MockData.SurfEntry.makeSurfEntry()
+            let entry = SurfEntry(dto: conditions) ?? MockData.SurfEntry.makeSurfEntry(status: .error)
 
             completion(entry)
         }
@@ -38,7 +38,7 @@ struct SurfEntryProvider: TimelineProvider {
                 try? await cache.setConditions(hyde)
             }
 
-            let entry = SurfEntry(dto: hyde) ?? MockData.SurfEntry.makeSurfEntry()
+            let entry = SurfEntry(dto: hyde) ?? MockData.SurfEntry.makeSurfEntry(status: .error)
 
             let entries = [entry]
             let timeline = Timeline(entries: entries, policy: .after(.now.addingTimeInterval(15 * 60)))
