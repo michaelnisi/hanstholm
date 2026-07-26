@@ -8,12 +8,12 @@
 import WidgetKit
 import SwiftUI
 
-public struct SurfEntry: TimelineEntry, Identifiable, Hashable, Sendable {
-    public enum Status: Hashable, Sendable {
+public struct SurfEntry: TimelineEntry, Identifiable, Hashable, Sendable, Codable {
+    public enum Status: Hashable, Sendable, Codable {
         case ok, error, initial
     }
-   
-    public struct Wave: Hashable, Sendable {
+
+    public struct Wave: Hashable, Sendable, Codable {
         public let max: Double
         public let middle: Double
         public let period: Double
@@ -27,8 +27,8 @@ public struct SurfEntry: TimelineEntry, Identifiable, Hashable, Sendable {
         }
     }
     
-    public struct Wind: Hashable, Sendable {
-        public struct Speed: Hashable, Sendable {
+    public struct Wind: Hashable, Sendable, Codable {
+        public struct Speed: Hashable, Sendable, Codable {
             public let gust: Double
             public let middle: Double
             public let current: Double

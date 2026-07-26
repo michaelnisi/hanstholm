@@ -10,13 +10,13 @@ import Foundation
 
 let logger = Logger(subsystem: "ink.codes.Hanstholm", category: "Hyde")
 
-public struct Hyde: Equatable, Codable, Sendable {
-    public enum Place: Codable, CaseIterable, Equatable, Sendable {
+public struct Hyde: Equatable, Sendable {
+    public enum Place: CaseIterable, Equatable, Sendable {
         case hanstholm
     }
-    
-    public struct Wave: Equatable, Codable, Sendable {
-        public struct Height: Equatable, Codable, Sendable {
+
+    public struct Wave: Equatable, Sendable {
+        public struct Height: Equatable, Sendable {
             public let max: Double?
             public let middle: Double?
             
@@ -37,8 +37,8 @@ public struct Hyde: Equatable, Codable, Sendable {
         }
     }
     
-    public struct Wind: Equatable, Codable, Sendable {
-        public struct Speed: Equatable, Codable, Sendable {
+    public struct Wind: Equatable, Sendable {
+        public struct Speed: Equatable, Sendable {
             public init(gust: Double?, middle: Double?, current: Double?) {
                 self.gust = gust
                 self.middle = middle
@@ -84,6 +84,15 @@ extension Hyde.Place {
         switch self {
         case .hanstholm:
             return "Hanstholm"
+        }
+    }
+
+    public init?(name: String) {
+        switch name {
+        case "Hanstholm":
+            self = .hanstholm
+        default:
+            return nil
         }
     }
 }

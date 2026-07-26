@@ -7,15 +7,17 @@
 
 import WatchKit
 import Hyde
+import DomainTypes
 import Cache
 import WidgetKit
 
 func backgroundRefresh() async {
     let cache = Cache()
-    let place = await cache.place()
+    let placeName = await cache.place()
+    let place = Hyde.Place(name: placeName) ?? .hanstholm
 
-    if let fresh = try? await Hyde.fetch(place: place) {
-        try? await cache.setConditions(fresh)
+    if let fresh = try? await Hyde.fetch(place: place), let entry = SurfEntry(dto: fresh) {
+        try? await cache.setConditions(entry)
         WidgetCenter.shared.reloadAllTimelines()
     }
 

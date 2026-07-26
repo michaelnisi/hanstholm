@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Hyde
 import DomainTypes
 import Cache
 import MockData
@@ -47,7 +46,7 @@ struct ContentView: View {
         let cache = Cache()
         let place = await cache.place()
 
-        surfEntry = SurfEntry(dto: try? await cache.conditions(matching: place))
+        surfEntry = try? await cache.conditions(matching: place)
     }
 }
 

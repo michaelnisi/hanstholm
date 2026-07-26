@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import Hyde
+import DomainTypes
 @testable import Cache
 
 final class CacheTests: XCTestCase {
@@ -28,34 +28,44 @@ final class CacheTests: XCTestCase {
         super.tearDown()
     }
 
+    private func makeSurfEntry(date: Date = .now, name: String = "Hanstholm") -> SurfEntry {
+        SurfEntry(
+            date: date,
+            name: name,
+            status: .ok,
+            wave: .init(max: 1.2, middle: 0.8, period: 8, direction: .init(cardinal: .west)),
+            wind: .init(speed: .init(gust: 12, middle: 9, current: 10), direction: .init(cardinal: .west))
+        )
+    }
+
     func testSetConditionsRoundTripsThroughConditionsMatching() async throws {
         let cache = Cache(userDefaults: userDefaults)
-        let hyde = Hyde(place: .hanstholm, date: .now, wave: nil, wind: nil)
+        let entry = makeSurfEntry()
 
-        try await cache.setConditions(hyde)
-        let fetched = try await cache.conditions(matching: .hanstholm)
+        try await cache.setConditions(entry)
+        let fetched = try await cache.conditions(matching: entry.name)
 
-        XCTAssertEqual(fetched, hyde)
+        XCTAssertEqual(fetched, entry)
     }
 
     func testConditionsMatchingNewerReturnsValueWhenFresh() async throws {
         let cache = Cache(userDefaults: userDefaults)
         let now = Date.now
-        let hyde = Hyde(place: .hanstholm, date: now, wave: nil, wind: nil)
+        let entry = makeSurfEntry(date: now)
 
-        try await cache.setConditions(hyde)
-        let fresh = try await cache.conditions(matching: .hanstholm, newer: now.addingTimeInterval(-60))
+        try await cache.setConditions(entry)
+        let fresh = try await cache.conditions(matching: entry.name, newer: now.addingTimeInterval(-60))
 
-        XCTAssertEqual(fresh, hyde)
+        XCTAssertEqual(fresh, entry)
     }
 
     func testConditionsMatchingNewerReturnsNilWhenStale() async throws {
         let cache = Cache(userDefaults: userDefaults)
         let staleDate = Date.now.addingTimeInterval(-3600)
-        let hyde = Hyde(place: .hanstholm, date: staleDate, wave: nil, wind: nil)
+        let entry = makeSurfEntry(date: staleDate)
 
-        try await cache.setConditions(hyde)
-        let result = try await cache.conditions(matching: .hanstholm, newer: Date.now.addingTimeInterval(-60))
+        try await cache.setConditions(entry)
+        let result = try await cache.conditions(matching: entry.name, newer: Date.now.addingTimeInterval(-60))
 
         XCTAssertNil(result)
     }
@@ -63,9 +73,9 @@ final class CacheTests: XCTestCase {
     func testSetPlaceRoundTripsThroughPlace() async throws {
         let cache = Cache(userDefaults: userDefaults)
 
-        try await cache.setPlace(.hanstholm)
+        try await cache.setPlace("Hanstholm")
         let place = await cache.place()
 
-        XCTAssertEqual(place, .hanstholm)
+        XCTAssertEqual(place, "Hanstholm")
     }
 }
