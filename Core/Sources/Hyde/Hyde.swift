@@ -86,6 +86,15 @@ extension Hyde.Place {
             return "Hanstholm"
         }
     }
+
+    public init?(name: String) {
+        switch name {
+        case "Hanstholm":
+            self = .hanstholm
+        default:
+            return nil
+        }
+    }
 }
 
 extension Hyde {

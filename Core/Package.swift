@@ -53,11 +53,11 @@ let package = Package(
         ),
         .target(
             name: "Cache",
-            dependencies: ["Hyde"]
+            dependencies: ["DomainTypes"]
         ),
         .testTarget(
             name: "CacheTests",
-            dependencies: ["Cache", "Hyde"]
+            dependencies: ["Cache", "DomainTypes"]
         )
     ]
 )

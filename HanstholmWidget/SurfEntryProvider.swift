@@ -14,15 +14,16 @@ import MockData
 
 struct SurfEntryProvider: TimelineProvider {
     private let cache = Cache()
-    
+
     func placeholder(in context: Context) -> SurfEntry {
         MockData.SurfEntry.makeSurfEntry()
     }
-    
+
     func getSnapshot(in context: Context, completion: @escaping @Sendable (SurfEntry) -> ()) {
         _ = Task {
-            let conditions = try? await cache.conditions(matching: cache.place(), newer: .distantPast)
-            let entry = SurfEntry(dto: conditions) ?? MockData.SurfEntry.makeSurfEntry(status: .error)
+            let place = await cache.place()
+            let entry = (try? await cache.conditions(matching: place, newer: .distantPast))
+                ?? MockData.SurfEntry.makeSurfEntry(status: .error)
 
             completion(entry)
         }
@@ -30,17 +31,18 @@ struct SurfEntryProvider: TimelineProvider {
 
     func getTimeline(in context: Context, completion: @escaping @Sendable  (Timeline<SurfEntry>) -> ()) {
         Task {
-            await Hyde.backgroundFetch(place: cache.place())
+            let placeName = await cache.place()
+            let place = Hyde.Place(name: placeName) ?? .hanstholm
 
-            let hyde = try? await getHyde()
+            await Hyde.backgroundFetch(place: place)
 
-            if let hyde {
-                try? await cache.setConditions(hyde)
+            let entry = await getEntry(place: place)
+
+            if let entry {
+                try? await cache.setConditions(entry)
             }
 
-            let entry = SurfEntry(dto: hyde) ?? MockData.SurfEntry.makeSurfEntry(status: .error)
-
-            let entries = [entry]
+            let entries = [entry ?? MockData.SurfEntry.makeSurfEntry(status: .error)]
             let timeline = Timeline(entries: entries, policy: .after(.now.addingTimeInterval(SurfEntry.cacheTTL)))
 
             completion(timeline)
@@ -49,22 +51,18 @@ struct SurfEntryProvider: TimelineProvider {
 }
 
 extension SurfEntryProvider {
-    private func getHyde() async throws -> Hyde? {
-        let conditions: Hyde?
-        let place = await cache.place()
+    private func getEntry(place: Hyde.Place) async -> SurfEntry? {
         let date: Date = .now.addingTimeInterval(-SurfEntry.cacheTTL)
-        let cached = try await cache.conditions(matching: place, newer: date)
-        let background = await Hyde.backgroundResult(place: place)
 
-        if let cached {
-            conditions = cached
-        } else if let background {
-            conditions = background
-        } else {
-            conditions = try? await Hyde.fetch(place: place)
+        if let cached = try? await cache.conditions(matching: place.name, newer: date) {
+            return cached
         }
-        
-        return conditions
+
+        if let background = await Hyde.backgroundResult(place: place) {
+            return SurfEntry(dto: background)
+        }
+
+        let fetched = try? await Hyde.fetch(place: place)
+        return SurfEntry(dto: fetched)
     }
 }
-
