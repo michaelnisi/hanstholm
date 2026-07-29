@@ -84,7 +84,7 @@ extension HanstholmWidgetEntryView {
                 
                 Text(Image(systemName: "wind")) + Text(" ") + Text(entry.wind.direction.formatted()).fontWeight(.black) + Text(" ") + Text(entry.wind.speed.current.knots())
                
-                Text("\(entry.name), \(entry.date.formatted(date: .omitted, time: .shortened))")
+                Text("\(entry.place.name), \(entry.date.formatted(date: .omitted, time: .shortened))")
                     .font(.caption)
             }
             .widgetAccentable()

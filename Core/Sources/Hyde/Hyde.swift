@@ -86,9 +86,18 @@ extension Hyde.Place {
         }
     }
 
-    public init?(name: String) {
-        switch name {
-        case "Hanstholm":
+    /// Stable identity, kept apart from `name` so the displayed label can change without
+    /// orphaning anything filed under it.
+    public var key: String {
+        switch self {
+        case .hanstholm:
+            return "hanstholm"
+        }
+    }
+
+    public init?(key: String) {
+        switch key {
+        case "hanstholm":
             self = .hanstholm
         default:
             return nil

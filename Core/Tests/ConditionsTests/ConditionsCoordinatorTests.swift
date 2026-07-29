@@ -33,10 +33,16 @@ private final class Counter: @unchecked Sendable {
     }
 }
 
-private func makeEntry(date: Date = .now, name: String = "Hanstholm") -> SurfEntry {
+private let stubPluginID = "test.stub"
+
+private func makePlace(key: String = "testville", name: String = "Testville") -> Place {
+    Place(pluginID: stubPluginID, key: key, name: name)
+}
+
+private func makeEntry(date: Date = .now, place: Place = makePlace()) -> SurfEntry {
     SurfEntry(
         date: date,
-        name: name,
+        place: place,
         status: .ok,
         wave: .init(max: 1.2, middle: 0.8, period: 8, direction: .init(cardinal: .west)),
         wind: .init(speed: .init(gust: 12, middle: 9, current: 10), direction: .init(cardinal: .west))
@@ -44,23 +50,23 @@ private func makeEntry(date: Date = .now, name: String = "Hanstholm") -> SurfEnt
 }
 
 private struct StubPlugin: SurfConditionsPlugin, DeferredDownloadable {
-    let id: String
-    let places: [String]
+    let id = stubPluginID
+    let places: [Place]
     let fetches = Counter()
     let decodes = Counter()
-    let entry: @Sendable (String) async throws -> SurfEntry
+    let entry: @Sendable (Place) async throws -> SurfEntry
 
-    func conditions(for place: String, using session: URLSession) async throws -> SurfEntry {
+    func conditions(for place: Place, using session: URLSession) async throws -> SurfEntry {
         fetches.increment()
 
         return try await entry(place)
     }
 
-    func deferredRequest(for place: String) throws -> URLRequest {
-        URLRequest(url: URL(string: "https://example.invalid/\(place)")!)
+    func deferredRequest(for place: Place) throws -> URLRequest {
+        URLRequest(url: URL(string: "https://example.invalid/\(place.key)")!)
     }
 
-    func decodeDeferred(_ data: Data, mimeType: String?, for place: String) async throws -> SurfEntry {
+    func decodeDeferred(_ data: Data, mimeType: String?, for place: Place) async throws -> SurfEntry {
         decodes.increment()
 
         return try await entry(place)
@@ -70,13 +76,12 @@ private struct StubPlugin: SurfConditionsPlugin, DeferredDownloadable {
 private struct StubFault: Error {}
 
 private func makePlugin(
-    places: [String] = ["Hanstholm"],
-    entry: (@Sendable (String) async throws -> SurfEntry)? = nil
+    places: [Place] = [makePlace()],
+    entry: (@Sendable (Place) async throws -> SurfEntry)? = nil
 ) -> StubPlugin {
     StubPlugin(
-        id: "test.stub",
         places: places,
-        entry: entry ?? { place in makeEntry(name: place) }
+        entry: entry ?? { place in makeEntry(place: place) }
     )
 }
 
@@ -119,6 +124,46 @@ final class ConditionsCoordinatorTests: XCTestCase {
         return (coordinator, cache)
     }
 
+    // MARK: Place resolution
+
+    func testFallsBackToTheFirstInstalledPlaceWhenNothingSelected() async throws {
+        let plugin = makePlugin()
+        let (coordinator, _) = makeCoordinator(plugin: plugin)
+
+        let place = try await coordinator.selectedPlace()
+
+        XCTAssertEqual(place, makePlace())
+    }
+
+    func testUsesTheSelectedPlace() async throws {
+        let second = makePlace(key: "elsewhere", name: "Elsewhere")
+        let plugin = makePlugin(places: [makePlace(), second])
+        let (coordinator, cache) = makeCoordinator(plugin: plugin)
+
+        try await cache.setSelectedPlace(second)
+
+        let place = try await coordinator.selectedPlace()
+
+        XCTAssertEqual(place, second)
+    }
+
+    func testThrowsWhenSelectedPlacesPluginIsGone() async throws {
+        let plugin = makePlugin()
+        let (coordinator, cache) = makeCoordinator(plugin: plugin)
+        let orphan = Place(pluginID: "test.removed", key: "x", name: "X")
+
+        try await cache.setSelectedPlace(orphan)
+
+        do {
+            _ = try await coordinator.conditions(policy: .reload, trigger: .userInterface)
+            XCTFail("expected no plugin for place")
+        } catch {
+            XCTAssertEqual(error as? SurfConditionsFault, .noPluginForPlace(orphan.id))
+        }
+
+        XCTAssertEqual(plugin.fetches.count, 0)
+    }
+
     // MARK: Freshness
 
     func testCachedOnlyReturnsCachedWithoutFetching() async throws {
@@ -142,7 +187,7 @@ final class ConditionsCoordinatorTests: XCTestCase {
             _ = try await coordinator.conditions(policy: .cachedOnly, trigger: .userInterface)
             XCTFail("expected a cache miss")
         } catch {
-            XCTAssertEqual(error as? SurfConditionsFault, .noCachedConditions("Hanstholm"))
+            XCTAssertEqual(error as? SurfConditionsFault, .noCachedConditions(makePlace().id))
         }
 
         XCTAssertEqual(plugin.fetches.count, 0)
@@ -177,7 +222,7 @@ final class ConditionsCoordinatorTests: XCTestCase {
 
         XCTAssertEqual(plugin.fetches.count, 1)
 
-        let written = try await cache.conditions(matching: "Hanstholm")
+        let written = try await cache.conditions(matching: makePlace())
         XCTAssertEqual(written, entry)
     }
 
@@ -211,18 +256,25 @@ final class ConditionsCoordinatorTests: XCTestCase {
 
     // MARK: Failure handling
 
-    func testUnknownPlaceThrows() async throws {
-        let plugin = makePlugin()
+    /// A plugin answering about a place it wasn't asked about would have its entry cached
+    /// under a key nothing reads, so every request would silently re-fetch forever.
+    func testAnswerForTheWrongPlaceIsRejected() async throws {
+        let elsewhere = makePlace(key: "elsewhere", name: "Elsewhere")
+        let plugin = makePlugin(entry: { _ in makeEntry(place: elsewhere) })
         let (coordinator, cache) = makeCoordinator(plugin: plugin)
-
-        try await cache.setPlace("Klitmøller")
 
         do {
             _ = try await coordinator.conditions(policy: .reload, trigger: .userInterface)
-            XCTFail("expected no plugin for place")
+            XCTFail("expected a place mismatch")
         } catch {
-            XCTAssertEqual(error as? SurfConditionsFault, .noPluginForPlace("Klitmøller"))
+            XCTAssertEqual(
+                error as? SurfConditionsFault,
+                .placeMismatch(expected: makePlace().id, actual: elsewhere.id)
+            )
         }
+
+        let leaked = try await cache.conditions(matching: elsewhere)
+        XCTAssertNil(leaked)
     }
 
     func testFetchFailureLeavesCacheIntact() async throws {
@@ -239,7 +291,7 @@ final class ConditionsCoordinatorTests: XCTestCase {
             XCTAssertTrue(error is StubFault)
         }
 
-        let survived = try await cache.conditions(matching: "Hanstholm")
+        let survived = try await cache.conditions(matching: makePlace())
         XCTAssertEqual(survived, stored)
     }
 
@@ -274,7 +326,7 @@ final class ConditionsCoordinatorTests: XCTestCase {
             // Long enough that the second caller arrives while the first is in flight.
             try await Task.sleep(nanoseconds: 50_000_000)
 
-            return makeEntry(name: place)
+            return makeEntry(place: place)
         })
         let (coordinator, _) = makeCoordinator(plugin: plugin)
 
@@ -296,10 +348,10 @@ final class ConditionsCoordinatorTests: XCTestCase {
         await coordinator.ingest(
             data: Data("payload".utf8),
             mimeType: "text/html",
-            token: .init(pluginID: plugin.id, place: "Hanstholm")
+            token: .init(place: makePlace())
         )
 
-        let written = try await cache.conditions(matching: "Hanstholm")
+        let written = try await cache.conditions(matching: makePlace())
 
         XCTAssertNotNil(written)
         XCTAssertEqual(plugin.decodes.count, 1)
@@ -309,45 +361,49 @@ final class ConditionsCoordinatorTests: XCTestCase {
     func testIngestDropsUnknownPlugin() async throws {
         let plugin = makePlugin()
         let (coordinator, cache) = makeCoordinator(plugin: plugin)
+        let orphan = Place(pluginID: "test.removed", key: "testville", name: "Testville")
 
         await coordinator.ingest(
             data: Data("payload".utf8),
             mimeType: "text/html",
-            token: .init(pluginID: "test.removed", place: "Hanstholm")
+            token: .init(place: orphan)
         )
 
-        let written = try await cache.conditions(matching: "Hanstholm")
+        let written = try await cache.conditions(matching: orphan)
 
         XCTAssertNil(written)
         XCTAssertEqual(plugin.decodes.count, 0)
     }
 
     func testIngestDropsMismatchedPlace() async throws {
-        let plugin = makePlugin()
+        let second = makePlace(key: "elsewhere", name: "Elsewhere")
+        let plugin = makePlugin(places: [makePlace(), second])
         let (coordinator, cache) = makeCoordinator(plugin: plugin)
+
+        try await cache.setSelectedPlace(makePlace())
 
         // Scheduled before the selected place changed.
         await coordinator.ingest(
             data: Data("payload".utf8),
             mimeType: "text/html",
-            token: .init(pluginID: plugin.id, place: "Klitmøller")
+            token: .init(place: second)
         )
 
-        let written = try await cache.conditions(matching: "Klitmøller")
+        let written = try await cache.conditions(matching: second)
 
         XCTAssertNil(written)
         XCTAssertEqual(plugin.decodes.count, 0)
     }
 
-    func testIngestWithoutTokenFallsBackToSelectedPlace() async throws {
+    func testIngestWithoutTokenIsDropped() async throws {
         let plugin = makePlugin()
         let (coordinator, cache) = makeCoordinator(plugin: plugin)
 
         await coordinator.ingest(data: Data("payload".utf8), mimeType: "text/html", token: nil)
 
-        let written = try await cache.conditions(matching: "Hanstholm")
+        let written = try await cache.conditions(matching: makePlace())
 
-        XCTAssertNotNil(written)
-        XCTAssertEqual(plugin.decodes.count, 1)
+        XCTAssertNil(written)
+        XCTAssertEqual(plugin.decodes.count, 0)
     }
 }

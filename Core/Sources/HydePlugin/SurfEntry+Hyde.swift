@@ -56,16 +56,17 @@ extension SurfEntry.Wind.Speed {
 }
 
 extension SurfEntry {
-    public init?(dto: Hyde?) {
+    /// The place is passed in rather than derived from the DTO: it has to be the one the
+    /// coordinator asked about, since that's the key the entry gets cached under.
+    public init?(dto: Hyde?, place: Place) {
         guard
             let wave = Wave(dto: dto?.wave),
             let wind = Wind(dto: dto?.wind),
-            let date = dto?.date,
-            let name = dto?.place.name else {
+            let date = dto?.date else {
             logger.error("incomplete DTO: \(String(describing: dto))")
             return nil
         }
 
-        self.init(date: date, name: name, status: .ok, wave: wave, wind: wind)
+        self.init(date: date, place: place, status: .ok, wave: wave, wind: wind)
     }
 }

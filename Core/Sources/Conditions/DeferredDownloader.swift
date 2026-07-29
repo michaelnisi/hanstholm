@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import DomainTypes
 
 /// Owns the background `URLSession` used for deferred downloads.
 ///
@@ -25,12 +26,13 @@ final class DeferredDownloader: NSObject, URLSessionDownloadDelegate, @unchecked
         static let currentVersion = 1
 
         var version: Int
-        var pluginID: String
-        var place: String
 
-        init(pluginID: String, place: String) {
+        /// Carries the plugin identity too, since `Place` owns it — routing a download that
+        /// outlived its process needs both halves in one persisted value.
+        var place: Place
+
+        init(place: Place) {
             self.version = Self.currentVersion
-            self.pluginID = pluginID
             self.place = place
         }
 

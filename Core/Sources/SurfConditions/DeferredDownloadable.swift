@@ -20,11 +20,11 @@ public protocol DeferredDownloadable: SurfConditionsPlugin {
     /// Built at *schedule* time and executed by the system minutes to hours later, so it
     /// must stay valid for that long. Don't embed short-lived credentials here; if the
     /// source needs them, don't conform.
-    func deferredRequest(for place: String) throws -> URLRequest
+    func deferredRequest(for place: Place) throws -> URLRequest
 
     /// Parses downloaded bytes into an entry.
     ///
     /// Takes the MIME type rather than the whole `URLResponse` so the payload crossing
     /// into the plugin is unambiguously `Sendable`.
-    func decodeDeferred(_ data: Data, mimeType: String?, for place: String) async throws -> SurfEntry
+    func decodeDeferred(_ data: Data, mimeType: String?, for place: Place) async throws -> SurfEntry
 }

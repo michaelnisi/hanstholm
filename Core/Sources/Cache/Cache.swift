@@ -31,7 +31,7 @@ public actor Cache {
 }
 
 extension Cache {
-    public func conditions(matching place: String) throws -> SurfEntry? {
+    public func conditions(matching place: Place) throws -> SurfEntry? {
         guard let data = db?.data(forKey: .makePlaceKey(place: place)) else {
             return nil
         }
@@ -39,7 +39,7 @@ extension Cache {
         return try decoder.decode(SurfEntry.self, from: data)
     }
 
-    public func conditions(matching place: String, newer: Date) throws -> SurfEntry? {
+    public func conditions(matching place: Place, newer: Date) throws -> SurfEntry? {
         guard let data = try conditions(matching: place), data.date >= newer else {
             return nil
         }
@@ -47,34 +47,54 @@ extension Cache {
         return data
     }
 
+    /// Files the entry under its own place, which is why the coordinator checks that a
+    /// plugin returned conditions for the place it was asked about — otherwise a write
+    /// could land under a key nothing ever reads.
     public func setConditions(_ value: SurfEntry) throws {
         let data = try encoder.encode(value)
 
-        db?.setValue(data, forKey: .makePlaceKey(place: value.name))
+        db?.setValue(data, forKey: .makePlaceKey(place: value.place))
     }
 }
 
 extension Cache {
-    public func setPlace(_ place: String) throws {
-        let data = try encoder.encode(place)
+    /// Stores only the identifier: the plugin stays the source of truth for a place's
+    /// display name, so renaming one doesn't leave a stale copy here.
+    public func setSelectedPlace(_ place: Place) throws {
+        let data = try encoder.encode(place.id)
 
         db?.setValue(data, forKey: .selectedPlaceKey)
     }
 
-    public func place() -> String {
-        guard let data = db?.data(forKey: .selectedPlaceKey),
-              let place = try? decoder.decode(String.self, from: data) else {
-            return "Hanstholm"
+    /// `nil` when nothing has been selected yet. Resolving that to an actual place needs
+    /// the installed plugins, which is the coordinator's job, not storage's.
+    public func selectedPlaceID() -> String? {
+        guard let data = db?.data(forKey: .selectedPlaceKey) else {
+            return nil
         }
 
-        return place
+        return try? decoder.decode(String.self, from: data)
+    }
+
+    /// Conditions for whatever place is selected, for read-only consumers that have no
+    /// plugins linked and so can't resolve a `Place` themselves.
+    public func selectedConditions() throws -> SurfEntry? {
+        guard let id = selectedPlaceID(), let data = db?.data(forKey: .makeKey(placeID: id)) else {
+            return nil
+        }
+
+        return try decoder.decode(SurfEntry.self, from: data)
     }
 }
 
 extension String {
     fileprivate static let selectedPlaceKey = "\(Cache.Key.surfEntry)-selected"
 
-    fileprivate static func makePlaceKey(place: String) -> String {
-        "\(Cache.Key.surfEntry)-id-\(place)"
+    fileprivate static func makePlaceKey(place: Place) -> String {
+        makeKey(placeID: place.id)
+    }
+
+    fileprivate static func makeKey(placeID: String) -> String {
+        "\(Cache.Key.surfEntry)-id-\(placeID)"
     }
 }

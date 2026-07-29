@@ -50,13 +50,13 @@ public struct SurfEntry: TimelineEntry, Identifiable, Hashable, Sendable, Codabl
     }
     
     public let date: Date
-    public let name: String
+    public let place: Place
     public let status: Status
     public let wave: Wave
     public let wind: Wind
 
     public var id: String {
-        "\(name)-\(date.formatted())"
+        "\(place.id)-\(date.formatted())"
     }
 
     /// How long cached/widget-fetched conditions are considered fresh, in seconds.
@@ -71,9 +71,9 @@ public struct SurfEntry: TimelineEntry, Identifiable, Hashable, Sendable, Codabl
         }
     }
 
-    public init(date: Date, name: String, status: Status, wave: Wave, wind: Wind) {
+    public init(date: Date, place: Place, status: Status, wave: Wave, wind: Wind) {
         self.date = date
-        self.name = name
+        self.place = place
         self.status = status
         self.wave = wave
         self.wind = wind

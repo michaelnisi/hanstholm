@@ -11,6 +11,8 @@ import DomainTypes
 @testable import HydePlugin
 
 final class SurfEntryHydeTests: XCTestCase {
+    private let place = HydePlugin.place(for: .hanstholm)
+
 
     // MARK: SurfEntry.Wave
 
@@ -100,15 +102,15 @@ final class SurfEntryHydeTests: XCTestCase {
             wind: .init(speed: .init(gust: 15, middle: 7, current: 8), direction: "SV")
         )
 
-        let entry = SurfEntry(dto: hyde)
+        let entry = SurfEntry(dto: hyde, place: place)
 
         XCTAssertNotNil(entry)
-        XCTAssertEqual(entry?.name, "Hanstholm")
+        XCTAssertEqual(entry?.place, place)
         XCTAssertEqual(entry?.status, .ok)
     }
 
     func testSurfEntryInitFailsWhenDTOIsNil() {
-        XCTAssertNil(SurfEntry(dto: nil))
+        XCTAssertNil(SurfEntry(dto: nil, place: place))
     }
 
     func testSurfEntryInitFailsWhenWaveIncomplete() {
@@ -119,7 +121,7 @@ final class SurfEntryHydeTests: XCTestCase {
             wind: .init(speed: .init(gust: 15, middle: 7, current: 8), direction: "SV")
         )
 
-        XCTAssertNil(SurfEntry(dto: hyde))
+        XCTAssertNil(SurfEntry(dto: hyde, place: place))
     }
 
     func testSurfEntryInitFailsWhenWindIncomplete() {
@@ -130,6 +132,6 @@ final class SurfEntryHydeTests: XCTestCase {
             wind: .init(speed: nil, direction: "SV")
         )
 
-        XCTAssertNil(SurfEntry(dto: hyde))
+        XCTAssertNil(SurfEntry(dto: hyde, place: place))
     }
 }

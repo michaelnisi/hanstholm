@@ -75,7 +75,7 @@ public actor ConditionsCoordinator {
     /// `nonisolated` because the WidgetKit events handler reaches it synchronously.
     nonisolated let downloader: DeferredDownloader?
 
-    private var inFlight: [String: Task<SurfEntry, Error>] = [:]
+    private var inFlight: [Place: Task<SurfEntry, Error>] = [:]
 
     public init(configuration: Configuration) {
         self.configuration = configuration
@@ -102,23 +102,49 @@ public actor ConditionsCoordinator {
     }
 }
 
+// MARK: - Resolving the selected place
+
+extension ConditionsCoordinator {
+    /// The selected place, or the first installed plugin's first place when nothing has been
+    /// chosen yet.
+    ///
+    /// The default lives here rather than in `Cache` because it depends on what's installed;
+    /// storage has no business knowing that a place called "Hanstholm" exists.
+    func selectedPlace() async throws -> Place {
+        let all = configuration.plugins.flatMap(\.places)
+
+        guard let id = await configuration.cache.selectedPlaceID() else {
+            guard let first = all.first else {
+                throw SurfConditionsFault.noPlaceSelected
+            }
+
+            return first
+        }
+
+        guard let place = all.first(where: { $0.id == id }) else {
+            // Selected a place whose plugin is no longer installed.
+            throw SurfConditionsFault.noPluginForPlace(id)
+        }
+
+        return place
+    }
+}
+
 // MARK: - Reading conditions
 
 extension ConditionsCoordinator {
     /// Whatever is cached for the selected place, at any age. Never fetches.
     public func cached() async -> SurfEntry? {
-        let place = await configuration.cache.place()
-
-        return try? await configuration.cache.conditions(matching: place)
+        try? await configuration.cache.selectedConditions()
     }
 
     public func conditions(policy: FreshnessPolicy, trigger: Trigger) async throws -> SurfEntry {
-        let place = await configuration.cache.place()
+        let place = try await selectedPlace()
 
         switch policy {
         case .cachedOnly:
             guard let entry = try? await configuration.cache.conditions(matching: place) else {
-                throw SurfConditionsFault.noCachedConditions(place)
+                throw SurfConditionsFault.noCachedConditions(place.id)
             }
 
             return entry
@@ -139,13 +165,13 @@ extension ConditionsCoordinator {
 
     /// Single-in-flight per place: `ContentView` loads from both `.task` and the
     /// `scenePhase` change, so launch would otherwise fire two identical fetches.
-    private func fetch(place: String, trigger: Trigger) async throws -> SurfEntry {
+    private func fetch(place: Place, trigger: Trigger) async throws -> SurfEntry {
         if let existing = inFlight[place] {
             return try await existing.value
         }
 
         guard let plugin = configuration.plugins.first(where: { $0.owns(place) }) else {
-            throw SurfConditionsFault.noPluginForPlace(place)
+            throw SurfConditionsFault.noPluginForPlace(place.id)
         }
 
         let session = configuration.session
@@ -153,6 +179,13 @@ extension ConditionsCoordinator {
 
         let task = Task<SurfEntry, Error> {
             let entry = try await plugin.conditions(for: place, using: session)
+
+            // The cache files an entry under its own place. A plugin that answers about a
+            // different one would write somewhere nothing ever reads, so every request
+            // would silently re-fetch forever — better to say so.
+            guard entry.place == place else {
+                throw SurfConditionsFault.placeMismatch(expected: place.id, actual: entry.place.id)
+            }
 
             try? await cache.setConditions(entry)
 
@@ -197,18 +230,16 @@ extension ConditionsCoordinator {
 
         await LegacySessionCleanup.flushIfNeeded()
 
-        let place = await configuration.cache.place()
-
-        guard let plugin = Self.deferredPlugin(id: nil, place: place, in: configuration.plugins) else {
-            return
-        }
-
         do {
-            let request = try plugin.deferredRequest(for: place)
+            let place = try await selectedPlace()
+
+            guard let plugin = Self.deferredPlugin(for: place, in: configuration.plugins) else {
+                return
+            }
 
             downloader.schedule(
-                request,
-                token: .init(pluginID: plugin.id, place: place),
+                try plugin.deferredRequest(for: place),
+                token: .init(place: place),
                 after: delay
             )
         } catch {
@@ -251,19 +282,24 @@ extension ConditionsCoordinator {
         cache: Cache,
         reloadWidgetTimelines: @Sendable () -> Void
     ) async {
-        let selected = await cache.place()
+        let selected = await cache.selectedPlaceID()
 
-        if let token, token.place != selected {
-            // Scheduled before the selected place changed; writing it would file one
-            // spot's conditions under another's key.
-            logger.error("deferred ingest: dropping \(token.place), selected is \(selected)")
+        guard let place = token?.place else {
+            logger.error("deferred ingest: missing token")
             return
         }
 
-        let place = token?.place ?? selected
+        if let selected, place.id != selected {
+            // Scheduled before the selected place changed; writing it would file one
+            // spot's conditions under another's key.
+            logger.error("deferred ingest: dropping \(place.id), selected is \(selected)")
+            return
+        }
 
-        guard let plugin = deferredPlugin(id: token?.pluginID, place: place, in: plugins) else {
-            logger.error("deferred ingest: no plugin for \(place)")
+        guard let plugin = deferredPlugin(for: place, in: plugins) else {
+            // The plugin was removed in an update: drop the payload rather than guessing
+            // which source these bytes came from.
+            logger.error("deferred ingest: no plugin for \(place.id)")
             return
         }
 
@@ -291,18 +327,11 @@ extension ConditionsCoordinator {
     }
 
     private static func deferredPlugin(
-        id: String?,
-        place: String,
+        for place: Place,
         in plugins: [any SurfConditionsPlugin]
     ) -> (any DeferredDownloadable)? {
-        let deferred = plugins.compactMap { $0 as? any DeferredDownloadable }
-
-        guard let id else {
-            return deferred.first { $0.owns(place) }
-        }
-
-        // An unknown id means the plugin was removed in an update: drop the payload
-        // rather than guessing which source these bytes came from.
-        return deferred.first { $0.id == id }
+        plugins
+            .compactMap { $0 as? any DeferredDownloadable }
+            .first { $0.owns(place) }
     }
 }

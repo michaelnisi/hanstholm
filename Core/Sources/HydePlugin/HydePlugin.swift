@@ -15,49 +15,59 @@ let logger = Logger(subsystem: "ink.codes.Hanstholm", category: "HydePlugin")
 
 /// Adapts `Hyde` — which stays a pure DTO and parser — to the plugin protocol.
 public struct HydePlugin: SurfConditionsPlugin, DeferredDownloadable {
-    public let id = "ink.codes.Hanstholm.plugin.hyde"
+    public static let pluginID = "ink.codes.Hanstholm.plugin.hyde"
 
-    public var places: [String] {
-        Hyde.Place.allCases.map(\.name)
+    public var id: String {
+        Self.pluginID
+    }
+
+    public var places: [Place] {
+        Hyde.Place.allCases.map(Self.place(for:))
     }
 
     public init() {}
 
-    public func conditions(for place: String, using session: URLSession) async throws -> SurfEntry {
+    static func place(for place: Hyde.Place) -> Place {
+        .init(pluginID: pluginID, key: place.key, name: place.name)
+    }
+
+    private func hydePlace(for place: Place) throws -> Hyde.Place {
+        guard owns(place), let match = Hyde.Place(key: place.key) else {
+            throw SurfConditionsFault.unknownPlace(place.id)
+        }
+
+        return match
+    }
+
+    public func conditions(for place: Place, using session: URLSession) async throws -> SurfEntry {
         let request = try deferredRequest(for: place)
         let (data, response) = try await session.data(for: request)
 
         return try await decodeDeferred(data, mimeType: response.mimeType, for: place)
     }
 
-    public func deferredRequest(for place: String) throws -> URLRequest {
-        guard let place = Hyde.Place(name: place) else {
-            throw SurfConditionsFault.unknownPlace(place)
-        }
-
-        return URLRequest(url: place.url)
+    public func deferredRequest(for place: Place) throws -> URLRequest {
+        URLRequest(url: try hydePlace(for: place).url)
     }
 
     public func decodeDeferred(
         _ data: Data,
         mimeType: String?,
-        for place: String
+        for place: Place
     ) async throws -> SurfEntry {
         if let mimeType, mimeType != "text/html" {
             throw SurfConditionsFault.unexpectedMediaType(mimeType)
         }
 
-        guard let place = Hyde.Place(name: place) else {
-            throw SurfConditionsFault.unknownPlace(place)
-        }
+        let hydePlace = try hydePlace(for: place)
 
         // `Parser` strips HTML with the `NSAttributedString` importer, which is
         // main-thread-only. Previously this ran wherever the caller happened to be; the hop
         // is explicit now so a background-session delegate can't drag it onto its own queue.
         return try await MainActor.run {
-            let dto = try Hyde(place: place, data: data)
+            let dto = try Hyde(place: hydePlace, data: data)
 
-            guard let entry = SurfEntry(dto: dto) else {
+            guard let entry = SurfEntry(dto: dto, place: place) else {
                 throw SurfConditionsFault.decoding
             }
 
