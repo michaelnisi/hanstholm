@@ -63,7 +63,6 @@ public struct Hyde: Equatable, Sendable {
         case parsing
         case missing(String)
         case transform(String)
-        case unexpectedMediaType
     }
     
     public let place: Place
@@ -93,6 +92,17 @@ extension Hyde.Place {
             self = .hanstholm
         default:
             return nil
+        }
+    }
+
+    /// Where this place's conditions are published.
+    ///
+    /// Lives with the place rather than with whatever happens to be fetching it, so the
+    /// source description stays in one piece.
+    public var url: URL {
+        switch self {
+        case .hanstholm:
+            return URL(string: "https://hyde.dk/default_hanstholm.asp")!
         }
     }
 }
@@ -125,33 +135,3 @@ extension Hyde {
     }
 }
 
-extension Hyde {
-    public static func fetch(place: Place) async throws -> Hyde {
-        try .init(place: place, data: try await Fetcher.shared.retrieve())
-    }
-    
-    public static func backgroundFetch(place: Place) async {
-        await Fetcher.shared.background()
-    }
-    
-    public static func backgroundResult(place: Place) async -> Hyde? {
-        guard let data = await Fetcher.shared.cached else {
-            return nil
-        }
-        
-        return try? .init(place: place, data: data)
-    }
-    
- 
-    
-    public static func setCompletion(_ completion: @escaping BackgroundCompletion) async {
-        await Fetcher.shared.setCompletion {
-            await MainActor.run {
-                completion()
-            }
-        }
-        
-    }
-}
-
-public typealias BackgroundCompletion = @Sendable @MainActor () -> Void

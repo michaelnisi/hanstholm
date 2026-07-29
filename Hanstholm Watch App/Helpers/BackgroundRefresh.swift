@@ -6,19 +6,16 @@
 //
 
 import WatchKit
-import Hyde
-import DomainTypes
-import Cache
-import WidgetKit
+import Conditions
 
 func backgroundRefresh() async {
-    let cache = Cache()
-    let placeName = await cache.place()
-    let place = Hyde.Place(name: placeName) ?? .hanstholm
-
-    if let fresh = try? await Hyde.fetch(place: place), let entry = SurfEntry(dto: fresh) {
-        try? await cache.setConditions(entry)
-        WidgetCenter.shared.reloadAllTimelines()
+    do {
+        _ = try await ConditionsCoordinator.watchApp.conditions(
+            policy: .reload,
+            trigger: .appBackgroundRefresh
+        )
+    } catch {
+        logger.error("background refresh failed: \(error)")
     }
 
     scheduleBackgroundRefresh()

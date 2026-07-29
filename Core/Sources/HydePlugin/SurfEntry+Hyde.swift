@@ -7,13 +7,15 @@
 
 import Foundation
 import Hyde
-import os.log
+import DomainTypes
 
-private let logger = Logger(subsystem: "ink.codes.Hanstholm", category: "DomainTypes")
+// These initializers delegate to the memberwise ones rather than assigning stored
+// properties: they live outside the module that declares `SurfEntry` now, and cross-module
+// extension initializers aren't allowed to assign directly.
 
 extension SurfEntry.Wave {
     public init?(dto: Hyde.Wave?) {
-        guard 
+        guard
             let direction = Direction(danish: dto?.direction),
             let max = dto?.height?.max,
             let middle = dto?.height?.middle,
@@ -21,11 +23,8 @@ extension SurfEntry.Wave {
             logger.error("incomplete DTO: \(String(describing: dto))")
             return nil
         }
-        
-        self.max = max
-        self.middle = middle
-        self.direction = direction
-        self.period = period
+
+        self.init(max: max, middle: middle, period: period, direction: direction)
     }
 }
 
@@ -37,31 +36,28 @@ extension SurfEntry.Wind {
             logger.error("incomplete DTO: \(String(describing: dto))")
             return nil
         }
-        
-        self.direction = direction
-        self.speed = speed
+
+        self.init(speed: speed, direction: direction)
     }
 }
 
 extension SurfEntry.Wind.Speed {
     public init?(dto: Hyde.Wind.Speed?) {
-        guard 
+        guard
             let current = dto?.current,
             let gust = dto?.gust,
             let middle = dto?.middle else {
             logger.error("incomplete DTO: \(String(describing: dto))")
             return nil
         }
-        
-        self.current = current
-        self.gust = gust
-        self.middle = middle
+
+        self.init(gust: gust, middle: middle, current: current)
     }
 }
 
 extension SurfEntry {
     public init?(dto: Hyde?) {
-        guard 
+        guard
             let wave = Wave(dto: dto?.wave),
             let wind = Wind(dto: dto?.wind),
             let date = dto?.date,
@@ -69,11 +65,7 @@ extension SurfEntry {
             logger.error("incomplete DTO: \(String(describing: dto))")
             return nil
         }
-        
-        self.date = date
-        self.name = name
-        self.status = .ok
-        self.wave = wave
-        self.wind = wind
+
+        self.init(date: date, name: name, status: .ok, wave: wave, wind: wind)
     }
 }

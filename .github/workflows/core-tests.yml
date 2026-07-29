@@ -18,8 +18,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # HydeTests.testFetch hits the live hyde.dk network, so CI runs only
-      # the offline test targets.
-      - name: Run offline tests
+      # Every test is offline now that fetching lives behind a plugin the tests stub,
+      # so there is nothing left to filter out.
+      - name: Run tests
         working-directory: Core
-        run: swift test --filter 'ParserTests|FetcherTests|DomainTypesTests|CacheTests'
+        run: swift test

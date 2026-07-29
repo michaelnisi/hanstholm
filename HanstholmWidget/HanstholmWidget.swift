@@ -7,7 +7,7 @@
 
 import WidgetKit
 import SwiftUI
-import Hyde
+import Conditions
 import DomainTypes
 import MockData
 
@@ -107,13 +107,13 @@ struct HanstholmWidget: Widget {
                     .background()
             }
         }
-        .onBackgroundURLSessionEvents(matching: "hyde.dk") { urlSessionEvent, completion in
-            Task {
-                await Hyde.setCompletion {
-                    MainActor.assumeIsolated {
-                        completion()
-                    }
-                }
+        // Registered synchronously, and the same helper builds the session identifier, so
+        // the two can't drift apart the way the duplicated "hyde.dk" literals could.
+        .onBackgroundURLSessionEvents(
+            matching: DeferredDownloadConfiguration.defaultSessionIdentifier()
+        ) { urlSessionEvent, completion in
+            ConditionsCoordinator.widget.handleBackgroundSessionEvents {
+                completion()
             }
         }
         .configurationDisplayName("Hanstholm")

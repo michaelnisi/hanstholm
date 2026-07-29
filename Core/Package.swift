@@ -27,6 +27,18 @@ let package = Package(
         .library(
             name: "Cache",
             targets: ["Cache"]
+        ),
+        .library(
+            name: "SurfConditions",
+            targets: ["SurfConditions"]
+        ),
+        .library(
+            name: "HydePlugin",
+            targets: ["HydePlugin"]
+        ),
+        .library(
+            name: "Conditions",
+            targets: ["Conditions"]
         )
     ],
     targets: [
@@ -40,12 +52,11 @@ let package = Package(
             dependencies: ["Hyde"]
         ),
         .target(
-            name: "DomainTypes",
-            dependencies: ["Hyde"]
+            name: "DomainTypes"
         ),
         .testTarget(
             name: "DomainTypesTests",
-            dependencies: ["DomainTypes", "Hyde"]
+            dependencies: ["DomainTypes"]
         ),
         .target(
             name: "MockData",
@@ -58,6 +69,26 @@ let package = Package(
         .testTarget(
             name: "CacheTests",
             dependencies: ["Cache", "DomainTypes"]
+        ),
+        .target(
+            name: "SurfConditions",
+            dependencies: ["DomainTypes"]
+        ),
+        .target(
+            name: "HydePlugin",
+            dependencies: ["Hyde", "DomainTypes", "SurfConditions"]
+        ),
+        .testTarget(
+            name: "HydePluginTests",
+            dependencies: ["HydePlugin", "Hyde", "DomainTypes", "SurfConditions"]
+        ),
+        .target(
+            name: "Conditions",
+            dependencies: ["SurfConditions", "Cache", "DomainTypes"]
+        ),
+        .testTarget(
+            name: "ConditionsTests",
+            dependencies: ["Conditions", "SurfConditions", "Cache", "DomainTypes"]
         )
     ]
 )

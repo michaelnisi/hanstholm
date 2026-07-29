@@ -261,7 +261,6 @@
 			);
 			name = Hanstholm;
 			packageProductDependencies = (
-				27EF0B5A3F3D177BAFC84209 /* Hyde */,
 				C2D9BCBFE851B4B512D02150 /* DomainTypes */,
 				BD14614C92A5E84F2364E2EA /* Cache */,
 				FFA60F65963B9076CEBF0839 /* MockData */,
@@ -289,10 +288,11 @@
 			);
 			name = "Hanstholm Watch App";
 			packageProductDependencies = (
-				4C15661D2BEFBF17006E6D56 /* Hyde */,
 				4C15662E2BEFE6D0006E6D56 /* DomainTypes */,
 				4C1566302BEFE9F4006E6D56 /* MockData */,
 				4CBD01DE2BFB3D52009DE551 /* Cache */,
+				C0AD1CE0000000000000AA01 /* Conditions */,
+				D1DEB1A0000000000000BB01 /* HydePlugin */,
 			);
 			productName = "Hanstholm Watch App";
 			productReference = 4C10AF8B2BCC261B000F2D2B /* Hanstholm Watch App.app */;
@@ -315,10 +315,11 @@
 			);
 			name = HanstholmWidgetExtension;
 			packageProductDependencies = (
-				4C15661F2BEFBF1B006E6D56 /* Hyde */,
 				4C15662C2BEFE6C7006E6D56 /* DomainTypes */,
 				4CBD01E02BFB596D009DE551 /* Cache */,
 				A71B3C4D5E6F7A8B9C0D1E2F /* MockData */,
+				C0AD1CE0000000000000AA02 /* Conditions */,
+				D1DEB1A0000000000000BB02 /* HydePlugin */,
 			);
 			productName = HanstholmWidgetExtension;
 			productReference = 4C10AFA92BCC264E000F2D2B /* HanstholmWidgetExtension.appex */;
@@ -341,10 +342,11 @@
 			);
 			name = HanstholmWidgetIOSExtension;
 			packageProductDependencies = (
-				25D3B949921775929C21687C /* Hyde */,
 				16816F9C820813AFB090B62D /* DomainTypes */,
 				91EAEB150EFBE13A8AD4C78A /* Cache */,
 				C93D5E6F7A8B9C0D1E2F3A4B /* MockData */,
+				C0AD1CE0000000000000AA03 /* Conditions */,
+				D1DEB1A0000000000000BB03 /* HydePlugin */,
 			);
 			productName = HanstholmWidgetIOSExtension;
 			productReference = 1185A5E4D55D2EF1C2258BBE /* HanstholmWidgetIOSExtension.appex */;
@@ -901,22 +903,6 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = DomainTypes;
 		};
-		25D3B949921775929C21687C /* Hyde */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Hyde;
-		};
-		27EF0B5A3F3D177BAFC84209 /* Hyde */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Hyde;
-		};
-		4C15661D2BEFBF17006E6D56 /* Hyde */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Hyde;
-		};
-		4C15661F2BEFBF1B006E6D56 /* Hyde */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Hyde;
-		};
 		4C15662C2BEFE6C7006E6D56 /* DomainTypes */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = DomainTypes;
@@ -949,6 +935,18 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Cache;
 		};
+		C0AD1CE0000000000000AA01 /* Conditions */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Conditions;
+		};
+		C0AD1CE0000000000000AA02 /* Conditions */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Conditions;
+		};
+		C0AD1CE0000000000000AA03 /* Conditions */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Conditions;
+		};
 		C2D9BCBFE851B4B512D02150 /* DomainTypes */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = DomainTypes;
@@ -956,6 +954,18 @@
 		C93D5E6F7A8B9C0D1E2F3A4B /* MockData */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MockData;
+		};
+		D1DEB1A0000000000000BB01 /* HydePlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HydePlugin;
+		};
+		D1DEB1A0000000000000BB02 /* HydePlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HydePlugin;
+		};
+		D1DEB1A0000000000000BB03 /* HydePlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HydePlugin;
 		};
 		FFA60F65963B9076CEBF0839 /* MockData */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -7,7 +7,8 @@
 
 import XCTest
 import Hyde
-@testable import DomainTypes
+import DomainTypes
+@testable import HydePlugin
 
 final class SurfEntryHydeTests: XCTestCase {
 
