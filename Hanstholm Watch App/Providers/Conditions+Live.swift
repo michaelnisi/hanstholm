@@ -7,7 +7,7 @@
 
 import WidgetKit
 import Conditions
-import HydePlugin
+import Hyde
 
 extension ConditionsCoordinator {
     /// The watch app's coordinator.
@@ -17,7 +17,7 @@ extension ConditionsCoordinator {
     /// extension owns that path — they meet in the shared `Cache`, never in memory.
     nonisolated static let watchApp = ConditionsCoordinator(
         configuration: .init(
-            plugins: [HydePlugin()],
+            plugins: [Hyde()],
             deferredDownloads: nil,
             reloadWidgetTimelines: {
                 WidgetCenter.shared.reloadAllTimelines()

@@ -13,8 +13,11 @@
 		4C10AFAB2BCC264E000F2D2B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C10AFAA2BCC264E000F2D2B /* WidgetKit.framework */; };
 		4C10AFAD2BCC264E000F2D2B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C10AFAC2BCC264E000F2D2B /* SwiftUI.framework */; };
 		4C10AFB72BCC264F000F2D2B /* HanstholmWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 4C10AFA92BCC264E000F2D2B /* HanstholmWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		4C15661E2BEFBF17006E6D56 /* Hyde in Frameworks */ = {isa = PBXBuildFile; productRef = 4C15661D2BEFBF17006E6D56 /* Hyde */; };
-		4C1566202BEFBF1B006E6D56 /* Hyde in Frameworks */ = {isa = PBXBuildFile; productRef = 4C15661F2BEFBF1B006E6D56 /* Hyde */; };
+		C0AD1CE0000000000000CC01 /* Conditions in Frameworks */ = {isa = PBXBuildFile; productRef = C0AD1CE0000000000000AA01 /* Conditions */; };
+		C0AD1CE0000000000000CC02 /* Conditions in Frameworks */ = {isa = PBXBuildFile; productRef = C0AD1CE0000000000000AA02 /* Conditions */; };
+		C0AD1CE0000000000000CC03 /* Conditions in Frameworks */ = {isa = PBXBuildFile; productRef = C0AD1CE0000000000000AA03 /* Conditions */; };
+		4C15661E2BEFBF17006E6D56 /* Hyde in Frameworks */ = {isa = PBXBuildFile; productRef = D1DEB1A0000000000000BB01 /* Hyde */; };
+		4C1566202BEFBF1B006E6D56 /* Hyde in Frameworks */ = {isa = PBXBuildFile; productRef = D1DEB1A0000000000000BB02 /* Hyde */; };
 		4C15662D2BEFE6C7006E6D56 /* DomainTypes in Frameworks */ = {isa = PBXBuildFile; productRef = 4C15662C2BEFE6C7006E6D56 /* DomainTypes */; };
 		4C15662F2BEFE6D0006E6D56 /* DomainTypes in Frameworks */ = {isa = PBXBuildFile; productRef = 4C15662E2BEFE6D0006E6D56 /* DomainTypes */; };
 		4C1566312BEFE9F4006E6D56 /* MockData in Frameworks */ = {isa = PBXBuildFile; productRef = 4C1566302BEFE9F4006E6D56 /* MockData */; };
@@ -25,11 +28,10 @@
 		6D38697F17A1B5766CC71C19 /* DomainTypes in Frameworks */ = {isa = PBXBuildFile; productRef = 16816F9C820813AFB090B62D /* DomainTypes */; };
 		8BD0B599DCB921DFD3B4A5D5 /* HanstholmWidgetIOSExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1185A5E4D55D2EF1C2258BBE /* HanstholmWidgetIOSExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A78094D38FED1ED3F12F0D3B /* MockData in Frameworks */ = {isa = PBXBuildFile; productRef = FFA60F65963B9076CEBF0839 /* MockData */; };
-		B5C8A1BBD1860574C857CCD6 /* Hyde in Frameworks */ = {isa = PBXBuildFile; productRef = 27EF0B5A3F3D177BAFC84209 /* Hyde */; };
 		B82C4D5E6F7A8B9C0D1E2F3A /* MockData in Frameworks */ = {isa = PBXBuildFile; productRef = A71B3C4D5E6F7A8B9C0D1E2F /* MockData */; };
 		D29EF06163141EFABC166AB2 /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = 91EAEB150EFBE13A8AD4C78A /* Cache */; };
 		DA4E6F7A8B9C0D1E2F3A4B5C /* MockData in Frameworks */ = {isa = PBXBuildFile; productRef = C93D5E6F7A8B9C0D1E2F3A4B /* MockData */; };
-		F629759C2C9F61E5566989EF /* Hyde in Frameworks */ = {isa = PBXBuildFile; productRef = 25D3B949921775929C21687C /* Hyde */; };
+		F629759C2C9F61E5566989EF /* Hyde in Frameworks */ = {isa = PBXBuildFile; productRef = D1DEB1A0000000000000BB03 /* Hyde */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -147,6 +149,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0AD1CE0000000000000CC01 /* Conditions in Frameworks */,
 				4C15661E2BEFBF17006E6D56 /* Hyde in Frameworks */,
 				4C1566312BEFE9F4006E6D56 /* MockData in Frameworks */,
 				4C15662F2BEFE6D0006E6D56 /* DomainTypes in Frameworks */,
@@ -158,6 +161,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0AD1CE0000000000000CC02 /* Conditions in Frameworks */,
 				4C15662D2BEFE6C7006E6D56 /* DomainTypes in Frameworks */,
 				4C10AFAD2BCC264E000F2D2B /* SwiftUI.framework in Frameworks */,
 				4C1566202BEFBF1B006E6D56 /* Hyde in Frameworks */,
@@ -171,7 +175,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B5C8A1BBD1860574C857CCD6 /* Hyde in Frameworks */,
 				1504BD93907C58128114BC9C /* DomainTypes in Frameworks */,
 				64A3B8EBEE730C83484C8EA8 /* Cache in Frameworks */,
 				A78094D38FED1ED3F12F0D3B /* MockData in Frameworks */,
@@ -182,6 +185,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0AD1CE0000000000000CC03 /* Conditions in Frameworks */,
 				F629759C2C9F61E5566989EF /* Hyde in Frameworks */,
 				3D87A834F829A7B230EE930B /* WidgetKit.framework in Frameworks */,
 				55BC1ABC39B5AF85965EB437 /* SwiftUI.framework in Frameworks */,
@@ -292,7 +296,7 @@
 				4C1566302BEFE9F4006E6D56 /* MockData */,
 				4CBD01DE2BFB3D52009DE551 /* Cache */,
 				C0AD1CE0000000000000AA01 /* Conditions */,
-				D1DEB1A0000000000000BB01 /* HydePlugin */,
+				D1DEB1A0000000000000BB01 /* Hyde */,
 			);
 			productName = "Hanstholm Watch App";
 			productReference = 4C10AF8B2BCC261B000F2D2B /* Hanstholm Watch App.app */;
@@ -319,7 +323,7 @@
 				4CBD01E02BFB596D009DE551 /* Cache */,
 				A71B3C4D5E6F7A8B9C0D1E2F /* MockData */,
 				C0AD1CE0000000000000AA02 /* Conditions */,
-				D1DEB1A0000000000000BB02 /* HydePlugin */,
+				D1DEB1A0000000000000BB02 /* Hyde */,
 			);
 			productName = HanstholmWidgetExtension;
 			productReference = 4C10AFA92BCC264E000F2D2B /* HanstholmWidgetExtension.appex */;
@@ -346,7 +350,7 @@
 				91EAEB150EFBE13A8AD4C78A /* Cache */,
 				C93D5E6F7A8B9C0D1E2F3A4B /* MockData */,
 				C0AD1CE0000000000000AA03 /* Conditions */,
-				D1DEB1A0000000000000BB03 /* HydePlugin */,
+				D1DEB1A0000000000000BB03 /* Hyde */,
 			);
 			productName = HanstholmWidgetIOSExtension;
 			productReference = 1185A5E4D55D2EF1C2258BBE /* HanstholmWidgetIOSExtension.appex */;
@@ -955,17 +959,17 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = MockData;
 		};
-		D1DEB1A0000000000000BB01 /* HydePlugin */ = {
+		D1DEB1A0000000000000BB01 /* Hyde */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = HydePlugin;
+			productName = Hyde;
 		};
-		D1DEB1A0000000000000BB02 /* HydePlugin */ = {
+		D1DEB1A0000000000000BB02 /* Hyde */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = HydePlugin;
+			productName = Hyde;
 		};
-		D1DEB1A0000000000000BB03 /* HydePlugin */ = {
+		D1DEB1A0000000000000BB03 /* Hyde */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = HydePlugin;
+			productName = Hyde;
 		};
 		FFA60F65963B9076CEBF0839 /* MockData */ = {
 			isa = XCSwiftPackageProductDependency;

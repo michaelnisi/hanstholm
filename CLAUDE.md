@@ -54,12 +54,13 @@ Build and run the watch app and widget from Xcode — there is no command-line t
 ### Core Package (dependency order)
 
 - **DomainTypes** — `SurfEntry` (clean model, also conforms to `TimelineEntry`), `Place`, `Direction` (16-point cardinal with Danish→English mapping and rotation degrees), and `Double` formatting extensions. Depends on nothing: the domain layer must not know about any particular source.
-- **Hyde** — a pure, synchronous parser with no dependencies. Strips HTML via `NSAttributedString` and extracts values by finding Danish label substrings within named sections (to disambiguate repeated labels like "aktuelt" and "middel"). Produces `Hyde` (raw DTO). Does no networking at all; `Hyde.Place.url` just names where the data lives.
 - **SurfConditions** — `SurfConditionsPlugin` (a source of conditions) and `DeferredDownloadable` (opt-in: "my data is one plain download whose bytes decode standalone").
 - **Cache** — `actor Cache` backed by App Group `UserDefaults` (`group.ink.codes.Hanstholm`), shared between app and widget. Methods are `throws` (not `async`) — actor isolation handles concurrency. Stores `SurfEntry` values keyed by `Place.id`, and the selected place as a bare id (the plugin stays the source of truth for its display name). `selectedConditions()` exists for read-only consumers like the iOS app, which has no plugins linked and so can't resolve a `Place` itself.
-- **HydePlugin** — adapts `Hyde` to the plugin protocol, and owns `SurfEntry+Hyde.swift` (DTO→model conversion, returning `nil` and logging when a field is missing). Lives here rather than in `DomainTypes` so the dependency arrow points source→domain.
+- **Hyde** — the hyde.dk data source, and the only plugin so far. `Hyde` names a specific source, so `struct Hyde` *is* the plugin (`SurfConditionsPlugin` + `DeferredDownloadable`) rather than a DTO that something else adapts. Everything the source's own vocabulary needs is internal behind it: `Report` is what the HTML parses into, `Parser` strips it via `NSAttributedString` and finds values by Danish label within named sections, and `SurfEntry+Report.swift` converts (returning `nil` and logging when a field is missing). Depends on `DomainTypes` + `SurfConditions`, so the arrow points source→domain.
 - **Conditions** — `ConditionsCoordinator` plus the background `URLSession` machinery. Everything that isn't HTTP or parsing.
-- **MockData** — Canned `Hyde` and `SurfEntry` values for SwiftUI previews and tests.
+- **MockData** — Canned `SurfEntry` values for SwiftUI previews.
+
+`Hyde.Station` is the source's own notion of a spot (one enum case per station hyde.dk publishes); a `Place` is the app-wide idea of one. Only `Hyde` knows how the two line up, via `Hyde.place(for:)` and `Station(key:)`. The enum is named `Station` rather than `Place` so the two don't collide inside the type.
 
 **Plugin responsibility** is exactly two things: HTTP (with a session handed to it) and parsing. Caching, freshness policy, place selection, background download scheduling and delivery, and widget timeline reloads all belong to the coordinator.
 

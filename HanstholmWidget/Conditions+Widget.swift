@@ -7,7 +7,7 @@
 
 import WidgetKit
 import Conditions
-import HydePlugin
+import Hyde
 
 extension ConditionsCoordinator {
     /// The widget extensions' coordinator, shared source between the watchOS and iOS
@@ -15,7 +15,7 @@ extension ConditionsCoordinator {
     /// bundle-scoped session identifier keeps their background sessions apart.
     nonisolated static let widget = ConditionsCoordinator(
         configuration: .init(
-            plugins: [HydePlugin()],
+            plugins: [Hyde()],
             deferredDownloads: .init(
                 sessionIdentifier: DeferredDownloadConfiguration.defaultSessionIdentifier(),
                 // Required for a background session created inside an app extension.
