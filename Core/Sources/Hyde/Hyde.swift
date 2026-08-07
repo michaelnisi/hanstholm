@@ -40,17 +40,13 @@ public struct Hyde: SurfConditionsPlugin, DeferredDownloadable {
     }
 
     public var places: [Place] {
-        Station.allCases.map(Self.place(for:))
+        Station.allCases.map(\.place)
     }
 
     public init() {}
 
-    static func place(for station: Station) -> Place {
-        .init(pluginID: pluginID, key: station.key, name: station.name)
-    }
-
     private func station(for place: Place) throws -> Station {
-        guard owns(place), let station = Station(key: place.key) else {
+        guard let station = Station(place: place) else {
             throw SurfConditionsFault.unknownPlace(place.id)
         }
 
@@ -105,6 +101,23 @@ extension Hyde {
 // MARK: - Stations
 
 extension Hyde.Station {
+    /// The place this station reports for.
+    ///
+    /// A station knows its place; nothing outside this module has to know how the source's
+    /// own notion of a spot lines up with the app's.
+    public var place: Place {
+        .init(pluginID: Hyde.pluginID, key: key, name: name)
+    }
+
+    /// `nil` for a place belonging to some other plugin, even if the key happens to match.
+    public init?(place: Place) {
+        guard place.pluginID == Hyde.pluginID else {
+            return nil
+        }
+
+        self.init(key: place.key)
+    }
+
     /// Display name.
     public var name: String {
         switch self {

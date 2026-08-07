@@ -17,7 +17,7 @@ final class HydeTests: XCTestCase {
     private let plugin = Hyde()
 
     private var hanstholm: Place {
-        Hyde.place(for: .hanstholm)
+        Hyde.Station.hanstholm.place
     }
 
     private var foreign: Place {
@@ -41,6 +41,17 @@ final class HydeTests: XCTestCase {
         for station in Hyde.Station.allCases {
             XCTAssertEqual(Hyde.Station(key: station.key), station)
         }
+    }
+
+    func testStationRoundTripsThroughItsPlace() {
+        for station in Hyde.Station.allCases {
+            XCTAssertEqual(Hyde.Station(place: station.place), station)
+        }
+    }
+
+    /// A matching key isn't enough — the place has to belong to this plugin.
+    func testStationRejectsAnotherPluginsPlace() {
+        XCTAssertNil(Hyde.Station(place: foreign))
     }
 
     func testOwnsOnlyItsOwnPlaces() {

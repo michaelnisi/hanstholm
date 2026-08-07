@@ -14,7 +14,8 @@ extension UserDefaults: @retroactive @unchecked Sendable {}
 
 public actor Cache {
     struct Key {
-        static let surfEntry = "ink.codes.Hanstholm.Cache.Hyde"
+        // Named for what is stored, not for whichever source happened to produce it first.
+        static let conditions = "ink.codes.Hanstholm.Cache.conditions"
     }
 
     private let db: UserDefaults?
@@ -88,13 +89,13 @@ extension Cache {
 }
 
 extension String {
-    fileprivate static let selectedPlaceKey = "\(Cache.Key.surfEntry)-selected"
+    fileprivate static let selectedPlaceKey = "\(Cache.Key.conditions)-selected"
 
     fileprivate static func makePlaceKey(place: Place) -> String {
         makeKey(placeID: place.id)
     }
 
     fileprivate static func makeKey(placeID: String) -> String {
-        "\(Cache.Key.surfEntry)-id-\(placeID)"
+        "\(Cache.Key.conditions)-id-\(placeID)"
     }
 }

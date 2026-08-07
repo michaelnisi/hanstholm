@@ -107,8 +107,8 @@ struct HanstholmWidget: Widget {
                     .background()
             }
         }
-        // Registered synchronously, and the same helper builds the session identifier, so
-        // the two can't drift apart the way the duplicated "hyde.dk" literals could.
+        // Registered synchronously, and the same helper builds the session identifier used
+        // to create the session, so the two can't drift apart.
         .onBackgroundURLSessionEvents(
             matching: DeferredDownloadConfiguration.defaultSessionIdentifier()
         ) { urlSessionEvent, completion in

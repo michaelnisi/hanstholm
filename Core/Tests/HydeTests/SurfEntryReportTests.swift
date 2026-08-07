@@ -10,7 +10,7 @@ import DomainTypes
 @testable import Hyde
 
 final class SurfEntryReportTests: XCTestCase {
-    private let place = Hyde.place(for: .hanstholm)
+    private let place = Hyde.Station.hanstholm.place
 
     // MARK: SurfEntry.Wave
 

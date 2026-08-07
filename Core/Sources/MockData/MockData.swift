@@ -11,7 +11,7 @@ import DomainTypes
 public struct MockData {
     public struct SurfEntry {
         public static func makePlace() -> DomainTypes.Place {
-            .init(pluginID: "ink.codes.Hanstholm.plugin.hyde", key: "hanstholm", name: "Hanstholm")
+            .init(pluginID: "mock", key: "hanstholm", name: "Hanstholm")
         }
 
         public static func makeSurfEntry(status: DomainTypes.SurfEntry.Status = .ok) -> DomainTypes.SurfEntry {

@@ -60,7 +60,9 @@ Build and run the watch app and widget from Xcode — there is no command-line t
 - **Conditions** — `ConditionsCoordinator` plus the background `URLSession` machinery. Everything that isn't HTTP or parsing.
 - **MockData** — Canned `SurfEntry` values for SwiftUI previews.
 
-`Hyde.Station` is the source's own notion of a spot (one enum case per station hyde.dk publishes); a `Place` is the app-wide idea of one. Only `Hyde` knows how the two line up, via `Hyde.place(for:)` and `Station(key:)`. The enum is named `Station` rather than `Place` so the two don't collide inside the type.
+`Hyde.Station` is the source's own notion of a spot (one enum case per station hyde.dk publishes); a `Place` is the app-wide idea of one. A station knows its place — `station.place` and `Station(place:)` are the only mapping between the two, and `Station(place:)` returns `nil` for another plugin's place even when the key matches. The enum is named `Station` rather than `Place` so the two don't collide inside the type.
+
+**The term "Hyde" names the plugin and nothing else.** It is not a DTO, not a cache key, not a session identifier. Cache keys are named for what they store (`ink.codes.Hanstholm.Cache.conditions`), the background session identifier is bundle-scoped, and `MockData` uses a `"mock"` plugin id rather than a real one. The single remaining exception is `LegacySessionCleanup.sessionIdentifier`, which has to name the literal `"hyde.dk"` string an older build actually used in order to retire it, and which goes away with that file.
 
 **Plugin responsibility** is exactly two things: HTTP (with a session handed to it) and parsing. Caching, freshness policy, place selection, background download scheduling and delivery, and widget timeline reloads all belong to the coordinator.
 
