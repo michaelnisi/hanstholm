@@ -6,11 +6,9 @@
 //
 
 import Observation
-import Hyde
 import MockData
 import DomainTypes
-import Cache
-import WidgetKit
+import Conditions
 
 @Observable final class SurfProvider {
     var surfEntry: SurfEntry?
@@ -43,32 +41,18 @@ extension SurfProvider {
 
 extension SurfProvider {
     nonisolated static let live: SurfProvider = {
-        let cache = Cache()
+        let coordinator = ConditionsCoordinator.watchApp
 
         return .init(
             dependencies: .init(
                 cachedEntry: {
-                    let place = await cache.place()
-                    return try? await cache.conditions(matching: place)
+                    await coordinator.cached()
                 },
                 fetchEntry: {
-                    let placeName = await cache.place()
-                    let cutoff = Date.now.addingTimeInterval(-5 * 60)
-
-                    if let fresh = try? await cache.conditions(matching: placeName, newer: cutoff) {
-                        return fresh
-                    }
-
-                    let place = Hyde.Place(name: placeName) ?? .hanstholm
-                    let fetched = try await Hyde.fetch(place: place)
-
-                    guard let entry = SurfEntry(dto: fetched) else {
-                        throw Hyde.Fault.parsing
-                    }
-
-                    try? await cache.setConditions(entry)
-                    WidgetCenter.shared.reloadAllTimelines()
-                    return entry
+                    try await coordinator.conditions(
+                        policy: .cached(maxAge: 5 * 60),
+                        trigger: .userInterface
+                    )
                 }
             )
         )

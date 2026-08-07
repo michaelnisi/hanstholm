@@ -27,29 +27,41 @@ let package = Package(
         .library(
             name: "Cache",
             targets: ["Cache"]
+        ),
+        .library(
+            name: "SurfConditions",
+            targets: ["SurfConditions"]
+        ),
+        .library(
+            name: "Conditions",
+            targets: ["Conditions"]
         )
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "Hyde"
-        ),
-        .testTarget(
-            name: "HydeTests",
-            dependencies: ["Hyde"]
-        ),
-        .target(
-            name: "DomainTypes",
-            dependencies: ["Hyde"]
+            name: "DomainTypes"
         ),
         .testTarget(
             name: "DomainTypesTests",
-            dependencies: ["DomainTypes", "Hyde"]
+            dependencies: ["DomainTypes"]
+        ),
+        .target(
+            name: "SurfConditions",
+            dependencies: ["DomainTypes"]
+        ),
+        .target(
+            name: "Hyde",
+            dependencies: ["DomainTypes", "SurfConditions"]
+        ),
+        .testTarget(
+            name: "HydeTests",
+            dependencies: ["Hyde", "DomainTypes", "SurfConditions"]
         ),
         .target(
             name: "MockData",
-            dependencies: ["Hyde", "DomainTypes"]
+            dependencies: ["DomainTypes"]
         ),
         .target(
             name: "Cache",
@@ -58,6 +70,14 @@ let package = Package(
         .testTarget(
             name: "CacheTests",
             dependencies: ["Cache", "DomainTypes"]
+        ),
+        .target(
+            name: "Conditions",
+            dependencies: ["SurfConditions", "Cache", "DomainTypes"]
+        ),
+        .testTarget(
+            name: "ConditionsTests",
+            dependencies: ["Conditions", "SurfConditions", "Cache", "DomainTypes"]
         )
     ]
 )

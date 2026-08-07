@@ -45,7 +45,7 @@ swift test --filter ParserTests            # run a single test class
 swift test --filter ParserTests/testWave   # run a single test
 ```
 
-`HydeTests.testFetch` hits the live network. `ParserTests` uses a hardcoded HTML fixture and is safe to run offline, but depends on `NSAttributedString` HTML parsing so may be sensitive to OS version differences.
+Every test runs offline: fetching lives behind `SurfConditionsPlugin`, which the coordinator tests stub, and `ConditionsTests` passes `deferredDownloads: nil` so no background `URLSession` is created in the test process. `ParserTests` uses a hardcoded HTML fixture but depends on `NSAttributedString` HTML parsing, so it may be sensitive to OS version differences.
 
 Build and run the watch app and widget from Xcode — there is no command-line target for the app.
 
@@ -53,21 +53,36 @@ Build and run the watch app and widget from Xcode — there is no command-line t
 
 ### Core Package (dependency order)
 
-- **Hyde** — fetches `https://hyde.dk/default_hanstholm.asp` (UTF-8 HTML), strips it via `NSAttributedString`, and extracts values by finding Danish label substrings within named sections (to disambiguate repeated labels like "aktuelt" and "middel"). Produces `Hyde` (raw DTO). `Fetcher` actor owns both a foreground `URLSession` and a background `URLSessionConfiguration` for widget refresh. `DownloadDelegate` is fully `nonisolated` to safely receive URLSession callbacks from background threads.
-- **DomainTypes** — `SurfEntry` (clean model, also conforms to `TimelineEntry`), `Direction` (16-point cardinal with Danish→English mapping and rotation degrees), and `Double` formatting extensions. `SurfEntry+Hyde.swift` converts DTO→model; it returns `nil` and logs via `logger.error` when any field is missing.
-- **Cache** — `actor Cache` backed by App Group `UserDefaults` (`group.ink.codes.Hanstholm`), shared between app and widget. Methods are `throws` (not `async`) — actor isolation handles concurrency. Stores `Hyde` values keyed by place.
-- **MockData** — Canned `Hyde` and `SurfEntry` values for SwiftUI previews and tests.
+- **DomainTypes** — `SurfEntry` (clean model, also conforms to `TimelineEntry`), `Place`, `Direction` (16-point cardinal with Danish→English mapping and rotation degrees), and `Double` formatting extensions. Depends on nothing: the domain layer must not know about any particular source.
+- **SurfConditions** — `SurfConditionsPlugin` (a source of conditions) and `DeferredDownloadable` (opt-in: "my data is one plain download whose bytes decode standalone").
+- **Cache** — `actor Cache` backed by App Group `UserDefaults` (`group.ink.codes.Hanstholm`), shared between app and widget. Methods are `throws` (not `async`) — actor isolation handles concurrency. Stores `SurfEntry` values keyed by `Place.id`, and the selected place as a bare id (the plugin stays the source of truth for its display name). `selectedConditions()` exists for read-only consumers like the iOS app, which has no plugins linked and so can't resolve a `Place` itself.
+- **Hyde** — the hyde.dk data source, and the only plugin so far. `Hyde` names a specific source, so `struct Hyde` *is* the plugin (`SurfConditionsPlugin` + `DeferredDownloadable`) rather than a DTO that something else adapts. Everything the source's own vocabulary needs is internal behind it: `Report` is what the HTML parses into, `Parser` strips it via `NSAttributedString` and finds values by Danish label within named sections, and `SurfEntry+Report.swift` converts (returning `nil` and logging when a field is missing). Depends on `DomainTypes` + `SurfConditions`, so the arrow points source→domain.
+- **Conditions** — `ConditionsCoordinator` plus the background `URLSession` machinery. Everything that isn't HTTP or parsing.
+- **MockData** — Canned `SurfEntry` values for SwiftUI previews.
+
+`Hyde.Station` is the source's own notion of a spot (one enum case per station hyde.dk publishes); a `Place` is the app-wide idea of one. A station knows its place — `station.place` and `Station(place:)` are the only mapping between the two, and `Station(place:)` returns `nil` for another plugin's place even when the key matches. The enum is named `Station` rather than `Place` so the two don't collide inside the type.
+
+**The term "Hyde" names the plugin and nothing else.** It is not a DTO, not a cache key, not a session identifier. Cache keys are named for what they store (`ink.codes.Hanstholm.Cache.conditions`), the background session identifier is bundle-scoped, and `MockData` uses a `"mock"` plugin id rather than a real one. The single remaining exception is `LegacySessionCleanup.sessionIdentifier`, which has to name the literal `"hyde.dk"` string an older build actually used in order to retire it, and which goes away with that file.
+
+**Plugin responsibility** is exactly two things: HTTP (with a session handed to it) and parsing. Caching, freshness policy, place selection, background download scheduling and delivery, and widget timeline reloads all belong to the coordinator.
+
+**Places are not strings.** `Place` splits three jobs a single `String` used to do at once: `name` is the label rendered in the UI and is free to change, `key` is the stable identity cached conditions are filed under, and `pluginID` is what routing keys on so two plugins covering the same spot stay distinct. `Place.id` (`pluginID/key`) is the cache key. A plugin must vend every place it serves via `places`, each carrying that plugin's own `id`, and must return conditions for the place it was asked about — the coordinator checks, because an entry for the wrong place would be filed under a key nothing reads and every request would silently re-fetch forever.
 
 ### Data Flow
 
 ```
-hyde.dk HTML → Fetcher → Parser → Hyde (DTO)
+ConditionsCoordinator
+  ├─ reads Cache first, subject to a FreshnessPolicy
+  ├─ on miss: plugin.conditions(for:using:)  ── HTTP + parsing ──→ SurfEntry
+  └─ writes through to Cache, then reloads widget timelines
                                       ↓
-                              SurfEntry+Hyde (conversion)
-                                      ↓
-                              SurfEntry (domain model)
-                              → Cache (App Group UserDefaults)
+                              Cache (App Group UserDefaults)
                               → UI / Widget timeline
+
+Deferred path (widget extensions only):
+  scheduleDeferredRefresh → background URLSession → DeferredDownloader
+                                      ↓
+                    plugin.decodeDeferred → Cache (same write-through)
 ```
 
 ### Container App
@@ -78,7 +93,9 @@ hyde.dk HTML → Fetcher → Parser → Hyde (DTO)
 
 ### Watch App
 
-`SurfProvider` is `@Observable` (Observation framework) and is injected into the view hierarchy via `.environment(SurfProvider.live)`. It uses a `Dependencies` struct for injection (swap `.live` for `.mock` in previews). The live provider caches for 5 minutes before re-fetching; on a live fetch it calls `WidgetCenter.shared.reloadAllTimelines()`.
+`SurfProvider` is `@Observable` (Observation framework) and is injected into the view hierarchy via `.environment(SurfProvider.live)`. It uses a `Dependencies` struct for injection (swap `.live` for `.mock` in previews). `.live` is a thin wrapper over `ConditionsCoordinator.watchApp`, asking for `.cached(maxAge: 5 * 60)`; the coordinator owns the caching and the timeline reload.
+
+The watch app's coordinator sets `deferredDownloads: nil` — it refreshes through `WKApplication` background tasks, not a background `URLSession`, so it creates no download session. The widget extension owns that path; the two meet in the shared `Cache`, never in memory.
 
 `ContentView` observes `scenePhase` and starts a fetch task on `.active`, cancelling it on `.background`/`.inactive`.
 
@@ -86,22 +103,27 @@ hyde.dk HTML → Fetcher → Parser → Hyde (DTO)
 
 ### Widget Extension
 
-`SurfEntryProvider` implements `TimelineProvider`. `getTimeline` schedules a background download (earliest begin: 15 minutes), then resolves data with this priority: cached (<15 min old) → background download result → foreground fetch. The timeline policy is `.after(15 min)` as a guaranteed fallback; the background session also drives refresh. The widget registers for `onBackgroundURLSessionEvents` matching `"hyde.dk"`.
+`SurfEntryProvider` implements `TimelineProvider`. `getTimeline` schedules a deferred download (earliest begin: 15 minutes), then resolves data in **two** tiers: cached (<15 min old) → foreground fetch. There is no third "background result" tier, because a finished download is written straight through to the `Cache` by `DeferredDownloader` — by the time anything asks, it *is* the cache. That also means the result survives the extension process being relaunched, which the old in-memory handoff did not.
 
-The `HanstholmWidget/` source compiles unchanged into two separate Xcode targets — `HanstholmWidgetExtension` (watchOS complications) and `HanstholmWidgetIOSExtension` (iOS Lock Screen widgets) — via a shared `fileSystemSynchronizedGroups` membership, plus a shared `Info.plist` and `HanstholmWidgetExtension.entitlements`. Only the four accessory widget families (`.accessoryCorner/.accessoryCircular/.accessoryInline/.accessoryRectangular`) are wired up; there's no Home Screen (`.systemSmall`/`.systemMedium`) layout yet. Each extension is a separate process/bundle ID, so the shared `"hyde.dk"` background session identifier doesn't collide between them.
+The timeline policy is `.after(15 min)` as a guaranteed fallback; the background session also drives refresh. The widget registers for `onBackgroundURLSessionEvents` matching `DeferredDownloadConfiguration.defaultSessionIdentifier()` — the same helper that builds the session identifier, so the two cannot drift apart.
+
+A background session created inside an app extension **must** set `sharedContainerIdentifier`, or downloads silently fail to start.
+
+The `HanstholmWidget/` source compiles unchanged into two separate Xcode targets — `HanstholmWidgetExtension` (watchOS complications) and `HanstholmWidgetIOSExtension` (iOS Lock Screen widgets) — via a shared `fileSystemSynchronizedGroups` membership, plus a shared `Info.plist` and `HanstholmWidgetExtension.entitlements`. Only the four accessory widget families (`.accessoryCorner/.accessoryCircular/.accessoryInline/.accessoryRectangular`) are wired up; there's no Home Screen (`.systemSmall`/`.systemMedium`) layout yet. Each extension is a separate process/bundle ID, and the session identifier is bundle-scoped, so their background sessions stay apart.
 
 ## Concurrency Model
 
 - **Core package**: No default isolation. `Hyde`, `SurfEntry`, and `Direction` are explicitly `Sendable`. Do not add `defaultIsolation(MainActor.self)` to Core targets — it causes the `Cache` actor to conflict with `@MainActor`-isolated `Codable` conformances.
 - **Watch App and Widget Xcode targets**: `OTHER_SWIFT_FLAGS = "-default-isolation MainActor"` is set, so all unannotated code in those targets is `@MainActor` by default.
-- `DownloadDelegate` is `nonisolated` throughout (stored property, `init`, and delegate method) to safely receive URLSession callbacks from background threads.
+- `DeferredDownloader` is a lock-guarded class, not an actor, because the WidgetKit background-events handler and the `URLSession` delegate queue both reach it from `nonisolated` contexts and need answers synchronously. `NSLock` rather than `Synchronization.Mutex` — the package deploys to watchOS 10 and `Mutex` needs 11.
+- `ConditionsCoordinator.handleBackgroundSessionEvents` is `nonisolated` for the same reason: registering the completion behind an `await` lets a download that already finished find nothing to call.
 
 ## Key Constants
 
 | Constant | Value |
 |----------|-------|
 | App Group suite | `group.ink.codes.Hanstholm` |
-| Background URL session ID | `hyde.dk` |
+| Background URL session ID | `<bundle id>.conditions` (was `hyde.dk`) |
 | Data source URL | `https://hyde.dk/default_hanstholm.asp` |
 | Cache TTL (app) | 5 min |
 | Cache TTL (widget) | 15 min |

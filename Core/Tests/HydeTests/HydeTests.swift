@@ -6,13 +6,98 @@
 //
 
 import XCTest
+import DomainTypes
+import SurfConditions
 @testable import Hyde
 
+// Parsing itself is covered by `ParserTests` against its HTML fixture; these cover the
+// plugin's own contract — the places it vends, request construction, and the guards around
+// decoding.
 final class HydeTests: XCTestCase {
-    func testFetch() async throws {
-        let conditions = try await Hyde.fetch(place: .hanstholm)
+    private let plugin = Hyde()
 
-        XCTAssertNotNil(conditions)
-        print(conditions)
+    private var hanstholm: Place {
+        Hyde.Station.hanstholm.place
+    }
+
+    private var foreign: Place {
+        Place(pluginID: "some.other.plugin", key: "hanstholm", name: "Hanstholm")
+    }
+
+    func testVendsAPlaceForEveryStation() {
+        XCTAssertEqual(plugin.places.count, Hyde.Station.allCases.count)
+        XCTAssertEqual(Set(plugin.places.map(\.pluginID)), [plugin.id])
+        XCTAssertEqual(plugin.places.map(\.name), ["Hanstholm"])
+    }
+
+    /// The key is what cached conditions are filed under, so it must not be the display name.
+    func testPlaceKeyIsStableAndDistinctFromTheDisplayName() {
+        XCTAssertEqual(hanstholm.key, "hanstholm")
+        XCTAssertEqual(hanstholm.name, "Hanstholm")
+        XCTAssertEqual(hanstholm.id, "ink.codes.Hanstholm.plugin.hyde/hanstholm")
+    }
+
+    func testStationRoundTripsThroughItsKey() {
+        for station in Hyde.Station.allCases {
+            XCTAssertEqual(Hyde.Station(key: station.key), station)
+        }
+    }
+
+    func testStationRoundTripsThroughItsPlace() {
+        for station in Hyde.Station.allCases {
+            XCTAssertEqual(Hyde.Station(place: station.place), station)
+        }
+    }
+
+    /// A matching key isn't enough — the place has to belong to this plugin.
+    func testStationRejectsAnotherPluginsPlace() {
+        XCTAssertNil(Hyde.Station(place: foreign))
+    }
+
+    func testOwnsOnlyItsOwnPlaces() {
+        XCTAssertTrue(plugin.owns(hanstholm))
+        XCTAssertFalse(plugin.owns(foreign))
+    }
+
+    func testDeferredRequestUsesTheStationURL() throws {
+        let request = try plugin.deferredRequest(for: hanstholm)
+
+        XCTAssertEqual(request.url, Hyde.Station.hanstholm.url)
+    }
+
+    /// Another plugin's place must be refused even when the key happens to match.
+    func testDeferredRequestThrowsForAnotherPluginsPlace() {
+        XCTAssertThrowsError(try plugin.deferredRequest(for: foreign)) { error in
+            XCTAssertEqual(error as? SurfConditionsFault, .unknownPlace(foreign.id))
+        }
+    }
+
+    func testDecodeRejectsUnexpectedMediaType() async {
+        do {
+            _ = try await plugin.decodeDeferred(Data(), mimeType: "application/json", for: hanstholm)
+            XCTFail("expected a media type failure")
+        } catch {
+            XCTAssertEqual(error as? SurfConditionsFault, .unexpectedMediaType("application/json"))
+        }
+    }
+
+    func testDecodeThrowsForAnotherPluginsPlace() async {
+        do {
+            _ = try await plugin.decodeDeferred(Data(), mimeType: "text/html", for: foreign)
+            XCTFail("expected an unknown place failure")
+        } catch {
+            XCTAssertEqual(error as? SurfConditionsFault, .unknownPlace(foreign.id))
+        }
+    }
+
+    func testDecodeThrowsOnUnparseablePayload() async {
+        do {
+            _ = try await plugin.decodeDeferred(Data("nope".utf8), mimeType: "text/html", for: hanstholm)
+            XCTFail("expected a decoding failure")
+        } catch {
+            // Either the parser rejects it or the report comes back incomplete; both are
+            // fine, what matters is that nothing fabricates an entry.
+            XCTAssertTrue(error is SurfConditionsFault || error is Hyde.Fault)
+        }
     }
 }

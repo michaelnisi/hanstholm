@@ -7,7 +7,7 @@
 
 import WidgetKit
 import SwiftUI
-import Hyde
+import Conditions
 import DomainTypes
 import MockData
 
@@ -84,7 +84,7 @@ extension HanstholmWidgetEntryView {
                 
                 Text(Image(systemName: "wind")) + Text(" ") + Text(entry.wind.direction.formatted()).fontWeight(.black) + Text(" ") + Text(entry.wind.speed.current.knots())
                
-                Text("\(entry.name), \(entry.date.formatted(date: .omitted, time: .shortened))")
+                Text("\(entry.place.name), \(entry.date.formatted(date: .omitted, time: .shortened))")
                     .font(.caption)
             }
             .widgetAccentable()
@@ -107,13 +107,13 @@ struct HanstholmWidget: Widget {
                     .background()
             }
         }
-        .onBackgroundURLSessionEvents(matching: "hyde.dk") { urlSessionEvent, completion in
-            Task {
-                await Hyde.setCompletion {
-                    MainActor.assumeIsolated {
-                        completion()
-                    }
-                }
+        // Registered synchronously, and the same helper builds the session identifier used
+        // to create the session, so the two can't drift apart.
+        .onBackgroundURLSessionEvents(
+            matching: DeferredDownloadConfiguration.defaultSessionIdentifier()
+        ) { urlSessionEvent, completion in
+            ConditionsCoordinator.widget.handleBackgroundSessionEvents {
+                completion()
             }
         }
         .configurationDisplayName("Hanstholm")

@@ -7,13 +7,12 @@
 
 import WidgetKit
 import SwiftUI
-import Hyde
 import DomainTypes
-import Cache
+import Conditions
 import MockData
 
 struct SurfEntryProvider: TimelineProvider {
-    private let cache = Cache()
+    private let coordinator = ConditionsCoordinator.widget
 
     func placeholder(in context: Context) -> SurfEntry {
         MockData.SurfEntry.makeSurfEntry()
@@ -21,8 +20,7 @@ struct SurfEntryProvider: TimelineProvider {
 
     func getSnapshot(in context: Context, completion: @escaping @Sendable (SurfEntry) -> ()) {
         _ = Task {
-            let place = await cache.place()
-            let entry = (try? await cache.conditions(matching: place, newer: .distantPast))
+            let entry = await coordinator.cached()
                 ?? MockData.SurfEntry.makeSurfEntry(status: .error)
 
             completion(entry)
@@ -31,38 +29,18 @@ struct SurfEntryProvider: TimelineProvider {
 
     func getTimeline(in context: Context, completion: @escaping @Sendable  (Timeline<SurfEntry>) -> ()) {
         Task {
-            let placeName = await cache.place()
-            let place = Hyde.Place(name: placeName) ?? .hanstholm
+            await coordinator.scheduleDeferredRefresh(after: SurfEntry.cacheTTL)
 
-            await Hyde.backgroundFetch(place: place)
+            // Two tiers, not three: a finished background download has already been written
+            // to the cache by the time we get here, so there's no in-memory result to check.
+            let entry = (try? await coordinator.conditions(
+                policy: .cached(maxAge: SurfEntry.cacheTTL),
+                trigger: .widgetTimeline
+            )) ?? MockData.SurfEntry.makeSurfEntry(status: .error)
 
-            let entry = await getEntry(place: place)
-
-            if let entry {
-                try? await cache.setConditions(entry)
-            }
-
-            let entries = [entry ?? MockData.SurfEntry.makeSurfEntry(status: .error)]
-            let timeline = Timeline(entries: entries, policy: .after(.now.addingTimeInterval(SurfEntry.cacheTTL)))
+            let timeline = Timeline(entries: [entry], policy: .after(.now.addingTimeInterval(SurfEntry.cacheTTL)))
 
             completion(timeline)
         }
-    }
-}
-
-extension SurfEntryProvider {
-    private func getEntry(place: Hyde.Place) async -> SurfEntry? {
-        let date: Date = .now.addingTimeInterval(-SurfEntry.cacheTTL)
-
-        if let cached = try? await cache.conditions(matching: place.name, newer: date) {
-            return cached
-        }
-
-        if let background = await Hyde.backgroundResult(place: place) {
-            return SurfEntry(dto: background)
-        }
-
-        let fetched = try? await Hyde.fetch(place: place)
-        return SurfEntry(dto: fetched)
     }
 }

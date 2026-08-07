@@ -43,10 +43,9 @@ struct ContentView: View {
     }
 
     private func load() async {
-        let cache = Cache()
-        let place = await cache.place()
-
-        surfEntry = try? await cache.conditions(matching: place)
+        // Reads the selected place's conditions in one step, so this screen doesn't need
+        // plugins linked just to name the place it's already storing data for.
+        surfEntry = try? await Cache().selectedConditions()
     }
 }
 
@@ -72,7 +71,7 @@ private struct ConditionsView: View {
                 LabeledContent("Updated", value: surfEntry.date.formatted(date: .abbreviated, time: .shortened))
             }
         }
-        .navigationTitle(surfEntry.name)
+        .navigationTitle(surfEntry.place.name)
     }
 }
 
