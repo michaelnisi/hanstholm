@@ -382,9 +382,6 @@ final class ConditionsCoordinatorTests: XCTestCase {
         XCTAssertEqual(plugin.decodes.count, 0)
     }
 
-    /// Same guarantee as `testAnswerForTheWrongPlaceIsRejected`, but for the deferred-download
-    /// write path: a plugin decoding conditions for a different place than it was asked about
-    /// would have its entry cached under a key nothing reads.
     func testIngestDropsEntryForWrongPlace() async throws {
         let elsewhere = makePlace(key: "elsewhere", name: "Elsewhere")
         let plugin = makePlugin(entry: { _ in makeEntry(place: elsewhere) })
