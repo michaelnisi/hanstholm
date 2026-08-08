@@ -1,10 +1,3 @@
-//
-//  ParserTests.swift
-//
-//
-//  Created by Michael Nisi on 07.04.24.
-//
-
 import XCTest
 @testable import Hyde
 
@@ -32,9 +25,6 @@ final class ParserTests: XCTestCase {
     }
 
     func testSectionScopedLookupDoesNotLeakIntoLaterSections() {
-        // "Bølger" is missing its own "middel" row, but "Strøm" — a later,
-        // unrelated section — happens to contain a line also named "middel".
-        // A section-scoped lookup must not leak across that boundary.
         let parts: [String.SubSequence] = [
             "Vindhastighed",
             "aktuelt", "18,6 m/s",
@@ -54,8 +44,6 @@ final class ParserTests: XCTestCase {
     }
 
     func testSectionScopedLookupDoesNotReturnNextSectionHeadingAsValue() {
-        // "Bølger" section's "middel" label has no value row before "Strøm"
-        // begins. The lookup must return nil, not "Strøm" itself.
         let parts: [String.SubSequence] = [
             "Vindhastighed",
             "aktuelt", "18,6 m/s",

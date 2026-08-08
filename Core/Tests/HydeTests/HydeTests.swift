@@ -1,18 +1,8 @@
-//
-//  HydeTests.swift
-//
-//
-//  Created by Michael Nisi on 07.04.24.
-//
-
 import XCTest
 import DomainTypes
 import SurfConditions
 @testable import Hyde
 
-// Parsing itself is covered by `ParserTests` against its HTML fixture; these cover the
-// plugin's own contract — the places it vends, request construction, and the guards around
-// decoding.
 final class HydeTests: XCTestCase {
     private let plugin = Hyde()
 
@@ -30,7 +20,6 @@ final class HydeTests: XCTestCase {
         XCTAssertEqual(plugin.places.map(\.name), ["Hanstholm"])
     }
 
-    /// The key is what cached conditions are filed under, so it must not be the display name.
     func testPlaceKeyIsStableAndDistinctFromTheDisplayName() {
         XCTAssertEqual(hanstholm.key, "hanstholm")
         XCTAssertEqual(hanstholm.name, "Hanstholm")
@@ -49,7 +38,6 @@ final class HydeTests: XCTestCase {
         }
     }
 
-    /// A matching key isn't enough — the place has to belong to this plugin.
     func testStationRejectsAnotherPluginsPlace() {
         XCTAssertNil(Hyde.Station(place: foreign))
     }
@@ -65,7 +53,6 @@ final class HydeTests: XCTestCase {
         XCTAssertEqual(request.url, Hyde.Station.hanstholm.url)
     }
 
-    /// Another plugin's place must be refused even when the key happens to match.
     func testDeferredRequestThrowsForAnotherPluginsPlace() {
         XCTAssertThrowsError(try plugin.deferredRequest(for: foreign)) { error in
             XCTAssertEqual(error as? SurfConditionsFault, .unknownPlace(foreign.id))
@@ -95,8 +82,6 @@ final class HydeTests: XCTestCase {
             _ = try await plugin.decodeDeferred(Data("nope".utf8), mimeType: "text/html", for: hanstholm)
             XCTFail("expected a decoding failure")
         } catch {
-            // Either the parser rejects it or the report comes back incomplete; both are
-            // fine, what matters is that nothing fabricates an entry.
             XCTAssertTrue(error is SurfConditionsFault || error is Hyde.Fault)
         }
     }

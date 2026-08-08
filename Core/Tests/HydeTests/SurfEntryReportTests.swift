@@ -1,18 +1,9 @@
-//
-//  SurfEntryReportTests.swift
-//
-//
-//  Created by Michael Nisi on 11.07.26.
-//
-
 import XCTest
 import DomainTypes
 @testable import Hyde
 
 final class SurfEntryReportTests: XCTestCase {
     private let place = Hyde.Station.hanstholm.place
-
-    // MARK: SurfEntry.Wave
 
     func testWaveInitSucceedsWithCompleteReport() {
         let report = Report.Wave(height: .init(max: 2, middle: 1.2), period: 8, direction: "NV")
@@ -43,8 +34,6 @@ final class SurfEntryReportTests: XCTestCase {
         XCTAssertNil(SurfEntry.Wave(report: nil))
     }
 
-    // MARK: SurfEntry.Wind.Speed
-
     func testWindSpeedInitSucceedsWithCompleteReport() {
         let report = Report.Wind.Speed(gust: 15, middle: 7, current: 8)
         let speed = SurfEntry.Wind.Speed(report: report)
@@ -70,8 +59,6 @@ final class SurfEntryReportTests: XCTestCase {
         XCTAssertNil(SurfEntry.Wind.Speed(report: nil))
     }
 
-    // MARK: SurfEntry.Wind
-
     func testWindInitSucceedsWithCompleteReport() {
         let report = Report.Wind(speed: .init(gust: 15, middle: 7, current: 8), direction: "SV")
         let wind = SurfEntry.Wind(report: report)
@@ -89,8 +76,6 @@ final class SurfEntryReportTests: XCTestCase {
         let report = Report.Wind(speed: .init(gust: nil, middle: 7, current: 8), direction: "SV")
         XCTAssertNil(SurfEntry.Wind(report: report))
     }
-
-    // MARK: SurfEntry
 
     private func makeReport(wave: Report.Wave?, wind: Report.Wind?) -> Report {
         Report(station: .hanstholm, date: .now, wave: wave, wind: wind)
