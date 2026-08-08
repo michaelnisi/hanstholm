@@ -1,15 +1,5 @@
-//
-//  Report.swift
-//
-//
-//  Created by Michael Nisi on 07.04.24.
-//
-
 import Foundation
 
-/// One set of readings as hyde.dk publishes them, before anything domain-shaped is made of
-/// it. Internal on purpose: nothing outside this plugin should have to know the source's
-/// own vocabulary.
 struct Report: Equatable, Sendable {
     struct Wave: Equatable, Sendable {
         struct Height: Equatable, Sendable {
@@ -92,8 +82,6 @@ extension Report {
             direction: String(parts.windDirection() ?? "")
         )
 
-        // Stamped at parse time, which is only honest because a finished download is
-        // decoded and written through immediately rather than being held onto.
         self.init(station: station, date: .now, wave: wave, wind: wind)
     }
 }

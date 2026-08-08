@@ -1,20 +1,10 @@
-//
-//  Cache.swift
-//
-//
-//  Created by Michael Nisi on 20.05.24.
-//
-
 import Foundation
 import DomainTypes
 
-// UserDefaults is documented as thread-safe but isn't marked Sendable by the SDK,
-// so passing an injected instance across the Cache actor boundary needs this.
 extension UserDefaults: @retroactive @unchecked Sendable {}
 
 public actor Cache {
     struct Key {
-        // Named for what is stored, not for whichever source happened to produce it first.
         static let conditions = "ink.codes.Hanstholm.Cache.conditions"
     }
 
@@ -48,9 +38,6 @@ extension Cache {
         return data
     }
 
-    /// Files the entry under its own place, which is why the coordinator checks that a
-    /// plugin returned conditions for the place it was asked about — otherwise a write
-    /// could land under a key nothing ever reads.
     public func setConditions(_ value: SurfEntry) throws {
         let data = try encoder.encode(value)
 
@@ -59,16 +46,12 @@ extension Cache {
 }
 
 extension Cache {
-    /// Stores only the identifier: the plugin stays the source of truth for a place's
-    /// display name, so renaming one doesn't leave a stale copy here.
     public func setSelectedPlace(_ place: Place) throws {
         let data = try encoder.encode(place.id)
 
         db?.setValue(data, forKey: .selectedPlaceKey)
     }
 
-    /// `nil` when nothing has been selected yet. Resolving that to an actual place needs
-    /// the installed plugins, which is the coordinator's job, not storage's.
     public func selectedPlaceID() -> String? {
         guard let data = db?.data(forKey: .selectedPlaceKey) else {
             return nil
@@ -77,8 +60,6 @@ extension Cache {
         return try? decoder.decode(String.self, from: data)
     }
 
-    /// Conditions for whatever place is selected, for read-only consumers that have no
-    /// plugins linked and so can't resolve a `Place` themselves.
     public func selectedConditions() throws -> SurfEntry? {
         guard let id = selectedPlaceID(), let data = db?.data(forKey: .makeKey(placeID: id)) else {
             return nil

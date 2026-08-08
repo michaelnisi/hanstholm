@@ -1,10 +1,3 @@
-//
-//  CacheTests.swift
-//
-//
-//  Created by Michael Nisi on 11.07.26.
-//
-
 import XCTest
 import DomainTypes
 @testable import Cache
@@ -74,7 +67,6 @@ final class CacheTests: XCTestCase {
         XCTAssertNil(result)
     }
 
-    /// Two places that share a display name but differ in identity must not share storage.
     func testPlacesWithTheSameNameAreStoredSeparately() async throws {
         let cache = Cache(userDefaults: userDefaults)
         let one = makeSurfEntry(place: makePlace(key: "hanstholm", name: "Hanstholm"))

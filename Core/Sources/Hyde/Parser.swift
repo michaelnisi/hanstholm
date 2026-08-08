@@ -1,10 +1,3 @@
-//
-//  Parser.swift
-//
-//
-//  Created by Michael Nisi on 07.04.24.
-//
-
 import Foundation
 #if os(watchOS)
 import WatchKit
@@ -50,14 +43,9 @@ extension String {
     }
 }
 
-// Keep in sync with every `within:` argument used below — a section-scoped
-// lookup only stays bounded to its own section if its heading is listed here.
 private let sectionHeadings: Set<Substring> = ["Vindhastighed", "Vindretning", "Bølger", "Strøm"]
 
 extension Array where Element == String.SubSequence {
-
-    // MARK: Wave
-
     func maxWaveHeight() -> Substring? {
         substring(after: "max", within: "Bølger")
     }
@@ -74,8 +62,6 @@ extension Array where Element == String.SubSequence {
         substring(after: "Bølgeretning")
     }
 
-    // MARK: Wind speed
-
     func windCurrent() -> Substring? {
         substring(after: "aktuelt", within: "Vindhastighed")
     }
@@ -88,13 +74,9 @@ extension Array where Element == String.SubSequence {
         substring(after: "vindstød")
     }
 
-    // MARK: Wind direction
-
     func windDirection() -> Substring? {
         substring(after: "middel", within: "Vindretning")
     }
-
-    // MARK: Lookup
 
     func substring(after label: Substring, within section: Substring? = nil) -> Substring? {
         let startIndex: Int
@@ -128,7 +110,6 @@ private let decimalFormatter: NumberFormatter = {
 
 extension Substring {
     func double() -> Double? {
-        // Values include units ("3,88 m", "18,6 m/s") — take the numeric prefix only.
         let numeric = prefix(while: { !$0.isWhitespace })
         guard let number = decimalFormatter.number(from: String(numeric)) else {
             return nil

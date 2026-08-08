@@ -1,16 +1,5 @@
-//
-//  SurfEntry+Report.swift
-//
-//
-//  Created by Michael Nisi on 26.05.24.
-//
-
 import Foundation
 import DomainTypes
-
-// These initializers delegate to the memberwise ones rather than assigning stored
-// properties: `SurfEntry` is declared in another module, and cross-module extension
-// initializers aren't allowed to assign directly.
 
 extension SurfEntry.Wave {
     init?(report: Report.Wave?) {
@@ -55,8 +44,6 @@ extension SurfEntry.Wind.Speed {
 }
 
 extension SurfEntry {
-    /// The place is passed in rather than derived from the report: it has to be the one the
-    /// coordinator asked about, since that's the key the entry gets cached under.
     init?(report: Report?, place: Place) {
         guard
             let wave = Wave(report: report?.wave),
