@@ -1,10 +1,3 @@
-//
-//  BackgroundRefresh.swift
-//  Hanstholm Watch App
-//
-//  Created by Michael Nisi on 08.07.26.
-//
-
 import WatchKit
 import Conditions
 

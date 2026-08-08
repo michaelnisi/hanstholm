@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  Hanstholm
-//
-//  Created by Michael Nisi on 10.07.26.
-//
-
 import SwiftUI
 import DomainTypes
 import Cache
@@ -43,8 +36,6 @@ struct ContentView: View {
     }
 
     private func load() async {
-        // Reads the selected place's conditions in one step, so this screen doesn't need
-        // plugins linked just to name the place it's already storing data for.
         surfEntry = try? await Cache().selectedConditions()
     }
 }

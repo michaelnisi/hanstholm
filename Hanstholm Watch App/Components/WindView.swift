@@ -1,10 +1,3 @@
-//
-//  WindView.swift
-//  Hanstholm Watch App
-//
-//  Created by Michael Nisi on 12.05.24.
-//
-
 import SwiftUI
 import DomainTypes
 import MockData

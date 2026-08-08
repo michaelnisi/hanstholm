@@ -1,10 +1,3 @@
-//
-//  Double+SurfText.swift
-//  Hanstholm Watch App
-//
-//  Created by Michael Nisi on 07.07.26.
-//
-
 import SwiftUI
 import Foundation
 

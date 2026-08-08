@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  Hanstholm Watch App
-//
-//  Created by Michael Nisi on 14.04.24.
-//
-
 import SwiftUI
 import DomainTypes
 import MockData
@@ -23,8 +16,6 @@ struct ContentView: View {
             }
         }
         .task {
-            // `onChange(of: scenePhase)` below only fires on a *transition*, not for the
-            // phase the app launches into, so the very first load has to happen here.
             await surfProvider.load()
         }
         .onChange(of: scenePhase) {
