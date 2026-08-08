@@ -406,4 +406,26 @@ final class ConditionsCoordinatorTests: XCTestCase {
         XCTAssertNil(written)
         XCTAssertEqual(plugin.decodes.count, 0)
     }
+
+    /// Same guarantee as `testAnswerForTheWrongPlaceIsRejected`, but for the deferred-download
+    /// write path: a plugin decoding conditions for a different place than it was asked about
+    /// would have its entry cached under a key nothing reads.
+    func testIngestDropsEntryForWrongPlace() async throws {
+        let elsewhere = makePlace(key: "elsewhere", name: "Elsewhere")
+        let plugin = makePlugin(entry: { _ in makeEntry(place: elsewhere) })
+        let (coordinator, cache) = makeCoordinator(plugin: plugin)
+
+        await coordinator.ingest(
+            data: Data("payload".utf8),
+            mimeType: "text/html",
+            token: .init(place: makePlace())
+        )
+
+        let written = try await cache.conditions(matching: makePlace())
+        let leaked = try await cache.conditions(matching: elsewhere)
+
+        XCTAssertNil(written)
+        XCTAssertNil(leaked)
+        XCTAssertEqual(plugin.decodes.count, 1)
+    }
 }
