@@ -1,10 +1,3 @@
-//
-//  Direction.swift
-//
-//
-//  Created by Michael Nisi on 24.05.24.
-//
-
 import Foundation
 
 public struct Direction: Hashable, Equatable, Sendable, Codable {

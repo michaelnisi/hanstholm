@@ -1,10 +1,3 @@
-//
-//  Double+Surf.swift
-//  Hanstholm
-//
-//  Created by Michael Nisi on 01.05.24.
-//
-
 import Foundation
 
 extension Double {
