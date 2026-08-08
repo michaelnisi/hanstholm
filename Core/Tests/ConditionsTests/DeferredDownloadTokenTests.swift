@@ -1,16 +1,7 @@
-//
-//  DeferredDownloadTokenTests.swift
-//
-//
-//  Created by Michael Nisi on 29.07.26.
-//
-
 import XCTest
 import DomainTypes
 @testable import Conditions
 
-// The token is the only thing tying a download that outlived its process back to the plugin
-// and place that asked for it, so malformed input has to fail closed rather than misparse.
 final class DeferredDownloadTokenTests: XCTestCase {
     private let place = Place(pluginID: "test.stub", key: "hanstholm", name: "Hanstholm")
 
