@@ -1,10 +1,3 @@
-//
-//  SurfEntry.swift
-//  Hanstholm
-//
-//  Created by Michael Nisi on 10.05.24.
-//
-
 import WidgetKit
 import SwiftUI
 
@@ -59,7 +52,6 @@ public struct SurfEntry: TimelineEntry, Identifiable, Hashable, Sendable, Codabl
         "\(place.id)-\(date.formatted())"
     }
 
-    /// How long cached/widget-fetched conditions are considered fresh, in seconds.
     public static let cacheTTL: TimeInterval = 15 * 60
 
     public var relevance: TimelineEntryRelevance? {

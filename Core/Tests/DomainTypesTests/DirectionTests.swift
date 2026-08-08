@@ -1,10 +1,3 @@
-//
-//  DirectionTests.swift
-//
-//
-//  Created by Michael Nisi on 11.07.26.
-//
-
 import XCTest
 @testable import DomainTypes
 
@@ -30,7 +23,6 @@ final class DirectionTests: XCTestCase {
     }
 
     func testSouthIsZeroDegreesAndValuesIncreaseClockwise() {
-        // South = 0°, per the "arrow points toward origin" quirk documented in CLAUDE.md.
         XCTAssertEqual(Direction(cardinal: .south).degrees, 0)
         XCTAssertEqual(Direction(cardinal: .west).degrees, 90)
         XCTAssertEqual(Direction(cardinal: .north).degrees, 180)
