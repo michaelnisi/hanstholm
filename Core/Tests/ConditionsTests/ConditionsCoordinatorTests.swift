@@ -1,10 +1,3 @@
-//
-//  ConditionsCoordinatorTests.swift
-//
-//
-//  Created by Michael Nisi on 29.07.26.
-//
-
 import XCTest
 import Foundation
 import Cache
@@ -115,7 +108,6 @@ final class ConditionsCoordinatorTests: XCTestCase {
             configuration: .init(
                 plugins: [plugin],
                 cache: cache,
-                // deferredDownloads stays nil, so no background session is ever created.
                 reloadWidgetTimelines: { reload?.increment() },
                 now: now
             )
@@ -123,8 +115,6 @@ final class ConditionsCoordinatorTests: XCTestCase {
 
         return (coordinator, cache)
     }
-
-    // MARK: Place resolution
 
     func testFallsBackToTheFirstInstalledPlaceWhenNothingSelected() async throws {
         let plugin = makePlugin()
@@ -163,8 +153,6 @@ final class ConditionsCoordinatorTests: XCTestCase {
 
         XCTAssertEqual(plugin.fetches.count, 0)
     }
-
-    // MARK: Freshness
 
     func testCachedOnlyReturnsCachedWithoutFetching() async throws {
         let plugin = makePlugin()
@@ -240,7 +228,6 @@ final class ConditionsCoordinatorTests: XCTestCase {
     func testFreshnessBoundaryUsesInjectedClock() async throws {
         let plugin = makePlugin()
         let stored = makeEntry()
-        // Ten minutes after the entry was stored, a five minute window is stale.
         let later = stored.date.addingTimeInterval(600)
         let (coordinator, cache) = makeCoordinator(plugin: plugin, now: { later })
 
@@ -254,10 +241,6 @@ final class ConditionsCoordinatorTests: XCTestCase {
         XCTAssertEqual(plugin.fetches.count, 1)
     }
 
-    // MARK: Failure handling
-
-    /// A plugin answering about a place it wasn't asked about would have its entry cached
-    /// under a key nothing reads, so every request would silently re-fetch forever.
     func testAnswerForTheWrongPlaceIsRejected() async throws {
         let elsewhere = makePlace(key: "elsewhere", name: "Elsewhere")
         let plugin = makePlugin(entry: { _ in makeEntry(place: elsewhere) })
@@ -295,8 +278,6 @@ final class ConditionsCoordinatorTests: XCTestCase {
         XCTAssertEqual(survived, stored)
     }
 
-    // MARK: Timeline reloads
-
     func testWidgetTimelineTriggerDoesNotReloadTimelines() async throws {
         let plugin = makePlugin()
         let reloads = Counter()
@@ -319,11 +300,8 @@ final class ConditionsCoordinatorTests: XCTestCase {
         }
     }
 
-    // MARK: Coalescing
-
     func testConcurrentReloadsFetchOnce() async throws {
         let plugin = makePlugin(entry: { place in
-            // Long enough that the second caller arrives while the first is in flight.
             try await Task.sleep(nanoseconds: 50_000_000)
 
             return makeEntry(place: place)
@@ -337,8 +315,6 @@ final class ConditionsCoordinatorTests: XCTestCase {
 
         XCTAssertEqual(plugin.fetches.count, 1)
     }
-
-    // MARK: Deferred download ingest
 
     func testIngestWritesThroughAndReloads() async throws {
         let plugin = makePlugin()
@@ -382,7 +358,6 @@ final class ConditionsCoordinatorTests: XCTestCase {
 
         try await cache.setSelectedPlace(makePlace())
 
-        // Scheduled before the selected place changed.
         await coordinator.ingest(
             data: Data("payload".utf8),
             mimeType: "text/html",
