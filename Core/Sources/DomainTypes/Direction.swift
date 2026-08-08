@@ -100,26 +100,40 @@ extension Direction {
 }
 
 extension Direction {
-    static let cardinalToEnglish: [Cardinal: String] = [
-        .north: "N",
-        .northNorthEast: "NNE",
-        .northEast: "NE",
-        .eastNorthEast: "ENE",
-        .east: "E",
-        .eastSouthEast: "ESE",
-        .southEast: "SE",
-        .southSouthEast: "SSE",
-        .south: "S",
-        .southSouthWest: "SSW",
-        .southWest: "SW",
-        .westSouthWest: "WSW",
-        .west: "W",
-        .westNorthWest: "WNW",
-        .northWest: "NW",
-        .northNorthWest: "NNW"
-    ]
-    
     public func formatted() -> String {
-        Direction.cardinalToEnglish[cardinal]!
+        switch cardinal {
+        case .north:
+            "N"
+        case .northNorthEast:
+            "NNE"
+        case .northEast:
+            "NE"
+        case .eastNorthEast:
+            "ENE"
+        case .east:
+            "E"
+        case .eastSouthEast:
+            "ESE"
+        case .southEast:
+            "SE"
+        case .southSouthEast:
+            "SSE"
+        case .south:
+            "S"
+        case .southSouthWest:
+            "SSW"
+        case .southWest:
+            "SW"
+        case .westSouthWest:
+            "WSW"
+        case .west:
+            "W"
+        case .westNorthWest:
+            "WNW"
+        case .northWest:
+            "NW"
+        case .northNorthWest:
+            "NNW"
+        }
     }
 }
