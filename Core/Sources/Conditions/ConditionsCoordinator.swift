@@ -122,7 +122,6 @@ extension ConditionsCoordinator {
         }
 
         guard let place = all.first(where: { $0.id == id }) else {
-            // Selected a place whose plugin is no longer installed.
             throw SurfConditionsFault.noPluginForPlace(id)
         }
 
