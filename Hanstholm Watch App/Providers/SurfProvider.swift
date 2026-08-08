@@ -1,10 +1,3 @@
-//
-//  SurfConditionsProvider.swift
-//  Hanstholm Watch App
-//
-//  Created by Michael Nisi on 11.05.24.
-//
-
 import Observation
 import MockData
 import DomainTypes

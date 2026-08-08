@@ -1,10 +1,3 @@
-//
-//  HanstholmWidget.swift
-//  HanstholmWidget
-//
-//  Created by Michael Nisi on 14.04.24.
-//
-
 import WidgetKit
 import SwiftUI
 import Conditions
@@ -107,8 +100,6 @@ struct HanstholmWidget: Widget {
                     .background()
             }
         }
-        // Registered synchronously, and the same helper builds the session identifier used
-        // to create the session, so the two can't drift apart.
         .onBackgroundURLSessionEvents(
             matching: DeferredDownloadConfiguration.defaultSessionIdentifier()
         ) { urlSessionEvent, completion in

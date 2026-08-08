@@ -1,10 +1,3 @@
-//
-//  GaugeProgressStyle.swift
-//  Hanstholm Watch App
-//
-//  Created by Michael Nisi on 24.05.24.
-//
-
 import SwiftUI
 
 struct GaugeProgressStyle: ProgressViewStyle {

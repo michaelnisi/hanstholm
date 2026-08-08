@@ -1,10 +1,3 @@
-//
-//  SurfEntryProvider.swift
-//  HanstholmWidgetExtension
-//
-//  Created by Michael Nisi on 28.04.24.
-//
-
 import WidgetKit
 import SwiftUI
 import DomainTypes
@@ -31,8 +24,6 @@ struct SurfEntryProvider: TimelineProvider {
         Task {
             await coordinator.scheduleDeferredRefresh(after: SurfEntry.cacheTTL)
 
-            // Two tiers, not three: a finished background download has already been written
-            // to the cache by the time we get here, so there's no in-memory result to check.
             let entry = (try? await coordinator.conditions(
                 policy: .cached(maxAge: SurfEntry.cacheTTL),
                 trigger: .widgetTimeline
