@@ -235,8 +235,6 @@ extension ConditionsCoordinator {
         do {
             let entry = try await plugin.decodeDeferred(data, mimeType: mimeType, for: place)
 
-            // Same guarantee as the foreground fetch: a plugin that answers about a
-            // different place would write somewhere nothing ever reads.
             guard entry.place == place else {
                 throw SurfConditionsFault.placeMismatch(expected: place.id, actual: entry.place.id)
             }
