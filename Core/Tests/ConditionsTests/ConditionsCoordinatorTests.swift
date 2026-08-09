@@ -125,6 +125,17 @@ final class ConditionsCoordinatorTests: XCTestCase {
         XCTAssertEqual(place, makePlace())
     }
 
+    func testFallingBackToTheFirstInstalledPlacePersistsIt() async throws {
+        let plugin = makePlugin()
+        let (coordinator, cache) = makeCoordinator(plugin: plugin)
+
+        _ = try await coordinator.selectedPlace()
+
+        let selected = await cache.selectedPlaceID()
+
+        XCTAssertEqual(selected, makePlace().id)
+    }
+
     func testUsesTheSelectedPlace() async throws {
         let second = makePlace(key: "elsewhere", name: "Elsewhere")
         let plugin = makePlugin(places: [makePlace(), second])
