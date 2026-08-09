@@ -81,6 +81,8 @@ extension ConditionsCoordinator {
                 throw SurfConditionsFault.noPlaceSelected
             }
 
+            try? await configuration.cache.setSelectedPlace(first)
+
             return first
         }
 
