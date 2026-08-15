@@ -148,6 +148,40 @@ final class ConditionsCoordinatorTests: XCTestCase {
         XCTAssertEqual(place, second)
     }
 
+    func testAvailablePlacesReturnsAllConfiguredPluginsPlaces() async throws {
+        let second = makePlace(key: "elsewhere", name: "Elsewhere")
+        let plugin = makePlugin(places: [makePlace(), second])
+        let (coordinator, _) = makeCoordinator(plugin: plugin)
+
+        let places = await coordinator.availablePlaces()
+
+        XCTAssertEqual(places, [makePlace(), second])
+    }
+
+    func testSelectPlacePersistsIt() async throws {
+        let second = makePlace(key: "elsewhere", name: "Elsewhere")
+        let plugin = makePlugin(places: [makePlace(), second])
+        let (coordinator, cache) = makeCoordinator(plugin: plugin)
+
+        try await coordinator.selectPlace(second)
+
+        let selected = await cache.selectedPlaceID()
+
+        XCTAssertEqual(selected, second.id)
+    }
+
+    func testSelectPlaceThenSelectedPlaceReturnsIt() async throws {
+        let second = makePlace(key: "elsewhere", name: "Elsewhere")
+        let plugin = makePlugin(places: [makePlace(), second])
+        let (coordinator, _) = makeCoordinator(plugin: plugin)
+
+        try await coordinator.selectPlace(second)
+
+        let place = try await coordinator.selectedPlace()
+
+        XCTAssertEqual(place, second)
+    }
+
     func testThrowsWhenSelectedPlacesPluginIsGone() async throws {
         let plugin = makePlugin()
         let (coordinator, cache) = makeCoordinator(plugin: plugin)
