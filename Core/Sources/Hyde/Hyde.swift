@@ -10,6 +10,8 @@ public struct Hyde: SurfConditionsPlugin, DeferredDownloadable {
 
     public enum Station: CaseIterable, Equatable, Sendable {
         case hanstholm
+        case hvideSande
+        case thorsminde
     }
 
     public enum Fault: Error {
@@ -91,6 +93,10 @@ extension Hyde.Station {
         switch self {
         case .hanstholm:
             return "Hanstholm"
+        case .hvideSande:
+            return "Hvide Sande"
+        case .thorsminde:
+            return "Thorsminde"
         }
     }
 
@@ -98,6 +104,10 @@ extension Hyde.Station {
         switch self {
         case .hanstholm:
             return "hanstholm"
+        case .hvideSande:
+            return "hvide-sande"
+        case .thorsminde:
+            return "thorsminde"
         }
     }
 
@@ -105,6 +115,10 @@ extension Hyde.Station {
         switch self {
         case .hanstholm:
             return URL(string: "https://hyde.dk/default_hanstholm.asp")!
+        case .hvideSande:
+            return URL(string: "https://hyde.dk/default.asp")!
+        case .thorsminde:
+            return URL(string: "https://hyde.dk/default_thorsminde.asp")!
         }
     }
 

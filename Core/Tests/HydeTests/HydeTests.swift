@@ -17,7 +17,7 @@ final class HydeTests: XCTestCase {
     func testVendsAPlaceForEveryStation() {
         XCTAssertEqual(plugin.places.count, Hyde.Station.allCases.count)
         XCTAssertEqual(Set(plugin.places.map(\.pluginID)), [plugin.id])
-        XCTAssertEqual(plugin.places.map(\.name), ["Hanstholm"])
+        XCTAssertEqual(plugin.places.map(\.name), ["Hanstholm", "Hvide Sande", "Thorsminde"])
     }
 
     func testPlaceKeyIsStableAndDistinctFromTheDisplayName() {
