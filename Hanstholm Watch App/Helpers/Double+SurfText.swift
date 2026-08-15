@@ -14,3 +14,9 @@ extension Double {
         return Text("\(value)\(Text("kn").font(unitFont))")
     }
 }
+
+extension Optional where Wrapped == Double {
+    func knotsText(unitFont: Font = .caption) -> Text {
+        self?.knotsText(unitFont: unitFont) ?? Text("–")
+    }
+}

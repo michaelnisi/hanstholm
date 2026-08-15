@@ -22,11 +22,11 @@ public struct SurfEntry: TimelineEntry, Identifiable, Hashable, Sendable, Codabl
     
     public struct Wind: Hashable, Sendable, Codable {
         public struct Speed: Hashable, Sendable, Codable {
-            public let gust: Double
+            public let gust: Double?
             public let middle: Double
             public let current: Double
-            
-            public init(gust: Double, middle: Double, current: Double) {
+
+            public init(gust: Double?, middle: Double, current: Double) {
                 self.gust = gust
                 self.middle = middle
                 self.current = current
