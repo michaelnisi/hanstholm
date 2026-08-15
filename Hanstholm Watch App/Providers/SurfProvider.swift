@@ -5,6 +5,7 @@ import Conditions
 
 @Observable final class SurfProvider {
     var surfEntry: SurfEntry?
+    var lastError: Error?
 
     struct Dependencies: Sendable {
         var cachedEntry: @Sendable () async -> SurfEntry?
@@ -26,8 +27,10 @@ extension SurfProvider {
 
         do {
             surfEntry = try await dependencies.fetchEntry()
+            lastError = nil
         } catch {
             logger.error("fetch failed: \(error)")
+            lastError = error
         }
     }
 }
