@@ -9,14 +9,13 @@ struct WindView: View {
     
     var body: some View {
         ZStack {
-            ProgressView(value: wind.speed.middle, total: wind.speed.gust)
+            ProgressView(value: wind.speed.middle, total: wind.speed.gust ?? wind.speed.middle)
                 .progressViewStyle(GaugeProgressStyle(strokeColor: .teal))
-            
+
             WindInfo(
                 name: name,
                 date: date,
                 speed: wind.speed.current,
-                maximum: wind.speed.gust,
                 degrees: wind.direction.degrees
             )
         }
@@ -32,7 +31,6 @@ struct WindInfo: View {
     let name: String
     let date: Date
     let speed: Double
-    let maximum: Double
     let degrees: Double
 
     var locationDegrees: Double {
@@ -65,5 +63,16 @@ struct WindInfo: View {
         name: "Hanstholm",
         date: .now,
         wind: MockData.SurfEntry.makeWind()
+    )
+}
+
+#Preview("No Gust") {
+    WindView(
+        name: "Thorsminde",
+        date: .now,
+        wind: .init(
+            speed: .init(gust: nil, middle: 7, current: 5),
+            direction: .init(cardinal: .southWest)
+        )
     )
 }

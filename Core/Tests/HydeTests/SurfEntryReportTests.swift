@@ -43,8 +43,12 @@ final class SurfEntryReportTests: XCTestCase {
         XCTAssertEqual(speed?.current, 8)
     }
 
-    func testWindSpeedInitFailsWhenGustMissing() {
-        XCTAssertNil(SurfEntry.Wind.Speed(report: .init(gust: nil, middle: 7, current: 8)))
+    func testWindSpeedInitSucceedsWhenGustMissing() {
+        let speed = SurfEntry.Wind.Speed(report: .init(gust: nil, middle: 7, current: 8))
+
+        XCTAssertNil(speed?.gust)
+        XCTAssertEqual(speed?.middle, 7)
+        XCTAssertEqual(speed?.current, 8)
     }
 
     func testWindSpeedInitFailsWhenMiddleMissing() {
@@ -73,7 +77,7 @@ final class SurfEntryReportTests: XCTestCase {
     }
 
     func testWindInitFailsWhenSpeedIncomplete() {
-        let report = Report.Wind(speed: .init(gust: nil, middle: 7, current: 8), direction: "SV")
+        let report = Report.Wind(speed: .init(gust: 15, middle: nil, current: 8), direction: "SV")
         XCTAssertNil(SurfEntry.Wind(report: report))
     }
 
@@ -92,6 +96,18 @@ final class SurfEntryReportTests: XCTestCase {
         XCTAssertNotNil(entry)
         XCTAssertEqual(entry?.place, place)
         XCTAssertEqual(entry?.status, .ok)
+    }
+
+    func testSurfEntryInitSucceedsWhenGustMissing() {
+        let report = makeReport(
+            wave: .init(height: .init(max: 2, middle: 1.2), period: 8, direction: "NV"),
+            wind: .init(speed: .init(gust: nil, middle: 7, current: 8), direction: "SV")
+        )
+
+        let entry = SurfEntry(report: report, place: place)
+
+        XCTAssertNotNil(entry)
+        XCTAssertNil(entry?.wind.speed.gust)
     }
 
     func testSurfEntryInitFailsWhenReportIsNil() {

@@ -18,3 +18,9 @@ extension Double {
             .formatted(.measurement(width: width, usage: .asProvided))
     }
 }
+
+extension Optional where Wrapped == Double {
+    public func knots(width: Measurement<UnitSpeed>.FormatStyle.UnitWidth = .abbreviated) -> String {
+        self?.knots(width: width) ?? "–"
+    }
+}

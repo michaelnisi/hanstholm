@@ -33,13 +33,12 @@ extension SurfEntry.Wind.Speed {
     init?(report: Report.Wind.Speed?) {
         guard
             let current = report?.current,
-            let gust = report?.gust,
             let middle = report?.middle else {
             logger.error("incomplete report: \(String(describing: report))")
             return nil
         }
 
-        self.init(gust: gust, middle: middle, current: current)
+        self.init(gust: report?.gust, middle: middle, current: current)
     }
 }
 
