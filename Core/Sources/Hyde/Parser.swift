@@ -36,15 +36,29 @@ extension String {
     }
 }
 
-private let sectionHeadings: Set<Substring> = ["Vindhastighed", "Vindretning", "Bølger", "Strøm"]
+extension Hyde.Station {
+    /// The Danish section-heading tokens that bound `within:`-scoped lookups on this
+    /// station's page. Hanstholm's card ends its wave table with a "Strøm" (current)
+    /// section; Hvide Sande and Thorsminde have no current reading, and instead sit
+    /// between a "Vandstand" (harbour water level) card and a "Slusedrift i dag"
+    /// (sluice flow) card. Keep this in sync with each station's actual page.
+    var sectionHeadings: Set<Substring> {
+        switch self {
+        case .hanstholm:
+            return ["Vindhastighed", "Vindretning", "Bølger", "Strøm"]
+        case .hvideSande, .thorsminde:
+            return ["Vindhastighed", "Vindretning", "Vandstand", "Bølger", "Slusedrift i dag"]
+        }
+    }
+}
 
 extension Array where Element == String.SubSequence {
-    func maxWaveHeight() -> Substring? {
-        substring(after: "max", within: "Bølger")
+    func maxWaveHeight(for station: Hyde.Station = .hanstholm) -> Substring? {
+        substring(after: "max", within: "Bølger", sectionHeadings: station.sectionHeadings)
     }
 
-    func middleWaveHeight() -> Substring? {
-        substring(after: "middel", within: "Bølger")
+    func middleWaveHeight(for station: Hyde.Station = .hanstholm) -> Substring? {
+        substring(after: "middel", within: "Bølger", sectionHeadings: station.sectionHeadings)
     }
 
     func wavePeriod() -> Substring? {
@@ -55,23 +69,27 @@ extension Array where Element == String.SubSequence {
         substring(after: "Bølgeretning")
     }
 
-    func windCurrent() -> Substring? {
-        substring(after: "aktuelt", within: "Vindhastighed")
+    func windCurrent(for station: Hyde.Station = .hanstholm) -> Substring? {
+        substring(after: "aktuelt", within: "Vindhastighed", sectionHeadings: station.sectionHeadings)
     }
 
-    func windMiddle() -> Substring? {
-        substring(after: "middel", within: "Vindhastighed")
+    func windMiddle(for station: Hyde.Station = .hanstholm) -> Substring? {
+        substring(after: "middel", within: "Vindhastighed", sectionHeadings: station.sectionHeadings)
     }
 
     func windGust() -> Substring? {
         substring(after: "vindstød")
     }
 
-    func windDirection() -> Substring? {
-        substring(after: "middel", within: "Vindretning")
+    func windDirection(for station: Hyde.Station = .hanstholm) -> Substring? {
+        substring(after: "middel", within: "Vindretning", sectionHeadings: station.sectionHeadings)
     }
 
-    func substring(after label: Substring, within section: Substring? = nil) -> Substring? {
+    func substring(
+        after label: Substring,
+        within section: Substring? = nil,
+        sectionHeadings: Set<Substring> = Hyde.Station.hanstholm.sectionHeadings
+    ) -> Substring? {
         let startIndex: Int
         let endIndex: Int
 
