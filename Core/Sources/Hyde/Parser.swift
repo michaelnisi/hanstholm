@@ -37,11 +37,6 @@ extension String {
 }
 
 extension Hyde.Station {
-    /// The Danish section-heading tokens that bound `within:`-scoped lookups on this
-    /// station's page. Hanstholm's card ends its wave table with a "Strøm" (current)
-    /// section; Hvide Sande and Thorsminde have no current reading, and instead sit
-    /// between a "Vandstand" (harbour water level) card and a "Slusedrift i dag"
-    /// (sluice flow) card. Keep this in sync with each station's actual page.
     var sectionHeadings: Set<Substring> {
         switch self {
         case .hanstholm:

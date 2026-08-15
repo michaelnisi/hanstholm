@@ -50,7 +50,6 @@ final class ParserTests: XCTestCase {
     }
 
     func testWindThorsminde() async throws {
-        // The captured page's "vindstød" cell was blank at fetch time — real data, not a fixture bug.
         XCTAssertNil(thorsmindeParts.windGust()?.double())
         XCTAssertEqual(String(thorsmindeParts.windMiddle(for: .thorsminde)!), "11,1 m/s")
         XCTAssertEqual(String(thorsmindeParts.windCurrent(for: .thorsminde)!), "12,3 m/s")
