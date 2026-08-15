@@ -99,6 +99,14 @@ extension ConditionsCoordinator {
         try? await configuration.cache.selectedConditions()
     }
 
+    public func availablePlaces() -> [Place] {
+        configuration.plugins.flatMap(\.places)
+    }
+
+    public func selectPlace(_ place: Place) async throws {
+        try await configuration.cache.setSelectedPlace(place)
+    }
+
     public func conditions(policy: FreshnessPolicy, trigger: Trigger) async throws -> SurfEntry {
         let place = try await selectedPlace()
 
