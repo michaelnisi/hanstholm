@@ -54,7 +54,9 @@ struct ContentView: View {
         .environment(
             SurfProvider(dependencies: .init(
                 cachedEntry: { nil },
-                fetchEntry: { throw URLError(.notConnectedToInternet) }
+                fetchEntry: { throw URLError(.notConnectedToInternet) },
+                availablePlaces: { [] },
+                selectPlace: { _ in }
             ))
         )
 }
