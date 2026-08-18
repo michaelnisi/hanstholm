@@ -24,7 +24,7 @@ Every distinct piece of work gets its own issue, branch, and PR — never stack 
 
 ## Repository Structure
 
-The product is now called Patrol (GH-76), but the folders below still carry their original names — renaming them requires Xcode's own rename refactor (target names, schemes, and the synced-folder paths are UUID-linked in `project.pbxproj`), which hasn't happened yet.
+The product is now called Patrol (GH-76); the project file itself is `Patrol.xcodeproj`. The target names, scheme filenames, and the synced-folder paths below (`Hanstholm/`, `Hanstholm Watch App/`, `HanstholmWidget/`) still carry their original names, since those are UUID-linked in `project.pbxproj` and need Xcode's own rename refactor rather than a plain file rename — that hasn't happened yet.
 
 ```
 Core/                 # Swift Package — shared logic, no UI

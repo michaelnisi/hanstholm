@@ -18,7 +18,7 @@
                BlueprintIdentifier = "4C10AF842BCC261B000F2D2B"
                BuildableName = "Hanstholm.app"
                BlueprintName = "Hanstholm"
-               ReferencedContainer = "container:Hanstholm.xcodeproj">
+               ReferencedContainer = "container:Patrol.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,7 +47,7 @@
             BlueprintIdentifier = "4C10AF842BCC261B000F2D2B"
             BuildableName = "Hanstholm.app"
             BlueprintName = "Hanstholm"
-            ReferencedContainer = "container:Hanstholm.xcodeproj">
+            ReferencedContainer = "container:Patrol.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -64,7 +64,7 @@
             BlueprintIdentifier = "4C10AF842BCC261B000F2D2B"
             BuildableName = "Hanstholm.app"
             BlueprintName = "Hanstholm"
-            ReferencedContainer = "container:Hanstholm.xcodeproj">
+            ReferencedContainer = "container:Patrol.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
