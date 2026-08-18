@@ -139,9 +139,9 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		4C10AF8F2BCC261B000F2D2B /* Hanstholm Watch App */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (4C7DC2892FFE99DC000D63F0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Hanstholm Watch App"; sourceTree = "<group>"; };
-		4C10AFAE2BCC264E000F2D2B /* HanstholmWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (4C10AFBC2BCC265000000001 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 24C74C2453259CA10F892A07 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = HanstholmWidget; sourceTree = "<group>"; };
-		E1F2A3B4C5D6E7F8A9B0C1D2 /* Hanstholm */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (E4F3021AC6D7B8E9FA0B1C2D /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Hanstholm; sourceTree = "<group>"; };
+		4C10AF8F2BCC261B000F2D2B /* PatrolWatchApp */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (4C7DC2892FFE99DC000D63F0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PatrolWatchApp; sourceTree = "<group>"; };
+		4C10AFAE2BCC264E000F2D2B /* PatrolWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (4C10AFBC2BCC265000000001 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 24C74C2453259CA10F892A07 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PatrolWidget; sourceTree = "<group>"; };
+		E1F2A3B4C5D6E7F8A9B0C1D2 /* Patrol */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (E4F3021AC6D7B8E9FA0B1C2D /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Patrol; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -205,9 +205,9 @@
 				4C1566212BEFC2AC006E6D56 /* README.md */,
 				4CEB52292C03111600821EDC /* LICENSE */,
 				4C15661C2BEFBDF8006E6D56 /* Core */,
-				4C10AF8F2BCC261B000F2D2B /* Hanstholm Watch App */,
-				4C10AFAE2BCC264E000F2D2B /* HanstholmWidget */,
-				E1F2A3B4C5D6E7F8A9B0C1D2 /* Hanstholm */,
+				4C10AF8F2BCC261B000F2D2B /* PatrolWatchApp */,
+				4C10AFAE2BCC264E000F2D2B /* PatrolWidget */,
+				E1F2A3B4C5D6E7F8A9B0C1D2 /* Patrol */,
 				4C10AF862BCC261B000F2D2B /* Products */,
 				4C10AFA22BCC2637000F2D2B /* Frameworks */,
 				4C651E2530014F7300CB0367 /* Recovered References */,
@@ -261,7 +261,7 @@
 				9162AAE923B350CB47D1F533 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				E1F2A3B4C5D6E7F8A9B0C1D2 /* Hanstholm */,
+				E1F2A3B4C5D6E7F8A9B0C1D2 /* Patrol */,
 			);
 			name = Hanstholm;
 			packageProductDependencies = (
@@ -288,7 +288,7 @@
 				4C10AFB52BCC264F000F2D2B /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				4C10AF8F2BCC261B000F2D2B /* Hanstholm Watch App */,
+				4C10AF8F2BCC261B000F2D2B /* PatrolWatchApp */,
 			);
 			name = "Hanstholm Watch App";
 			packageProductDependencies = (
@@ -315,7 +315,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				4C10AFAE2BCC264E000F2D2B /* HanstholmWidget */,
+				4C10AFAE2BCC264E000F2D2B /* PatrolWidget */,
 			);
 			name = HanstholmWidgetExtension;
 			packageProductDependencies = (
@@ -342,7 +342,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				4C10AFAE2BCC264E000F2D2B /* HanstholmWidget */,
+				4C10AFAE2BCC264E000F2D2B /* PatrolWidget */,
 			);
 			name = HanstholmWidgetIOSExtension;
 			packageProductDependencies = (
@@ -611,13 +611,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "Hanstholm Watch App/Patrol Watch App.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "PatrolWatchApp/Patrol Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Hanstholm Watch App/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Hanstholm Watch App/Info.plist";
+				INFOPLIST_FILE = "PatrolWatchApp/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Patrol;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = ink.codes.Patrol;
@@ -643,13 +643,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "Hanstholm Watch App/Patrol Watch App.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "PatrolWatchApp/Patrol Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Hanstholm Watch App/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Hanstholm Watch App/Info.plist";
+				INFOPLIST_FILE = "PatrolWatchApp/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Patrol;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = ink.codes.Patrol;
@@ -676,11 +676,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Hanstholm/Patrol.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Patrol/Patrol.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Hanstholm/Info.plist;
+				INFOPLIST_FILE = Patrol/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Patrol;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -703,11 +703,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Hanstholm/Patrol.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Patrol/Patrol.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Hanstholm/Info.plist;
+				INFOPLIST_FILE = Patrol/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Patrol;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -731,11 +731,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = HanstholmWidget/PatrolWidgetExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = PatrolWidget/PatrolWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = HanstholmWidget/Info.plist;
+				INFOPLIST_FILE = PatrolWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = HanstholmWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -762,11 +762,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = HanstholmWidget/PatrolWidgetExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = PatrolWidget/PatrolWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = HanstholmWidget/Info.plist;
+				INFOPLIST_FILE = PatrolWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = HanstholmWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -794,11 +794,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = HanstholmWidget/PatrolWidgetExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = PatrolWidget/PatrolWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = HanstholmWidget/Info.plist;
+				INFOPLIST_FILE = PatrolWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = HanstholmWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -825,11 +825,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = HanstholmWidget/PatrolWidgetExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = PatrolWidget/PatrolWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = HanstholmWidget/Info.plist;
+				INFOPLIST_FILE = PatrolWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = HanstholmWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
