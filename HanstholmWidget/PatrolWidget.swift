@@ -4,7 +4,7 @@ import Conditions
 import DomainTypes
 import MockData
 
-struct HanstholmWidgetEntryView : View {
+struct PatrolWidgetEntryView : View {
     @Environment(\.widgetFamily) var widgetFamily
     var entry: SurfEntry
     
@@ -26,7 +26,7 @@ struct HanstholmWidgetEntryView : View {
     }
 }
 
-extension HanstholmWidgetEntryView {
+extension PatrolWidgetEntryView {
     #if os(watchOS)
     struct AccessoryCorner: View {
         var entry: SurfEntry
@@ -86,16 +86,16 @@ extension HanstholmWidgetEntryView {
 }
 
 @main
-struct HanstholmWidget: Widget {
-    let kind: String = "HanstholmWidget"
+struct PatrolWidget: Widget {
+    let kind: String = "PatrolWidget"
     
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: SurfEntryProvider()) { entry in
             if #available(watchOS 10.0, *) {
-                HanstholmWidgetEntryView(entry: entry)
+                PatrolWidgetEntryView(entry: entry)
                     .containerBackground(.fill.tertiary, for: .widget)
             } else {
-                HanstholmWidgetEntryView(entry: entry)
+                PatrolWidgetEntryView(entry: entry)
                     .padding()
                     .background()
             }
@@ -107,7 +107,7 @@ struct HanstholmWidget: Widget {
                 completion()
             }
         }
-        .configurationDisplayName("Hanstholm")
+        .configurationDisplayName("Patrol")
         .description("Vejret Hanstholm Havn")
         #if os(watchOS)
         .supportedFamilies([.accessoryCorner, .accessoryCircular, .accessoryInline, .accessoryRectangular])
@@ -120,7 +120,7 @@ struct HanstholmWidget: Widget {
 
 
 #Preview(as: .accessoryRectangular) {
-    HanstholmWidget()
+    PatrolWidget()
 } timeline: {
     MockData.SurfEntry.makeSurfEntry()
 }

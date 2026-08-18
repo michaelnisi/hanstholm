@@ -5,14 +5,14 @@ extension UserDefaults: @retroactive @unchecked Sendable {}
 
 public actor Cache {
     struct Key {
-        static let conditions = "ink.codes.Hanstholm.Cache.conditions"
+        static let conditions = "ink.codes.Patrol.Cache.conditions"
     }
 
     private let db: UserDefaults?
     private let decoder = JSONDecoder()
     private let encoder = JSONEncoder()
 
-    public init(userDefaults: UserDefaults? = UserDefaults(suiteName: "group.ink.codes.Hanstholm")) {
+    public init(userDefaults: UserDefaults? = UserDefaults(suiteName: "group.ink.codes.Patrol")) {
         self.db = userDefaults
     }
 

@@ -18,6 +18,6 @@ public struct DeferredDownloadConfiguration: Sendable {
     public static func defaultSessionIdentifier(
         bundleIdentifier: String? = Bundle.main.bundleIdentifier
     ) -> String {
-        "\(bundleIdentifier ?? "ink.codes.Hanstholm").conditions"
+        "\(bundleIdentifier ?? "ink.codes.Patrol").conditions"
     }
 }

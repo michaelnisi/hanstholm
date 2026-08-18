@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct HanstholmApp: App {
+struct PatrolApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()

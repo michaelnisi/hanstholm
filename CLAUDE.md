@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Hanstholm is a watchOS 10 app (with a WidgetKit complication) that fetches live surf and wind conditions from the weather station at Hanstholm Harbour, Denmark (`hyde.dk`). The data source is a Danish-language HTML page; parsing involves stripping HTML with `NSAttributedString` and mapping Danish labels and direction abbreviations to typed domain values.
+Patrol is a watchOS 10 app (with a WidgetKit complication) that fetches live surf and wind conditions from the weather station at Hanstholm Harbour, Denmark (`hyde.dk`). The data source is a Danish-language HTML page; parsing involves stripping HTML with `NSAttributedString` and mapping Danish labels and direction abbreviations to typed domain values.
 
 ## Workflow for New Features
 
@@ -23,6 +23,8 @@ Skip this sequence for small, obviously-scoped fixes (typos, one-line bugs) — 
 Every distinct piece of work gets its own issue, branch, and PR — never stack unrelated changes onto one branch/PR. If the conversation seems to move on to a new topic partway through, ask whether a new issue should be opened for it rather than folding it into the current one.
 
 ## Repository Structure
+
+The product is now called Patrol (GH-76), but the folders below still carry their original names — renaming them requires Xcode's own rename refactor (target names, schemes, and the synced-folder paths are UUID-linked in `project.pbxproj`), which hasn't happened yet.
 
 ```
 Core/                 # Swift Package — shared logic, no UI
@@ -55,14 +57,14 @@ Build and run the watch app and widget from Xcode — there is no command-line t
 
 - **DomainTypes** — `SurfEntry` (clean model, also conforms to `TimelineEntry`), `Place`, `Direction` (16-point cardinal with Danish→English mapping and rotation degrees), and `Double` formatting extensions. Depends on nothing: the domain layer must not know about any particular source.
 - **SurfConditions** — `SurfConditionsPlugin` (a source of conditions) and `DeferredDownloadable` (opt-in: "my data is one plain download whose bytes decode standalone").
-- **Cache** — `actor Cache` backed by App Group `UserDefaults` (`group.ink.codes.Hanstholm`), shared between app and widget. Methods are `throws` (not `async`) — actor isolation handles concurrency. Stores `SurfEntry` values keyed by `Place.id`, and the selected place as a bare id (the plugin stays the source of truth for its display name). `selectedConditions()` exists for read-only consumers like the iOS app, which has no plugins linked and so can't resolve a `Place` itself.
+- **Cache** — `actor Cache` backed by App Group `UserDefaults` (`group.ink.codes.Patrol`), shared between app and widget. Methods are `throws` (not `async`) — actor isolation handles concurrency. Stores `SurfEntry` values keyed by `Place.id`, and the selected place as a bare id (the plugin stays the source of truth for its display name). `selectedConditions()` exists for read-only consumers like the iOS app, which has no plugins linked and so can't resolve a `Place` itself.
 - **Hyde** — the hyde.dk data source, and the only plugin so far. `Hyde` names a specific source, so `struct Hyde` *is* the plugin (`SurfConditionsPlugin` + `DeferredDownloadable`) rather than a DTO that something else adapts. Everything the source's own vocabulary needs is internal behind it: `Report` is what the HTML parses into, `Parser` strips it via `NSAttributedString` and finds values by Danish label within named sections, and `SurfEntry+Report.swift` converts (returning `nil` and logging when a field is missing). Depends on `DomainTypes` + `SurfConditions`, so the arrow points source→domain.
 - **Conditions** — `ConditionsCoordinator` plus the background `URLSession` machinery. Everything that isn't HTTP or parsing.
 - **MockData** — Canned `SurfEntry` values for SwiftUI previews.
 
 `Hyde.Station` is the source's own notion of a spot (one enum case per station hyde.dk publishes); a `Place` is the app-wide idea of one. A station knows its place — `station.place` and `Station(place:)` are the only mapping between the two, and `Station(place:)` returns `nil` for another plugin's place even when the key matches. The enum is named `Station` rather than `Place` so the two don't collide inside the type.
 
-**The term "Hyde" names the plugin and nothing else.** It is not a DTO, not a cache key, not a session identifier. Cache keys are named for what they store (`ink.codes.Hanstholm.Cache.conditions`), the background session identifier is bundle-scoped, and `MockData` uses a `"mock"` plugin id rather than a real one. The single remaining exception is `LegacySessionCleanup.sessionIdentifier`, which has to name the literal `"hyde.dk"` string an older build actually used in order to retire it, and which goes away with that file.
+**The term "Hyde" names the plugin and nothing else.** It is not a DTO, not a cache key, not a session identifier. Cache keys are named for what they store (`ink.codes.Patrol.Cache.conditions`), the background session identifier is bundle-scoped, and `MockData` uses a `"mock"` plugin id rather than a real one. The single remaining exception is `LegacySessionCleanup.sessionIdentifier`, which has to name the literal `"hyde.dk"` string an older build actually used in order to retire it, and which goes away with that file.
 
 **Plugin responsibility** is exactly two things: HTTP (with a session handed to it) and parsing. Caching, freshness policy, place selection, background download scheduling and delivery, and widget timeline reloads all belong to the coordinator.
 
@@ -122,7 +124,7 @@ The `HanstholmWidget/` source compiles unchanged into two separate Xcode targets
 
 | Constant | Value |
 |----------|-------|
-| App Group suite | `group.ink.codes.Hanstholm` |
+| App Group suite | `group.ink.codes.Patrol` |
 | Background URL session ID | `<bundle id>.conditions` (was `hyde.dk`) |
 | Data source URL | `https://hyde.dk/default_hanstholm.asp` |
 | Cache TTL (app) | 5 min |

@@ -4,7 +4,7 @@
 <dict>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
-		<string>ink.codes.Hanstholm</string>
+		<string>ink.codes.Patrol</string>
 	</array>
 </dict>
 </plist>

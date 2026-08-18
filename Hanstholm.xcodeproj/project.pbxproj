@@ -13,9 +13,6 @@
 		4C10AFAB2BCC264E000F2D2B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C10AFAA2BCC264E000F2D2B /* WidgetKit.framework */; };
 		4C10AFAD2BCC264E000F2D2B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C10AFAC2BCC264E000F2D2B /* SwiftUI.framework */; };
 		4C10AFB72BCC264F000F2D2B /* HanstholmWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 4C10AFA92BCC264E000F2D2B /* HanstholmWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		C0AD1CE0000000000000CC01 /* Conditions in Frameworks */ = {isa = PBXBuildFile; productRef = C0AD1CE0000000000000AA01 /* Conditions */; };
-		C0AD1CE0000000000000CC02 /* Conditions in Frameworks */ = {isa = PBXBuildFile; productRef = C0AD1CE0000000000000AA02 /* Conditions */; };
-		C0AD1CE0000000000000CC03 /* Conditions in Frameworks */ = {isa = PBXBuildFile; productRef = C0AD1CE0000000000000AA03 /* Conditions */; };
 		4C15661E2BEFBF17006E6D56 /* Hyde in Frameworks */ = {isa = PBXBuildFile; productRef = D1DEB1A0000000000000BB01 /* Hyde */; };
 		4C1566202BEFBF1B006E6D56 /* Hyde in Frameworks */ = {isa = PBXBuildFile; productRef = D1DEB1A0000000000000BB02 /* Hyde */; };
 		4C15662D2BEFE6C7006E6D56 /* DomainTypes in Frameworks */ = {isa = PBXBuildFile; productRef = 4C15662C2BEFE6C7006E6D56 /* DomainTypes */; };
@@ -29,6 +26,9 @@
 		8BD0B599DCB921DFD3B4A5D5 /* HanstholmWidgetIOSExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1185A5E4D55D2EF1C2258BBE /* HanstholmWidgetIOSExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A78094D38FED1ED3F12F0D3B /* MockData in Frameworks */ = {isa = PBXBuildFile; productRef = FFA60F65963B9076CEBF0839 /* MockData */; };
 		B82C4D5E6F7A8B9C0D1E2F3A /* MockData in Frameworks */ = {isa = PBXBuildFile; productRef = A71B3C4D5E6F7A8B9C0D1E2F /* MockData */; };
+		C0AD1CE0000000000000CC01 /* Conditions in Frameworks */ = {isa = PBXBuildFile; productRef = C0AD1CE0000000000000AA01 /* Conditions */; };
+		C0AD1CE0000000000000CC02 /* Conditions in Frameworks */ = {isa = PBXBuildFile; productRef = C0AD1CE0000000000000AA02 /* Conditions */; };
+		C0AD1CE0000000000000CC03 /* Conditions in Frameworks */ = {isa = PBXBuildFile; productRef = C0AD1CE0000000000000AA03 /* Conditions */; };
 		D29EF06163141EFABC166AB2 /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = 91EAEB150EFBE13A8AD4C78A /* Cache */; };
 		DA4E6F7A8B9C0D1E2F3A4B5C /* MockData in Frameworks */ = {isa = PBXBuildFile; productRef = C93D5E6F7A8B9C0D1E2F3A4B /* MockData */; };
 		F629759C2C9F61E5566989EF /* Hyde in Frameworks */ = {isa = PBXBuildFile; productRef = D1DEB1A0000000000000BB03 /* Hyde */; };
@@ -618,16 +618,16 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Hanstholm Watch App/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Hanstholm;
+				INFOPLIST_KEY_CFBundleDisplayName = Patrol;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = ink.codes.Hanstholm;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = ink.codes.Patrol;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
 				OTHER_SWIFT_FLAGS = "-default-isolation MainActor";
-				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Hanstholm.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Patrol.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -650,16 +650,16 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Hanstholm Watch App/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Hanstholm;
+				INFOPLIST_KEY_CFBundleDisplayName = Patrol;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = ink.codes.Hanstholm;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = ink.codes.Patrol;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
 				OTHER_SWIFT_FLAGS = "-default-isolation MainActor";
-				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Hanstholm.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Patrol.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -681,7 +681,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Hanstholm/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Hanstholm;
+				INFOPLIST_KEY_CFBundleDisplayName = Patrol;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -689,7 +689,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
 				MARKETING_VERSION = 1.0;
 				OTHER_SWIFT_FLAGS = "-default-isolation MainActor";
-				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Hanstholm;
+				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Patrol;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -708,7 +708,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Hanstholm/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Hanstholm;
+				INFOPLIST_KEY_CFBundleDisplayName = Patrol;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -716,7 +716,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
 				MARKETING_VERSION = 1.0;
 				OTHER_SWIFT_FLAGS = "-default-isolation MainActor";
-				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Hanstholm;
+				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Patrol;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -746,7 +746,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				OTHER_SWIFT_FLAGS = "-default-isolation MainActor";
-				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Hanstholm.watchkitapp.HanstholmWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Patrol.watchkitapp.HanstholmWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -777,7 +777,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				OTHER_SWIFT_FLAGS = "-default-isolation MainActor";
-				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Hanstholm.watchkitapp.HanstholmWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Patrol.watchkitapp.HanstholmWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -810,7 +810,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				OTHER_SWIFT_FLAGS = "-default-isolation MainActor";
-				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Hanstholm.HanstholmWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Patrol.HanstholmWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -841,7 +841,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				OTHER_SWIFT_FLAGS = "-default-isolation MainActor";
-				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Hanstholm.HanstholmWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Patrol.HanstholmWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;

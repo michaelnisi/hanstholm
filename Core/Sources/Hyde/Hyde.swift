@@ -3,10 +3,10 @@ import Foundation
 import DomainTypes
 import SurfConditions
 
-let logger = Logger(subsystem: "ink.codes.Hanstholm", category: "Hyde")
+let logger = Logger(subsystem: "ink.codes.Patrol", category: "Hyde")
 
 public struct Hyde: SurfConditionsPlugin, DeferredDownloadable {
-    public static let pluginID = "ink.codes.Hanstholm.plugin.hyde"
+    public static let pluginID = "ink.codes.Patrol.plugin.hyde"
 
     public enum Station: CaseIterable, Equatable, Sendable {
         case hanstholm
