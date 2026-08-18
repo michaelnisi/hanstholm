@@ -24,15 +24,15 @@ Every distinct piece of work gets its own issue, branch, and PR — never stack 
 
 ## Repository Structure
 
-The product is now called Patrol (GH-76); the project file itself is `Patrol.xcodeproj`. The target names, scheme filenames, and the synced-folder paths below (`Hanstholm/`, `Hanstholm Watch App/`, `HanstholmWidget/`) still carry their original names, since those are UUID-linked in `project.pbxproj` and need Xcode's own rename refactor rather than a plain file rename — that hasn't happened yet.
+The product is now called Patrol (GH-76); the project file is `Patrol.xcodeproj` and the synced folders below have been renamed to match. The Xcode target names and scheme filenames are still `Hanstholm`, `HanstholmWidgetExtension`, and `HanstholmWidgetIOSExtension` — those need Xcode's own rename refactor rather than a plain file rename, and haven't been renamed yet.
 
 ```
-Core/                 # Swift Package — shared logic, no UI
-Hanstholm/            # iOS companion app target (hosts the Watch app and the iOS widget extension)
-Hanstholm Watch App/  # watchOS target
-HanstholmWidget/      # WidgetKit extension source, shared by two Xcode targets:
-                       #   HanstholmWidgetExtension    (watchOS, embedded in the Watch App)
-                       #   HanstholmWidgetIOSExtension (iOS, embedded in the "Hanstholm" container app)
+Core/            # Swift Package — shared logic, no UI
+Patrol/          # iOS companion app target (hosts the Watch app and the iOS widget extension)
+PatrolWatchApp/  # watchOS target
+PatrolWidget/    # WidgetKit extension source, shared by two Xcode targets:
+                 #   HanstholmWidgetExtension    (watchOS, embedded in the Watch App)
+                 #   HanstholmWidgetIOSExtension (iOS, embedded in the "Hanstholm" container app)
 ```
 
 ## Building and Testing
@@ -89,7 +89,7 @@ Deferred path (widget extensions only):
 
 ### Container App
 
-`Hanstholm/` uses `fileSystemSynchronizedGroups`, like the Watch App and widget targets — files dropped in the folder are picked up automatically, no manual pbxproj membership needed. The target is a real `application` product type (not the watch-only-companion stub it started as), declaring `INFOPLIST_KEY_WKCompanionAppBundleIdentifier` to pair with the Watch app.
+`Patrol/` uses `fileSystemSynchronizedGroups`, like the Watch App and widget targets — files dropped in the folder are picked up automatically, no manual pbxproj membership needed. The target is a real `application` product type (not the watch-only-companion stub it started as), declaring `INFOPLIST_KEY_WKCompanionAppBundleIdentifier` to pair with the Watch app.
 
 `ContentView.swift` is a minimal, read-only screen: it reads `Cache().conditions(matching:)` on `.task` and whenever `scenePhase` becomes `.active`, and renders the resulting `SurfEntry` (or a `ContentUnavailableView` prompt if nothing's cached yet). It never fetches — it only shows what some other *iOS-side* process has already written to the shared App Group `Cache`. Note the Watch app doesn't count: App Groups only share storage between processes on the same device, so the Watch's cache and the iPhone's cache are entirely separate — this screen only has data once the iOS widget extension (or some other iOS-side fetcher) has populated the cache. `MockData` is preview-only here, never a runtime fallback, so the screen can't show fabricated data as if it were live.
 
@@ -111,7 +111,7 @@ The timeline policy is `.after(15 min)` as a guaranteed fallback; the background
 
 A background session created inside an app extension **must** set `sharedContainerIdentifier`, or downloads silently fail to start.
 
-The `HanstholmWidget/` source compiles unchanged into two separate Xcode targets — `HanstholmWidgetExtension` (watchOS complications) and `HanstholmWidgetIOSExtension` (iOS Lock Screen widgets) — via a shared `fileSystemSynchronizedGroups` membership, plus a shared `Info.plist` and `HanstholmWidgetExtension.entitlements`. Only the four accessory widget families (`.accessoryCorner/.accessoryCircular/.accessoryInline/.accessoryRectangular`) are wired up; there's no Home Screen (`.systemSmall`/`.systemMedium`) layout yet. Each extension is a separate process/bundle ID, and the session identifier is bundle-scoped, so their background sessions stay apart.
+The `PatrolWidget/` source compiles unchanged into two separate Xcode targets — `HanstholmWidgetExtension` (watchOS complications) and `HanstholmWidgetIOSExtension` (iOS Lock Screen widgets) — via a shared `fileSystemSynchronizedGroups` membership, plus a shared `Info.plist` and `PatrolWidgetExtension.entitlements`. Only the four accessory widget families (`.accessoryCorner/.accessoryCircular/.accessoryInline/.accessoryRectangular`) are wired up; there's no Home Screen (`.systemSmall`/`.systemMedium`) layout yet. Each extension is a separate process/bundle ID, and the session identifier is bundle-scoped, so their background sessions stay apart.
 
 ## Concurrency Model
 
