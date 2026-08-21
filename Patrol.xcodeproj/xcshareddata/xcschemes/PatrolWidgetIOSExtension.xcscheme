@@ -17,7 +17,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "DF004A9EBBECEAA5F267980B"
-               BuildableName = "HanstholmWidgetIOSExtension.appex"
+               BuildableName = "PatrolWidgetIOSExtension.appex"
                ReferencedContainer = "container:Patrol.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -30,7 +30,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4C10AF842BCC261B000F2D2B"
-               BuildableName = "Hanstholm.app"
+               BuildableName = "Patrol.app"
                ReferencedContainer = "container:Patrol.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DF004A9EBBECEAA5F267980B"
-            BuildableName = "HanstholmWidgetIOSExtension.appex"
+            BuildableName = "PatrolWidgetIOSExtension.appex"
             ReferencedContainer = "container:Patrol.xcodeproj">
          </BuildableReference>
       </RemoteRunnable>
@@ -70,7 +70,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4C10AF842BCC261B000F2D2B"
-            BuildableName = "Hanstholm.app"
+            BuildableName = "Patrol.app"
             ReferencedContainer = "container:Patrol.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -105,7 +105,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4C10AF842BCC261B000F2D2B"
-            BuildableName = "Hanstholm.app"
+            BuildableName = "Patrol.app"
             ReferencedContainer = "container:Patrol.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

@@ -17,8 +17,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4C10AFA82BCC264E000F2D2B"
-               BuildableName = "HanstholmWidgetExtension.appex"
-               BlueprintName = "HanstholmWidgetExtension"
+               BuildableName = "PatrolWidgetExtension.appex"
+               BlueprintName = "PatrolWidgetExtension"
                ReferencedContainer = "container:Patrol.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -31,8 +31,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4C10AF8A2BCC261B000F2D2B"
-               BuildableName = "Hanstholm Watch App.app"
-               BlueprintName = "Hanstholm Watch App"
+               BuildableName = "Patrol Watch App.app"
+               BlueprintName = "Patrol Watch App"
                ReferencedContainer = "container:Patrol.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,8 +45,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4C10AF842BCC261B000F2D2B"
-               BuildableName = "Hanstholm.app"
-               BlueprintName = "Hanstholm"
+               BuildableName = "Patrol.app"
+               BlueprintName = "Patrol"
                ReferencedContainer = "container:Patrol.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -76,7 +76,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4C10AFA82BCC264E000F2D2B"
-            BuildableName = "HanstholmWidgetExtension.appex"
+            BuildableName = "PatrolWidgetExtension.appex"
             ReferencedContainer = "container:Patrol.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -84,8 +84,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4C10AF8A2BCC261B000F2D2B"
-            BuildableName = "Hanstholm Watch App.app"
-            BlueprintName = "Hanstholm Watch App"
+            BuildableName = "Patrol Watch App.app"
+            BlueprintName = "Patrol Watch App"
             ReferencedContainer = "container:Patrol.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -118,7 +118,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4C10AFA82BCC264E000F2D2B"
-            BuildableName = "HanstholmWidgetExtension.appex"
+            BuildableName = "PatrolWidgetExtension.appex"
             ReferencedContainer = "container:Patrol.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

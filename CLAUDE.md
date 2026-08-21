@@ -24,15 +24,15 @@ Every distinct piece of work gets its own issue, branch, and PR — never stack 
 
 ## Repository Structure
 
-The product is now called Patrol (GH-76); the project file is `Patrol.xcodeproj`, the synced folders below have been renamed to match, and the scheme filenames are now `Patrol.xcscheme` / `Patrol Watch App.xcscheme` / `PatrolWidgetExtension.xcscheme` / `PatrolWidgetIOSExtension.xcscheme`. The underlying Xcode *target* names are still `Hanstholm`, `Hanstholm Watch App`, `HanstholmWidgetExtension`, and `HanstholmWidgetIOSExtension` — a scheme's filename is independent of the target(s) it builds, but renaming the targets themselves needs Xcode's own rename refactor and hasn't happened yet.
+The product is now called Patrol (GH-76). The project file is `Patrol.xcodeproj`, the four targets are `Patrol`, `Patrol Watch App`, `PatrolWidgetExtension`, and `PatrolWidgetIOSExtension`, and the synced folders and scheme filenames below have been renamed to match.
 
 ```
 Core/            # Swift Package — shared logic, no UI
 Patrol/          # iOS companion app target (hosts the Watch app and the iOS widget extension)
 PatrolWatchApp/  # watchOS target
 PatrolWidget/    # WidgetKit extension source, shared by two Xcode targets:
-                 #   HanstholmWidgetExtension    (watchOS, embedded in the Watch App)
-                 #   HanstholmWidgetIOSExtension (iOS, embedded in the "Hanstholm" container app)
+                 #   PatrolWidgetExtension    (watchOS, embedded in the Watch App)
+                 #   PatrolWidgetIOSExtension (iOS, embedded in the "Patrol" container app)
 ```
 
 ## Building and Testing
@@ -111,7 +111,7 @@ The timeline policy is `.after(15 min)` as a guaranteed fallback; the background
 
 A background session created inside an app extension **must** set `sharedContainerIdentifier`, or downloads silently fail to start.
 
-The `PatrolWidget/` source compiles unchanged into two separate Xcode targets — `HanstholmWidgetExtension` (watchOS complications) and `HanstholmWidgetIOSExtension` (iOS Lock Screen widgets) — via a shared `fileSystemSynchronizedGroups` membership, plus a shared `Info.plist` and `PatrolWidgetExtension.entitlements`. Only the four accessory widget families (`.accessoryCorner/.accessoryCircular/.accessoryInline/.accessoryRectangular`) are wired up; there's no Home Screen (`.systemSmall`/`.systemMedium`) layout yet. Each extension is a separate process/bundle ID, and the session identifier is bundle-scoped, so their background sessions stay apart.
+The `PatrolWidget/` source compiles unchanged into two separate Xcode targets — `PatrolWidgetExtension` (watchOS complications) and `PatrolWidgetIOSExtension` (iOS Lock Screen widgets) — via a shared `fileSystemSynchronizedGroups` membership, plus a shared `Info.plist` and `PatrolWidgetExtension.entitlements`. Only the four accessory widget families (`.accessoryCorner/.accessoryCircular/.accessoryInline/.accessoryRectangular`) are wired up; there's no Home Screen (`.systemSmall`/`.systemMedium`) layout yet. Each extension is a separate process/bundle ID, and the session identifier is bundle-scoped, so their background sessions stay apart.
 
 ## Concurrency Model
 
