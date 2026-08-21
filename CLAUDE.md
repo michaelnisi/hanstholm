@@ -24,7 +24,7 @@ Every distinct piece of work gets its own issue, branch, and PR — never stack 
 
 ## Repository Structure
 
-The product is now called Patrol (GH-76); the project file is `Patrol.xcodeproj` and the synced folders below have been renamed to match. The Xcode target names and scheme filenames are still `Hanstholm`, `HanstholmWidgetExtension`, and `HanstholmWidgetIOSExtension` — those need Xcode's own rename refactor rather than a plain file rename, and haven't been renamed yet.
+The product is now called Patrol (GH-76); the project file is `Patrol.xcodeproj`, the synced folders below have been renamed to match, and the scheme filenames are now `Patrol.xcscheme` / `Patrol Watch App.xcscheme` / `PatrolWidgetExtension.xcscheme` / `PatrolWidgetIOSExtension.xcscheme`. The underlying Xcode *target* names are still `Hanstholm`, `Hanstholm Watch App`, `HanstholmWidgetExtension`, and `HanstholmWidgetIOSExtension` — a scheme's filename is independent of the target(s) it builds, but renaming the targets themselves needs Xcode's own rename refactor and hasn't happened yet.
 
 ```
 Core/            # Swift Package — shared logic, no UI
