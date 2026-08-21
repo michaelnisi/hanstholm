@@ -614,7 +614,7 @@
 				CODE_SIGN_ENTITLEMENTS = "PatrolWatchApp/Patrol Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Hanstholm Watch App/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"PatrolWatchApp/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "PatrolWatchApp/Info.plist";
@@ -646,7 +646,7 @@
 				CODE_SIGN_ENTITLEMENTS = "PatrolWatchApp/Patrol Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Hanstholm Watch App/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"PatrolWatchApp/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "PatrolWatchApp/Info.plist";
