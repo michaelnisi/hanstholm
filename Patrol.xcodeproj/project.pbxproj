@@ -9,13 +9,10 @@
 /* Begin PBXBuildFile section */
 		1504BD93907C58128114BC9C /* DomainTypes in Frameworks */ = {isa = PBXBuildFile; productRef = C2D9BCBFE851B4B512D02150 /* DomainTypes */; };
 		3D87A834F829A7B230EE930B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C10AFAA2BCC264E000F2D2B /* WidgetKit.framework */; };
-		4C10AF8C2BCC261B000F2D2B /* Hanstholm Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 4C10AF8B2BCC261B000F2D2B /* Hanstholm Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		4C10AF8C2BCC261B000F2D2B /* Patrol Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 4C10AF8B2BCC261B000F2D2B /* Patrol Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		4C10AFAB2BCC264E000F2D2B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C10AFAA2BCC264E000F2D2B /* WidgetKit.framework */; };
 		4C10AFAD2BCC264E000F2D2B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C10AFAC2BCC264E000F2D2B /* SwiftUI.framework */; };
-		4C10AFB72BCC264F000F2D2B /* HanstholmWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 4C10AFA92BCC264E000F2D2B /* HanstholmWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		C0AD1CE0000000000000CC01 /* Conditions in Frameworks */ = {isa = PBXBuildFile; productRef = C0AD1CE0000000000000AA01 /* Conditions */; };
-		C0AD1CE0000000000000CC02 /* Conditions in Frameworks */ = {isa = PBXBuildFile; productRef = C0AD1CE0000000000000AA02 /* Conditions */; };
-		C0AD1CE0000000000000CC03 /* Conditions in Frameworks */ = {isa = PBXBuildFile; productRef = C0AD1CE0000000000000AA03 /* Conditions */; };
+		4C10AFB72BCC264F000F2D2B /* PatrolWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 4C10AFA92BCC264E000F2D2B /* PatrolWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		4C15661E2BEFBF17006E6D56 /* Hyde in Frameworks */ = {isa = PBXBuildFile; productRef = D1DEB1A0000000000000BB01 /* Hyde */; };
 		4C1566202BEFBF1B006E6D56 /* Hyde in Frameworks */ = {isa = PBXBuildFile; productRef = D1DEB1A0000000000000BB02 /* Hyde */; };
 		4C15662D2BEFE6C7006E6D56 /* DomainTypes in Frameworks */ = {isa = PBXBuildFile; productRef = 4C15662C2BEFE6C7006E6D56 /* DomainTypes */; };
@@ -26,9 +23,12 @@
 		55BC1ABC39B5AF85965EB437 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C10AFAC2BCC264E000F2D2B /* SwiftUI.framework */; };
 		64A3B8EBEE730C83484C8EA8 /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = BD14614C92A5E84F2364E2EA /* Cache */; };
 		6D38697F17A1B5766CC71C19 /* DomainTypes in Frameworks */ = {isa = PBXBuildFile; productRef = 16816F9C820813AFB090B62D /* DomainTypes */; };
-		8BD0B599DCB921DFD3B4A5D5 /* HanstholmWidgetIOSExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1185A5E4D55D2EF1C2258BBE /* HanstholmWidgetIOSExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8BD0B599DCB921DFD3B4A5D5 /* PatrolWidgetIOSExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1185A5E4D55D2EF1C2258BBE /* PatrolWidgetIOSExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A78094D38FED1ED3F12F0D3B /* MockData in Frameworks */ = {isa = PBXBuildFile; productRef = FFA60F65963B9076CEBF0839 /* MockData */; };
 		B82C4D5E6F7A8B9C0D1E2F3A /* MockData in Frameworks */ = {isa = PBXBuildFile; productRef = A71B3C4D5E6F7A8B9C0D1E2F /* MockData */; };
+		C0AD1CE0000000000000CC01 /* Conditions in Frameworks */ = {isa = PBXBuildFile; productRef = C0AD1CE0000000000000AA01 /* Conditions */; };
+		C0AD1CE0000000000000CC02 /* Conditions in Frameworks */ = {isa = PBXBuildFile; productRef = C0AD1CE0000000000000AA02 /* Conditions */; };
+		C0AD1CE0000000000000CC03 /* Conditions in Frameworks */ = {isa = PBXBuildFile; productRef = C0AD1CE0000000000000AA03 /* Conditions */; };
 		D29EF06163141EFABC166AB2 /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = 91EAEB150EFBE13A8AD4C78A /* Cache */; };
 		DA4E6F7A8B9C0D1E2F3A4B5C /* MockData in Frameworks */ = {isa = PBXBuildFile; productRef = C93D5E6F7A8B9C0D1E2F3A4B /* MockData */; };
 		F629759C2C9F61E5566989EF /* Hyde in Frameworks */ = {isa = PBXBuildFile; productRef = D1DEB1A0000000000000BB03 /* Hyde */; };
@@ -40,21 +40,21 @@
 			containerPortal = 4C10AF7F2BCC261B000F2D2B /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 4C10AF8A2BCC261B000F2D2B;
-			remoteInfo = "Hanstholm Watch App";
+			remoteInfo = "Patrol Watch App";
 		};
 		4C10AFB42BCC264F000F2D2B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4C10AF7F2BCC261B000F2D2B /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 4C10AFA82BCC264E000F2D2B;
-			remoteInfo = HanstholmWidgetExtension;
+			remoteInfo = PatrolWidgetExtension;
 		};
 		BC33DED8C1C0D0252E2554BE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4C10AF7F2BCC261B000F2D2B /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = DF004A9EBBECEAA5F267980B;
-			remoteInfo = HanstholmWidgetIOSExtension;
+			remoteInfo = PatrolWidgetIOSExtension;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -65,7 +65,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				8BD0B599DCB921DFD3B4A5D5 /* HanstholmWidgetIOSExtension.appex in Embed Foundation Extensions */,
+				8BD0B599DCB921DFD3B4A5D5 /* PatrolWidgetIOSExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -76,7 +76,7 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
-				4C10AF8C2BCC261B000F2D2B /* Hanstholm Watch App.app in Embed Watch Content */,
+				4C10AF8C2BCC261B000F2D2B /* Patrol Watch App.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -87,7 +87,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				4C10AFB72BCC264F000F2D2B /* HanstholmWidgetExtension.appex in Embed Foundation Extensions */,
+				4C10AFB72BCC264F000F2D2B /* PatrolWidgetExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -95,15 +95,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1185A5E4D55D2EF1C2258BBE /* HanstholmWidgetIOSExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = HanstholmWidgetIOSExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		4C10AF852BCC261B000F2D2B /* Hanstholm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hanstholm.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		4C10AF8B2BCC261B000F2D2B /* Hanstholm Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Hanstholm Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4C10AFA92BCC264E000F2D2B /* HanstholmWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = HanstholmWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		1185A5E4D55D2EF1C2258BBE /* PatrolWidgetIOSExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PatrolWidgetIOSExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C10AF852BCC261B000F2D2B /* Patrol.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Patrol.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C10AF8B2BCC261B000F2D2B /* Patrol Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Patrol Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C10AFA92BCC264E000F2D2B /* PatrolWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PatrolWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C10AFAA2BCC264E000F2D2B /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		4C10AFAC2BCC264E000F2D2B /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		4C15661C2BEFBDF8006E6D56 /* Core */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Core; sourceTree = "<group>"; };
 		4C1566212BEFC2AC006E6D56 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		4C651E583001525D00CB0367 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = Hanstholm/Info.plist; sourceTree = "<group>"; };
+		4C651E583001525D00CB0367 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = Patrol/Info.plist; sourceTree = "<group>"; };
 		4CEB52292C03111600821EDC /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -113,35 +113,35 @@
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = DF004A9EBBECEAA5F267980B /* HanstholmWidgetIOSExtension */;
+			target = DF004A9EBBECEAA5F267980B /* PatrolWidgetIOSExtension */;
 		};
 		4C10AFBC2BCC265000000001 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 4C10AFA82BCC264E000F2D2B /* HanstholmWidgetExtension */;
+			target = 4C10AFA82BCC264E000F2D2B /* PatrolWidgetExtension */;
 		};
 		4C7DC2892FFE99DC000D63F0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 4C10AF8A2BCC261B000F2D2B /* Hanstholm Watch App */;
+			target = 4C10AF8A2BCC261B000F2D2B /* Patrol Watch App */;
 		};
 		E4F3021AC6D7B8E9FA0B1C2D /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 4C10AF842BCC261B000F2D2B /* Hanstholm */;
+			target = 4C10AF842BCC261B000F2D2B /* Patrol */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		4C10AF8F2BCC261B000F2D2B /* Hanstholm Watch App */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (4C7DC2892FFE99DC000D63F0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Hanstholm Watch App"; sourceTree = "<group>"; };
-		4C10AFAE2BCC264E000F2D2B /* HanstholmWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (4C10AFBC2BCC265000000001 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 24C74C2453259CA10F892A07 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = HanstholmWidget; sourceTree = "<group>"; };
-		E1F2A3B4C5D6E7F8A9B0C1D2 /* Hanstholm */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (E4F3021AC6D7B8E9FA0B1C2D /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Hanstholm; sourceTree = "<group>"; };
+		4C10AF8F2BCC261B000F2D2B /* PatrolWatchApp */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (4C7DC2892FFE99DC000D63F0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PatrolWatchApp; sourceTree = "<group>"; };
+		4C10AFAE2BCC264E000F2D2B /* PatrolWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (4C10AFBC2BCC265000000001 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 24C74C2453259CA10F892A07 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PatrolWidget; sourceTree = "<group>"; };
+		E1F2A3B4C5D6E7F8A9B0C1D2 /* Patrol */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (E4F3021AC6D7B8E9FA0B1C2D /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Patrol; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -205,9 +205,9 @@
 				4C1566212BEFC2AC006E6D56 /* README.md */,
 				4CEB52292C03111600821EDC /* LICENSE */,
 				4C15661C2BEFBDF8006E6D56 /* Core */,
-				4C10AF8F2BCC261B000F2D2B /* Hanstholm Watch App */,
-				4C10AFAE2BCC264E000F2D2B /* HanstholmWidget */,
-				E1F2A3B4C5D6E7F8A9B0C1D2 /* Hanstholm */,
+				4C10AF8F2BCC261B000F2D2B /* PatrolWatchApp */,
+				4C10AFAE2BCC264E000F2D2B /* PatrolWidget */,
+				E1F2A3B4C5D6E7F8A9B0C1D2 /* Patrol */,
 				4C10AF862BCC261B000F2D2B /* Products */,
 				4C10AFA22BCC2637000F2D2B /* Frameworks */,
 				4C651E2530014F7300CB0367 /* Recovered References */,
@@ -217,10 +217,10 @@
 		4C10AF862BCC261B000F2D2B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4C10AF852BCC261B000F2D2B /* Hanstholm.app */,
-				4C10AF8B2BCC261B000F2D2B /* Hanstholm Watch App.app */,
-				4C10AFA92BCC264E000F2D2B /* HanstholmWidgetExtension.appex */,
-				1185A5E4D55D2EF1C2258BBE /* HanstholmWidgetIOSExtension.appex */,
+				4C10AF852BCC261B000F2D2B /* Patrol.app */,
+				4C10AF8B2BCC261B000F2D2B /* Patrol Watch App.app */,
+				4C10AFA92BCC264E000F2D2B /* PatrolWidgetExtension.appex */,
+				1185A5E4D55D2EF1C2258BBE /* PatrolWidgetIOSExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -244,9 +244,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4C10AF842BCC261B000F2D2B /* Hanstholm */ = {
+		4C10AF842BCC261B000F2D2B /* Patrol */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4C10AF9F2BCC261C000F2D2B /* Build configuration list for PBXNativeTarget "Hanstholm" */;
+			buildConfigurationList = 4C10AF9F2BCC261C000F2D2B /* Build configuration list for PBXNativeTarget "Patrol" */;
 			buildPhases = (
 				F2A3B4C5D6E7F8A9B0C1D2E3 /* Sources */,
 				72A229A204E38987BDED2274 /* Frameworks */,
@@ -261,21 +261,21 @@
 				9162AAE923B350CB47D1F533 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				E1F2A3B4C5D6E7F8A9B0C1D2 /* Hanstholm */,
+				E1F2A3B4C5D6E7F8A9B0C1D2 /* Patrol */,
 			);
-			name = Hanstholm;
+			name = Patrol;
 			packageProductDependencies = (
 				C2D9BCBFE851B4B512D02150 /* DomainTypes */,
 				BD14614C92A5E84F2364E2EA /* Cache */,
 				FFA60F65963B9076CEBF0839 /* MockData */,
 			);
-			productName = Hanstholm;
-			productReference = 4C10AF852BCC261B000F2D2B /* Hanstholm.app */;
+			productName = Patrol;
+			productReference = 4C10AF852BCC261B000F2D2B /* Patrol.app */;
 			productType = "com.apple.product-type.application";
 		};
-		4C10AF8A2BCC261B000F2D2B /* Hanstholm Watch App */ = {
+		4C10AF8A2BCC261B000F2D2B /* Patrol Watch App */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4C10AF9B2BCC261C000F2D2B /* Build configuration list for PBXNativeTarget "Hanstholm Watch App" */;
+			buildConfigurationList = 4C10AF9B2BCC261C000F2D2B /* Build configuration list for PBXNativeTarget "Patrol Watch App" */;
 			buildPhases = (
 				4C10AF872BCC261B000F2D2B /* Sources */,
 				4C10AF882BCC261B000F2D2B /* Frameworks */,
@@ -288,9 +288,9 @@
 				4C10AFB52BCC264F000F2D2B /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				4C10AF8F2BCC261B000F2D2B /* Hanstholm Watch App */,
+				4C10AF8F2BCC261B000F2D2B /* PatrolWatchApp */,
 			);
-			name = "Hanstholm Watch App";
+			name = "Patrol Watch App";
 			packageProductDependencies = (
 				4C15662E2BEFE6D0006E6D56 /* DomainTypes */,
 				4C1566302BEFE9F4006E6D56 /* MockData */,
@@ -298,13 +298,13 @@
 				C0AD1CE0000000000000AA01 /* Conditions */,
 				D1DEB1A0000000000000BB01 /* Hyde */,
 			);
-			productName = "Hanstholm Watch App";
-			productReference = 4C10AF8B2BCC261B000F2D2B /* Hanstholm Watch App.app */;
+			productName = "Patrol Watch App";
+			productReference = 4C10AF8B2BCC261B000F2D2B /* Patrol Watch App.app */;
 			productType = "com.apple.product-type.application";
 		};
-		4C10AFA82BCC264E000F2D2B /* HanstholmWidgetExtension */ = {
+		4C10AFA82BCC264E000F2D2B /* PatrolWidgetExtension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4C10AFB82BCC264F000F2D2B /* Build configuration list for PBXNativeTarget "HanstholmWidgetExtension" */;
+			buildConfigurationList = 4C10AFB82BCC264F000F2D2B /* Build configuration list for PBXNativeTarget "PatrolWidgetExtension" */;
 			buildPhases = (
 				4C10AFA52BCC264E000F2D2B /* Sources */,
 				4C10AFA62BCC264E000F2D2B /* Frameworks */,
@@ -315,9 +315,9 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				4C10AFAE2BCC264E000F2D2B /* HanstholmWidget */,
+				4C10AFAE2BCC264E000F2D2B /* PatrolWidget */,
 			);
-			name = HanstholmWidgetExtension;
+			name = PatrolWidgetExtension;
 			packageProductDependencies = (
 				4C15662C2BEFE6C7006E6D56 /* DomainTypes */,
 				4CBD01E02BFB596D009DE551 /* Cache */,
@@ -325,13 +325,13 @@
 				C0AD1CE0000000000000AA02 /* Conditions */,
 				D1DEB1A0000000000000BB02 /* Hyde */,
 			);
-			productName = HanstholmWidgetExtension;
-			productReference = 4C10AFA92BCC264E000F2D2B /* HanstholmWidgetExtension.appex */;
+			productName = PatrolWidgetExtension;
+			productReference = 4C10AFA92BCC264E000F2D2B /* PatrolWidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		DF004A9EBBECEAA5F267980B /* HanstholmWidgetIOSExtension */ = {
+		DF004A9EBBECEAA5F267980B /* PatrolWidgetIOSExtension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F1642B92EB8CE21B236D1D45 /* Build configuration list for PBXNativeTarget "HanstholmWidgetIOSExtension" */;
+			buildConfigurationList = F1642B92EB8CE21B236D1D45 /* Build configuration list for PBXNativeTarget "PatrolWidgetIOSExtension" */;
 			buildPhases = (
 				E0A3A8A372FB784911E4E11E /* Sources */,
 				AF368122831099BCBE6CC384 /* Frameworks */,
@@ -342,9 +342,9 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				4C10AFAE2BCC264E000F2D2B /* HanstholmWidget */,
+				4C10AFAE2BCC264E000F2D2B /* PatrolWidget */,
 			);
-			name = HanstholmWidgetIOSExtension;
+			name = PatrolWidgetIOSExtension;
 			packageProductDependencies = (
 				16816F9C820813AFB090B62D /* DomainTypes */,
 				91EAEB150EFBE13A8AD4C78A /* Cache */,
@@ -352,8 +352,8 @@
 				C0AD1CE0000000000000AA03 /* Conditions */,
 				D1DEB1A0000000000000BB03 /* Hyde */,
 			);
-			productName = HanstholmWidgetIOSExtension;
-			productReference = 1185A5E4D55D2EF1C2258BBE /* HanstholmWidgetIOSExtension.appex */;
+			productName = PatrolWidgetIOSExtension;
+			productReference = 1185A5E4D55D2EF1C2258BBE /* PatrolWidgetIOSExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -380,7 +380,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 4C10AF822BCC261B000F2D2B /* Build configuration list for PBXProject "Hanstholm" */;
+			buildConfigurationList = 4C10AF822BCC261B000F2D2B /* Build configuration list for PBXProject "Patrol" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -395,10 +395,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4C10AF842BCC261B000F2D2B /* Hanstholm */,
-				4C10AF8A2BCC261B000F2D2B /* Hanstholm Watch App */,
-				4C10AFA82BCC264E000F2D2B /* HanstholmWidgetExtension */,
-				DF004A9EBBECEAA5F267980B /* HanstholmWidgetIOSExtension */,
+				4C10AF842BCC261B000F2D2B /* Patrol */,
+				4C10AF8A2BCC261B000F2D2B /* Patrol Watch App */,
+				4C10AFA82BCC264E000F2D2B /* PatrolWidgetExtension */,
+				DF004A9EBBECEAA5F267980B /* PatrolWidgetIOSExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -468,17 +468,17 @@
 /* Begin PBXTargetDependency section */
 		4C10AF8E2BCC261B000F2D2B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 4C10AF8A2BCC261B000F2D2B /* Hanstholm Watch App */;
+			target = 4C10AF8A2BCC261B000F2D2B /* Patrol Watch App */;
 			targetProxy = 4C10AF8D2BCC261B000F2D2B /* PBXContainerItemProxy */;
 		};
 		4C10AFB52BCC264F000F2D2B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 4C10AFA82BCC264E000F2D2B /* HanstholmWidgetExtension */;
+			target = 4C10AFA82BCC264E000F2D2B /* PatrolWidgetExtension */;
 			targetProxy = 4C10AFB42BCC264F000F2D2B /* PBXContainerItemProxy */;
 		};
 		9162AAE923B350CB47D1F533 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DF004A9EBBECEAA5F267980B /* HanstholmWidgetIOSExtension */;
+			target = DF004A9EBBECEAA5F267980B /* PatrolWidgetIOSExtension */;
 			targetProxy = BC33DED8C1C0D0252E2554BE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -611,23 +611,23 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "Hanstholm Watch App/Hanstholm Watch App.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "PatrolWatchApp/Patrol Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Hanstholm Watch App/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"PatrolWatchApp/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Hanstholm Watch App/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Hanstholm;
+				INFOPLIST_FILE = "PatrolWatchApp/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Patrol;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = ink.codes.Hanstholm;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = ink.codes.Patrol;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
 				OTHER_SWIFT_FLAGS = "-default-isolation MainActor";
-				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Hanstholm.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Patrol.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -643,23 +643,23 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "Hanstholm Watch App/Hanstholm Watch App.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "PatrolWatchApp/Patrol Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Hanstholm Watch App/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"PatrolWatchApp/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Hanstholm Watch App/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Hanstholm;
+				INFOPLIST_FILE = "PatrolWatchApp/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Patrol;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = ink.codes.Hanstholm;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = ink.codes.Patrol;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
 				OTHER_SWIFT_FLAGS = "-default-isolation MainActor";
-				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Hanstholm.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Patrol.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -676,12 +676,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Hanstholm/Hanstholm.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Patrol/Patrol.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Hanstholm/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Hanstholm;
+				INFOPLIST_FILE = Patrol/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Patrol;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -689,7 +689,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
 				MARKETING_VERSION = 1.0;
 				OTHER_SWIFT_FLAGS = "-default-isolation MainActor";
-				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Hanstholm;
+				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Patrol;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -703,12 +703,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Hanstholm/Hanstholm.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Patrol/Patrol.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Hanstholm/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Hanstholm;
+				INFOPLIST_FILE = Patrol/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Patrol;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -716,7 +716,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
 				MARKETING_VERSION = 1.0;
 				OTHER_SWIFT_FLAGS = "-default-isolation MainActor";
-				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Hanstholm;
+				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Patrol;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -731,12 +731,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = HanstholmWidget/HanstholmWidgetExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = PatrolWidget/PatrolWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = HanstholmWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = HanstholmWidget;
+				INFOPLIST_FILE = PatrolWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PatrolWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -746,7 +746,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				OTHER_SWIFT_FLAGS = "-default-isolation MainActor";
-				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Hanstholm.watchkitapp.HanstholmWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Patrol.watchkitapp.PatrolWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -762,12 +762,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = HanstholmWidget/HanstholmWidgetExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = PatrolWidget/PatrolWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = HanstholmWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = HanstholmWidget;
+				INFOPLIST_FILE = PatrolWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PatrolWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -777,7 +777,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				OTHER_SWIFT_FLAGS = "-default-isolation MainActor";
-				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Hanstholm.watchkitapp.HanstholmWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Patrol.watchkitapp.PatrolWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -794,12 +794,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = HanstholmWidget/HanstholmWidgetExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = PatrolWidget/PatrolWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = HanstholmWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = HanstholmWidget;
+				INFOPLIST_FILE = PatrolWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PatrolWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -810,7 +810,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				OTHER_SWIFT_FLAGS = "-default-isolation MainActor";
-				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Hanstholm.HanstholmWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Patrol.PatrolWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -825,12 +825,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = HanstholmWidget/HanstholmWidgetExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = PatrolWidget/PatrolWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = HanstholmWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = HanstholmWidget;
+				INFOPLIST_FILE = PatrolWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PatrolWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -841,7 +841,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				OTHER_SWIFT_FLAGS = "-default-isolation MainActor";
-				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Hanstholm.HanstholmWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = ink.codes.Patrol.PatrolWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -855,7 +855,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4C10AF822BCC261B000F2D2B /* Build configuration list for PBXProject "Hanstholm" */ = {
+		4C10AF822BCC261B000F2D2B /* Build configuration list for PBXProject "Patrol" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4C10AF992BCC261C000F2D2B /* Debug */,
@@ -864,7 +864,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4C10AF9B2BCC261C000F2D2B /* Build configuration list for PBXNativeTarget "Hanstholm Watch App" */ = {
+		4C10AF9B2BCC261C000F2D2B /* Build configuration list for PBXNativeTarget "Patrol Watch App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4C10AF9C2BCC261C000F2D2B /* Debug */,
@@ -873,7 +873,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4C10AF9F2BCC261C000F2D2B /* Build configuration list for PBXNativeTarget "Hanstholm" */ = {
+		4C10AF9F2BCC261C000F2D2B /* Build configuration list for PBXNativeTarget "Patrol" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4C10AFA02BCC261C000F2D2B /* Debug */,
@@ -882,7 +882,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4C10AFB82BCC264F000F2D2B /* Build configuration list for PBXNativeTarget "HanstholmWidgetExtension" */ = {
+		4C10AFB82BCC264F000F2D2B /* Build configuration list for PBXNativeTarget "PatrolWidgetExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4C10AFB92BCC264F000F2D2B /* Debug */,
@@ -891,7 +891,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F1642B92EB8CE21B236D1D45 /* Build configuration list for PBXNativeTarget "HanstholmWidgetIOSExtension" */ = {
+		F1642B92EB8CE21B236D1D45 /* Build configuration list for PBXNativeTarget "PatrolWidgetIOSExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				75FEDE957F22DE0492F05594 /* Debug */,

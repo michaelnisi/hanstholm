@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Hanstholm is a watchOS 10 app (with a WidgetKit complication) that fetches live surf and wind conditions from the weather station at Hanstholm Harbour, Denmark (`hyde.dk`). The data source is a Danish-language HTML page; parsing involves stripping HTML with `NSAttributedString` and mapping Danish labels and direction abbreviations to typed domain values.
+Patrol is a watchOS 10 app (with a WidgetKit complication) that fetches live surf and wind conditions from the weather station at Hanstholm Harbour, Denmark (`hyde.dk`). The data source is a Danish-language HTML page; parsing involves stripping HTML with `NSAttributedString` and mapping Danish labels and direction abbreviations to typed domain values.
 
 ## Workflow for New Features
 
@@ -24,13 +24,15 @@ Every distinct piece of work gets its own issue, branch, and PR — never stack 
 
 ## Repository Structure
 
+The product is now called Patrol (GH-76). The project file is `Patrol.xcodeproj`, the four targets are `Patrol`, `Patrol Watch App`, `PatrolWidgetExtension`, and `PatrolWidgetIOSExtension`, and the synced folders and scheme filenames below have been renamed to match.
+
 ```
-Core/                 # Swift Package — shared logic, no UI
-Hanstholm/            # iOS companion app target (hosts the Watch app and the iOS widget extension)
-Hanstholm Watch App/  # watchOS target
-HanstholmWidget/      # WidgetKit extension source, shared by two Xcode targets:
-                       #   HanstholmWidgetExtension    (watchOS, embedded in the Watch App)
-                       #   HanstholmWidgetIOSExtension (iOS, embedded in the "Hanstholm" container app)
+Core/            # Swift Package — shared logic, no UI
+Patrol/          # iOS companion app target (hosts the Watch app and the iOS widget extension)
+PatrolWatchApp/  # watchOS target
+PatrolWidget/    # WidgetKit extension source, shared by two Xcode targets:
+                 #   PatrolWidgetExtension    (watchOS, embedded in the Watch App)
+                 #   PatrolWidgetIOSExtension (iOS, embedded in the "Patrol" container app)
 ```
 
 ## Building and Testing
@@ -55,14 +57,14 @@ Build and run the watch app and widget from Xcode — there is no command-line t
 
 - **DomainTypes** — `SurfEntry` (clean model, also conforms to `TimelineEntry`), `Place`, `Direction` (16-point cardinal with Danish→English mapping and rotation degrees), and `Double` formatting extensions. Depends on nothing: the domain layer must not know about any particular source.
 - **SurfConditions** — `SurfConditionsPlugin` (a source of conditions) and `DeferredDownloadable` (opt-in: "my data is one plain download whose bytes decode standalone").
-- **Cache** — `actor Cache` backed by App Group `UserDefaults` (`group.ink.codes.Hanstholm`), shared between app and widget. Methods are `throws` (not `async`) — actor isolation handles concurrency. Stores `SurfEntry` values keyed by `Place.id`, and the selected place as a bare id (the plugin stays the source of truth for its display name). `selectedConditions()` exists for read-only consumers like the iOS app, which has no plugins linked and so can't resolve a `Place` itself.
+- **Cache** — `actor Cache` backed by App Group `UserDefaults` (`group.ink.codes.Patrol`), shared between app and widget. Methods are `throws` (not `async`) — actor isolation handles concurrency. Stores `SurfEntry` values keyed by `Place.id`, and the selected place as a bare id (the plugin stays the source of truth for its display name). `selectedConditions()` exists for read-only consumers like the iOS app, which has no plugins linked and so can't resolve a `Place` itself.
 - **Hyde** — the hyde.dk data source, and the only plugin so far. `Hyde` names a specific source, so `struct Hyde` *is* the plugin (`SurfConditionsPlugin` + `DeferredDownloadable`) rather than a DTO that something else adapts. Everything the source's own vocabulary needs is internal behind it: `Report` is what the HTML parses into, `Parser` strips it via `NSAttributedString` and finds values by Danish label within named sections, and `SurfEntry+Report.swift` converts (returning `nil` and logging when a field is missing). Depends on `DomainTypes` + `SurfConditions`, so the arrow points source→domain.
 - **Conditions** — `ConditionsCoordinator` plus the background `URLSession` machinery. Everything that isn't HTTP or parsing.
 - **MockData** — Canned `SurfEntry` values for SwiftUI previews.
 
 `Hyde.Station` is the source's own notion of a spot (one enum case per station hyde.dk publishes); a `Place` is the app-wide idea of one. A station knows its place — `station.place` and `Station(place:)` are the only mapping between the two, and `Station(place:)` returns `nil` for another plugin's place even when the key matches. The enum is named `Station` rather than `Place` so the two don't collide inside the type.
 
-**The term "Hyde" names the plugin and nothing else.** It is not a DTO, not a cache key, not a session identifier. Cache keys are named for what they store (`ink.codes.Hanstholm.Cache.conditions`), the background session identifier is bundle-scoped, and `MockData` uses a `"mock"` plugin id rather than a real one. The single remaining exception is `LegacySessionCleanup.sessionIdentifier`, which has to name the literal `"hyde.dk"` string an older build actually used in order to retire it, and which goes away with that file.
+**The term "Hyde" names the plugin and nothing else.** It is not a DTO, not a cache key, not a session identifier. Cache keys are named for what they store (`ink.codes.Patrol.Cache.conditions`), the background session identifier is bundle-scoped, and `MockData` uses a `"mock"` plugin id rather than a real one. The single remaining exception is `LegacySessionCleanup.sessionIdentifier`, which has to name the literal `"hyde.dk"` string an older build actually used in order to retire it, and which goes away with that file.
 
 **Plugin responsibility** is exactly two things: HTTP (with a session handed to it) and parsing. Caching, freshness policy, place selection, background download scheduling and delivery, and widget timeline reloads all belong to the coordinator.
 
@@ -87,7 +89,7 @@ Deferred path (widget extensions only):
 
 ### Container App
 
-`Hanstholm/` uses `fileSystemSynchronizedGroups`, like the Watch App and widget targets — files dropped in the folder are picked up automatically, no manual pbxproj membership needed. The target is a real `application` product type (not the watch-only-companion stub it started as), declaring `INFOPLIST_KEY_WKCompanionAppBundleIdentifier` to pair with the Watch app.
+`Patrol/` uses `fileSystemSynchronizedGroups`, like the Watch App and widget targets — files dropped in the folder are picked up automatically, no manual pbxproj membership needed. The target is a real `application` product type (not the watch-only-companion stub it started as), declaring `INFOPLIST_KEY_WKCompanionAppBundleIdentifier` to pair with the Watch app.
 
 `ContentView.swift` is a minimal, read-only screen: it reads `Cache().conditions(matching:)` on `.task` and whenever `scenePhase` becomes `.active`, and renders the resulting `SurfEntry` (or a `ContentUnavailableView` prompt if nothing's cached yet). It never fetches — it only shows what some other *iOS-side* process has already written to the shared App Group `Cache`. Note the Watch app doesn't count: App Groups only share storage between processes on the same device, so the Watch's cache and the iPhone's cache are entirely separate — this screen only has data once the iOS widget extension (or some other iOS-side fetcher) has populated the cache. `MockData` is preview-only here, never a runtime fallback, so the screen can't show fabricated data as if it were live.
 
@@ -109,7 +111,7 @@ The timeline policy is `.after(15 min)` as a guaranteed fallback; the background
 
 A background session created inside an app extension **must** set `sharedContainerIdentifier`, or downloads silently fail to start.
 
-The `HanstholmWidget/` source compiles unchanged into two separate Xcode targets — `HanstholmWidgetExtension` (watchOS complications) and `HanstholmWidgetIOSExtension` (iOS Lock Screen widgets) — via a shared `fileSystemSynchronizedGroups` membership, plus a shared `Info.plist` and `HanstholmWidgetExtension.entitlements`. Only the four accessory widget families (`.accessoryCorner/.accessoryCircular/.accessoryInline/.accessoryRectangular`) are wired up; there's no Home Screen (`.systemSmall`/`.systemMedium`) layout yet. Each extension is a separate process/bundle ID, and the session identifier is bundle-scoped, so their background sessions stay apart.
+The `PatrolWidget/` source compiles unchanged into two separate Xcode targets — `PatrolWidgetExtension` (watchOS complications) and `PatrolWidgetIOSExtension` (iOS Lock Screen widgets) — via a shared `fileSystemSynchronizedGroups` membership, plus a shared `Info.plist` and `PatrolWidgetExtension.entitlements`. Only the four accessory widget families (`.accessoryCorner/.accessoryCircular/.accessoryInline/.accessoryRectangular`) are wired up; there's no Home Screen (`.systemSmall`/`.systemMedium`) layout yet. Each extension is a separate process/bundle ID, and the session identifier is bundle-scoped, so their background sessions stay apart.
 
 ## Concurrency Model
 
@@ -122,7 +124,7 @@ The `HanstholmWidget/` source compiles unchanged into two separate Xcode targets
 
 | Constant | Value |
 |----------|-------|
-| App Group suite | `group.ink.codes.Hanstholm` |
+| App Group suite | `group.ink.codes.Patrol` |
 | Background URL session ID | `<bundle id>.conditions` (was `hyde.dk`) |
 | Data source URL | `https://hyde.dk/default_hanstholm.asp` |
 | Cache TTL (app) | 5 min |

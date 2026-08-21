@@ -9,7 +9,7 @@ final class CacheTests: XCTestCase {
     override func setUp() {
         super.setUp()
 
-        suiteName = "ink.codes.Hanstholm.CacheTests.\(UUID().uuidString)"
+        suiteName = "ink.codes.Patrol.CacheTests.\(UUID().uuidString)"
         userDefaults = UserDefaults(suiteName: suiteName)
     }
 

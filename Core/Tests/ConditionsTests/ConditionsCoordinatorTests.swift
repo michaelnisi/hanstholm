@@ -85,7 +85,7 @@ final class ConditionsCoordinatorTests: XCTestCase {
     override func setUp() {
         super.setUp()
 
-        suiteName = "ink.codes.Hanstholm.ConditionsTests.\(UUID().uuidString)"
+        suiteName = "ink.codes.Patrol.ConditionsTests.\(UUID().uuidString)"
         userDefaults = UserDefaults(suiteName: suiteName)
     }
 

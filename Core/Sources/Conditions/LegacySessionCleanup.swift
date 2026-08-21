@@ -2,8 +2,8 @@ import Foundation
 
 enum LegacySessionCleanup {
     static let sessionIdentifier = "hyde.dk"
-    static let appGroup = "group.ink.codes.Hanstholm"
-    static let defaultsKey = "ink.codes.Hanstholm.Conditions.didFlushLegacySession"
+    static let appGroup = "group.ink.codes.Patrol"
+    static let defaultsKey = "ink.codes.Patrol.Conditions.didFlushLegacySession"
 
     static func flushIfNeeded(
         defaults: UserDefaults? = UserDefaults(suiteName: LegacySessionCleanup.appGroup)

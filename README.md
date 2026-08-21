@@ -1,4 +1,4 @@
-# Hanstholm 🌊
+# Patrol 🌊
 
 A glance at your wrist tells you whether it's worth driving to the harbour.
 

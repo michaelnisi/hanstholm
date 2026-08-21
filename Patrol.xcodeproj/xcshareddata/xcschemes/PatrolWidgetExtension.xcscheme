@@ -16,9 +16,24 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DF004A9EBBECEAA5F267980B"
-               BuildableName = "HanstholmWidgetIOSExtension.appex"
-               ReferencedContainer = "container:Hanstholm.xcodeproj">
+               BlueprintIdentifier = "4C10AFA82BCC264E000F2D2B"
+               BuildableName = "PatrolWidgetExtension.appex"
+               BlueprintName = "PatrolWidgetExtension"
+               ReferencedContainer = "container:Patrol.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4C10AF8A2BCC261B000F2D2B"
+               BuildableName = "Patrol Watch App.app"
+               BlueprintName = "Patrol Watch App"
+               ReferencedContainer = "container:Patrol.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -30,8 +45,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4C10AF842BCC261B000F2D2B"
-               BuildableName = "Hanstholm.app"
-               ReferencedContainer = "container:Hanstholm.xcodeproj">
+               BuildableName = "Patrol.app"
+               BlueprintName = "Patrol"
+               ReferencedContainer = "container:Patrol.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -54,24 +70,23 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES"
-      launchAutomaticallySubstyle = "2"
-      queueDebuggingEnabled = "No">
-      <RemoteRunnable
-         runnableDebuggingMode = "2"
-         BundleIdentifier = "com.apple.springboard">
+      launchAutomaticallySubstyle = "2">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "DF004A9EBBECEAA5F267980B"
-            BuildableName = "HanstholmWidgetIOSExtension.appex"
-            ReferencedContainer = "container:Hanstholm.xcodeproj">
+            BlueprintIdentifier = "4C10AFA82BCC264E000F2D2B"
+            BuildableName = "PatrolWidgetExtension.appex"
+            ReferencedContainer = "container:Patrol.xcodeproj">
          </BuildableReference>
-      </RemoteRunnable>
+      </BuildableProductRunnable>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4C10AF842BCC261B000F2D2B"
-            BuildableName = "Hanstholm.app"
-            ReferencedContainer = "container:Hanstholm.xcodeproj">
+            BlueprintIdentifier = "4C10AF8A2BCC261B000F2D2B"
+            BuildableName = "Patrol Watch App.app"
+            BlueprintName = "Patrol Watch App"
+            ReferencedContainer = "container:Patrol.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <EnvironmentVariables>
@@ -97,16 +112,14 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      debugDocumentVersioning = "YES"
-      askForAppToLaunch = "Yes"
-      launchAutomaticallySubstyle = "2">
+      debugDocumentVersioning = "YES">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4C10AF842BCC261B000F2D2B"
-            BuildableName = "Hanstholm.app"
-            ReferencedContainer = "container:Hanstholm.xcodeproj">
+            BlueprintIdentifier = "4C10AFA82BCC264E000F2D2B"
+            BuildableName = "PatrolWidgetExtension.appex"
+            ReferencedContainer = "container:Patrol.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -8,7 +8,7 @@ extension ConditionsCoordinator {
             plugins: [Hyde()],
             deferredDownloads: .init(
                 sessionIdentifier: DeferredDownloadConfiguration.defaultSessionIdentifier(),
-                sharedContainerIdentifier: "group.ink.codes.Hanstholm"
+                sharedContainerIdentifier: "group.ink.codes.Patrol"
             ),
             reloadWidgetTimelines: {
                 WidgetCenter.shared.reloadAllTimelines()

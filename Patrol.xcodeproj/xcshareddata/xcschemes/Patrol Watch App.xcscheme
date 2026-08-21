@@ -15,10 +15,24 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4C10AF8A2BCC261B000F2D2B"
+               BuildableName = "Patrol Watch App.app"
+               BlueprintName = "Patrol Watch App"
+               ReferencedContainer = "container:Patrol.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "4C10AF842BCC261B000F2D2B"
-               BuildableName = "Hanstholm.app"
-               BlueprintName = "Hanstholm"
-               ReferencedContainer = "container:Hanstholm.xcodeproj">
+               BuildableName = "Patrol.app"
+               BlueprintName = "Patrol"
+               ReferencedContainer = "container:Patrol.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -44,10 +58,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4C10AF842BCC261B000F2D2B"
-            BuildableName = "Hanstholm.app"
-            BlueprintName = "Hanstholm"
-            ReferencedContainer = "container:Hanstholm.xcodeproj">
+            BlueprintIdentifier = "4C10AF8A2BCC261B000F2D2B"
+            BuildableName = "Patrol Watch App.app"
+            ReferencedContainer = "container:Patrol.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -61,10 +74,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4C10AF842BCC261B000F2D2B"
-            BuildableName = "Hanstholm.app"
-            BlueprintName = "Hanstholm"
-            ReferencedContainer = "container:Hanstholm.xcodeproj">
+            BlueprintIdentifier = "4C10AF8A2BCC261B000F2D2B"
+            BuildableName = "Patrol Watch App.app"
+            ReferencedContainer = "container:Patrol.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

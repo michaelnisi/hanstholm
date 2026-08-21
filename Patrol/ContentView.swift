@@ -16,7 +16,7 @@ struct ContentView: View {
                     ContentUnavailableView(
                         "No Data Yet",
                         systemImage: "water.waves",
-                        description: Text("Add the Hanstholm widget to your Lock Screen to fetch conditions.")
+                        description: Text("Add the Patrol widget to your Lock Screen to fetch conditions.")
                     )
                 }
             }
@@ -74,6 +74,6 @@ private struct ConditionsView: View {
     ContentUnavailableView(
         "No Data Yet",
         systemImage: "water.waves",
-        description: Text("Add the Hanstholm widget to your Lock Screen to fetch conditions.")
+        description: Text("Add the Patrol widget to your Lock Screen to fetch conditions.")
     )
 }

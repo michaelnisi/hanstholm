@@ -4,7 +4,7 @@ import Cache
 import DomainTypes
 import SurfConditions
 
-let logger = Logger(subsystem: "ink.codes.Hanstholm", category: "Conditions")
+let logger = Logger(subsystem: "ink.codes.Patrol", category: "Conditions")
 
 public enum FreshnessPolicy: Sendable, Equatable {
     case cachedOnly
