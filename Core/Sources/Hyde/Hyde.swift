@@ -78,7 +78,11 @@ extension Hyde {
 
 extension Hyde.Station {
     public var place: Place {
-        .init(pluginID: Hyde.pluginID, key: key, name: name)
+        .init(pluginID: Hyde.pluginID, key: key, name: name, icon: icon)
+    }
+
+    public var icon: String {
+        "water.waves"
     }
 
     public init?(place: Place) {

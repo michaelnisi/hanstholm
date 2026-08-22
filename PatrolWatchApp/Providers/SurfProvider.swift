@@ -86,7 +86,7 @@ extension SurfProvider {
                     return MockData.SurfEntry.makeSurfEntry()
                 },
                 availablePlaces: {
-                    [MockData.SurfEntry.makePlace()]
+                    MockData.SurfEntry.makePlaces()
                 },
                 selectPlace: { _ in }
             )

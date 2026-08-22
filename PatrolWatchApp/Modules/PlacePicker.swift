@@ -11,19 +11,22 @@ struct PlacePicker: View {
 
     var body: some View {
         NavigationStack {
-            List(places) { place in
-                Button {
-                    onSelect(place)
-                } label: {
-                    HStack {
-                        Text(place.name)
-                        if place.id == selected.id {
-                            Spacer()
-                            Image(systemName: "checkmark")
+            ScrollView {
+                LazyVStack(spacing: 12) {
+                    ForEach(places) { place in
+                        PlaceCard(place: place, isSelected: place.id == selected.id) {
+                            onSelect(place)
+                        }
+                        .scrollTransition { content, phase in
+                            content
+                                .scaleEffect(phase.isIdentity ? 1 : 0.85)
+                                .opacity(phase.isIdentity ? 1 : 0.4)
                         }
                     }
                 }
+                .scrollTargetLayout()
             }
+            .scrollTargetBehavior(.viewAligned)
             .navigationTitle("Places")
             .task {
                 places = await surfProvider.availablePlaces()
