@@ -2,37 +2,43 @@ import SwiftUI
 import DomainTypes
 
 struct PlaceCard: View {
+    static let height: CGFloat = 72
+
     let place: Place
     let isSelected: Bool
-    let action: () -> Void
+    var isExpanded: Bool = false
 
     var body: some View {
-        Button(action: action) {
-            VStack(spacing: 4) {
-                Image(systemName: place.icon)
-                    .font(.title2)
-                Text(place.name)
-                    .fontDesign(.rounded)
-                    .fontWeight(.semibold)
-            }
-            .frame(maxWidth: .infinity)
-            .frame(height: 72)
-            .background(Color.accentColor.gradient, in: .rect(cornerRadius: 16))
-            .overlay(alignment: .topTrailing) {
-                if isSelected {
-                    Image(systemName: "checkmark.circle.fill")
-                        .padding(6)
-                }
+        VStack(spacing: isExpanded ? 8 : 4) {
+            Image(systemName: place.icon)
+                .font(isExpanded ? .largeTitle : .title2)
+            Text(place.name)
+                .fontDesign(.rounded)
+                .fontWeight(.semibold)
+                .font(isExpanded ? .title3 : .body)
+        }
+        .frame(maxWidth: .infinity)
+        .frame(maxHeight: isExpanded ? .infinity : nil)
+        .frame(height: isExpanded ? nil : Self.height)
+        .background(Color.accentColor.gradient, in: .rect(cornerRadius: isExpanded ? 0 : 16))
+        .overlay(alignment: .topTrailing) {
+            if isSelected && !isExpanded {
+                Image(systemName: "checkmark.circle.fill")
+                    .padding(6)
             }
         }
-        .buttonStyle(.plain)
     }
 }
 
 #Preview {
     VStack(spacing: 12) {
-        PlaceCard(place: .init(pluginID: "mock", key: "hanstholm", name: "Hanstholm", icon: "water.waves"), isSelected: true) {}
-        PlaceCard(place: .init(pluginID: "mock", key: "hvide-sande", name: "Hvide Sande", icon: "water.waves"), isSelected: false) {}
+        PlaceCard(place: .init(pluginID: "mock", key: "hanstholm", name: "Hanstholm", icon: "water.waves"), isSelected: true)
+        PlaceCard(place: .init(pluginID: "mock", key: "hvide-sande", name: "Hvide Sande", icon: "water.waves"), isSelected: false)
     }
     .padding()
+}
+
+#Preview("Expanded") {
+    PlaceCard(place: .init(pluginID: "mock", key: "hanstholm", name: "Hanstholm", icon: "water.waves"), isSelected: true, isExpanded: true)
+        .ignoresSafeArea()
 }
