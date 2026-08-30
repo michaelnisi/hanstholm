@@ -12,6 +12,7 @@ import Conditions
         var fetchEntry: @Sendable () async throws -> SurfEntry
         var availablePlaces: @Sendable () async -> [Place]
         var selectPlace: @Sendable (Place) async throws -> Void
+        var selectedPlace: @Sendable () async throws -> Place
     }
 
     private let dependencies: Dependencies
@@ -48,6 +49,15 @@ extension SurfProvider {
             logger.error("select place failed: \(error)")
         }
     }
+
+    func selectedPlace() async -> Place? {
+        do {
+            return try await dependencies.selectedPlace()
+        } catch {
+            logger.error("selected place failed: \(error)")
+            return nil
+        }
+    }
 }
 
 extension SurfProvider {
@@ -70,6 +80,9 @@ extension SurfProvider {
                 },
                 selectPlace: { place in
                     try await coordinator.selectPlace(place)
+                },
+                selectedPlace: {
+                    try await coordinator.selectedPlace()
                 }
             )
         )
@@ -88,7 +101,10 @@ extension SurfProvider {
                 availablePlaces: {
                     MockData.SurfEntry.makePlaces()
                 },
-                selectPlace: { _ in }
+                selectPlace: { _ in },
+                selectedPlace: {
+                    MockData.SurfEntry.makePlace()
+                }
             )
         )
     }()

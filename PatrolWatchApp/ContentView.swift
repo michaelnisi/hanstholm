@@ -6,23 +6,15 @@ struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
     @Environment(SurfProvider.self) var surfProvider
     @State private var task: Task<Void, Never>?
+    @State private var path: [Place] = []
 
     var body: some View {
-        Group {
-            if let surfEntry = surfProvider.surfEntry {
-                SurfSpot(surfEntry: surfEntry)
-            } else if let lastError = surfProvider.lastError {
-                ContentUnavailableView {
-                    Label("Couldn't Load Conditions", systemImage: "exclamationmark.triangle")
-                } description: {
-                    Text(lastError.localizedDescription)
-                } actions: {
-                    Button("Retry") {
-                        Task { await surfProvider.load() }
-                    }
-                }
-            } else {
-                ProgressView()
+        NavigationStack(path: $path) {
+            PlacePicker { place in
+                path.append(place)
+            }
+            .navigationDestination(for: Place.self) { place in
+                SurfSpot(place: place)
             }
         }
         .task {
@@ -47,16 +39,4 @@ struct ContentView: View {
 #Preview {
     ContentView()
         .withMockProviders()
-}
-
-#Preview("Error") {
-    ContentView()
-        .environment(
-            SurfProvider(dependencies: .init(
-                cachedEntry: { nil },
-                fetchEntry: { throw URLError(.notConnectedToInternet) },
-                availablePlaces: { [] },
-                selectPlace: { _ in }
-            ))
-        )
 }

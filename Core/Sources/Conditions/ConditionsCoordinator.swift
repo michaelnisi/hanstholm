@@ -73,7 +73,7 @@ public actor ConditionsCoordinator {
 }
 
 extension ConditionsCoordinator {
-    func selectedPlace() async throws -> Place {
+    public func selectedPlace() async throws -> Place {
         let all = configuration.plugins.flatMap(\.places)
 
         guard let id = await configuration.cache.selectedPlaceID() else {
