@@ -15,10 +15,13 @@ public struct MockData {
             ]
         }
 
-        public static func makeSurfEntry(status: DomainTypes.SurfEntry.Status = .ok) -> DomainTypes.SurfEntry {
+        public static func makeSurfEntry(
+            status: DomainTypes.SurfEntry.Status = .ok,
+            place: DomainTypes.Place = makePlace()
+        ) -> DomainTypes.SurfEntry {
             .init(
                 date: .now,
-                place: makePlace(),
+                place: place,
                 status: status,
                 wave: makeWave(),
                 wind: makeWind()

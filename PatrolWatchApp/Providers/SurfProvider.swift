@@ -89,21 +89,33 @@ extension SurfProvider {
     }()
 }
 
+private actor MockSelection {
+    private(set) var place = MockData.SurfEntry.makePlace()
+
+    func select(_ place: Place) {
+        self.place = place
+    }
+}
+
 extension SurfProvider {
     nonisolated static let mock: SurfProvider = {
-        .init(
+        let selection = MockSelection()
+
+        return .init(
             dependencies: .init(
                 cachedEntry: { nil },
                 fetchEntry: {
                     try await Task.sleep(nanoseconds: 500_000_000)
-                    return MockData.SurfEntry.makeSurfEntry()
+                    return MockData.SurfEntry.makeSurfEntry(place: await selection.place)
                 },
                 availablePlaces: {
                     MockData.SurfEntry.makePlaces()
                 },
-                selectPlace: { _ in },
+                selectPlace: { place in
+                    await selection.select(place)
+                },
                 selectedPlace: {
-                    MockData.SurfEntry.makePlace()
+                    await selection.place
                 }
             )
         )
