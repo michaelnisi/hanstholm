@@ -39,7 +39,6 @@ struct PlacePicker: View {
                 for: .scrollContent
             )
         }
-        .toolbar(.hidden, for: .navigationBar)
         .task {
             async let placesTask = surfProvider.availablePlaces()
             var bootstrap = surfProvider.surfEntry?.place
