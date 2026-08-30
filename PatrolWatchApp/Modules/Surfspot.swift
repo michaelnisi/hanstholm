@@ -39,6 +39,7 @@ struct SurfSpot: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        .toolbar(.visible, for: .navigationBar)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
