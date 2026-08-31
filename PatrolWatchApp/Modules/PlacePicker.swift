@@ -3,6 +3,10 @@ import DomainTypes
 import MockData
 
 struct PlacePicker: View {
+    /// Vertical gap between cards. Small enough that the neighbouring cards
+    /// peek in above and below the centered one.
+    private static let cardSpacing: CGFloat = 12
+
     let onSelect: (Place) -> Void
 
     @Environment(SurfProvider.self) private var surfProvider
@@ -16,28 +20,35 @@ struct PlacePicker: View {
 
     var body: some View {
         GeometryReader { proxy in
-            ScrollView {
-                LazyVStack(spacing: 12) {
+            ScrollView(.vertical) {
+                LazyVStack(spacing: Self.cardSpacing) {
                     ForEach(places) { place in
                         PlaceCard(place: place, isSelected: place.id == selected?.id) {
                             onSelect(place)
                         }
-                        .scrollTransition { content, phase in
+                        // Interactive rather than phase-based, so a card grows
+                        // and brightens continuously as it approaches the
+                        // center instead of popping once it gets there.
+                        .scrollTransition(.interactive, axis: .vertical) { content, phase in
                             content
-                                .scaleEffect(phase.isIdentity ? 1 : 0.85)
-                                .opacity(phase.isIdentity ? 1 : 0.4)
+                                .scaleEffect(1 - abs(phase.value) * 0.15)
+                                .opacity(1 - abs(phase.value) * 0.6)
                         }
                     }
                 }
                 .scrollTargetLayout()
             }
-            .scrollTargetBehavior(.viewAligned)
-            .scrollPosition(id: $scrollPosition)
+            // Padding the content by half the leftover height at both ends is
+            // what lets the first and last card reach the middle of the
+            // screen; `.viewAligned` then snaps the nearest card into that
+            // now-centered aligned position.
             .contentMargins(
-                .bottom,
-                max(0, (proxy.size.height - PlaceCard.height) / 2),
+                .vertical,
+                Self.centeringInset(forHeight: proxy.size.height),
                 for: .scrollContent
             )
+            .scrollTargetBehavior(.viewAligned)
+            .scrollPosition(id: $scrollPosition)
         }
         .task {
             async let placesTask = surfProvider.availablePlaces()
@@ -49,6 +60,10 @@ struct PlacePicker: View {
             bootstrapPlace = bootstrap
             scrollPosition = (bootstrap ?? places.first)?.id
         }
+    }
+
+    private static func centeringInset(forHeight height: CGFloat) -> CGFloat {
+        max(0, (height - PlaceCard.height) / 2)
     }
 }
 
