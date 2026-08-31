@@ -12,6 +12,7 @@ import Conditions
         var fetchEntry: @Sendable () async throws -> SurfEntry
         var availablePlaces: @Sendable () async -> [Place]
         var selectPlace: @Sendable (Place) async throws -> Void
+        var selectedPlace: @Sendable () async throws -> Place
     }
 
     private let dependencies: Dependencies
@@ -48,6 +49,15 @@ extension SurfProvider {
             logger.error("select place failed: \(error)")
         }
     }
+
+    func selectedPlace() async -> Place? {
+        do {
+            return try await dependencies.selectedPlace()
+        } catch {
+            logger.error("selected place failed: \(error)")
+            return nil
+        }
+    }
 }
 
 extension SurfProvider {
@@ -70,25 +80,43 @@ extension SurfProvider {
                 },
                 selectPlace: { place in
                     try await coordinator.selectPlace(place)
+                },
+                selectedPlace: {
+                    try await coordinator.selectedPlace()
                 }
             )
         )
     }()
 }
 
+private actor MockSelection {
+    private(set) var place = MockData.SurfEntry.makePlace()
+
+    func select(_ place: Place) {
+        self.place = place
+    }
+}
+
 extension SurfProvider {
     nonisolated static let mock: SurfProvider = {
-        .init(
+        let selection = MockSelection()
+
+        return .init(
             dependencies: .init(
                 cachedEntry: { nil },
                 fetchEntry: {
                     try await Task.sleep(nanoseconds: 500_000_000)
-                    return MockData.SurfEntry.makeSurfEntry()
+                    return MockData.SurfEntry.makeSurfEntry(place: await selection.place)
                 },
                 availablePlaces: {
-                    [MockData.SurfEntry.makePlace()]
+                    MockData.SurfEntry.makePlaces()
                 },
-                selectPlace: { _ in }
+                selectPlace: { place in
+                    await selection.select(place)
+                },
+                selectedPlace: {
+                    await selection.place
+                }
             )
         )
     }()
