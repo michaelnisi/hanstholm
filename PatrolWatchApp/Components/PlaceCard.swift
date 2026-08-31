@@ -2,7 +2,9 @@ import SwiftUI
 import DomainTypes
 
 struct PlaceCard: View {
-    static let height: CGFloat = 72
+    static let baseHeight: CGFloat = 72
+
+    @ScaledMetric private var height: CGFloat = PlaceCard.baseHeight
 
     let place: Place
     let isSelected: Bool
@@ -19,7 +21,7 @@ struct PlaceCard: View {
                     .font(.body)
             }
             .frame(maxWidth: .infinity)
-            .frame(height: Self.height)
+            .frame(height: height)
             .background(Color.accentColor.gradient, in: .rect(cornerRadius: 16))
             .overlay(alignment: .topTrailing) {
                 if isSelected {
