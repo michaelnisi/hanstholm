@@ -3,8 +3,6 @@ import DomainTypes
 import MockData
 
 struct PlacePicker: View {
-    /// Vertical gap between cards. Small enough that the neighbouring cards
-    /// peek in above and below the centered one.
     private static let cardSpacing: CGFloat = 12
 
     let onSelect: (Place) -> Void
@@ -26,9 +24,6 @@ struct PlacePicker: View {
                         PlaceCard(place: place, isSelected: place.id == selected?.id) {
                             onSelect(place)
                         }
-                        // Interactive rather than phase-based, so a card grows
-                        // and brightens continuously as it approaches the
-                        // center instead of popping once it gets there.
                         .scrollTransition(.interactive, axis: .vertical) { content, phase in
                             content
                                 .scaleEffect(1 - abs(phase.value) * 0.15)
@@ -38,10 +33,6 @@ struct PlacePicker: View {
                 }
                 .scrollTargetLayout()
             }
-            // Padding the content by half the leftover height at both ends is
-            // what lets the first and last card reach the middle of the
-            // screen; `.viewAligned` then snaps the nearest card into that
-            // now-centered aligned position.
             .contentMargins(
                 .vertical,
                 Self.centeringInset(forHeight: proxy.size.height),
