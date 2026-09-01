@@ -127,7 +127,7 @@ final class CacheTests: XCTestCase {
         let place = makePlace()
 
         try await cache.setSettings(PlaceSettings(), for: place)
-        let fetched = try await cache.settings(for: place)
+        let fetched = await cache.settings(for: place)
 
         XCTAssertEqual(fetched, PlaceSettings())
     }
@@ -135,9 +135,21 @@ final class CacheTests: XCTestCase {
     func testSettingsForIsNilWhenNothingStored() async throws {
         let cache = Cache(userDefaults: userDefaults)
 
-        let fetched = try await cache.settings(for: makePlace())
+        let fetched = await cache.settings(for: makePlace())
 
         XCTAssertNil(fetched)
+    }
+
+    func testSettingsForFallsBackToDefaultsWhenStoredBlobDoesNotDecode() async {
+        let cache = Cache(userDefaults: userDefaults)
+        let place = makePlace()
+
+        let corrupt = Data("not a PlaceSettings".utf8)
+        userDefaults.set(corrupt, forKey: "\(Cache.Key.settings)-id-\(place.id)")
+
+        let fetched = await cache.settings(for: place)
+
+        XCTAssertEqual(fetched, PlaceSettings())
     }
 
     func testSettingsAreIsolatedByPlace() async throws {
@@ -147,8 +159,8 @@ final class CacheTests: XCTestCase {
 
         try await cache.setSettings(PlaceSettings(), for: one)
 
-        let first = try await cache.settings(for: one)
-        let second = try await cache.settings(for: two)
+        let first = await cache.settings(for: one)
+        let second = await cache.settings(for: two)
 
         XCTAssertEqual(first, PlaceSettings())
         XCTAssertNil(second)

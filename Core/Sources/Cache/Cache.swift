@@ -51,12 +51,12 @@ extension Cache {
 }
 
 extension Cache {
-    public func settings(for place: Place) throws -> PlaceSettings? {
+    public func settings(for place: Place) -> PlaceSettings? {
         guard let data = db?.data(forKey: .makeSettingsKey(place: place)) else {
             return nil
         }
 
-        return try decoder.decode(PlaceSettings.self, from: data)
+        return (try? decoder.decode(PlaceSettings.self, from: data)) ?? PlaceSettings()
     }
 
     public func setSettings(_ value: PlaceSettings, for place: Place) throws {
