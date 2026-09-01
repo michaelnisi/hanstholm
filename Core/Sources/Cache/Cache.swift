@@ -3,7 +3,9 @@ import DomainTypes
 
 extension UserDefaults: @retroactive @unchecked Sendable {}
 
-public protocol PlaceSettings: Codable, Sendable {}
+public struct PlaceSettings: Hashable, Sendable, Codable {
+    public init() {}
+}
 
 public actor Cache {
     struct Key {
@@ -49,18 +51,18 @@ extension Cache {
 }
 
 extension Cache {
-    public func settings<T: PlaceSettings>(for place: Place) throws -> T? {
-        guard let data = db?.data(forKey: .makeSettingsKey(place: place, type: T.self)) else {
+    public func settings(for place: Place) throws -> PlaceSettings? {
+        guard let data = db?.data(forKey: .makeSettingsKey(place: place)) else {
             return nil
         }
 
-        return try decoder.decode(T.self, from: data)
+        return try decoder.decode(PlaceSettings.self, from: data)
     }
 
-    public func setSettings<T: PlaceSettings>(_ value: T, for place: Place) throws {
+    public func setSettings(_ value: PlaceSettings, for place: Place) throws {
         let data = try encoder.encode(value)
 
-        db?.setValue(data, forKey: .makeSettingsKey(place: place, type: T.self))
+        db?.setValue(data, forKey: .makeSettingsKey(place: place))
     }
 }
 
@@ -99,10 +101,7 @@ extension String {
         "\(Cache.Key.conditions)-id-\(placeID)"
     }
 
-    // Disambiguates by both place and settings type, so unrelated Codable
-    // structs (e.g. a view-mode setting and a widget-config setting) can
-    // each be stored per place without colliding.
-    fileprivate static func makeSettingsKey<T>(place: Place, type: T.Type) -> String {
-        "\(Cache.Key.settings)-id-\(place.id)-\(String(describing: type))"
+    fileprivate static func makeSettingsKey(place: Place) -> String {
+        "\(Cache.Key.settings)-id-\(place.id)"
     }
 }

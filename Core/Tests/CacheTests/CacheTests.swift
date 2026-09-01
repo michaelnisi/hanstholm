@@ -2,14 +2,6 @@ import XCTest
 import DomainTypes
 @testable import Cache
 
-private struct StubSettingsA: PlaceSettings, Equatable {
-    var flag: Bool
-}
-
-private struct StubSettingsB: PlaceSettings, Equatable {
-    var count: Int
-}
-
 final class CacheTests: XCTestCase {
     private var suiteName: String!
     private var userDefaults: UserDefaults!
@@ -133,18 +125,17 @@ final class CacheTests: XCTestCase {
     func testSetSettingsRoundTripsThroughSettingsFor() async throws {
         let cache = Cache(userDefaults: userDefaults)
         let place = makePlace()
-        let settings = StubSettingsA(flag: true)
 
-        try await cache.setSettings(settings, for: place)
-        let fetched: StubSettingsA? = try await cache.settings(for: place)
+        try await cache.setSettings(PlaceSettings(), for: place)
+        let fetched = try await cache.settings(for: place)
 
-        XCTAssertEqual(fetched, settings)
+        XCTAssertEqual(fetched, PlaceSettings())
     }
 
     func testSettingsForIsNilWhenNothingStored() async throws {
         let cache = Cache(userDefaults: userDefaults)
 
-        let fetched: StubSettingsA? = try await cache.settings(for: makePlace())
+        let fetched = try await cache.settings(for: makePlace())
 
         XCTAssertNil(fetched)
     }
@@ -154,27 +145,12 @@ final class CacheTests: XCTestCase {
         let one = makePlace(key: "hanstholm", name: "Hanstholm")
         let two = makePlace(key: "hvide-sande", name: "Hvide Sande")
 
-        try await cache.setSettings(StubSettingsA(flag: true), for: one)
-        try await cache.setSettings(StubSettingsA(flag: false), for: two)
+        try await cache.setSettings(PlaceSettings(), for: one)
 
-        let first: StubSettingsA? = try await cache.settings(for: one)
-        let second: StubSettingsA? = try await cache.settings(for: two)
+        let first = try await cache.settings(for: one)
+        let second = try await cache.settings(for: two)
 
-        XCTAssertEqual(first, StubSettingsA(flag: true))
-        XCTAssertEqual(second, StubSettingsA(flag: false))
-    }
-
-    func testSettingsAreIsolatedByType() async throws {
-        let cache = Cache(userDefaults: userDefaults)
-        let place = makePlace()
-
-        try await cache.setSettings(StubSettingsA(flag: true), for: place)
-        try await cache.setSettings(StubSettingsB(count: 3), for: place)
-
-        let a: StubSettingsA? = try await cache.settings(for: place)
-        let b: StubSettingsB? = try await cache.settings(for: place)
-
-        XCTAssertEqual(a, StubSettingsA(flag: true))
-        XCTAssertEqual(b, StubSettingsB(count: 3))
+        XCTAssertEqual(first, PlaceSettings())
+        XCTAssertNil(second)
     }
 }
