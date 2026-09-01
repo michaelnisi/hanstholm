@@ -3,9 +3,14 @@ import DomainTypes
 
 extension UserDefaults: @retroactive @unchecked Sendable {}
 
+public struct PlaceSettings: Hashable, Sendable, Codable {
+    public init() {}
+}
+
 public actor Cache {
     struct Key {
         static let conditions = "ink.codes.Patrol.Cache.conditions"
+        static let settings = "ink.codes.Patrol.Cache.settings"
     }
 
     private let db: UserDefaults?
@@ -46,6 +51,22 @@ extension Cache {
 }
 
 extension Cache {
+    public func settings(for place: Place) -> PlaceSettings? {
+        guard let data = db?.data(forKey: .makeSettingsKey(place: place)) else {
+            return nil
+        }
+
+        return (try? decoder.decode(PlaceSettings.self, from: data)) ?? PlaceSettings()
+    }
+
+    public func setSettings(_ value: PlaceSettings, for place: Place) throws {
+        let data = try encoder.encode(value)
+
+        db?.setValue(data, forKey: .makeSettingsKey(place: place))
+    }
+}
+
+extension Cache {
     public func setSelectedPlace(_ place: Place) throws {
         let data = try encoder.encode(place.id)
 
@@ -78,5 +99,9 @@ extension String {
 
     fileprivate static func makeKey(placeID: String) -> String {
         "\(Cache.Key.conditions)-id-\(placeID)"
+    }
+
+    fileprivate static func makeSettingsKey(place: Place) -> String {
+        "\(Cache.Key.settings)-id-\(place.id)"
     }
 }

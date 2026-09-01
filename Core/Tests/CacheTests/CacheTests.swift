@@ -121,4 +121,48 @@ final class CacheTests: XCTestCase {
 
         XCTAssertNil(selected)
     }
+
+    func testSetSettingsRoundTripsThroughSettingsFor() async throws {
+        let cache = Cache(userDefaults: userDefaults)
+        let place = makePlace()
+
+        try await cache.setSettings(PlaceSettings(), for: place)
+        let fetched = await cache.settings(for: place)
+
+        XCTAssertEqual(fetched, PlaceSettings())
+    }
+
+    func testSettingsForIsNilWhenNothingStored() async throws {
+        let cache = Cache(userDefaults: userDefaults)
+
+        let fetched = await cache.settings(for: makePlace())
+
+        XCTAssertNil(fetched)
+    }
+
+    func testSettingsForFallsBackToDefaultsWhenStoredBlobDoesNotDecode() async {
+        let cache = Cache(userDefaults: userDefaults)
+        let place = makePlace()
+
+        let corrupt = Data("not a PlaceSettings".utf8)
+        userDefaults.set(corrupt, forKey: "\(Cache.Key.settings)-id-\(place.id)")
+
+        let fetched = await cache.settings(for: place)
+
+        XCTAssertEqual(fetched, PlaceSettings())
+    }
+
+    func testSettingsAreIsolatedByPlace() async throws {
+        let cache = Cache(userDefaults: userDefaults)
+        let one = makePlace(key: "hanstholm", name: "Hanstholm")
+        let two = makePlace(key: "hvide-sande", name: "Hvide Sande")
+
+        try await cache.setSettings(PlaceSettings(), for: one)
+
+        let first = await cache.settings(for: one)
+        let second = await cache.settings(for: two)
+
+        XCTAssertEqual(first, PlaceSettings())
+        XCTAssertNil(second)
+    }
 }
