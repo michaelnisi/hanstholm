@@ -3,6 +3,7 @@ import DomainTypes
 
 struct PlaceCard: View {
     static let baseHeight: CGFloat = 72
+    static let minimumCornerRadius: CGFloat = 12
 
     @ScaledMetric private var height: CGFloat = PlaceCard.baseHeight
 
@@ -22,7 +23,7 @@ struct PlaceCard: View {
             }
             .frame(maxWidth: .infinity)
             .frame(height: height)
-            .background(Color.accentColor.gradient, in: .rect(cornerRadius: 16))
+            .background(Color.accentColor.gradient, in: .rect(corners: .concentric(minimum: .fixed(Self.minimumCornerRadius)), isUniform: true))
             .overlay(alignment: .topTrailing) {
                 if isSelected {
                     Image(systemName: "checkmark.circle.fill")
