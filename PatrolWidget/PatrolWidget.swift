@@ -91,14 +91,8 @@ struct PatrolWidget: Widget {
     
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: SurfEntryProvider()) { entry in
-            if #available(watchOS 10.0, *) {
-                PatrolWidgetEntryView(entry: entry)
-                    .containerBackground(.fill.tertiary, for: .widget)
-            } else {
-                PatrolWidgetEntryView(entry: entry)
-                    .padding()
-                    .background()
-            }
+            PatrolWidgetEntryView(entry: entry)
+                .containerBackground(.fill.tertiary, for: .widget)
         }
         .onBackgroundURLSessionEvents(
             matching: DeferredDownloadConfiguration.defaultSessionIdentifier()

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Patrol is a watchOS 10 app (with a WidgetKit complication) that fetches live surf and wind conditions from the weather station at Hanstholm Harbour, Denmark (`hyde.dk`). The data source is a Danish-language HTML page; parsing involves stripping HTML with `NSAttributedString` and mapping Danish labels and direction abbreviations to typed domain values.
+Patrol is a watchOS 26 app (with a WidgetKit complication) that fetches live surf and wind conditions from the weather station at Hanstholm Harbour, Denmark (`hyde.dk`). The data source is a Danish-language HTML page; parsing involves stripping HTML with `NSAttributedString` and mapping Danish labels and direction abbreviations to typed domain values.
 
 ## Workflow for New Features
 
@@ -117,7 +117,7 @@ The `PatrolWidget/` source compiles unchanged into two separate Xcode targets �
 
 - **Core package**: No default isolation. `Hyde`, `SurfEntry`, and `Direction` are explicitly `Sendable`. Do not add `defaultIsolation(MainActor.self)` to Core targets — it causes the `Cache` actor to conflict with `@MainActor`-isolated `Codable` conformances.
 - **Watch App and Widget Xcode targets**: `OTHER_SWIFT_FLAGS = "-default-isolation MainActor"` is set, so all unannotated code in those targets is `@MainActor` by default.
-- `DeferredDownloader` is a lock-guarded class, not an actor, because the WidgetKit background-events handler and the `URLSession` delegate queue both reach it from `nonisolated` contexts and need answers synchronously. `NSLock` rather than `Synchronization.Mutex` — the package deploys to watchOS 10 and `Mutex` needs 11.
+- `DeferredDownloader` is a lock-guarded class, not an actor, because the WidgetKit background-events handler and the `URLSession` delegate queue both reach it from `nonisolated` contexts and need answers synchronously. It still uses `NSLock` rather than `Synchronization.Mutex`; that was forced when the package deployed to watchOS 10 (`Mutex` needs 11), and is now just an unmigrated choice.
 - `ConditionsCoordinator.handleBackgroundSessionEvents` is `nonisolated` for the same reason: registering the completion behind an `await` lets a download that already finished find nothing to call.
 
 ## Key Constants
