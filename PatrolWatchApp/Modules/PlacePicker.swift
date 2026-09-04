@@ -46,6 +46,10 @@ struct PlacePicker: View {
         )
         .scrollTargetBehavior(.viewAligned)
         .scrollPosition(id: $scrollPosition)
+        .onChange(of: scrollPosition) { _, newValue in
+            guard let centered = places.first(where: { $0.id == newValue }) else { return }
+            logger.debug("centered: \(centered.name, privacy: .public)")
+        }
         .task {
             async let placesTask = surfProvider.availablePlaces()
             var bootstrap = surfProvider.surfEntry?.place
