@@ -1,4 +1,5 @@
 import XCTest
+import CoreLocation
 import DomainTypes
 import SurfConditions
 @testable import Hyde
@@ -75,6 +76,16 @@ final class HydeTests: XCTestCase {
         } catch {
             XCTAssertEqual(error as? SurfConditionsFault, .unknownPlace(foreign.id))
         }
+    }
+
+    func testRegionIdentifiesThePlugin() {
+        XCTAssertEqual(plugin.region.identifier, plugin.id)
+    }
+
+    func testRegionIsACircleCoveringTheStations() throws {
+        let circular = try XCTUnwrap(plugin.region as? CLCircularRegion)
+
+        XCTAssertGreaterThan(circular.radius, 0)
     }
 
     func testDecodeThrowsOnUnparseablePayload() async {

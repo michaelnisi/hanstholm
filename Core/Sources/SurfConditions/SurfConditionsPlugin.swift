@@ -1,8 +1,10 @@
 import Foundation
+import CoreLocation
 import DomainTypes
 
 public protocol SurfConditionsPlugin: Sendable {
     var id: String { get }
+    var region: CLRegion { get }
     var places: [Place] { get }
 
     func conditions(for place: Place, using session: URLSession) async throws -> SurfEntry

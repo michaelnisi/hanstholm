@@ -1,5 +1,6 @@
 import XCTest
 import Foundation
+import CoreLocation
 import Cache
 import DomainTypes
 import SurfConditions
@@ -44,6 +45,11 @@ private func makeEntry(date: Date = .now, place: Place = makePlace()) -> SurfEnt
 
 private struct StubPlugin: SurfConditionsPlugin, DeferredDownloadable {
     let id = stubPluginID
+    let region: CLRegion = CLCircularRegion(
+        center: CLLocationCoordinate2D(latitude: 0, longitude: 0),
+        radius: 1,
+        identifier: stubPluginID
+    )
     let places: [Place]
     let fetches = Counter()
     let decodes = Counter()

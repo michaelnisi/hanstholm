@@ -70,6 +70,8 @@ Build and run the watch app and widget from Xcode — there is no command-line t
 
 **Places are not strings.** `Place` splits three jobs a single `String` used to do at once: `name` is the label rendered in the UI and is free to change, `key` is the stable identity cached conditions are filed under, and `pluginID` is what routing keys on so two plugins covering the same spot stay distinct. `Place.id` (`pluginID/key`) is the cache key. A plugin must vend every place it serves via `places`, each carrying that plugin's own `id`, and must return conditions for the place it was asked about — the coordinator checks, because an entry for the wrong place would be filed under a key nothing reads and every request would silently re-fetch forever.
 
+A plugin also vends `region: CLRegion` — the geographic area its `places` fall within (a `CLCircularRegion` for Hyde, covering its three Jutland stations). This is separate from any one `Place`: it describes the plugin's overall coverage, not a single station's location.
+
 ### Data Flow
 
 ```

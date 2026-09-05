@@ -1,5 +1,6 @@
 import os.log
 import Foundation
+import CoreLocation
 import DomainTypes
 import SurfConditions
 
@@ -26,6 +27,15 @@ public struct Hyde: SurfConditionsPlugin, DeferredDownloadable {
 
     public var places: [Place] {
         Station.allCases.map(\.place)
+    }
+
+    // A circle around the three stations on Jutland's west coast (Hanstholm to Hvide Sande).
+    public var region: CLRegion {
+        CLCircularRegion(
+            center: CLLocationCoordinate2D(latitude: 56.558, longitude: 8.367),
+            radius: 75_000,
+            identifier: Self.pluginID
+        )
     }
 
     public init() {}
