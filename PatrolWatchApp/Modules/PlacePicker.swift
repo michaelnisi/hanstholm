@@ -46,6 +46,7 @@ struct PlacePicker: View {
         )
         .scrollTargetBehavior(.viewAligned)
         .scrollPosition(id: $scrollPosition)
+        .tint(.accentColor)
         .task {
             async let placesTask = surfProvider.availablePlaces()
             var bootstrap = surfProvider.surfEntry?.place
