@@ -9,8 +9,10 @@ struct AddPlace: View {
 
     var body: some View {
         List(excluded) { place in
-            Button(place.name) {
+            Button {
                 add(place)
+            } label: {
+                Label(place.name, systemImage: place.icon)
             }
         }
         .navigationTitle("Add Place")

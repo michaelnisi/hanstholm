@@ -15,9 +15,17 @@ struct ManagePlaces: View {
             }
             Section("Places") {
                 ForEach(included) { place in
-                    Text(place.name)
+                    Label(place.name, systemImage: place.icon)
+                        .swipeActions(edge: .trailing) {
+                            if included.count > 1 {
+                                Button(role: .destructive) {
+                                    delete(place)
+                                } label: {
+                                    Image(systemName: "xmark")
+                                }
+                            }
+                        }
                 }
-                .onDelete(perform: delete)
             }
         }
         .task {
@@ -25,12 +33,12 @@ struct ManagePlaces: View {
         }
     }
 
-    private func delete(at offsets: IndexSet) {
-        guard included.count > offsets.count else {
+    private func delete(_ place: Place) {
+        guard included.count > 1 else {
             return
         }
 
-        included.remove(atOffsets: offsets)
+        included.removeAll { $0.id == place.id }
 
         Task {
             await surfProvider.setIncludedPlaceIDs(included.map(\.id))
