@@ -158,6 +158,51 @@ final class ConditionsCoordinatorTests: XCTestCase {
         XCTAssertEqual(places, [makePlace(), second])
     }
 
+    func testIncludedPlacesDefaultsToAllWhenNothingStored() async throws {
+        let second = makePlace(key: "elsewhere", name: "Elsewhere")
+        let plugin = makePlugin(places: [makePlace(), second])
+        let (coordinator, _) = makeCoordinator(plugin: plugin)
+
+        let places = await coordinator.includedPlaces()
+
+        XCTAssertEqual(places, [makePlace(), second])
+    }
+
+    func testIncludedPlacesReturnsStoredSubsetInStoredOrder() async throws {
+        let second = makePlace(key: "elsewhere", name: "Elsewhere")
+        let third = makePlace(key: "thirdville", name: "Thirdville")
+        let plugin = makePlugin(places: [makePlace(), second, third])
+        let (coordinator, _) = makeCoordinator(plugin: plugin)
+
+        try await coordinator.setIncludedPlaceIDs([third.id, makePlace().id])
+
+        let places = await coordinator.includedPlaces()
+
+        XCTAssertEqual(places, [third, makePlace()])
+    }
+
+    func testIncludedPlacesDropsIDsForPlacesThatNoLongerExist() async throws {
+        let plugin = makePlugin()
+        let (coordinator, _) = makeCoordinator(plugin: plugin)
+
+        try await coordinator.setIncludedPlaceIDs([makePlace().id, "gone.plugin/nowhere"])
+
+        let places = await coordinator.includedPlaces()
+
+        XCTAssertEqual(places, [makePlace()])
+    }
+
+    func testSetIncludedPlaceIDsPersistsThroughCache() async throws {
+        let plugin = makePlugin()
+        let (coordinator, cache) = makeCoordinator(plugin: plugin)
+
+        try await coordinator.setIncludedPlaceIDs([makePlace().id])
+
+        let stored = await cache.includedPlaceIDs()
+
+        XCTAssertEqual(stored, [makePlace().id])
+    }
+
     func testSelectPlacePersistsIt() async throws {
         let second = makePlace(key: "elsewhere", name: "Elsewhere")
         let plugin = makePlugin(places: [makePlace(), second])

@@ -11,6 +11,7 @@ public actor Cache {
     struct Key {
         static let conditions = "ink.codes.Patrol.Cache.conditions"
         static let settings = "ink.codes.Patrol.Cache.settings"
+        static let includedPlaces = "ink.codes.Patrol.Cache.includedPlaces"
     }
 
     private let db: UserDefaults?
@@ -63,6 +64,22 @@ extension Cache {
         let data = try encoder.encode(value)
 
         db?.setValue(data, forKey: .makeSettingsKey(place: place))
+    }
+}
+
+extension Cache {
+    public func includedPlaceIDs() -> [String]? {
+        guard let data = db?.data(forKey: Cache.Key.includedPlaces) else {
+            return nil
+        }
+
+        return try? decoder.decode([String].self, from: data)
+    }
+
+    public func setIncludedPlaceIDs(_ ids: [String]) throws {
+        let data = try encoder.encode(ids)
+
+        db?.setValue(data, forKey: Cache.Key.includedPlaces)
     }
 }
 
