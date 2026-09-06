@@ -119,7 +119,7 @@ extension ConditionsCoordinator {
         return ids.compactMap { byID[$0] }
     }
 
-    public func setIncludedPlaceIDs(_ ids: [String]) async throws {
+    public func setIncludedPlaceIDs(_ ids: [PlaceID]) async throws {
         try await configuration.cache.setIncludedPlaceIDs(ids)
     }
 

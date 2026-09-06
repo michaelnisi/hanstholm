@@ -23,7 +23,7 @@ final class HydeTests: XCTestCase {
     func testPlaceKeyIsStableAndDistinctFromTheDisplayName() {
         XCTAssertEqual(hanstholm.key, "hanstholm")
         XCTAssertEqual(hanstholm.name, "Hanstholm")
-        XCTAssertEqual(hanstholm.id, "ink.codes.Patrol.plugin.hyde/hanstholm")
+        XCTAssertEqual(hanstholm.id, PlaceID(plugin: "ink.codes.Patrol.plugin.hyde", key: "hanstholm"))
     }
 
     func testStationRoundTripsThroughItsKey() {

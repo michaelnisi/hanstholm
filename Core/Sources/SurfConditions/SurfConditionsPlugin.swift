@@ -15,11 +15,11 @@ extension SurfConditionsPlugin {
 }
 
 public enum SurfConditionsFault: Error, Equatable, Sendable {
-    case unknownPlace(String)
-    case noPluginForPlace(String)
+    case unknownPlace(PlaceID)
+    case noPluginForPlace(PlaceID)
     case noPlaceSelected
-    case noCachedConditions(String)
-    case placeMismatch(expected: String, actual: String)
+    case noCachedConditions(PlaceID)
+    case placeMismatch(expected: PlaceID, actual: PlaceID)
     case unexpectedMediaType(String?)
     case decoding
 }
