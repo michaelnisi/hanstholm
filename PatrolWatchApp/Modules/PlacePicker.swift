@@ -56,15 +56,6 @@ struct PlacePicker: View {
         )
         .scrollTargetBehavior(.viewAligned)
         .scrollPosition(id: $scrollPosition)
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    onManagePlaces()
-                } label: {
-                    Image(systemName: "pencil")
-                }
-            }
-        }
         .onScrollPhaseChange { oldPhase, newPhase in
             guard newPhase == .idle, oldPhase != .idle else { return }
             guard let centered = places.first(where: { $0.id == scrollPosition }) else { return }
