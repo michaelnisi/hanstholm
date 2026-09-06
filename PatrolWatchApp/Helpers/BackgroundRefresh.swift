@@ -3,7 +3,7 @@ import Conditions
 
 func backgroundRefresh() async {
     do {
-        _ = try await ConditionsCoordinator.watchApp.conditions(
+        _ = try await ConditionsCoordinator.app.conditions(
             policy: .reload,
             trigger: .appBackgroundRefresh
         )

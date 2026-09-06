@@ -31,6 +31,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4C10AF842BCC261B000F2D2B"
                BuildableName = "Patrol.app"
+               BlueprintName = "Patrol"
                ReferencedContainer = "container:Patrol.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -71,6 +72,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4C10AF842BCC261B000F2D2B"
             BuildableName = "Patrol.app"
+            BlueprintName = "Patrol"
             ReferencedContainer = "container:Patrol.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -106,6 +108,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4C10AF842BCC261B000F2D2B"
             BuildableName = "Patrol.app"
+            BlueprintName = "Patrol"
             ReferencedContainer = "container:Patrol.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

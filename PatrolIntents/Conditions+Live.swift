@@ -3,7 +3,7 @@ import Conditions
 import Hyde
 
 extension ConditionsCoordinator {
-    nonisolated static let watchApp = ConditionsCoordinator(
+    nonisolated static let app = ConditionsCoordinator(
         configuration: .init(
             plugins: [Hyde()],
             deferredDownloads: nil,

@@ -32,6 +32,8 @@
 		D29EF06163141EFABC166AB2 /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = 91EAEB150EFBE13A8AD4C78A /* Cache */; };
 		DA4E6F7A8B9C0D1E2F3A4B5C /* MockData in Frameworks */ = {isa = PBXBuildFile; productRef = C93D5E6F7A8B9C0D1E2F3A4B /* MockData */; };
 		F629759C2C9F61E5566989EF /* Hyde in Frameworks */ = {isa = PBXBuildFile; productRef = D1DEB1A0000000000000BB03 /* Hyde */; };
+		C0AD1CE0000000000000CC04 /* Conditions in Frameworks */ = {isa = PBXBuildFile; productRef = C0AD1CE0000000000000AA04 /* Conditions */; };
+		D1DEB1A0000000000000CC04 /* Hyde in Frameworks */ = {isa = PBXBuildFile; productRef = D1DEB1A0000000000000BB04 /* Hyde */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -142,6 +144,7 @@
 		4C10AF8F2BCC261B000F2D2B /* PatrolWatchApp */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (4C7DC2892FFE99DC000D63F0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PatrolWatchApp; sourceTree = "<group>"; };
 		4C10AFAE2BCC264E000F2D2B /* PatrolWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (4C10AFBC2BCC265000000001 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 24C74C2453259CA10F892A07 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PatrolWidget; sourceTree = "<group>"; };
 		E1F2A3B4C5D6E7F8A9B0C1D2 /* Patrol */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (E4F3021AC6D7B8E9FA0B1C2D /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Patrol; sourceTree = "<group>"; };
+		AB12CD34EF56AB78CD90EF12 /* PatrolIntents */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (); explicitFileTypes = {}; explicitFolders = (); path = PatrolIntents; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,6 +181,8 @@
 				1504BD93907C58128114BC9C /* DomainTypes in Frameworks */,
 				64A3B8EBEE730C83484C8EA8 /* Cache in Frameworks */,
 				A78094D38FED1ED3F12F0D3B /* MockData in Frameworks */,
+				C0AD1CE0000000000000CC04 /* Conditions in Frameworks */,
+				D1DEB1A0000000000000CC04 /* Hyde in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,6 +213,7 @@
 				4C10AF8F2BCC261B000F2D2B /* PatrolWatchApp */,
 				4C10AFAE2BCC264E000F2D2B /* PatrolWidget */,
 				E1F2A3B4C5D6E7F8A9B0C1D2 /* Patrol */,
+				AB12CD34EF56AB78CD90EF12 /* PatrolIntents */,
 				4C10AF862BCC261B000F2D2B /* Products */,
 				4C10AFA22BCC2637000F2D2B /* Frameworks */,
 				4C651E2530014F7300CB0367 /* Recovered References */,
@@ -262,12 +268,15 @@
 			);
 			fileSystemSynchronizedGroups = (
 				E1F2A3B4C5D6E7F8A9B0C1D2 /* Patrol */,
+				AB12CD34EF56AB78CD90EF12 /* PatrolIntents */,
 			);
 			name = Patrol;
 			packageProductDependencies = (
 				C2D9BCBFE851B4B512D02150 /* DomainTypes */,
 				BD14614C92A5E84F2364E2EA /* Cache */,
 				FFA60F65963B9076CEBF0839 /* MockData */,
+				C0AD1CE0000000000000AA04 /* Conditions */,
+				D1DEB1A0000000000000BB04 /* Hyde */,
 			);
 			productName = Patrol;
 			productReference = 4C10AF852BCC261B000F2D2B /* Patrol.app */;
@@ -289,6 +298,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				4C10AF8F2BCC261B000F2D2B /* PatrolWatchApp */,
+				AB12CD34EF56AB78CD90EF12 /* PatrolIntents */,
 			);
 			name = "Patrol Watch App";
 			packageProductDependencies = (
@@ -970,6 +980,14 @@
 		D1DEB1A0000000000000BB03 /* Hyde */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Hyde;
+		};
+		D1DEB1A0000000000000BB04 /* Hyde */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Hyde;
+		};
+		C0AD1CE0000000000000AA04 /* Conditions */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Conditions;
 		};
 		FFA60F65963B9076CEBF0839 /* MockData */ = {
 			isa = XCSwiftPackageProductDependency;
