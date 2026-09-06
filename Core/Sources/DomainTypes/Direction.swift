@@ -130,8 +130,6 @@ extension Direction {
         }
     }
 
-    /// A spelled-out form suitable for text-to-speech, where compass
-    /// abbreviations like "NNE" have no established pronunciation.
     public func spoken() -> String {
         switch cardinal {
         case .north:
