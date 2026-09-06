@@ -23,7 +23,7 @@ struct PlaceCard: View {
             }
             .frame(maxWidth: .infinity)
             .frame(height: height)
-            .background(Color.accentColor.gradient, in: .rect(corners: .concentric(minimum: .fixed(Self.minimumCornerRadius)), isUniform: true))
+            .background(Color.blue.gradient, in: .rect(corners: .concentric(minimum: .fixed(Self.minimumCornerRadius)), isUniform: true))
             .overlay(alignment: .topTrailing) {
                 if isSelected {
                     Image(systemName: "checkmark.circle.fill")
