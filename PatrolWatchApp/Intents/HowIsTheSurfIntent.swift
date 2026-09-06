@@ -18,16 +18,12 @@ struct HowIsTheSurfIntent: AppIntent {
             )
 
             return .result(dialog: IntentDialog(stringLiteral: entry.spokenSummary))
+        } catch is CancellationError {
+            throw CancellationError()
         } catch {
             logger.error("how is the surf intent failed: \(error)")
 
             return .result(dialog: "I couldn't get surf conditions right now.")
         }
-    }
-}
-
-extension SurfEntry {
-    var spokenSummary: String {
-        "At \(place.name), wind is \(wind.speed.current.knots(width: .wide)) from \(wind.direction.formatted()), and waves are \(wave.middle.feet()) at \(wave.period.seconds(width: .wide)) from \(wave.direction.formatted())."
     }
 }

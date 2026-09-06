@@ -2,8 +2,12 @@ import Foundation
 
 extension Double {
     public func feet(width: Measurement<UnitLength>.FormatStyle.UnitWidth = .abbreviated) -> String {
-        let value = Int(ceil(Measurement<UnitLength>(value: self, unit: .meters).converted(to: .feet).value))
-        return width == .narrow ? "\(value)ft" : "\(value) ft"
+        let value = ceil(Measurement<UnitLength>(value: self, unit: .meters).converted(to: .feet).value)
+        guard width == .narrow else {
+            return Measurement<UnitLength>(value: value, unit: .feet)
+                .formatted(.measurement(width: width, usage: .asProvided))
+        }
+        return "\(Int(value))ft"
     }
     
     public func seconds(width: Measurement<UnitDuration>.FormatStyle.UnitWidth = .abbreviated) -> String {
