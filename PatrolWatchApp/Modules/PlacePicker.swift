@@ -46,8 +46,9 @@ struct PlacePicker: View {
         )
         .scrollTargetBehavior(.viewAligned)
         .scrollPosition(id: $scrollPosition)
-        .onChange(of: scrollPosition) { _, newValue in
-            guard let centered = places.first(where: { $0.id == newValue }) else { return }
+        .onScrollPhaseChange { oldPhase, newPhase in
+            guard newPhase == .idle, oldPhase != .idle else { return }
+            guard let centered = places.first(where: { $0.id == scrollPosition }) else { return }
             logger.debug("centered: \(centered.name, privacy: .public)")
         }
         .task {
