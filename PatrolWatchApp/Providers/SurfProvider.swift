@@ -13,6 +13,8 @@ import Conditions
         var availablePlaces: @Sendable () async -> [Place]
         var selectPlace: @Sendable (Place) async throws -> Void
         var selectedPlace: @Sendable () async throws -> Place
+        var includedPlaces: @Sendable () async -> [Place]
+        var setIncludedPlaceIDs: @Sendable ([String]) async throws -> Void
     }
 
     private let dependencies: Dependencies
@@ -58,6 +60,18 @@ extension SurfProvider {
             return nil
         }
     }
+
+    func includedPlaces() async -> [Place] {
+        await dependencies.includedPlaces()
+    }
+
+    func setIncludedPlaceIDs(_ ids: [String]) async {
+        do {
+            try await dependencies.setIncludedPlaceIDs(ids)
+        } catch {
+            logger.error("set included places failed: \(error)")
+        }
+    }
 }
 
 extension SurfProvider {
@@ -83,6 +97,12 @@ extension SurfProvider {
                 },
                 selectedPlace: {
                     try await coordinator.selectedPlace()
+                },
+                includedPlaces: {
+                    await coordinator.includedPlaces()
+                },
+                setIncludedPlaceIDs: { ids in
+                    try await coordinator.setIncludedPlaceIDs(ids)
                 }
             )
         )
@@ -91,9 +111,14 @@ extension SurfProvider {
 
 private actor MockSelection {
     private(set) var place = MockData.SurfEntry.makePlace()
+    private(set) var includedIDs: [String]?
 
     func select(_ place: Place) {
         self.place = place
+    }
+
+    func setIncludedIDs(_ ids: [String]) {
+        includedIDs = ids
     }
 }
 
@@ -116,6 +141,20 @@ extension SurfProvider {
                 },
                 selectedPlace: {
                     await selection.place
+                },
+                includedPlaces: {
+                    let all = MockData.SurfEntry.makePlaces()
+
+                    guard let ids = await selection.includedIDs else {
+                        return all
+                    }
+
+                    let byID = Dictionary(uniqueKeysWithValues: all.map { ($0.id, $0) })
+
+                    return ids.compactMap { byID[$0] }
+                },
+                setIncludedPlaceIDs: { ids in
+                    await selection.setIncludedIDs(ids)
                 }
             )
         )

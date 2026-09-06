@@ -64,7 +64,9 @@ struct SurfSpot: View {
                 fetchEntry: { throw URLError(.notConnectedToInternet) },
                 availablePlaces: { [] },
                 selectPlace: { _ in },
-                selectedPlace: { MockData.SurfEntry.makePlace() }
+                selectedPlace: { MockData.SurfEntry.makePlace() },
+                includedPlaces: { [] },
+                setIncludedPlaceIDs: { _ in }
             ))
         )
 }

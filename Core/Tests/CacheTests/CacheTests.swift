@@ -152,6 +152,41 @@ final class CacheTests: XCTestCase {
         XCTAssertEqual(fetched, PlaceSettings())
     }
 
+    func testIncludedPlaceIDsIsNilBeforeAnythingIsSet() async {
+        let cache = Cache(userDefaults: userDefaults)
+
+        let ids = await cache.includedPlaceIDs()
+
+        XCTAssertNil(ids)
+    }
+
+    func testIncludedPlaceIDsRoundTripsThroughSetIncludedPlaceIDs() async throws {
+        let cache = Cache(userDefaults: userDefaults)
+        let ids = ["test.stub/hanstholm", "test.stub/hvide-sande"]
+
+        try await cache.setIncludedPlaceIDs(ids)
+        let fetched = await cache.includedPlaceIDs()
+
+        XCTAssertEqual(fetched, ids)
+    }
+
+    func testIncludedPlaceIDsIsIndependentOfSelectedPlaceAndSettings() async throws {
+        let cache = Cache(userDefaults: userDefaults)
+        let place = makePlace()
+
+        try await cache.setSelectedPlace(place)
+        try await cache.setSettings(PlaceSettings(), for: place)
+        try await cache.setIncludedPlaceIDs([place.id])
+
+        let selected = await cache.selectedPlaceID()
+        let settings = await cache.settings(for: place)
+        let included = await cache.includedPlaceIDs()
+
+        XCTAssertEqual(selected, place.id)
+        XCTAssertEqual(settings, PlaceSettings())
+        XCTAssertEqual(included, [place.id])
+    }
+
     func testSettingsAreIsolatedByPlace() async throws {
         let cache = Cache(userDefaults: userDefaults)
         let one = makePlace(key: "hanstholm", name: "Hanstholm")

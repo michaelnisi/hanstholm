@@ -6,6 +6,7 @@ struct PlacePicker: View {
     private static let cardSpacing: CGFloat = 12
 
     let onSelect: (Place) -> Void
+    let onManagePlaces: () -> Void
 
     @Environment(SurfProvider.self) private var surfProvider
     @ScaledMetric private var cardHeight: CGFloat = PlaceCard.baseHeight
@@ -31,6 +32,15 @@ struct PlacePicker: View {
                             .opacity(1 - abs(phase.value) * 0.6)
                     }
                 }
+
+                ManagePlacesCard {
+                    onManagePlaces()
+                }
+                .scrollTransition(.interactive, axis: .vertical) { content, phase in
+                    content
+                        .scaleEffect(1 - abs(phase.value) * 0.15)
+                        .opacity(1 - abs(phase.value) * 0.6)
+                }
             }
             .scrollTargetLayout()
         }
@@ -52,7 +62,7 @@ struct PlacePicker: View {
             logger.debug("centered: \(centered.name, privacy: .public)")
         }
         .task {
-            async let placesTask = surfProvider.availablePlaces()
+            async let placesTask = surfProvider.includedPlaces()
             var bootstrap = surfProvider.surfEntry?.place
             if bootstrap == nil {
                 bootstrap = await surfProvider.selectedPlace()
@@ -69,6 +79,8 @@ struct PlacePicker: View {
 }
 
 #Preview {
-    PlacePicker { _ in }
-        .withMockProviders()
+    NavigationStack {
+        PlacePicker(onSelect: { _ in }, onManagePlaces: {})
+            .withMockProviders()
+    }
 }

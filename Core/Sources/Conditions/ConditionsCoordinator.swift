@@ -107,6 +107,22 @@ extension ConditionsCoordinator {
         try await configuration.cache.setSelectedPlace(place)
     }
 
+    public func includedPlaces() async -> [Place] {
+        let all = configuration.plugins.flatMap(\.places)
+
+        guard let ids = await configuration.cache.includedPlaceIDs() else {
+            return all
+        }
+
+        let byID = Dictionary(uniqueKeysWithValues: all.map { ($0.id, $0) })
+
+        return ids.compactMap { byID[$0] }
+    }
+
+    public func setIncludedPlaceIDs(_ ids: [String]) async throws {
+        try await configuration.cache.setIncludedPlaceIDs(ids)
+    }
+
     public func conditions(policy: FreshnessPolicy, trigger: Trigger) async throws -> SurfEntry {
         let place = try await selectedPlace()
 

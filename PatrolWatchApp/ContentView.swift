@@ -2,19 +2,37 @@ import SwiftUI
 import DomainTypes
 import MockData
 
+enum Route: Hashable {
+    case surfSpot(Place)
+    case managePlaces
+    case addPlace
+}
+
 struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
     @Environment(SurfProvider.self) var surfProvider
     @State private var task: Task<Void, Never>?
-    @State private var path: [Place] = []
+    @State private var path: [Route] = []
 
     var body: some View {
         NavigationStack(path: $path) {
-            PlacePicker { place in
-                path.append(place)
-            }
-            .navigationDestination(for: Place.self) { place in
-                SurfSpot(place: place)
+            PlacePicker(
+                onSelect: { place in
+                    path.append(.surfSpot(place))
+                },
+                onManagePlaces: {
+                    path.append(.managePlaces)
+                }
+            )
+            .navigationDestination(for: Route.self) { route in
+                switch route {
+                case .surfSpot(let place):
+                    SurfSpot(place: place)
+                case .managePlaces:
+                    ManagePlaces()
+                case .addPlace:
+                    AddPlace()
+                }
             }
         }
         .task {
