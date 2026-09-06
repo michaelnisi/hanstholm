@@ -20,7 +20,6 @@ struct ManagePlaces: View {
                 .onDelete(perform: delete)
             }
         }
-        .navigationTitle("Manage Places")
         .task {
             included = await surfProvider.includedPlaces()
         }

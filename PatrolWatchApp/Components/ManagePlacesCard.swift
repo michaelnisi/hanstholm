@@ -7,17 +7,11 @@ struct ManagePlacesCard: View {
 
     var body: some View {
         Button(action: action) {
-            VStack(spacing: 4) {
-                Image(systemName: "plus")
-                    .font(.title2)
-                Text("Manage Places")
-                    .fontDesign(.rounded)
-                    .fontWeight(.semibold)
-                    .font(.body)
-            }
-            .frame(maxWidth: .infinity)
-            .frame(height: height)
-            .background(Color.gray.gradient, in: .rect(corners: .concentric(minimum: .fixed(PlaceCard.minimumCornerRadius)), isUniform: true))
+            Image(systemName: "plus")
+                .font(.title2)
+                .frame(maxWidth: .infinity)
+                .frame(height: height)
+                .background(Color.gray.gradient, in: .rect(corners: .concentric(minimum: .fixed(PlaceCard.minimumCornerRadius)), isUniform: true))
         }
         .buttonStyle(.plain)
     }
