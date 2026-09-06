@@ -62,7 +62,7 @@ extension SurfProvider {
 
 extension SurfProvider {
     nonisolated static let live: SurfProvider = {
-        let coordinator = ConditionsCoordinator.watchApp
+        let coordinator = ConditionsCoordinator.app
 
         return .init(
             dependencies: .init(

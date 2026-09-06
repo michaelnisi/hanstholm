@@ -39,6 +39,9 @@ PatrolWatchApp/  # watchOS target
 PatrolWidget/    # WidgetKit extension source, shared by two Xcode targets:
                  #   PatrolWidgetExtension    (watchOS, embedded in the Watch App)
                  #   PatrolWidgetIOSExtension (iOS, embedded in the "Patrol" container app)
+PatrolIntents/   # App Intents source, shared by two Xcode targets:
+                 #   Patrol Watch App (watchOS)
+                 #   Patrol           (iOS)
 ```
 
 ## Building and Testing
@@ -99,9 +102,11 @@ Deferred path (widget extensions only):
 
 `ContentView.swift` is a minimal, read-only screen: it reads `Cache().conditions(matching:)` on `.task` and whenever `scenePhase` becomes `.active`, and renders the resulting `SurfEntry` (or a `ContentUnavailableView` prompt if nothing's cached yet). It never fetches — it only shows what some other *iOS-side* process has already written to the shared App Group `Cache`. Note the Watch app doesn't count: App Groups only share storage between processes on the same device, so the Watch's cache and the iPhone's cache are entirely separate — this screen only has data once the iOS widget extension (or some other iOS-side fetcher) has populated the cache. `MockData` is preview-only here, never a runtime fallback, so the screen can't show fabricated data as if it were live.
 
+`Patrol` also links `Conditions`+`Hyde` — not for `ContentView` (still untouched and still never fetches), but for the `PatrolIntents/` App Intent it hosts (see "Siri / Shortcuts" below).
+
 ### Watch App
 
-`SurfProvider` is `@Observable` (Observation framework) and is injected into the view hierarchy via `.environment(SurfProvider.live)`. It uses a `Dependencies` struct for injection (swap `.live` for `.mock` in previews). `.live` is a thin wrapper over `ConditionsCoordinator.watchApp`, asking for `.cached(maxAge: 5 * 60)`; the coordinator owns the caching and the timeline reload.
+`SurfProvider` is `@Observable` (Observation framework) and is injected into the view hierarchy via `.environment(SurfProvider.live)`. It uses a `Dependencies` struct for injection (swap `.live` for `.mock` in previews). `.live` is a thin wrapper over `ConditionsCoordinator.app`, asking for `.cached(maxAge: 5 * 60)`; the coordinator owns the caching and the timeline reload.
 
 The watch app's coordinator sets `deferredDownloads: nil` — it refreshes through `WKApplication` background tasks, not a background `URLSession`, so it creates no download session. The widget extension owns that path; the two meet in the shared `Cache`, never in memory.
 
@@ -118,6 +123,14 @@ The timeline policy is `.after(15 min)` as a guaranteed fallback; the background
 A background session created inside an app extension **must** set `sharedContainerIdentifier`, or downloads silently fail to start.
 
 The `PatrolWidget/` source compiles unchanged into two separate Xcode targets — `PatrolWidgetExtension` (watchOS complications) and `PatrolWidgetIOSExtension` (iOS Lock Screen widgets) — via a shared `fileSystemSynchronizedGroups` membership, plus a shared `Info.plist` and `PatrolWidgetExtension.entitlements`. Only the four accessory widget families (`.accessoryCorner/.accessoryCircular/.accessoryInline/.accessoryRectangular`) are wired up; there's no Home Screen (`.systemSmall`/`.systemMedium`) layout yet. Each extension is a separate process/bundle ID, and the session identifier is bundle-scoped, so their background sessions stay apart.
+
+### Siri / Shortcuts (App Intents)
+
+`PatrolIntents/` holds `HowIsTheSurfIntent` (an `AppIntent` answering "how is the surf" with a spoken `IntentDialog`) and `PatrolShortcuts` (its `AppShortcutsProvider` phrases), plus `Conditions+Live.swift`, which defines the `ConditionsCoordinator.app` singleton both consume. Unlike `PatrolWidget/`, this needs no separate extension target or Info.plist/entitlement keys — App Intents are just Swift code the OS discovers in a linked app binary, so the same folder compiles straight into both `Patrol` (iOS) and `Patrol Watch App`.
+
+**Widget-first design**: the Watch app is the only "driver" surface — it owns a live, `@Observable`-driven UI (`SurfProvider`) and its own background-refresh lifecycle (`BackgroundRefresh`, via `WKApplication` background tasks). Every other surface — the widget, this Intent, and any future iPad/Mac target — is a stateless *consumer*: it calls `ConditionsCoordinator` once per invocation (`TimelineProvider.getTimeline`, `AppIntent.perform()`, `ContentView`'s `.task`) and reports the result, without owning a refresh lifecycle of its own. When adding a new non-Watch surface, model it after the widget's `TimelineProvider`-style one-shot call, not after `SurfProvider`.
+
+On watchOS, `ConditionsCoordinator.app` is reused for both roles — the Watch's own driving (`SurfProvider`, `BackgroundRefresh`) and the Intent's on-demand consumer use — rather than standing up a second instance, so the existing `inFlight` de-dup in `ConditionsCoordinator` covers both call paths and they share one network session. On iOS, `.app` serves only the Intent; `ContentView` never touches it.
 
 ## Concurrency Model
 

@@ -129,4 +129,41 @@ extension Direction {
             "NNW"
         }
     }
+
+    public func spoken() -> String {
+        switch cardinal {
+        case .north:
+            "north"
+        case .northNorthEast:
+            "north-northeast"
+        case .northEast:
+            "northeast"
+        case .eastNorthEast:
+            "east-northeast"
+        case .east:
+            "east"
+        case .eastSouthEast:
+            "east-southeast"
+        case .southEast:
+            "southeast"
+        case .southSouthEast:
+            "south-southeast"
+        case .south:
+            "south"
+        case .southSouthWest:
+            "south-southwest"
+        case .southWest:
+            "southwest"
+        case .westSouthWest:
+            "west-southwest"
+        case .west:
+            "west"
+        case .westNorthWest:
+            "west-northwest"
+        case .northWest:
+            "northwest"
+        case .northNorthWest:
+            "north-northwest"
+        }
+    }
 }

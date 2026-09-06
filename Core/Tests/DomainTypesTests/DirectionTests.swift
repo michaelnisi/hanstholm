@@ -22,6 +22,12 @@ final class DirectionTests: XCTestCase {
         XCTAssertEqual(Direction(danish: "V")?.formatted(), "W")
     }
 
+    func testSpokenSpellsOutCompoundDirections() {
+        XCTAssertEqual(Direction(cardinal: .northNorthEast).spoken(), "north-northeast")
+        XCTAssertEqual(Direction(danish: "Ø")?.spoken(), "east")
+        XCTAssertEqual(Direction(danish: "V")?.spoken(), "west")
+    }
+
     func testSouthIsZeroDegreesAndValuesIncreaseClockwise() {
         XCTAssertEqual(Direction(cardinal: .south).degrees, 0)
         XCTAssertEqual(Direction(cardinal: .west).degrees, 90)
