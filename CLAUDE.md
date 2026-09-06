@@ -12,15 +12,21 @@ When discussing a new thing (a feature, change, or non-trivial fix), follow this
 
 1. **Basic plan** — a short back-and-forth with the user to sketch the approach and confirm scope/direction.
 2. **GitHub issue** — file an issue capturing that basic plan. This is a snapshot of the initial understanding, not a living document — don't go back and update it as the detailed plan or implementation evolves.
-3. **Detailed plan** — work out the concrete implementation plan in plan mode. The plan stays in the session; the issue from step 2 doesn't need to be updated to reflect it.
+3. **Detailed plan** — work out the concrete implementation plan in plan mode, and get the user's explicit sign-off (`ExitPlanMode`) before touching any code. Informal back-and-forth earlier in the conversation doesn't substitute for this step — if plan mode was entered and then exited (including auto-exit) before approval, re-enter it rather than treating the discussion so far as good enough. The plan stays in the session; the issue from step 2 doesn't need to be updated to reflect it.
 4. **Branch** — create a feature branch for the work.
-5. **PR** — implement on the branch and open a pull request that closes the issue. The PR description is where the detailed, as-built understanding gets written down.
+5. **PR** — implement on the branch and open a pull request that closes the issue. The PR description is where the detailed, as-built understanding gets written down. Before requesting review, pull the PR's base branch into the feature branch, so review and merge are based on current state rather than whatever was there when the branch was cut.
 
 The reason for the strict ordering: work should be abortable at any stage and still leave one coherent artifact behind. Before the issue exists, aborting just drops the chat — that's fine, nothing was committed to yet. Once the issue exists, it's the recoverable checkpoint: the initial understanding is enough to pick the thread back up later, even if the detailed plan or a branch never materialized, which is exactly why the issue doesn't need to be kept in sync with later changes of mind. A branch with no PR isn't a coherent artifact, so don't leave one open without a PR.
 
-Skip this sequence for small, obviously-scoped fixes (typos, one-line bugs) — it's for things substantial enough to warrant discussion first.
+This sequence applies even when a change looks small, obviously-scoped, or "trivial" — that self-judgment has repeatedly turned out wrong in practice and led to fixes landing straight on `main`. The only real exception is a literal typo or one-character fix; when in doubt, run the full sequence rather than deciding a change is too minor for it.
 
 Every distinct piece of work gets its own issue, branch, and PR — never stack unrelated changes onto one branch/PR. If the conversation seems to move on to a new topic partway through, ask whether a new issue should be opened for it rather than folding it into the current one.
+
+**Reviewing a PR**: fetch the base branch first, then check out the PR's branch (or open a worktree) so that any direct file reads — by you or a subagent — see the PR's actual content rather than whatever the working tree happened to have. Don't rely on `git diff` alone once files are being read by path.
+
+## Code Style
+
+Comments are treated as a code smell in this project. Prefer clear naming, extracted functions, and types that make constraints unrepresentable over prose explaining "why." If you feel the urge to write a comment — including for a non-obvious invariant, a fallback, or a tolerated failure — prefer writing a test that demonstrates the behavior instead: the test name carries the "why" and the assertion pins it down. This overrides the global CLAUDE.md's "comments are fine when the WHY is non-obvious" carve-out; for this project, treat that carve-out as effectively unused. It's fine to leave existing comments alone, but don't add new ones as a way to explain a design decision — put that explanation in the PR description or commit message instead.
 
 ## Repository Structure
 
