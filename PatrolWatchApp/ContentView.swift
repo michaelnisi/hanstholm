@@ -5,6 +5,7 @@ import MockData
 enum Route: Hashable {
     case surfSpot(Place)
     case managePlaces
+    case addPlace
 }
 
 struct ContentView: View {
@@ -29,6 +30,8 @@ struct ContentView: View {
                     SurfSpot(place: place)
                 case .managePlaces:
                     ManagePlaces()
+                case .addPlace:
+                    AddPlace()
                 }
             }
         }
