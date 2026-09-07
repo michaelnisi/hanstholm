@@ -13,6 +13,11 @@ struct PatrolWidgetEntryView : View {
         #if os(watchOS)
         case .accessoryCorner:
             AccessoryCorner(entry: entry)
+        #else
+        case .systemSmall:
+            HomeSmall(entry: entry)
+        case .systemMedium:
+            HomeMedium(entry: entry)
         #endif
         case .accessoryCircular:
             AccessoryCircular(entry: entry)
@@ -27,6 +32,110 @@ struct PatrolWidgetEntryView : View {
 }
 
 extension PatrolWidgetEntryView {
+    #if !os(watchOS)
+    struct DirectionLabel: View {
+        var symbol: String
+        var degrees: Double
+        var text: String
+
+        var body: some View {
+            HStack(spacing: 4) {
+                Image(systemName: symbol)
+                    .rotationEffect(.degrees(degrees - 45))
+                Text(text)
+            }
+        }
+    }
+
+    struct HomeFooter: View {
+        var entry: SurfEntry
+
+        var body: some View {
+            Text("\(entry.place.name), \(entry.date.formatted(date: .omitted, time: .shortened))")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+    }
+
+    struct HomeSmall: View {
+        var entry: SurfEntry
+
+        var body: some View {
+            VStack(alignment: .leading, spacing: 6) {
+                Label {
+                    Text(entry.wave.middle.feet()).fontWeight(.black)
+                        + Text(" @ ") + Text(entry.wave.period.seconds())
+                } icon: {
+                    Image(systemName: "water.waves")
+                }
+                .font(.headline)
+
+                DirectionLabel(
+                    symbol: "location.fill",
+                    degrees: entry.wind.direction.degrees,
+                    text: "\(entry.wind.direction.formatted()) \(entry.wind.speed.current.knots())"
+                )
+                .font(.subheadline)
+
+                Spacer(minLength: 0)
+
+                HomeFooter(entry: entry)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+        }
+    }
+
+    struct HomeMedium: View {
+        var entry: SurfEntry
+
+        var body: some View {
+            VStack(alignment: .leading, spacing: 8) {
+                HStack(alignment: .top, spacing: 16) {
+                    waveColumn
+                    Divider()
+                    windColumn
+                    Spacer(minLength: 0)
+                }
+
+                Spacer(minLength: 0)
+
+                HomeFooter(entry: entry)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+        }
+
+        private var waveColumn: some View {
+            VStack(alignment: .leading, spacing: 2) {
+                Label(entry.wave.middle.feet(), systemImage: "water.waves")
+                    .font(.title3).fontWeight(.black)
+                Text(entry.wave.period.seconds())
+                    .font(.caption)
+                DirectionLabel(
+                    symbol: "location.fill",
+                    degrees: entry.wave.direction.degrees,
+                    text: entry.wave.direction.formatted()
+                )
+                .font(.caption)
+            }
+        }
+
+        private var windColumn: some View {
+            VStack(alignment: .leading, spacing: 2) {
+                Label(entry.wind.speed.current.knots(), systemImage: "wind")
+                    .font(.title3).fontWeight(.black)
+                Text(entry.wind.speed.gust.knots())
+                    .font(.caption)
+                DirectionLabel(
+                    symbol: "location.fill",
+                    degrees: entry.wind.direction.degrees,
+                    text: entry.wind.direction.formatted()
+                )
+                .font(.caption)
+            }
+        }
+    }
+    #endif
+
     #if os(watchOS)
     struct AccessoryCorner: View {
         var entry: SurfEntry
@@ -106,7 +215,13 @@ struct PatrolWidget: Widget {
         #if os(watchOS)
         .supportedFamilies([.accessoryCorner, .accessoryCircular, .accessoryInline, .accessoryRectangular])
         #else
-        .supportedFamilies([.accessoryCircular, .accessoryInline, .accessoryRectangular])
+        .supportedFamilies([
+            .systemSmall,
+            .systemMedium,
+            .accessoryCircular,
+            .accessoryInline,
+            .accessoryRectangular
+        ])
         #endif
     }
 }
@@ -118,3 +233,17 @@ struct PatrolWidget: Widget {
 } timeline: {
     MockData.SurfEntry.makeSurfEntry()
 }
+
+#if !os(watchOS)
+#Preview(as: .systemSmall) {
+    PatrolWidget()
+} timeline: {
+    MockData.SurfEntry.makeSurfEntry()
+}
+
+#Preview(as: .systemMedium) {
+    PatrolWidget()
+} timeline: {
+    MockData.SurfEntry.makeSurfEntry()
+}
+#endif
