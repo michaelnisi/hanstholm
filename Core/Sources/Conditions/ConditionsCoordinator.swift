@@ -103,6 +103,10 @@ extension ConditionsCoordinator {
         configuration.plugins.flatMap(\.places)
     }
 
+    public func regions() -> [GeoRegion] {
+        configuration.plugins.map(\.region)
+    }
+
     public func selectPlace(_ place: Place) async throws {
         try await configuration.cache.setSelectedPlace(place)
     }

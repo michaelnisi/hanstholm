@@ -159,6 +159,15 @@ final class ConditionsCoordinatorTests: XCTestCase {
         XCTAssertEqual(places, [makePlace(), second])
     }
 
+    func testRegionsReturnsEachConfiguredPluginsRegion() async throws {
+        let plugin = makePlugin()
+        let (coordinator, _) = makeCoordinator(plugin: plugin)
+
+        let regions = await coordinator.regions()
+
+        XCTAssertEqual(regions, [plugin.region])
+    }
+
     func testIncludedPlacesDefaultsToAllWhenNothingStored() async throws {
         let second = makePlace(key: "elsewhere", name: "Elsewhere")
         let plugin = makePlugin(places: [makePlace(), second])
