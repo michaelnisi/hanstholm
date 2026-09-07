@@ -26,6 +26,10 @@ final class HydeTests: XCTestCase {
         XCTAssertEqual(hanstholm.id, PlaceID(plugin: "ink.codes.Patrol.plugin.hyde", key: "hanstholm"))
     }
 
+    func testRegionCoversAllStations() {
+        XCTAssertEqual(plugin.region, GeoRegion(latitude: 56.49, longitude: 8.29, radius: 75_000))
+    }
+
     func testStationRoundTripsThroughItsKey() {
         for station in Hyde.Station.allCases {
             XCTAssertEqual(Hyde.Station(key: station.key), station)
