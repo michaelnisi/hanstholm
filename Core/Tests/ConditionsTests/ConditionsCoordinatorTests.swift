@@ -185,7 +185,7 @@ final class ConditionsCoordinatorTests: XCTestCase {
         let plugin = makePlugin()
         let (coordinator, _) = makeCoordinator(plugin: plugin)
 
-        try await coordinator.setIncludedPlaceIDs([makePlace().id, "gone.plugin/nowhere"])
+        try await coordinator.setIncludedPlaceIDs([makePlace().id, PlaceID(plugin: "gone.plugin", key: "nowhere")])
 
         let places = await coordinator.includedPlaces()
 

@@ -6,8 +6,8 @@ public struct Place: Hashable, Sendable, Codable, Identifiable {
     public let name: String
     public let icon: String
 
-    public var id: String {
-        "\(pluginID)/\(key)"
+    public var id: PlaceID {
+        PlaceID(plugin: PluginID(rawValue: pluginID), key: key)
     }
 
     public init(pluginID: String, key: String, name: String, icon: String = "mappin.and.ellipse") {

@@ -14,7 +14,7 @@ import Conditions
         var selectPlace: @Sendable (Place) async throws -> Void
         var selectedPlace: @Sendable () async throws -> Place
         var includedPlaces: @Sendable () async -> [Place]
-        var setIncludedPlaceIDs: @Sendable ([String]) async throws -> Void
+        var setIncludedPlaceIDs: @Sendable ([PlaceID]) async throws -> Void
     }
 
     private let dependencies: Dependencies
@@ -65,7 +65,7 @@ extension SurfProvider {
         await dependencies.includedPlaces()
     }
 
-    func setIncludedPlaceIDs(_ ids: [String]) async {
+    func setIncludedPlaceIDs(_ ids: [PlaceID]) async {
         do {
             try await dependencies.setIncludedPlaceIDs(ids)
         } catch {
@@ -111,13 +111,13 @@ extension SurfProvider {
 
 private actor MockSelection {
     private(set) var place = MockData.SurfEntry.makePlace()
-    private(set) var includedIDs: [String]?
+    private(set) var includedIDs: [PlaceID]?
 
     func select(_ place: Place) {
         self.place = place
     }
 
-    func setIncludedIDs(_ ids: [String]) {
+    func setIncludedIDs(_ ids: [PlaceID]) {
         includedIDs = ids
     }
 }

@@ -68,15 +68,15 @@ extension Cache {
 }
 
 extension Cache {
-    public func includedPlaceIDs() -> [String]? {
+    public func includedPlaceIDs() -> [PlaceID]? {
         guard let data = db?.data(forKey: Cache.Key.includedPlaces) else {
             return nil
         }
 
-        return try? decoder.decode([String].self, from: data)
+        return try? decoder.decode([PlaceID].self, from: data)
     }
 
-    public func setIncludedPlaceIDs(_ ids: [String]) throws {
+    public func setIncludedPlaceIDs(_ ids: [PlaceID]) throws {
         let data = try encoder.encode(ids)
 
         db?.setValue(data, forKey: Cache.Key.includedPlaces)
@@ -90,12 +90,12 @@ extension Cache {
         db?.setValue(data, forKey: .selectedPlaceKey)
     }
 
-    public func selectedPlaceID() -> String? {
+    public func selectedPlaceID() -> PlaceID? {
         guard let data = db?.data(forKey: .selectedPlaceKey) else {
             return nil
         }
 
-        return try? decoder.decode(String.self, from: data)
+        return try? decoder.decode(PlaceID.self, from: data)
     }
 
     public func selectedConditions() throws -> SurfEntry? {
@@ -107,6 +107,12 @@ extension Cache {
     }
 }
 
+extension PlaceID {
+    var cacheComponent: String {
+        "\(plugin.rawValue.count).\(plugin.rawValue)-\(key.count).\(key)"
+    }
+}
+
 extension String {
     fileprivate static let selectedPlaceKey = "\(Cache.Key.conditions)-selected"
 
@@ -114,11 +120,11 @@ extension String {
         makeKey(placeID: place.id)
     }
 
-    fileprivate static func makeKey(placeID: String) -> String {
-        "\(Cache.Key.conditions)-id-\(placeID)"
+    fileprivate static func makeKey(placeID: PlaceID) -> String {
+        "\(Cache.Key.conditions)-id-\(placeID.cacheComponent)"
     }
 
     fileprivate static func makeSettingsKey(place: Place) -> String {
-        "\(Cache.Key.settings)-id-\(place.id)"
+        "\(Cache.Key.settings)-id-\(place.id.cacheComponent)"
     }
 }

@@ -145,7 +145,7 @@ final class CacheTests: XCTestCase {
         let place = makePlace()
 
         let corrupt = Data("not a PlaceSettings".utf8)
-        userDefaults.set(corrupt, forKey: "\(Cache.Key.settings)-id-\(place.id)")
+        userDefaults.set(corrupt, forKey: "\(Cache.Key.settings)-id-\(place.id.cacheComponent)")
 
         let fetched = await cache.settings(for: place)
 
@@ -162,7 +162,7 @@ final class CacheTests: XCTestCase {
 
     func testIncludedPlaceIDsRoundTripsThroughSetIncludedPlaceIDs() async throws {
         let cache = Cache(userDefaults: userDefaults)
-        let ids = ["test.stub/hanstholm", "test.stub/hvide-sande"]
+        let ids = [PlaceID(plugin: "test.stub", key: "hanstholm"), PlaceID(plugin: "test.stub", key: "hvide-sande")]
 
         try await cache.setIncludedPlaceIDs(ids)
         let fetched = await cache.includedPlaceIDs()
