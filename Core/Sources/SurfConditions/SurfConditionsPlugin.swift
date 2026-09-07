@@ -4,6 +4,7 @@ import DomainTypes
 public protocol SurfConditionsPlugin: Sendable {
     var id: String { get }
     var places: [Place] { get }
+    var region: GeoRegion { get }
 
     func conditions(for place: Place, using session: URLSession) async throws -> SurfEntry
 }

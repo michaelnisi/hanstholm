@@ -45,6 +45,7 @@ private func makeEntry(date: Date = .now, place: Place = makePlace()) -> SurfEnt
 private struct StubPlugin: SurfConditionsPlugin, DeferredDownloadable {
     let id = stubPluginID
     let places: [Place]
+    let region = GeoRegion(latitude: 0, longitude: 0, radius: 0)
     let fetches = Counter()
     let decodes = Counter()
     let entry: @Sendable (Place) async throws -> SurfEntry

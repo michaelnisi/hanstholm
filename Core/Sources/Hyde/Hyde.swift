@@ -28,6 +28,10 @@ public struct Hyde: SurfConditionsPlugin, DeferredDownloadable {
         Station.allCases.map(\.place)
     }
 
+    public var region: GeoRegion {
+        GeoRegion(latitude: 56.49, longitude: 8.29, radius: 75_000)
+    }
+
     public init() {}
 
     private func station(for place: Place) throws -> Station {
