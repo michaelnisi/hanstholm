@@ -43,9 +43,9 @@ private func makeEntry(date: Date = .now, place: Place = makePlace()) -> SurfEnt
 }
 
 private struct StubPlugin: SurfConditionsPlugin, DeferredDownloadable {
-    let id = stubPluginID
+    let id: String
     let places: [Place]
-    let region = GeoRegion(latitude: 0, longitude: 0, radius: 0)
+    let region: GeoRegion
     let fetches = Counter()
     let decodes = Counter()
     let entry: @Sendable (Place) async throws -> SurfEntry
@@ -70,11 +70,15 @@ private struct StubPlugin: SurfConditionsPlugin, DeferredDownloadable {
 private struct StubFault: Error {}
 
 private func makePlugin(
+    id: String = stubPluginID,
     places: [Place] = [makePlace()],
+    region: GeoRegion = GeoRegion(latitude: 0, longitude: 0, radius: 0),
     entry: (@Sendable (Place) async throws -> SurfEntry)? = nil
 ) -> StubPlugin {
     StubPlugin(
+        id: id,
         places: places,
+        region: region,
         entry: entry ?? { place in makeEntry(place: place) }
     )
 }
@@ -108,6 +112,25 @@ final class ConditionsCoordinatorTests: XCTestCase {
         let coordinator = ConditionsCoordinator(
             configuration: .init(
                 plugins: [plugin],
+                cache: cache,
+                reloadWidgetTimelines: { reload?.increment() },
+                now: now
+            )
+        )
+
+        return (coordinator, cache)
+    }
+
+    private func makeCoordinator(
+        plugins: [StubPlugin],
+        now: @escaping @Sendable () -> Date = { .now },
+        reload: Counter? = nil
+    ) -> (ConditionsCoordinator, Cache) {
+        let cache = Cache(userDefaults: userDefaults)
+
+        let coordinator = ConditionsCoordinator(
+            configuration: .init(
+                plugins: plugins,
                 cache: cache,
                 reloadWidgetTimelines: { reload?.increment() },
                 now: now
@@ -157,6 +180,53 @@ final class ConditionsCoordinatorTests: XCTestCase {
         let places = await coordinator.availablePlaces()
 
         XCTAssertEqual(places, [makePlace(), second])
+    }
+
+    func testRegionsReturnsEachConfiguredPluginsRegion() async throws {
+        let plugin = makePlugin()
+        let (coordinator, _) = makeCoordinator(plugin: plugin)
+
+        let regions = await coordinator.regions()
+
+        XCTAssertEqual(regions, [plugin.region])
+    }
+
+    func testRegionsPutsTheSelectedPlacesPluginFirst() async throws {
+        let first = makePlugin(
+            id: "test.first",
+            places: [Place(pluginID: "test.first", key: "somewhere", name: "Somewhere")],
+            region: GeoRegion(latitude: 1, longitude: 1, radius: 1)
+        )
+        let second = makePlugin(
+            id: "test.second",
+            places: [Place(pluginID: "test.second", key: "elsewhere", name: "Elsewhere")],
+            region: GeoRegion(latitude: 2, longitude: 2, radius: 2)
+        )
+        let (coordinator, cache) = makeCoordinator(plugins: [first, second])
+
+        try await cache.setSelectedPlace(second.places[0])
+
+        let regions = await coordinator.regions()
+
+        XCTAssertEqual(regions, [second.region, first.region])
+    }
+
+    func testRegionsFallsBackToPluginOrderWhenNothingSelected() async throws {
+        let first = makePlugin(
+            id: "test.first",
+            places: [],
+            region: GeoRegion(latitude: 1, longitude: 1, radius: 1)
+        )
+        let second = makePlugin(
+            id: "test.second",
+            places: [],
+            region: GeoRegion(latitude: 2, longitude: 2, radius: 2)
+        )
+        let (coordinator, _) = makeCoordinator(plugins: [first, second])
+
+        let regions = await coordinator.regions()
+
+        XCTAssertEqual(regions, [first.region, second.region])
     }
 
     func testIncludedPlacesDefaultsToAllWhenNothingStored() async throws {

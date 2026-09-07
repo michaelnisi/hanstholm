@@ -35,3 +35,13 @@ struct SurfEntryProvider: TimelineProvider {
         }
     }
 }
+
+extension SurfEntryProvider {
+    func relevance() async -> WidgetRelevance<Void> {
+        let attributes = await coordinator.regions().map { region in
+            WidgetRelevanceAttribute<Void>(context: .location(region.clRegion))
+        }
+
+        return WidgetRelevance(attributes)
+    }
+}
