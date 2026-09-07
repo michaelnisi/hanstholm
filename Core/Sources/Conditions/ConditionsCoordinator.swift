@@ -103,8 +103,18 @@ extension ConditionsCoordinator {
         configuration.plugins.flatMap(\.places)
     }
 
-    public func regions() -> [GeoRegion] {
-        configuration.plugins.map(\.region)
+    public func regions() async -> [GeoRegion] {
+        let plugins = configuration.plugins
+
+        guard let selected = try? await selectedPlace(),
+              let index = plugins.firstIndex(where: { $0.owns(selected) }) else {
+            return plugins.map(\.region)
+        }
+
+        var ordered = plugins
+        ordered.insert(ordered.remove(at: index), at: 0)
+
+        return ordered.map(\.region)
     }
 
     public func selectPlace(_ place: Place) async throws {
