@@ -47,7 +47,7 @@ struct TileBackground: View {
         switch family {
         #if !os(watchOS)
         case .systemSmall, .systemMedium:
-            Rectangle().fill(Color.blue.gradient)
+            Color.clear
         #endif
         default:
             Rectangle().fill(.fill.tertiary)
@@ -113,7 +113,7 @@ extension PatrolWidgetEntryView {
         var entry: SurfEntry
 
         var body: some View {
-            SurfGauge(value: entry.wave.middle, total: entry.wave.max, tint: .white) {
+            SurfGauge(value: entry.wave.middle, total: entry.wave.max, tint: .blue) {
                 GaugeReadout(
                     symbol: "water.waves",
                     value: entry.wave.middle.feet(),
@@ -129,8 +129,8 @@ extension PatrolWidgetEntryView {
                 }
                 .font(.caption)
                 .fontWeight(.semibold)
+                .foregroundStyle(.secondary)
             }
-            .foregroundStyle(.white)
             .fontDesign(.rounded)
         }
     }
@@ -141,7 +141,7 @@ extension PatrolWidgetEntryView {
         var body: some View {
             VStack(spacing: 6) {
                 HStack(spacing: 24) {
-                    SurfGauge(value: entry.wave.middle, total: entry.wave.max, tint: .white) {
+                    SurfGauge(value: entry.wave.middle, total: entry.wave.max, tint: .blue) {
                         GaugeReadout(
                             symbol: "water.waves",
                             value: entry.wave.middle.feet(),
@@ -153,7 +153,7 @@ extension PatrolWidgetEntryView {
                     SurfGauge(
                         value: entry.wind.speed.middle,
                         total: entry.wind.speed.gust ?? entry.wind.speed.middle,
-                        tint: .white
+                        tint: .teal
                     ) {
                         GaugeReadout(
                             symbol: "wind",
@@ -166,7 +166,6 @@ extension PatrolWidgetEntryView {
 
                 HomeFooter(entry: entry)
             }
-            .foregroundStyle(.white)
             .fontDesign(.rounded)
         }
     }
