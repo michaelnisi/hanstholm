@@ -29,11 +29,14 @@
 		C0AD1CE0000000000000CC01 /* Conditions in Frameworks */ = {isa = PBXBuildFile; productRef = C0AD1CE0000000000000AA01 /* Conditions */; };
 		C0AD1CE0000000000000CC02 /* Conditions in Frameworks */ = {isa = PBXBuildFile; productRef = C0AD1CE0000000000000AA02 /* Conditions */; };
 		C0AD1CE0000000000000CC03 /* Conditions in Frameworks */ = {isa = PBXBuildFile; productRef = C0AD1CE0000000000000AA03 /* Conditions */; };
+		C0AD1CE0000000000000CC04 /* Conditions in Frameworks */ = {isa = PBXBuildFile; productRef = C0AD1CE0000000000000AA04 /* Conditions */; };
+		D1DEB1A0000000000000CC04 /* Hyde in Frameworks */ = {isa = PBXBuildFile; productRef = D1DEB1A0000000000000BB04 /* Hyde */; };
 		D29EF06163141EFABC166AB2 /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = 91EAEB150EFBE13A8AD4C78A /* Cache */; };
 		DA4E6F7A8B9C0D1E2F3A4B5C /* MockData in Frameworks */ = {isa = PBXBuildFile; productRef = C93D5E6F7A8B9C0D1E2F3A4B /* MockData */; };
 		F629759C2C9F61E5566989EF /* Hyde in Frameworks */ = {isa = PBXBuildFile; productRef = D1DEB1A0000000000000BB03 /* Hyde */; };
-		C0AD1CE0000000000000CC04 /* Conditions in Frameworks */ = {isa = PBXBuildFile; productRef = C0AD1CE0000000000000AA04 /* Conditions */; };
-		D1DEB1A0000000000000CC04 /* Hyde in Frameworks */ = {isa = PBXBuildFile; productRef = D1DEB1A0000000000000BB04 /* Hyde */; };
+		5E1F0000000000000000CC01 /* SurfUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5E1F0000000000000000AA01 /* SurfUI */; };
+		5E1F0000000000000000CC02 /* SurfUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5E1F0000000000000000AA02 /* SurfUI */; };
+		5E1F0000000000000000CC03 /* SurfUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5E1F0000000000000000AA03 /* SurfUI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -143,8 +146,8 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		4C10AF8F2BCC261B000F2D2B /* PatrolWatchApp */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (4C7DC2892FFE99DC000D63F0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PatrolWatchApp; sourceTree = "<group>"; };
 		4C10AFAE2BCC264E000F2D2B /* PatrolWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (4C10AFBC2BCC265000000001 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 24C74C2453259CA10F892A07 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PatrolWidget; sourceTree = "<group>"; };
+		AB12CD34EF56AB78CD90EF12 /* PatrolIntents */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = PatrolIntents; sourceTree = "<group>"; };
 		E1F2A3B4C5D6E7F8A9B0C1D2 /* Patrol */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (E4F3021AC6D7B8E9FA0B1C2D /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Patrol; sourceTree = "<group>"; };
-		AB12CD34EF56AB78CD90EF12 /* PatrolIntents */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (); explicitFileTypes = {}; explicitFolders = (); path = PatrolIntents; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +160,7 @@
 				4C1566312BEFE9F4006E6D56 /* MockData in Frameworks */,
 				4C15662F2BEFE6D0006E6D56 /* DomainTypes in Frameworks */,
 				4CBD01DF2BFB3D52009DE551 /* Cache in Frameworks */,
+				5E1F0000000000000000CC01 /* SurfUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -171,6 +175,7 @@
 				4C10AFAB2BCC264E000F2D2B /* WidgetKit.framework in Frameworks */,
 				4CBD01E12BFB596D009DE551 /* Cache in Frameworks */,
 				B82C4D5E6F7A8B9C0D1E2F3A /* MockData in Frameworks */,
+				5E1F0000000000000000CC02 /* SurfUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -197,6 +202,7 @@
 				6D38697F17A1B5766CC71C19 /* DomainTypes in Frameworks */,
 				D29EF06163141EFABC166AB2 /* Cache in Frameworks */,
 				DA4E6F7A8B9C0D1E2F3A4B5C /* MockData in Frameworks */,
+				5E1F0000000000000000CC03 /* SurfUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,8 +273,8 @@
 				9162AAE923B350CB47D1F533 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				E1F2A3B4C5D6E7F8A9B0C1D2 /* Patrol */,
 				AB12CD34EF56AB78CD90EF12 /* PatrolIntents */,
+				E1F2A3B4C5D6E7F8A9B0C1D2 /* Patrol */,
 			);
 			name = Patrol;
 			packageProductDependencies = (
@@ -307,6 +313,7 @@
 				4CBD01DE2BFB3D52009DE551 /* Cache */,
 				C0AD1CE0000000000000AA01 /* Conditions */,
 				D1DEB1A0000000000000BB01 /* Hyde */,
+				5E1F0000000000000000AA01 /* SurfUI */,
 			);
 			productName = "Patrol Watch App";
 			productReference = 4C10AF8B2BCC261B000F2D2B /* Patrol Watch App.app */;
@@ -334,6 +341,7 @@
 				A71B3C4D5E6F7A8B9C0D1E2F /* MockData */,
 				C0AD1CE0000000000000AA02 /* Conditions */,
 				D1DEB1A0000000000000BB02 /* Hyde */,
+				5E1F0000000000000000AA02 /* SurfUI */,
 			);
 			productName = PatrolWidgetExtension;
 			productReference = 4C10AFA92BCC264E000F2D2B /* PatrolWidgetExtension.appex */;
@@ -361,6 +369,7 @@
 				C93D5E6F7A8B9C0D1E2F3A4B /* MockData */,
 				C0AD1CE0000000000000AA03 /* Conditions */,
 				D1DEB1A0000000000000BB03 /* Hyde */,
+				5E1F0000000000000000AA03 /* SurfUI */,
 			);
 			productName = PatrolWidgetIOSExtension;
 			productReference = 1185A5E4D55D2EF1C2258BBE /* PatrolWidgetIOSExtension.appex */;
@@ -961,6 +970,10 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Conditions;
 		};
+		C0AD1CE0000000000000AA04 /* Conditions */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Conditions;
+		};
 		C2D9BCBFE851B4B512D02150 /* DomainTypes */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = DomainTypes;
@@ -985,13 +998,21 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Hyde;
 		};
-		C0AD1CE0000000000000AA04 /* Conditions */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Conditions;
-		};
 		FFA60F65963B9076CEBF0839 /* MockData */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MockData;
+		};
+		5E1F0000000000000000AA01 /* SurfUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SurfUI;
+		};
+		5E1F0000000000000000AA02 /* SurfUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SurfUI;
+		};
+		5E1F0000000000000000AA03 /* SurfUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SurfUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

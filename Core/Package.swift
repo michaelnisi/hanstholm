@@ -33,6 +33,10 @@ let package = Package(
         .library(
             name: "Conditions",
             targets: ["Conditions"]
+        ),
+        .library(
+            name: "SurfUI",
+            targets: ["SurfUI"]
         )
     ],
     targets: [
@@ -74,6 +78,9 @@ let package = Package(
         .testTarget(
             name: "ConditionsTests",
             dependencies: ["Conditions", "SurfConditions", "Cache", "DomainTypes"]
+        ),
+        .target(
+            name: "SurfUI"
         )
     ]
 )

@@ -1,6 +1,7 @@
 import SwiftUI
 import DomainTypes
 import MockData
+import SurfUI
 
 struct WaveView: View {
     let name: String
