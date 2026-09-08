@@ -47,7 +47,7 @@ struct TileBackground: View {
         switch family {
         #if !os(watchOS)
         case .systemSmall, .systemMedium:
-            Rectangle().fill(Color.accentColor.gradient)
+            Rectangle().fill(.regularMaterial)
         #endif
         default:
             Rectangle().fill(.fill.tertiary)
@@ -77,7 +77,7 @@ extension PatrolWidgetEntryView {
         var body: some View {
             Text("\(entry.place.name), \(entry.date.formatted(date: .omitted, time: .shortened))")
                 .font(.caption)
-                .foregroundStyle(.white.opacity(0.8))
+                .foregroundStyle(.secondary)
         }
     }
 
@@ -110,8 +110,10 @@ extension PatrolWidgetEntryView {
                     .fontWeight(.black)
                 Text(caption)
                     .font(.caption2)
+                    .foregroundStyle(.secondary)
                 Image(systemName: "location.fill")
                     .font(.caption2)
+                    .foregroundStyle(.secondary)
                     .rotationEffect(.degrees(degrees - 45))
             }
         }
@@ -121,13 +123,14 @@ extension PatrolWidgetEntryView {
         var entry: SurfEntry
 
         var body: some View {
-            SurfGauge(value: entry.wave.middle, total: entry.wave.max, tint: .white.opacity(0.9)) {
+            SurfGauge(value: entry.wave.middle, total: entry.wave.max, tint: .blue) {
                 VStack(spacing: 1) {
                     Text(entry.wave.middle.feet())
                         .font(.title)
                         .fontWeight(.black)
                     Text(entry.wave.period.seconds())
                         .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
             }
             .overlay(alignment: .bottom) {
@@ -138,8 +141,8 @@ extension PatrolWidgetEntryView {
                 )
                 .font(.caption)
                 .fontWeight(.semibold)
+                .foregroundStyle(.secondary)
             }
-            .foregroundStyle(.white)
             .fontDesign(.rounded)
         }
     }
@@ -150,7 +153,7 @@ extension PatrolWidgetEntryView {
         var body: some View {
             VStack(spacing: 6) {
                 HStack(spacing: 12) {
-                    SurfGauge(value: entry.wave.middle, total: entry.wave.max, tint: .white.opacity(0.9)) {
+                    SurfGauge(value: entry.wave.middle, total: entry.wave.max, tint: .blue) {
                         GaugeReadout(
                             value: entry.wave.middle.feet(),
                             caption: entry.wave.period.seconds(),
@@ -161,7 +164,7 @@ extension PatrolWidgetEntryView {
                     SurfGauge(
                         value: entry.wind.speed.middle,
                         total: entry.wind.speed.gust ?? entry.wind.speed.middle,
-                        tint: .white.opacity(0.9)
+                        tint: .teal
                     ) {
                         GaugeReadout(
                             value: entry.wind.speed.current.knots(),
@@ -173,7 +176,6 @@ extension PatrolWidgetEntryView {
 
                 HomeFooter(entry: entry)
             }
-            .foregroundStyle(.white)
             .fontDesign(.rounded)
         }
     }
