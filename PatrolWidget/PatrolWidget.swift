@@ -47,7 +47,7 @@ struct TileBackground: View {
         switch family {
         #if !os(watchOS)
         case .systemSmall, .systemMedium:
-            Color.clear
+            Rectangle().fill(Color.blue.gradient)
         #endif
         default:
             Rectangle().fill(.fill.tertiary)
@@ -57,20 +57,6 @@ struct TileBackground: View {
 
 extension PatrolWidgetEntryView {
     #if !os(watchOS)
-    struct DirectionLabel: View {
-        var symbol: String
-        var degrees: Double
-        var text: String
-
-        var body: some View {
-            HStack(spacing: 4) {
-                Image(systemName: symbol)
-                    .rotationEffect(.degrees(degrees - 45))
-                Text(text)
-            }
-        }
-    }
-
     struct HomeFooter: View {
         var entry: SurfEntry
 
@@ -99,22 +85,26 @@ extension PatrolWidgetEntryView {
     }
 
     struct GaugeReadout: View {
+        var symbol: String
         var value: String
         var caption: String
         var degrees: Double
 
         var body: some View {
-            VStack(spacing: 1) {
+            VStack(spacing: 2) {
+                Image(systemName: symbol)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
                 Text(value)
                     .font(.title2)
                     .fontWeight(.black)
-                Text(caption)
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-                Image(systemName: "location.fill")
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-                    .rotationEffect(.degrees(degrees - 45))
+                HStack(spacing: 3) {
+                    Image(systemName: "location.fill")
+                        .rotationEffect(.degrees(degrees - 45))
+                    Text(caption)
+                }
+                .font(.caption2)
+                .foregroundStyle(.secondary)
             }
         }
     }
@@ -123,26 +113,24 @@ extension PatrolWidgetEntryView {
         var entry: SurfEntry
 
         var body: some View {
-            SurfGauge(value: entry.wave.middle, total: entry.wave.max, tint: .blue) {
-                VStack(spacing: 1) {
-                    Text(entry.wave.middle.feet())
-                        .font(.title)
-                        .fontWeight(.black)
-                    Text(entry.wave.period.seconds())
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
+            SurfGauge(value: entry.wave.middle, total: entry.wave.max, tint: .white) {
+                GaugeReadout(
+                    symbol: "water.waves",
+                    value: entry.wave.middle.feet(),
+                    caption: entry.wave.period.seconds(),
+                    degrees: entry.wave.direction.degrees
+                )
             }
             .overlay(alignment: .bottom) {
-                DirectionLabel(
-                    symbol: "location.fill",
-                    degrees: entry.wind.direction.degrees,
-                    text: "\(entry.wind.direction.formatted())  \(entry.wind.speed.current.knots())"
-                )
+                HStack(spacing: 4) {
+                    Image(systemName: "location.fill")
+                        .rotationEffect(.degrees(entry.wind.direction.degrees - 45))
+                    Text("\(entry.wind.direction.formatted())  \(entry.wind.speed.current.knots())")
+                }
                 .font(.caption)
                 .fontWeight(.semibold)
-                .foregroundStyle(.secondary)
             }
+            .foregroundStyle(.white)
             .fontDesign(.rounded)
         }
     }
@@ -153,8 +141,9 @@ extension PatrolWidgetEntryView {
         var body: some View {
             VStack(spacing: 6) {
                 HStack(spacing: 24) {
-                    SurfGauge(value: entry.wave.middle, total: entry.wave.max, tint: .blue) {
+                    SurfGauge(value: entry.wave.middle, total: entry.wave.max, tint: .white) {
                         GaugeReadout(
+                            symbol: "water.waves",
                             value: entry.wave.middle.feet(),
                             caption: entry.wave.period.seconds(),
                             degrees: entry.wave.direction.degrees
@@ -164,9 +153,10 @@ extension PatrolWidgetEntryView {
                     SurfGauge(
                         value: entry.wind.speed.middle,
                         total: entry.wind.speed.gust ?? entry.wind.speed.middle,
-                        tint: .teal
+                        tint: .white
                     ) {
                         GaugeReadout(
+                            symbol: "wind",
                             value: entry.wind.speed.current.knots(),
                             caption: entry.wind.speed.gust.knots(),
                             degrees: entry.wind.direction.degrees
@@ -176,6 +166,7 @@ extension PatrolWidgetEntryView {
 
                 HomeFooter(entry: entry)
             }
+            .foregroundStyle(.white)
             .fontDesign(.rounded)
         }
     }
