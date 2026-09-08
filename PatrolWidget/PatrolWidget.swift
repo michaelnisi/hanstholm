@@ -152,7 +152,7 @@ extension PatrolWidgetEntryView {
 
         var body: some View {
             VStack(spacing: 6) {
-                HStack(spacing: 12) {
+                HStack(spacing: 24) {
                     SurfGauge(value: entry.wave.middle, total: entry.wave.max, tint: .blue) {
                         GaugeReadout(
                             value: entry.wave.middle.feet(),
