@@ -47,7 +47,7 @@ struct TileBackground: View {
         switch family {
         #if !os(watchOS)
         case .systemSmall, .systemMedium:
-            Rectangle().fill(.ultraThinMaterial)
+            Color.clear
         #endif
         default:
             Rectangle().fill(.fill.tertiary)
