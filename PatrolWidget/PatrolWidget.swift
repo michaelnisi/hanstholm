@@ -4,6 +4,9 @@ import Conditions
 import DomainTypes
 import MockData
 import SurfUI
+#if canImport(UIKit)
+import UIKit
+#endif
 
 struct PatrolWidgetEntryView : View {
     @Environment(\.widgetFamily) var widgetFamily
@@ -47,7 +50,7 @@ struct TileBackground: View {
         switch family {
         #if !os(watchOS)
         case .systemSmall, .systemMedium:
-            Color.clear
+            Rectangle().fill(Color(uiColor: .systemBackground).gradient)
         #endif
         default:
             Rectangle().fill(.fill.tertiary)
