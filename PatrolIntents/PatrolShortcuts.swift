@@ -5,8 +5,11 @@ struct PatrolShortcuts: AppShortcutsProvider {
         AppShortcut(
             intent: HowIsTheSurfIntent(),
             phrases: [
+                "\(.applicationName) surf",
+                "\(.applicationName) waves",
+                "\(.applicationName) wind",
+                "\(.applicationName) conditions",
                 "How is the surf in \(.applicationName)",
-                "Ask \(.applicationName) how is the surf",
                 "What's the surf like in \(.applicationName)"
             ],
             shortTitle: "How Is The Surf",
