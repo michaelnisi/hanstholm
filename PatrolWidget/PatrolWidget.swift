@@ -3,12 +3,24 @@ import SwiftUI
 import Conditions
 import DomainTypes
 import MockData
+import SurfUI
+#if canImport(UIKit)
+import UIKit
+#endif
 
 struct PatrolWidgetEntryView : View {
     @Environment(\.widgetFamily) var widgetFamily
     var entry: SurfEntry
-    
+
     var body: some View {
+        familyView
+            .containerBackground(for: .widget) {
+                TileBackground(family: widgetFamily)
+            }
+    }
+
+    @ViewBuilder
+    private var familyView: some View {
         switch widgetFamily {
         #if os(watchOS)
         case .accessoryCorner:
@@ -31,22 +43,23 @@ struct PatrolWidgetEntryView : View {
     }
 }
 
-extension PatrolWidgetEntryView {
-    #if !os(watchOS)
-    struct DirectionLabel: View {
-        var symbol: String
-        var degrees: Double
-        var text: String
+struct TileBackground: View {
+    var family: WidgetFamily
 
-        var body: some View {
-            HStack(spacing: 4) {
-                Image(systemName: symbol)
-                    .rotationEffect(.degrees(degrees - 45))
-                Text(text)
-            }
+    var body: some View {
+        switch family {
+        #if !os(watchOS)
+        case .systemSmall, .systemMedium:
+            Rectangle().fill(Color(uiColor: .systemBackground).gradient)
+        #endif
+        default:
+            Rectangle().fill(.fill.tertiary)
         }
     }
+}
 
+extension PatrolWidgetEntryView {
+    #if !os(watchOS)
     struct HomeFooter: View {
         var entry: SurfEntry
 
@@ -57,31 +70,67 @@ extension PatrolWidgetEntryView {
         }
     }
 
+    struct SurfGauge<Label: View>: View {
+        var value: Double
+        var total: Double
+        var tint: Color
+        var strokeWidth: Double = 14
+        @ViewBuilder var label: () -> Label
+
+        var body: some View {
+            ProgressView(
+                value: max(0, min(value, total)),
+                total: total > 0 ? total : 1
+            )
+            .progressViewStyle(GaugeProgressStyle(strokeColor: tint, strokeWidth: strokeWidth))
+            .overlay { label() }
+        }
+    }
+
+    struct GaugeReadout: View {
+        var symbol: String
+        var value: String
+        var caption: String
+        var degrees: Double
+
+        var body: some View {
+            VStack(spacing: 2) {
+                Image(systemName: symbol)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                Text(value)
+                    .font(.title2)
+                    .fontWeight(.black)
+                HStack(spacing: 3) {
+                    Image(systemName: "location.fill")
+                        .rotationEffect(.degrees(degrees - 45))
+                    Text(caption)
+                }
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+            }
+        }
+    }
+
     struct HomeSmall: View {
         var entry: SurfEntry
 
         var body: some View {
-            VStack(alignment: .leading, spacing: 6) {
-                Label {
-                    Text(entry.wave.middle.feet()).fontWeight(.black)
-                        + Text(" @ ") + Text(entry.wave.period.seconds())
-                } icon: {
-                    Image(systemName: "water.waves")
-                }
-                .font(.headline)
-
-                DirectionLabel(
-                    symbol: "location.fill",
-                    degrees: entry.wind.direction.degrees,
-                    text: "\(entry.wind.direction.formatted()) \(entry.wind.speed.current.knots())"
+            SurfGauge(value: entry.wave.middle, total: entry.wave.max, tint: .blue) {
+                GaugeReadout(
+                    symbol: "water.waves",
+                    value: entry.wave.middle.feet(),
+                    caption: entry.wave.period.seconds(),
+                    degrees: entry.wave.direction.degrees
                 )
-                .font(.subheadline)
-
-                Spacer(minLength: 0)
-
-                HomeFooter(entry: entry)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+            .overlay(alignment: .bottom) {
+                Text("\(entry.wind.direction.formatted()) \(entry.wind.speed.current.knots())")
+                    .font(.caption)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.secondary)
+            }
+            .fontDesign(.rounded)
         }
     }
 
@@ -89,49 +138,36 @@ extension PatrolWidgetEntryView {
         var entry: SurfEntry
 
         var body: some View {
-            VStack(alignment: .leading, spacing: 8) {
-                HStack(alignment: .top, spacing: 16) {
-                    waveColumn
-                    Divider()
-                    windColumn
-                    Spacer(minLength: 0)
+            VStack(spacing: 6) {
+                HStack(spacing: 24) {
+                    Spacer()
+                    SurfGauge(value: entry.wave.middle, total: entry.wave.max, tint: .blue) {
+                        GaugeReadout(
+                            symbol: "water.waves",
+                            value: entry.wave.middle.feet(),
+                            caption: entry.wave.period.seconds(),
+                            degrees: entry.wave.direction.degrees
+                        )
+                    }
+                    Spacer()
+                    SurfGauge(
+                        value: entry.wind.speed.middle,
+                        total: entry.wind.speed.gust ?? entry.wind.speed.middle,
+                        tint: .teal
+                    ) {
+                        GaugeReadout(
+                            symbol: "wind",
+                            value: entry.wind.speed.current.knots(),
+                            caption: entry.wind.speed.gust.knots(),
+                            degrees: entry.wind.direction.degrees
+                        )
+                    }
+                    Spacer()
                 }
-
-                Spacer(minLength: 0)
 
                 HomeFooter(entry: entry)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-        }
-
-        private var waveColumn: some View {
-            VStack(alignment: .leading, spacing: 2) {
-                Label(entry.wave.middle.feet(), systemImage: "water.waves")
-                    .font(.title3).fontWeight(.black)
-                Text(entry.wave.period.seconds())
-                    .font(.caption)
-                DirectionLabel(
-                    symbol: "location.fill",
-                    degrees: entry.wave.direction.degrees,
-                    text: entry.wave.direction.formatted()
-                )
-                .font(.caption)
-            }
-        }
-
-        private var windColumn: some View {
-            VStack(alignment: .leading, spacing: 2) {
-                Label(entry.wind.speed.current.knots(), systemImage: "wind")
-                    .font(.title3).fontWeight(.black)
-                Text(entry.wind.speed.gust.knots())
-                    .font(.caption)
-                DirectionLabel(
-                    symbol: "location.fill",
-                    degrees: entry.wind.direction.degrees,
-                    text: entry.wind.direction.formatted()
-                )
-                .font(.caption)
-            }
+            .fontDesign(.rounded)
         }
     }
     #endif
@@ -201,7 +237,6 @@ struct PatrolWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: SurfEntryProvider()) { entry in
             PatrolWidgetEntryView(entry: entry)
-                .containerBackground(.fill.tertiary, for: .widget)
         }
         .onBackgroundURLSessionEvents(
             matching: DeferredDownloadConfiguration.defaultSessionIdentifier()
