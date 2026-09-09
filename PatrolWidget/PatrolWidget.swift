@@ -125,14 +125,10 @@ extension PatrolWidgetEntryView {
                 )
             }
             .overlay(alignment: .bottom) {
-                HStack(spacing: 4) {
-                    Image(systemName: "location.fill")
-                        .rotationEffect(.degrees(entry.wind.direction.degrees - 45))
-                    Text("\(entry.wind.direction.formatted())  \(entry.wind.speed.current.knots())")
-                }
-                .font(.caption)
-                .fontWeight(.semibold)
-                .foregroundStyle(.secondary)
+                Text("\(entry.wind.direction.formatted()) \(entry.wind.speed.current.knots())")
+                    .font(.caption)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.secondary)
             }
             .fontDesign(.rounded)
         }
@@ -144,6 +140,7 @@ extension PatrolWidgetEntryView {
         var body: some View {
             VStack(spacing: 6) {
                 HStack(spacing: 24) {
+                    Spacer()
                     SurfGauge(value: entry.wave.middle, total: entry.wave.max, tint: .blue) {
                         GaugeReadout(
                             symbol: "water.waves",
@@ -152,7 +149,7 @@ extension PatrolWidgetEntryView {
                             degrees: entry.wave.direction.degrees
                         )
                     }
-
+                    Spacer()
                     SurfGauge(
                         value: entry.wind.speed.middle,
                         total: entry.wind.speed.gust ?? entry.wind.speed.middle,
@@ -165,6 +162,7 @@ extension PatrolWidgetEntryView {
                             degrees: entry.wind.direction.degrees
                         )
                     }
+                    Spacer()
                 }
 
                 HomeFooter(entry: entry)
