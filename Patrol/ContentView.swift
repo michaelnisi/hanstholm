@@ -45,39 +45,84 @@ private struct ConditionsView: View {
     let surfEntry: SurfEntry
 
     var body: some View {
-        VStack(spacing: 12) {
+        ScrollView {
             ViewThatFits(in: .horizontal) {
-                HStack(spacing: 24) {
-                    WaveGauge(wave: surfEntry.wave)
-                    WindGauge(wind: surfEntry.wind)
+                HStack(alignment: .top, spacing: 24) {
+                    GaugesSection(surfEntry: surfEntry)
+                    ConditionsDetails(surfEntry: surfEntry)
                 }
                 VStack(spacing: 24) {
-                    WaveGauge(wave: surfEntry.wave)
-                    WindGauge(wind: surfEntry.wind)
+                    GaugesSection(surfEntry: surfEntry)
+                    ConditionsDetails(surfEntry: surfEntry)
                 }
             }
-            Text(surfEntry.date.formatted(date: .omitted, time: .shortened))
-                .font(.caption)
-                .foregroundStyle(.secondary)
+            .padding()
         }
-        .padding()
-        .fontDesign(.rounded)
         .navigationTitle(surfEntry.place.name)
     }
 }
 
-#Preview("Narrow") {
-    NavigationStack {
-        ConditionsView(surfEntry: MockData.SurfEntry.makeSurfEntry())
+private struct GaugesSection: View {
+    let surfEntry: SurfEntry
+
+    var body: some View {
+        ViewThatFits(in: .horizontal) {
+            HStack(spacing: 24) {
+                WaveGauge(wave: surfEntry.wave)
+                WindGauge(wind: surfEntry.wind)
+            }
+            VStack(spacing: 24) {
+                WaveGauge(wave: surfEntry.wave)
+                WindGauge(wind: surfEntry.wind)
+            }
+        }
+        .fontDesign(.rounded)
     }
-    .frame(width: 300)
 }
 
-#Preview("Wide") {
+private struct ConditionsDetails: View {
+    let surfEntry: SurfEntry
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            DetailSection(title: "Wave") {
+                LabeledContent("Height", value: surfEntry.wave.middle.feet())
+                LabeledContent("Max", value: surfEntry.wave.max.feet())
+                LabeledContent("Period", value: surfEntry.wave.period.seconds())
+                LabeledContent("Direction", value: surfEntry.wave.direction.formatted())
+            }
+
+            DetailSection(title: "Wind") {
+                LabeledContent("Speed", value: surfEntry.wind.speed.current.knots())
+                LabeledContent("Gust", value: surfEntry.wind.speed.gust.knots())
+                LabeledContent("Direction", value: surfEntry.wind.direction.formatted())
+            }
+
+            LabeledContent("Updated", value: surfEntry.date.formatted(date: .abbreviated, time: .shortened))
+        }
+        .frame(idealWidth: 320, maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+private struct DetailSection<Content: View>: View {
+    let title: String
+    @ViewBuilder var content: () -> Content
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(title)
+                .font(.headline)
+            VStack(spacing: 4) {
+                content()
+            }
+        }
+    }
+}
+
+#Preview {
     NavigationStack {
         ConditionsView(surfEntry: MockData.SurfEntry.makeSurfEntry())
     }
-    .frame(width: 600)
 }
 
 #Preview("No Data") {
