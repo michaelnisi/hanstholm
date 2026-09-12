@@ -44,21 +44,35 @@ struct ContentView: View {
 private struct ConditionsView: View {
     let surfEntry: SurfEntry
 
+    private static let twoColumnWidthThreshold: CGFloat = 700
+
+    @State private var isTwoColumn = false
+
     var body: some View {
         ScrollView {
-            ViewThatFits(in: .horizontal) {
-                HStack(alignment: .top, spacing: 24) {
-                    GaugesColumn(surfEntry: surfEntry)
-                    ConditionsDetails(surfEntry: surfEntry)
-                        .frame(maxWidth: 400)
-                    Spacer(minLength: 0)
-                }
-                VStack(spacing: 24) {
-                    GaugesColumn(surfEntry: surfEntry)
-                    ConditionsDetails(surfEntry: surfEntry)
+            Group {
+                if isTwoColumn {
+                    HStack(alignment: .top, spacing: 24) {
+                        GaugesColumn(surfEntry: surfEntry)
+                        ConditionsDetails(surfEntry: surfEntry)
+                            .frame(maxWidth: 400)
+                        Spacer(minLength: 0)
+                    }
+                } else {
+                    VStack(spacing: 24) {
+                        GaugesColumn(surfEntry: surfEntry)
+                        ConditionsDetails(surfEntry: surfEntry)
+                    }
                 }
             }
             .padding()
+        }
+        .onGeometryChange(for: Bool.self) { geometry in
+            geometry.size.width >= Self.twoColumnWidthThreshold
+        } action: { newValue in
+            withAnimation(.default) {
+                isTwoColumn = newValue
+            }
         }
         .navigationTitle(surfEntry.place.name)
     }
