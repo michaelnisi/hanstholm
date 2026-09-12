@@ -26,9 +26,11 @@ public struct WindGauge: View {
                 degrees: wind.direction.degrees
             )
         }
+        .padding(strokeWidth / 2)
     }
 }
 
 #Preview {
     WindGauge(wind: MockData.SurfEntry.makeWind())
+        .padding()
 }

@@ -42,66 +42,42 @@ struct ContentView: View {
 }
 
 private struct ConditionsView: View {
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     let surfEntry: SurfEntry
 
     var body: some View {
-        Group {
-            if horizontalSizeClass == .compact {
-                CompactConditionsView(surfEntry: surfEntry)
-            } else {
-                RegularConditionsView(surfEntry: surfEntry)
+        VStack(spacing: 12) {
+            ViewThatFits(in: .horizontal) {
+                HStack(spacing: 24) {
+                    WaveGauge(wave: surfEntry.wave)
+                    WindGauge(wind: surfEntry.wind)
+                }
+                VStack(spacing: 24) {
+                    WaveGauge(wave: surfEntry.wave)
+                    WindGauge(wind: surfEntry.wind)
+                }
             }
+            Text(surfEntry.date.formatted(date: .omitted, time: .shortened))
+                .font(.caption)
+                .foregroundStyle(.secondary)
         }
+        .padding()
+        .fontDesign(.rounded)
         .navigationTitle(surfEntry.place.name)
     }
 }
 
-private struct CompactConditionsView: View {
-    let surfEntry: SurfEntry
-
-    var body: some View {
-        VStack(spacing: 12) {
-            WaveGauge(wave: surfEntry.wave)
-                .overlay(alignment: .bottom) {
-                    Text("\(surfEntry.wind.direction.formatted()) \(surfEntry.wind.speed.current.knots())")
-                        .font(.caption)
-                        .fontWeight(.semibold)
-                        .foregroundStyle(.secondary)
-                }
-            Text(surfEntry.date.formatted(date: .omitted, time: .shortened))
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
-        .padding()
-        .fontDesign(.rounded)
+#Preview("Narrow") {
+    NavigationStack {
+        ConditionsView(surfEntry: MockData.SurfEntry.makeSurfEntry())
     }
+    .frame(width: 300)
 }
 
-private struct RegularConditionsView: View {
-    let surfEntry: SurfEntry
-
-    var body: some View {
-        VStack(spacing: 12) {
-            HStack(spacing: 24) {
-                WaveGauge(wave: surfEntry.wave)
-                WindGauge(wind: surfEntry.wind)
-            }
-            Text(surfEntry.date.formatted(date: .omitted, time: .shortened))
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
-        .padding()
-        .fontDesign(.rounded)
+#Preview("Wide") {
+    NavigationStack {
+        ConditionsView(surfEntry: MockData.SurfEntry.makeSurfEntry())
     }
-}
-
-#Preview("Compact") {
-    CompactConditionsView(surfEntry: MockData.SurfEntry.makeSurfEntry())
-}
-
-#Preview("Regular") {
-    RegularConditionsView(surfEntry: MockData.SurfEntry.makeSurfEntry())
+    .frame(width: 600)
 }
 
 #Preview("No Data") {

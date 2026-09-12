@@ -21,9 +21,11 @@ public struct WaveGauge: View {
                 degrees: wave.direction.degrees
             )
         }
+        .padding(strokeWidth / 2)
     }
 }
 
 #Preview {
     WaveGauge(wave: MockData.SurfEntry.makeWave())
+        .padding()
 }
