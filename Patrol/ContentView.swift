@@ -48,11 +48,13 @@ private struct ConditionsView: View {
         ScrollView {
             ViewThatFits(in: .horizontal) {
                 HStack(alignment: .top, spacing: 24) {
-                    GaugesSection(surfEntry: surfEntry)
+                    GaugesColumn(surfEntry: surfEntry)
                     ConditionsDetails(surfEntry: surfEntry)
+                        .frame(maxWidth: 400)
+                    Spacer(minLength: 0)
                 }
                 VStack(spacing: 24) {
-                    GaugesSection(surfEntry: surfEntry)
+                    GaugesColumn(surfEntry: surfEntry)
                     ConditionsDetails(surfEntry: surfEntry)
                 }
             }
@@ -62,19 +64,13 @@ private struct ConditionsView: View {
     }
 }
 
-private struct GaugesSection: View {
+private struct GaugesColumn: View {
     let surfEntry: SurfEntry
 
     var body: some View {
-        ViewThatFits(in: .horizontal) {
-            HStack(spacing: 24) {
-                WaveGauge(wave: surfEntry.wave)
-                WindGauge(wind: surfEntry.wind)
-            }
-            VStack(spacing: 24) {
-                WaveGauge(wave: surfEntry.wave)
-                WindGauge(wind: surfEntry.wind)
-            }
+        VStack(spacing: 24) {
+            WaveGauge(wave: surfEntry.wave)
+            WindGauge(wind: surfEntry.wind)
         }
         .fontDesign(.rounded)
     }
