@@ -80,7 +80,8 @@ let package = Package(
             dependencies: ["Conditions", "SurfConditions", "Cache", "DomainTypes"]
         ),
         .target(
-            name: "SurfUI"
+            name: "SurfUI",
+            dependencies: ["DomainTypes", "MockData"]
         )
     ]
 )
