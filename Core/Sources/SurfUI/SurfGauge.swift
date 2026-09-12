@@ -29,7 +29,7 @@ public struct SurfGauge<Label: View>: View {
         )
         .progressViewStyle(GaugeProgressStyle(strokeColor: tint, strokeWidth: strokeWidth))
         .overlay { label() }
-        .frame(idealWidth: 160, idealHeight: 160)
+        .frame(idealWidth: 160, maxWidth: 220, idealHeight: 160, maxHeight: 220)
     }
 }
 
