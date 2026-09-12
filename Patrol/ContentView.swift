@@ -2,6 +2,7 @@ import SwiftUI
 import DomainTypes
 import Cache
 import MockData
+import SurfUI
 
 struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
@@ -43,31 +44,95 @@ struct ContentView: View {
 private struct ConditionsView: View {
     let surfEntry: SurfEntry
 
+    private static let twoColumnWidthThreshold: CGFloat = 700
+
+    @State private var isTwoColumn = false
+
     var body: some View {
-        List {
-            Section("Wave") {
-                LabeledContent("Height", value: surfEntry.wave.middle.feet())
-                LabeledContent("Max", value: surfEntry.wave.max.feet())
-                LabeledContent("Period", value: surfEntry.wave.period.seconds())
-                LabeledContent("Direction", value: surfEntry.wave.direction.formatted())
+        ScrollView {
+            Group {
+                if isTwoColumn {
+                    HStack(alignment: .top, spacing: 24) {
+                        GaugesColumn(surfEntry: surfEntry)
+                        ConditionsDetails(surfEntry: surfEntry)
+                            .frame(maxWidth: 400)
+                        Spacer(minLength: 0)
+                    }
+                } else {
+                    VStack(spacing: 24) {
+                        GaugesColumn(surfEntry: surfEntry)
+                        ConditionsDetails(surfEntry: surfEntry)
+                    }
+                }
             }
-
-            Section("Wind") {
-                LabeledContent("Speed", value: surfEntry.wind.speed.current.knots())
-                LabeledContent("Gust", value: surfEntry.wind.speed.gust.knots())
-                LabeledContent("Direction", value: surfEntry.wind.direction.formatted())
-            }
-
-            Section {
-                LabeledContent("Updated", value: surfEntry.date.formatted(date: .abbreviated, time: .shortened))
+            .padding()
+        }
+        .onGeometryChange(for: Bool.self) { geometry in
+            geometry.size.width >= Self.twoColumnWidthThreshold
+        } action: { newValue in
+            withAnimation(.default) {
+                isTwoColumn = newValue
             }
         }
         .navigationTitle(surfEntry.place.name)
     }
 }
 
+private struct GaugesColumn: View {
+    let surfEntry: SurfEntry
+
+    var body: some View {
+        VStack(spacing: 24) {
+            WaveGauge(wave: surfEntry.wave)
+            WindGauge(wind: surfEntry.wind)
+        }
+        .fontDesign(.rounded)
+    }
+}
+
+private struct ConditionsDetails: View {
+    let surfEntry: SurfEntry
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            DetailSection(title: "Wave") {
+                LabeledContent("Height", value: surfEntry.wave.middle.feet())
+                LabeledContent("Max", value: surfEntry.wave.max.feet())
+                LabeledContent("Period", value: surfEntry.wave.period.seconds())
+                LabeledContent("Direction", value: surfEntry.wave.direction.formatted())
+            }
+
+            DetailSection(title: "Wind") {
+                LabeledContent("Speed", value: surfEntry.wind.speed.current.knots())
+                LabeledContent("Gust", value: surfEntry.wind.speed.gust.knots())
+                LabeledContent("Direction", value: surfEntry.wind.direction.formatted())
+            }
+
+            LabeledContent("Updated", value: surfEntry.date.formatted(date: .abbreviated, time: .shortened))
+        }
+        .frame(idealWidth: 320, maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+private struct DetailSection<Content: View>: View {
+    let title: String
+    @ViewBuilder var content: () -> Content
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(title)
+                .font(.headline)
+            VStack(spacing: 4) {
+                content()
+            }
+        }
+    }
+}
+
 #Preview {
-    ConditionsView(surfEntry: MockData.SurfEntry.makeSurfEntry())
+    NavigationStack {
+        ConditionsView(surfEntry: MockData.SurfEntry.makeSurfEntry())
+    }
 }
 
 #Preview("No Data") {

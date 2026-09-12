@@ -37,6 +37,7 @@
 		5E1F0000000000000000CC01 /* SurfUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5E1F0000000000000000AA01 /* SurfUI */; };
 		5E1F0000000000000000CC02 /* SurfUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5E1F0000000000000000AA02 /* SurfUI */; };
 		5E1F0000000000000000CC03 /* SurfUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5E1F0000000000000000AA03 /* SurfUI */; };
+		5E1F0000000000000000CC04 /* SurfUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5E1F0000000000000000AA04 /* SurfUI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -188,6 +189,7 @@
 				A78094D38FED1ED3F12F0D3B /* MockData in Frameworks */,
 				C0AD1CE0000000000000CC04 /* Conditions in Frameworks */,
 				D1DEB1A0000000000000CC04 /* Hyde in Frameworks */,
+				5E1F0000000000000000CC04 /* SurfUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,6 +285,7 @@
 				FFA60F65963B9076CEBF0839 /* MockData */,
 				C0AD1CE0000000000000AA04 /* Conditions */,
 				D1DEB1A0000000000000BB04 /* Hyde */,
+				5E1F0000000000000000AA04 /* SurfUI */,
 			);
 			productName = Patrol;
 			productReference = 4C10AF852BCC261B000F2D2B /* Patrol.app */;
@@ -1011,6 +1014,10 @@
 			productName = SurfUI;
 		};
 		5E1F0000000000000000AA03 /* SurfUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SurfUI;
+		};
+		5E1F0000000000000000AA04 /* SurfUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SurfUI;
 		};

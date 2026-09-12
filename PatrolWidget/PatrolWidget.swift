@@ -70,67 +70,18 @@ extension PatrolWidgetEntryView {
         }
     }
 
-    struct SurfGauge<Label: View>: View {
-        var value: Double
-        var total: Double
-        var tint: Color
-        var strokeWidth: Double = 14
-        @ViewBuilder var label: () -> Label
-
-        var body: some View {
-            ProgressView(
-                value: max(0, min(value, total)),
-                total: total > 0 ? total : 1
-            )
-            .progressViewStyle(GaugeProgressStyle(strokeColor: tint, strokeWidth: strokeWidth))
-            .overlay { label() }
-        }
-    }
-
-    struct GaugeReadout: View {
-        var symbol: String
-        var value: String
-        var caption: String
-        var degrees: Double
-
-        var body: some View {
-            VStack(spacing: 2) {
-                Image(systemName: symbol)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                Text(value)
-                    .font(.title2)
-                    .fontWeight(.black)
-                HStack(spacing: 3) {
-                    Image(systemName: "location.fill")
-                        .rotationEffect(.degrees(degrees - 45))
-                    Text(caption)
-                }
-                .font(.caption2)
-                .foregroundStyle(.secondary)
-            }
-        }
-    }
-
     struct HomeSmall: View {
         var entry: SurfEntry
 
         var body: some View {
-            SurfGauge(value: entry.wave.middle, total: entry.wave.max, tint: .blue) {
-                GaugeReadout(
-                    symbol: "water.waves",
-                    value: entry.wave.middle.feet(),
-                    caption: entry.wave.period.seconds(),
-                    degrees: entry.wave.direction.degrees
-                )
-            }
-            .overlay(alignment: .bottom) {
-                Text("\(entry.wind.direction.formatted()) \(entry.wind.speed.current.knots())")
-                    .font(.caption)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(.secondary)
-            }
-            .fontDesign(.rounded)
+            WaveGauge(wave: entry.wave)
+                .overlay(alignment: .bottom) {
+                    Text("\(entry.wind.direction.formatted()) \(entry.wind.speed.current.knots())")
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.secondary)
+                }
+                .fontDesign(.rounded)
         }
     }
 
@@ -141,27 +92,9 @@ extension PatrolWidgetEntryView {
             VStack(spacing: 6) {
                 HStack(spacing: 24) {
                     Spacer()
-                    SurfGauge(value: entry.wave.middle, total: entry.wave.max, tint: .blue) {
-                        GaugeReadout(
-                            symbol: "water.waves",
-                            value: entry.wave.middle.feet(),
-                            caption: entry.wave.period.seconds(),
-                            degrees: entry.wave.direction.degrees
-                        )
-                    }
+                    WaveGauge(wave: entry.wave)
                     Spacer()
-                    SurfGauge(
-                        value: entry.wind.speed.middle,
-                        total: entry.wind.speed.gust ?? entry.wind.speed.middle,
-                        tint: .teal
-                    ) {
-                        GaugeReadout(
-                            symbol: "wind",
-                            value: entry.wind.speed.current.knots(),
-                            caption: entry.wind.speed.gust.knots(),
-                            degrees: entry.wind.direction.degrees
-                        )
-                    }
+                    WindGauge(wind: entry.wind)
                     Spacer()
                 }
 
