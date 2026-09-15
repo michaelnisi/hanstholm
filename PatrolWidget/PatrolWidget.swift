@@ -218,9 +218,9 @@ extension PatrolWidgetEntryView {
         
         var body: some View {
             VStack(alignment: .leading) {
-                Text(Image(systemName: "water.waves")) + Text(" ") + Text(entry.wave.middle.feet()).fontWeight(.black) + Text(" @ ") + Text(entry.wave.period.seconds())
-                
-                Text(Image(systemName: "wind")) + Text(" ") + Text(entry.wind.direction.formatted()).fontWeight(.black) + Text(" ") + Text(entry.wind.speed.current.knots())
+                Text("\(Image(systemName: "water.waves")) \(Text(entry.wave.middle.feet()).fontWeight(.black)) @ \(entry.wave.period.seconds())")
+
+                Text("\(Image(systemName: "wind")) \(Text(entry.wind.direction.formatted()).fontWeight(.black)) \(entry.wind.speed.current.knots())")
                
                 Text("\(entry.place.name), \(entry.date.formatted(date: .omitted, time: .shortened))")
                     .font(.caption)
