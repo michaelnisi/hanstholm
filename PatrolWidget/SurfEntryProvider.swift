@@ -24,10 +24,18 @@ struct SurfEntryProvider: TimelineProvider {
         Task {
             await coordinator.scheduleDeferredRefresh(after: SurfEntry.cacheTTL)
 
-            let entry = (try? await coordinator.conditions(
+            let entry: SurfEntry
+
+            if let fetched = try? await coordinator.conditions(
                 policy: .cached(maxAge: SurfEntry.cacheTTL),
                 trigger: .widgetTimeline
-            )) ?? MockData.SurfEntry.makeSurfEntry(status: .error)
+            ) {
+                entry = fetched
+            } else if let cached = await coordinator.cached() {
+                entry = cached
+            } else {
+                entry = MockData.SurfEntry.makeSurfEntry(status: .error)
+            }
 
             let timeline = Timeline(entries: [entry], policy: .after(.now.addingTimeInterval(SurfEntry.cacheTTL)))
 
