@@ -2,7 +2,7 @@ import Foundation
 import DomainTypes
 
 public protocol SurfConditionsPlugin: Sendable {
-    var id: String { get }
+    var id: PluginID { get }
     var places: [Place] { get }
     var region: GeoRegion { get }
 

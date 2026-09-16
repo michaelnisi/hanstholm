@@ -26,7 +26,7 @@ private final class Counter: @unchecked Sendable {
     }
 }
 
-private let stubPluginID = "test.stub"
+private let stubPluginID: PluginID = "test.stub"
 
 private func makePlace(key: String = "testville", name: String = "Testville") -> Place {
     Place(pluginID: stubPluginID, key: key, name: name)
@@ -43,7 +43,7 @@ private func makeEntry(date: Date = .now, place: Place = makePlace()) -> SurfEnt
 }
 
 private struct StubPlugin: SurfConditionsPlugin, DeferredDownloadable {
-    let id: String
+    let id: PluginID
     let places: [Place]
     let region: GeoRegion
     let fetches = Counter()
@@ -70,7 +70,7 @@ private struct StubPlugin: SurfConditionsPlugin, DeferredDownloadable {
 private struct StubFault: Error {}
 
 private func makePlugin(
-    id: String = stubPluginID,
+    id: PluginID = stubPluginID,
     places: [Place] = [makePlace()],
     region: GeoRegion = GeoRegion(latitude: 0, longitude: 0, radius: 0),
     entry: (@Sendable (Place) async throws -> SurfEntry)? = nil

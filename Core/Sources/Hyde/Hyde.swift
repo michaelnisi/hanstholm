@@ -6,7 +6,7 @@ import SurfConditions
 let logger = Logger(subsystem: "ink.codes.Patrol", category: "Hyde")
 
 public struct Hyde: SurfConditionsPlugin, DeferredDownloadable {
-    public static let pluginID = "ink.codes.Patrol.plugin.hyde"
+    public static let pluginID: PluginID = "ink.codes.Patrol.plugin.hyde"
 
     public enum Station: CaseIterable, Equatable, Sendable {
         case hanstholm
@@ -20,7 +20,7 @@ public struct Hyde: SurfConditionsPlugin, DeferredDownloadable {
         case transform(String)
     }
 
-    public var id: String {
+    public var id: PluginID {
         Self.pluginID
     }
 
