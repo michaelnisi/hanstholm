@@ -9,10 +9,7 @@ struct WindView: View {
     let wind: SurfEntry.Wind
     
     var body: some View {
-        ZStack {
-            ProgressView(value: wind.speed.middle, total: wind.speed.gust ?? wind.speed.middle)
-                .progressViewStyle(GaugeProgressStyle(strokeColor: .teal))
-
+        SurfGauge(value: wind.speed.middle, total: wind.speed.gust ?? wind.speed.middle, tint: .teal) {
             WindInfo(
                 name: name,
                 date: date,
