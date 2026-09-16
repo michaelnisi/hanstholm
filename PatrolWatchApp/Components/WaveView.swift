@@ -9,10 +9,7 @@ struct WaveView: View {
     let wave: SurfEntry.Wave
     
     var body: some View {
-        ZStack {
-            ProgressView(value: wave.middle, total: wave.max)
-                .progressViewStyle(GaugeProgressStyle(strokeColor: .blue))
-            
+        SurfGauge(value: wave.middle, total: wave.max, tint: .blue) {
             WaveInfo(
                 name: name,
                 date: date,

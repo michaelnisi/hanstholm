@@ -70,22 +70,6 @@ extension PatrolWidgetEntryView {
         }
     }
 
-    struct SurfGauge<Label: View>: View {
-        var value: Double
-        var total: Double
-        var tint: Color
-        @ViewBuilder var label: () -> Label
-
-        var body: some View {
-            ProgressView(
-                value: max(0, min(value, total)),
-                total: total > 0 ? total : 1
-            )
-            .progressViewStyle(GaugeProgressStyle(strokeColor: tint))
-            .overlay { label() }
-        }
-    }
-
     struct GaugeReadout: View {
         var symbol: String
         var value: String
