@@ -49,7 +49,7 @@ public actor ConditionsCoordinator {
 
     nonisolated let downloader: DeferredDownloader?
 
-    private var inFlight: [Place: Task<SurfEntry, Error>] = [:]
+    private var inFlight: [PlaceID: Task<SurfEntry, Error>] = [:]
 
     public init(configuration: Configuration) {
         self.configuration = configuration
@@ -163,7 +163,7 @@ extension ConditionsCoordinator {
     }
 
     private func fetch(place: Place, trigger: Trigger) async throws -> SurfEntry {
-        if let existing = inFlight[place] {
+        if let existing = inFlight[place.id] {
             return try await existing.value
         }
 
@@ -177,7 +177,7 @@ extension ConditionsCoordinator {
         let task = Task<SurfEntry, Error> {
             let entry = try await plugin.conditions(for: place, using: session)
 
-            guard entry.place == place else {
+            guard entry.place.id == place.id else {
                 throw SurfConditionsFault.placeMismatch(expected: place.id, actual: entry.place.id)
             }
 
@@ -186,10 +186,10 @@ extension ConditionsCoordinator {
             return entry
         }
 
-        inFlight[place] = task
+        inFlight[place.id] = task
 
         defer {
-            inFlight[place] = nil
+            inFlight[place.id] = nil
         }
 
         let entry = try await task.value
@@ -275,7 +275,7 @@ extension ConditionsCoordinator {
         do {
             let entry = try await plugin.decodeDeferred(data, mimeType: mimeType, for: place)
 
-            guard entry.place == place else {
+            guard entry.place.id == place.id else {
                 throw SurfConditionsFault.placeMismatch(expected: place.id, actual: entry.place.id)
             }
 

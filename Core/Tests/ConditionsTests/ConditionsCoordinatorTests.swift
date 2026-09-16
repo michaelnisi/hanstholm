@@ -421,6 +421,19 @@ final class ConditionsCoordinatorTests: XCTestCase {
         XCTAssertNil(leaked)
     }
 
+    func testAnswerForARenamedPlaceIsAccepted() async throws {
+        let renamed = Place(pluginID: stubPluginID, key: makePlace().key, name: "New Name", icon: "new-icon")
+        let plugin = makePlugin(entry: { _ in makeEntry(place: renamed) })
+        let (coordinator, cache) = makeCoordinator(plugin: plugin)
+
+        let entry = try await coordinator.conditions(policy: .reload, trigger: .userInterface)
+
+        XCTAssertEqual(entry.place, renamed)
+
+        let cached = try await cache.conditions(matching: makePlace())
+        XCTAssertEqual(cached?.place, renamed)
+    }
+
     func testFetchFailureLeavesCacheIntact() async throws {
         let plugin = makePlugin(entry: { _ in throw StubFault() })
         let (coordinator, cache) = makeCoordinator(plugin: plugin)
