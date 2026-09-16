@@ -21,6 +21,9 @@
 		4CBD01DF2BFB3D52009DE551 /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = 4CBD01DE2BFB3D52009DE551 /* Cache */; };
 		4CBD01E12BFB596D009DE551 /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = 4CBD01E02BFB596D009DE551 /* Cache */; };
 		55BC1ABC39B5AF85965EB437 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C10AFAC2BCC264E000F2D2B /* SwiftUI.framework */; };
+		5E1F0000000000000000CC01 /* SurfUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5E1F0000000000000000AA01 /* SurfUI */; };
+		5E1F0000000000000000CC02 /* SurfUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5E1F0000000000000000AA02 /* SurfUI */; };
+		5E1F0000000000000000CC03 /* SurfUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5E1F0000000000000000AA03 /* SurfUI */; };
 		64A3B8EBEE730C83484C8EA8 /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = BD14614C92A5E84F2364E2EA /* Cache */; };
 		6D38697F17A1B5766CC71C19 /* DomainTypes in Frameworks */ = {isa = PBXBuildFile; productRef = 16816F9C820813AFB090B62D /* DomainTypes */; };
 		8BD0B599DCB921DFD3B4A5D5 /* PatrolWidgetIOSExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1185A5E4D55D2EF1C2258BBE /* PatrolWidgetIOSExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -34,9 +37,6 @@
 		D29EF06163141EFABC166AB2 /* Cache in Frameworks */ = {isa = PBXBuildFile; productRef = 91EAEB150EFBE13A8AD4C78A /* Cache */; };
 		DA4E6F7A8B9C0D1E2F3A4B5C /* MockData in Frameworks */ = {isa = PBXBuildFile; productRef = C93D5E6F7A8B9C0D1E2F3A4B /* MockData */; };
 		F629759C2C9F61E5566989EF /* Hyde in Frameworks */ = {isa = PBXBuildFile; productRef = D1DEB1A0000000000000BB03 /* Hyde */; };
-		5E1F0000000000000000CC01 /* SurfUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5E1F0000000000000000AA01 /* SurfUI */; };
-		5E1F0000000000000000CC02 /* SurfUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5E1F0000000000000000AA02 /* SurfUI */; };
-		5E1F0000000000000000CC03 /* SurfUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5E1F0000000000000000AA03 /* SurfUI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -222,7 +222,6 @@
 				AB12CD34EF56AB78CD90EF12 /* PatrolIntents */,
 				4C10AF862BCC261B000F2D2B /* Products */,
 				4C10AFA22BCC2637000F2D2B /* Frameworks */,
-				4C651E2530014F7300CB0367 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -244,13 +243,6 @@
 				4C10AFAC2BCC264E000F2D2B /* SwiftUI.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		4C651E2530014F7300CB0367 /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -948,6 +940,18 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Cache;
 		};
+		5E1F0000000000000000AA01 /* SurfUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SurfUI;
+		};
+		5E1F0000000000000000AA02 /* SurfUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SurfUI;
+		};
+		5E1F0000000000000000AA03 /* SurfUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SurfUI;
+		};
 		91EAEB150EFBE13A8AD4C78A /* Cache */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Cache;
@@ -1003,18 +1007,6 @@
 		FFA60F65963B9076CEBF0839 /* MockData */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MockData;
-		};
-		5E1F0000000000000000AA01 /* SurfUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SurfUI;
-		};
-		5E1F0000000000000000AA02 /* SurfUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SurfUI;
-		};
-		5E1F0000000000000000AA03 /* SurfUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SurfUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
