@@ -14,7 +14,7 @@ public struct GaugeProgressStyle: ProgressViewStyle {
 
         return GeometryReader { geometry in
             let diameter = min(geometry.size.width, geometry.size.height)
-            let strokeWidth = (.pi * diameter) / 8
+            let strokeWidth = diameter / 8
 
             ZStack {
                 Circle()
