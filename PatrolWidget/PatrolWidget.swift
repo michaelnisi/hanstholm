@@ -74,7 +74,6 @@ extension PatrolWidgetEntryView {
         var value: Double
         var total: Double
         var tint: Color
-        var strokeWidth: Double = 14
         @ViewBuilder var label: () -> Label
 
         var body: some View {
@@ -82,7 +81,7 @@ extension PatrolWidgetEntryView {
                 value: max(0, min(value, total)),
                 total: total > 0 ? total : 1
             )
-            .progressViewStyle(GaugeProgressStyle(strokeColor: tint, strokeWidth: strokeWidth))
+            .progressViewStyle(GaugeProgressStyle(strokeColor: tint))
             .overlay { label() }
         }
     }
