@@ -8,26 +8,13 @@ Built for watchOS 26 ⌚️ and iOS 📱
 
 ## Architecture
 
-```
-        hyde.dk (Danish HTML)
-               │
-               ▼
-        ┌─────────────┐
-        │     Hyde     │   parses Danish labels → SurfEntry
-        └──────┬───────┘
-               │
-               ▼
-   ┌────────────────────────┐
-   │   ConditionsCoordinator │   fetch, freshness policy, caching
-   └───────────┬─────────────┘
-               │
-               ▼
-        ┌─────────────┐
-        │    Cache     │   shared App Group storage
-        └──────┬───────┘
-               │
-   ┌───────────┼────────────────┬──────────────────┐
-   ▼           ▼                ▼                   ▼
-Watch App   Watch complication  iPhone app        Lock Screen
-(live UI)   (widget extension)  (read-only mirror) widget (iPhone)
+```mermaid
+flowchart TD
+    A["hyde.dk (Danish HTML)"] --> B["Hyde<br/>parses Danish labels → SurfEntry"]
+    B --> C["ConditionsCoordinator<br/>fetch, freshness policy, caching"]
+    C --> D["Cache<br/>shared App Group storage"]
+    D --> E1["Watch App<br/>(live UI)"]
+    D --> E2["Watch complication<br/>(widget extension)"]
+    D --> E3["iPhone app<br/>(read-only mirror)"]
+    D --> E4["Lock Screen widget<br/>(iPhone)"]
 ```
