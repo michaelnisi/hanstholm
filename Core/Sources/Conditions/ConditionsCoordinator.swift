@@ -101,7 +101,11 @@ extension ConditionsCoordinator {
     }
 
     public func setIncludedPlaceIDs(_ ids: [PlaceID]) async {
-        await configuration.registry.setIncludedPlaceIDs(ids)
+        let selectionChanged = await configuration.registry.setIncludedPlaceIDs(ids)
+
+        if selectionChanged {
+            configuration.reloadWidgetTimelines()
+        }
     }
 
     public func conditions(policy: FreshnessPolicy, trigger: Trigger) async throws -> SurfEntry {
