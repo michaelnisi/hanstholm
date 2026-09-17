@@ -28,26 +28,31 @@ public actor Cache {
 }
 
 extension Cache {
-    public func conditions(matching place: Place) throws -> SurfEntry? {
+    public func conditions(matching place: Place) -> SurfEntry? {
         guard let data = db?.data(forKey: .makePlaceKey(place: place)) else {
             return nil
         }
 
-        return try decoder.decode(SurfEntry.self, from: data)
+        return try? decoder.decode(SurfEntry.self, from: data)
     }
 
-    public func conditions(matching place: Place, newer: Date) throws -> SurfEntry? {
-        guard let data = try conditions(matching: place), data.date >= newer else {
+    public func conditions(matching place: Place, newer: Date) -> SurfEntry? {
+        guard let data = conditions(matching: place), data.date >= newer else {
             return nil
         }
 
         return data
     }
 
-    public func setConditions(_ value: SurfEntry) throws {
-        let data = try encoder.encode(value)
+    @discardableResult
+    public func setConditions(_ value: SurfEntry) -> Bool {
+        guard let data = try? encoder.encode(value) else {
+            return false
+        }
 
         db?.setValue(data, forKey: .makePlaceKey(place: value.place))
+
+        return true
     }
 }
 
@@ -60,10 +65,15 @@ extension Cache {
         return (try? decoder.decode(PlaceSettings.self, from: data)) ?? PlaceSettings()
     }
 
-    public func setSettings(_ value: PlaceSettings, for place: Place) throws {
-        let data = try encoder.encode(value)
+    @discardableResult
+    public func setSettings(_ value: PlaceSettings, for place: Place) -> Bool {
+        guard let data = try? encoder.encode(value) else {
+            return false
+        }
 
         db?.setValue(data, forKey: .makeSettingsKey(place: place))
+
+        return true
     }
 }
 
@@ -76,18 +86,28 @@ extension Cache {
         return try? decoder.decode([PlaceID].self, from: data)
     }
 
-    public func setIncludedPlaceIDs(_ ids: [PlaceID]) throws {
-        let data = try encoder.encode(ids)
+    @discardableResult
+    public func setIncludedPlaceIDs(_ ids: [PlaceID]) -> Bool {
+        guard let data = try? encoder.encode(ids) else {
+            return false
+        }
 
         db?.setValue(data, forKey: Cache.Key.includedPlaces)
+
+        return true
     }
 }
 
 extension Cache {
-    public func setSelectedPlace(_ place: Place) throws {
-        let data = try encoder.encode(place.id)
+    @discardableResult
+    public func setSelectedPlace(_ place: Place) -> Bool {
+        guard let data = try? encoder.encode(place.id) else {
+            return false
+        }
 
         db?.setValue(data, forKey: .selectedPlaceKey)
+
+        return true
     }
 
     public func selectedPlaceID() -> PlaceID? {
@@ -98,12 +118,12 @@ extension Cache {
         return try? decoder.decode(PlaceID.self, from: data)
     }
 
-    public func selectedConditions() throws -> SurfEntry? {
+    public func selectedConditions() -> SurfEntry? {
         guard let id = selectedPlaceID(), let data = db?.data(forKey: .makeKey(placeID: id)) else {
             return nil
         }
 
-        return try decoder.decode(SurfEntry.self, from: data)
+        return try? decoder.decode(SurfEntry.self, from: data)
     }
 }
 

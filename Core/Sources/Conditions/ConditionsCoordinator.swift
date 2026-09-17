@@ -81,7 +81,7 @@ extension ConditionsCoordinator {
 
 extension ConditionsCoordinator {
     public func cached() async -> SurfEntry? {
-        try? await configuration.cache.selectedConditions()
+        await configuration.cache.selectedConditions()
     }
 
     public func availablePlaces() -> [Place] {
@@ -92,16 +92,16 @@ extension ConditionsCoordinator {
         await configuration.registry.regions()
     }
 
-    public func selectPlace(_ place: Place) async throws {
-        try await configuration.registry.selectPlace(place)
+    public func selectPlace(_ place: Place) async {
+        await configuration.registry.selectPlace(place)
     }
 
     public func includedPlaces() async -> [Place] {
         await configuration.registry.includedPlaces()
     }
 
-    public func setIncludedPlaceIDs(_ ids: [PlaceID]) async throws {
-        try await configuration.registry.setIncludedPlaceIDs(ids)
+    public func setIncludedPlaceIDs(_ ids: [PlaceID]) async {
+        await configuration.registry.setIncludedPlaceIDs(ids)
     }
 
     public func conditions(policy: FreshnessPolicy, trigger: Trigger) async throws -> SurfEntry {
@@ -109,7 +109,7 @@ extension ConditionsCoordinator {
 
         switch policy {
         case .cachedOnly:
-            guard let entry = try? await configuration.cache.conditions(matching: place) else {
+            guard let entry = await configuration.cache.conditions(matching: place) else {
                 throw ConditionsFault.noCachedConditions(place.id)
             }
 
@@ -118,7 +118,7 @@ extension ConditionsCoordinator {
         case .cached(let maxAge):
             let cutoff = configuration.now().addingTimeInterval(-maxAge)
 
-            if let fresh = try? await configuration.cache.conditions(matching: place, newer: cutoff) {
+            if let fresh = await configuration.cache.conditions(matching: place, newer: cutoff) {
                 return fresh
             }
 
@@ -148,7 +148,7 @@ extension ConditionsCoordinator {
                 throw ConditionsFault.placeMismatch(expected: place.id, actual: entry.place.id)
             }
 
-            try? await cache.setConditions(entry)
+            await cache.setConditions(entry)
 
             return entry
         }
@@ -246,7 +246,10 @@ extension ConditionsCoordinator {
                 throw ConditionsFault.placeMismatch(expected: place.id, actual: entry.place.id)
             }
 
-            try await cache.setConditions(entry)
+            guard await cache.setConditions(entry) else {
+                logger.error("deferred ingest failed: could not persist entry for \(place.id)")
+                return
+            }
 
             reloadWidgetTimelines()
         } catch {
