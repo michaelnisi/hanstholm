@@ -2,19 +2,19 @@ import WidgetKit
 import SwiftUI
 import DomainTypes
 import Conditions
-import MockData
+import Hyde
 
 struct SurfEntryProvider: TimelineProvider {
     private let coordinator = ConditionsCoordinator.widget
 
     func placeholder(in context: Context) -> SurfEntry {
-        MockData.SurfEntry.makeSurfEntry()
+        .fallback()
     }
 
     func getSnapshot(in context: Context, completion: @escaping @Sendable (SurfEntry) -> ()) {
         _ = Task {
             let entry = await coordinator.cached()
-                ?? MockData.SurfEntry.makeSurfEntry(status: .error)
+                ?? .fallback(status: .error)
 
             completion(entry)
         }
@@ -34,13 +34,25 @@ struct SurfEntryProvider: TimelineProvider {
             } else if let cached = await coordinator.cached() {
                 entry = cached
             } else {
-                entry = MockData.SurfEntry.makeSurfEntry(status: .error)
+                entry = .fallback(status: .error)
             }
 
             let timeline = Timeline(entries: [entry], policy: .after(.now.addingTimeInterval(SurfEntry.cacheTTL)))
 
             completion(timeline)
         }
+    }
+}
+
+extension SurfEntry {
+    fileprivate static func fallback(status: Status = .initial) -> SurfEntry {
+        SurfEntry(
+            date: .now,
+            place: Hyde.Station.hanstholm.place,
+            status: status,
+            wave: Wave(max: 2.0, middle: 1.2, period: 8, direction: .init(cardinal: .northWest)),
+            wind: Wind(speed: .init(gust: 10, middle: 7, current: 5), direction: .init(cardinal: .southWest))
+        )
     }
 }
 
