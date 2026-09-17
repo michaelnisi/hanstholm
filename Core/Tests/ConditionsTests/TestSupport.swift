@@ -1,6 +1,6 @@
 import Foundation
 import DomainTypes
-import SurfConditions
+import ConditionsPlugin
 
 final class Counter: @unchecked Sendable {
     private let lock = NSLock()
@@ -39,7 +39,7 @@ func makeEntry(date: Date = .now, place: Place = makePlace()) -> SurfEntry {
     )
 }
 
-struct StubPlugin: SurfConditionsPlugin, DeferredDownloadable {
+struct StubPlugin: ConditionsPlugin, DeferredDownloadable {
     let id: PluginID
     let places: [Place]
     let region: GeoRegion

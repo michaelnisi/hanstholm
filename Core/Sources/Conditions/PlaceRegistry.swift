@@ -1,9 +1,9 @@
 import Cache
 import DomainTypes
-import SurfConditions
+import ConditionsPlugin
 
 struct PlaceRegistry: Sendable {
-    let plugins: [any SurfConditionsPlugin]
+    let plugins: [any ConditionsPlugin]
     let cache: Cache
 
     func availablePlaces() -> [Place] {
@@ -15,7 +15,7 @@ struct PlaceRegistry: Sendable {
 
         guard let id = await cache.selectedPlaceID() else {
             guard let first = all.first else {
-                throw SurfConditionsFault.noPlaceSelected
+                throw ConditionsFault.noPlaceSelected
             }
 
             try? await cache.setSelectedPlace(first)
@@ -24,7 +24,7 @@ struct PlaceRegistry: Sendable {
         }
 
         guard let place = all.first(where: { $0.id == id }) else {
-            throw SurfConditionsFault.noPluginForPlace(id)
+            throw ConditionsFault.noPluginForPlace(id)
         }
 
         return place
@@ -62,7 +62,7 @@ struct PlaceRegistry: Sendable {
         return ordered.map(\.region)
     }
 
-    func plugin(for place: Place) -> (any SurfConditionsPlugin)? {
+    func plugin(for place: Place) -> (any ConditionsPlugin)? {
         plugins.first(where: { $0.owns(place) })
     }
 }

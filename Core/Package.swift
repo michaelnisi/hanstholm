@@ -27,8 +27,8 @@ let package = Package(
             targets: ["Cache"]
         ),
         .library(
-            name: "SurfConditions",
-            targets: ["SurfConditions"]
+            name: "ConditionsPlugin",
+            targets: ["ConditionsPlugin"]
         ),
         .library(
             name: "Conditions",
@@ -48,16 +48,16 @@ let package = Package(
             dependencies: ["DomainTypes"]
         ),
         .target(
-            name: "SurfConditions",
+            name: "ConditionsPlugin",
             dependencies: ["DomainTypes"]
         ),
         .target(
             name: "Hyde",
-            dependencies: ["DomainTypes", "SurfConditions"]
+            dependencies: ["DomainTypes", "ConditionsPlugin"]
         ),
         .testTarget(
             name: "HydeTests",
-            dependencies: ["Hyde", "DomainTypes", "SurfConditions"]
+            dependencies: ["Hyde", "DomainTypes", "ConditionsPlugin"]
         ),
         .target(
             name: "MockData",
@@ -73,11 +73,11 @@ let package = Package(
         ),
         .target(
             name: "Conditions",
-            dependencies: ["SurfConditions", "Cache", "DomainTypes"]
+            dependencies: ["ConditionsPlugin", "Cache", "DomainTypes"]
         ),
         .testTarget(
             name: "ConditionsTests",
-            dependencies: ["Conditions", "SurfConditions", "Cache", "DomainTypes"]
+            dependencies: ["Conditions", "ConditionsPlugin", "Cache", "DomainTypes"]
         ),
         .target(
             name: "SurfUI"

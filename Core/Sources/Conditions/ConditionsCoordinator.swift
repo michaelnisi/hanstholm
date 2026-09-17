@@ -2,7 +2,7 @@ import Foundation
 import os.log
 import Cache
 import DomainTypes
-import SurfConditions
+import ConditionsPlugin
 
 let logger = Logger(subsystem: "ink.codes.Patrol", category: "Conditions")
 
@@ -30,7 +30,7 @@ public actor ConditionsCoordinator {
         let registry: PlaceRegistry
 
         public init(
-            plugins: [any SurfConditionsPlugin],
+            plugins: [any ConditionsPlugin],
             cache: Cache = Cache(),
             session: URLSession = .conditionsDefault,
             deferredDownloads: DeferredDownloadConfiguration? = nil,
@@ -110,7 +110,7 @@ extension ConditionsCoordinator {
         switch policy {
         case .cachedOnly:
             guard let entry = try? await configuration.cache.conditions(matching: place) else {
-                throw SurfConditionsFault.noCachedConditions(place.id)
+                throw ConditionsFault.noCachedConditions(place.id)
             }
 
             return entry
@@ -135,7 +135,7 @@ extension ConditionsCoordinator {
         }
 
         guard let plugin = configuration.registry.plugin(for: place) else {
-            throw SurfConditionsFault.noPluginForPlace(place.id)
+            throw ConditionsFault.noPluginForPlace(place.id)
         }
 
         let session = configuration.session
@@ -145,7 +145,7 @@ extension ConditionsCoordinator {
             let entry = try await plugin.conditions(for: place, using: session)
 
             guard entry.place.id == place.id else {
-                throw SurfConditionsFault.placeMismatch(expected: place.id, actual: entry.place.id)
+                throw ConditionsFault.placeMismatch(expected: place.id, actual: entry.place.id)
             }
 
             try? await cache.setConditions(entry)
@@ -218,7 +218,7 @@ extension ConditionsCoordinator {
         data: Data,
         mimeType: String?,
         token: DeferredDownloader.Token?,
-        plugins: [any SurfConditionsPlugin],
+        plugins: [any ConditionsPlugin],
         cache: Cache,
         reloadWidgetTimelines: @Sendable () -> Void
     ) async {
@@ -243,7 +243,7 @@ extension ConditionsCoordinator {
             let entry = try await plugin.decodeDeferred(data, mimeType: mimeType, for: place)
 
             guard entry.place.id == place.id else {
-                throw SurfConditionsFault.placeMismatch(expected: place.id, actual: entry.place.id)
+                throw ConditionsFault.placeMismatch(expected: place.id, actual: entry.place.id)
             }
 
             try await cache.setConditions(entry)
@@ -267,7 +267,7 @@ extension ConditionsCoordinator {
 
     private static func deferredPlugin(
         for place: Place,
-        in plugins: [any SurfConditionsPlugin]
+        in plugins: [any ConditionsPlugin]
     ) -> (any DeferredDownloadable)? {
         plugins
             .compactMap { $0 as? any DeferredDownloadable }

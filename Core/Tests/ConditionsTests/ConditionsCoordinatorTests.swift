@@ -2,7 +2,7 @@ import XCTest
 import Foundation
 import Cache
 import DomainTypes
-import SurfConditions
+import ConditionsPlugin
 @testable import Conditions
 
 final class ConditionsCoordinatorTests: XCTestCase {
@@ -73,7 +73,7 @@ final class ConditionsCoordinatorTests: XCTestCase {
             _ = try await coordinator.conditions(policy: .reload, trigger: .userInterface)
             XCTFail("expected no plugin for place")
         } catch {
-            XCTAssertEqual(error as? SurfConditionsFault, .noPluginForPlace(orphan.id))
+            XCTAssertEqual(error as? ConditionsFault, .noPluginForPlace(orphan.id))
         }
 
         XCTAssertEqual(plugin.fetches.count, 0)
@@ -100,7 +100,7 @@ final class ConditionsCoordinatorTests: XCTestCase {
             _ = try await coordinator.conditions(policy: .cachedOnly, trigger: .userInterface)
             XCTFail("expected a cache miss")
         } catch {
-            XCTAssertEqual(error as? SurfConditionsFault, .noCachedConditions(makePlace().id))
+            XCTAssertEqual(error as? ConditionsFault, .noCachedConditions(makePlace().id))
         }
 
         XCTAssertEqual(plugin.fetches.count, 0)
@@ -176,7 +176,7 @@ final class ConditionsCoordinatorTests: XCTestCase {
             XCTFail("expected a place mismatch")
         } catch {
             XCTAssertEqual(
-                error as? SurfConditionsFault,
+                error as? ConditionsFault,
                 .placeMismatch(expected: makePlace().id, actual: elsewhere.id)
             )
         }
