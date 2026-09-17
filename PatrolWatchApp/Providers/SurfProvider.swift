@@ -65,6 +65,7 @@ extension SurfProvider {
 
     func setIncludedPlaceIDs(_ ids: [PlaceID]) async {
         await dependencies.setIncludedPlaceIDs(ids)
+        await load()
     }
 }
 

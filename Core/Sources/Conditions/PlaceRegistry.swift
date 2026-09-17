@@ -46,8 +46,22 @@ struct PlaceRegistry: Sendable {
         return ids.compactMap { byID[$0] }
     }
 
-    func setIncludedPlaceIDs(_ ids: [PlaceID]) async {
+    @discardableResult
+    func setIncludedPlaceIDs(_ ids: [PlaceID]) async -> Bool {
         await cache.setIncludedPlaceIDs(ids)
+
+        guard let selected = await cache.selectedPlaceID(), !ids.contains(selected) else {
+            return false
+        }
+
+        guard let fallbackID = ids.first,
+              let fallback = availablePlaces().first(where: { $0.id == fallbackID }) else {
+            return false
+        }
+
+        await cache.setSelectedPlace(fallback)
+
+        return true
     }
 
     func regions() async -> [GeoRegion] {
