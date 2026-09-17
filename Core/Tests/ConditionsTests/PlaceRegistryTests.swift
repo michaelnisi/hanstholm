@@ -60,7 +60,7 @@ final class PlaceRegistryTests: XCTestCase {
         let plugin = makePlugin(places: [makePlace(), second])
         let (registry, cache) = makeRegistry(plugin: plugin)
 
-        try await cache.setSelectedPlace(second)
+        await cache.setSelectedPlace(second)
 
         let place = try await registry.selectedPlace()
 
@@ -86,7 +86,7 @@ final class PlaceRegistryTests: XCTestCase {
         XCTAssertEqual(regions, [plugin.region])
     }
 
-    func testRegionsPutsTheSelectedPlacesPluginFirst() async throws {
+    func testRegionsPutsTheSelectedPlacesPluginFirst() async {
         let first = makePlugin(
             id: "test.first",
             places: [Place(pluginID: "test.first", key: "somewhere", name: "Somewhere")],
@@ -99,7 +99,7 @@ final class PlaceRegistryTests: XCTestCase {
         )
         let (registry, cache) = makeRegistry(plugins: [first, second])
 
-        try await cache.setSelectedPlace(second.places[0])
+        await cache.setSelectedPlace(second.places[0])
 
         let regions = await registry.regions()
 
@@ -134,47 +134,47 @@ final class PlaceRegistryTests: XCTestCase {
         XCTAssertEqual(places, [makePlace(), second])
     }
 
-    func testIncludedPlacesReturnsStoredSubsetInStoredOrder() async throws {
+    func testIncludedPlacesReturnsStoredSubsetInStoredOrder() async {
         let second = makePlace(key: "elsewhere", name: "Elsewhere")
         let third = makePlace(key: "thirdville", name: "Thirdville")
         let plugin = makePlugin(places: [makePlace(), second, third])
         let (registry, _) = makeRegistry(plugin: plugin)
 
-        try await registry.setIncludedPlaceIDs([third.id, makePlace().id])
+        await registry.setIncludedPlaceIDs([third.id, makePlace().id])
 
         let places = await registry.includedPlaces()
 
         XCTAssertEqual(places, [third, makePlace()])
     }
 
-    func testIncludedPlacesDropsIDsForPlacesThatNoLongerExist() async throws {
+    func testIncludedPlacesDropsIDsForPlacesThatNoLongerExist() async {
         let plugin = makePlugin()
         let (registry, _) = makeRegistry(plugin: plugin)
 
-        try await registry.setIncludedPlaceIDs([makePlace().id, PlaceID(plugin: "gone.plugin", key: "nowhere")])
+        await registry.setIncludedPlaceIDs([makePlace().id, PlaceID(plugin: "gone.plugin", key: "nowhere")])
 
         let places = await registry.includedPlaces()
 
         XCTAssertEqual(places, [makePlace()])
     }
 
-    func testSetIncludedPlaceIDsPersistsThroughCache() async throws {
+    func testSetIncludedPlaceIDsPersistsThroughCache() async {
         let plugin = makePlugin()
         let (registry, cache) = makeRegistry(plugin: plugin)
 
-        try await registry.setIncludedPlaceIDs([makePlace().id])
+        await registry.setIncludedPlaceIDs([makePlace().id])
 
         let stored = await cache.includedPlaceIDs()
 
         XCTAssertEqual(stored, [makePlace().id])
     }
 
-    func testSelectPlacePersistsIt() async throws {
+    func testSelectPlacePersistsIt() async {
         let second = makePlace(key: "elsewhere", name: "Elsewhere")
         let plugin = makePlugin(places: [makePlace(), second])
         let (registry, cache) = makeRegistry(plugin: plugin)
 
-        try await registry.selectPlace(second)
+        await registry.selectPlace(second)
 
         let selected = await cache.selectedPlaceID()
 
@@ -186,19 +186,19 @@ final class PlaceRegistryTests: XCTestCase {
         let plugin = makePlugin(places: [makePlace(), second])
         let (registry, _) = makeRegistry(plugin: plugin)
 
-        try await registry.selectPlace(second)
+        await registry.selectPlace(second)
 
         let place = try await registry.selectedPlace()
 
         XCTAssertEqual(place, second)
     }
 
-    func testSelectedPlaceThrowsWhenSelectedPlacesPluginIsGone() async throws {
+    func testSelectedPlaceThrowsWhenSelectedPlacesPluginIsGone() async {
         let plugin = makePlugin()
         let (registry, cache) = makeRegistry(plugin: plugin)
         let orphan = Place(pluginID: "test.removed", key: "x", name: "X")
 
-        try await cache.setSelectedPlace(orphan)
+        await cache.setSelectedPlace(orphan)
 
         do {
             _ = try await registry.selectedPlace()

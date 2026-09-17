@@ -35,48 +35,48 @@ final class CacheTests: XCTestCase {
         )
     }
 
-    func testSetConditionsRoundTripsThroughConditionsMatching() async throws {
+    func testSetConditionsRoundTripsThroughConditionsMatching() async {
         let cache = Cache(userDefaults: userDefaults)
         let entry = makeSurfEntry()
 
-        try await cache.setConditions(entry)
-        let fetched = try await cache.conditions(matching: entry.place)
+        await cache.setConditions(entry)
+        let fetched = await cache.conditions(matching: entry.place)
 
         XCTAssertEqual(fetched, entry)
     }
 
-    func testConditionsMatchingNewerReturnsValueWhenFresh() async throws {
+    func testConditionsMatchingNewerReturnsValueWhenFresh() async {
         let cache = Cache(userDefaults: userDefaults)
         let now = Date.now
         let entry = makeSurfEntry(date: now)
 
-        try await cache.setConditions(entry)
-        let fresh = try await cache.conditions(matching: entry.place, newer: now.addingTimeInterval(-60))
+        await cache.setConditions(entry)
+        let fresh = await cache.conditions(matching: entry.place, newer: now.addingTimeInterval(-60))
 
         XCTAssertEqual(fresh, entry)
     }
 
-    func testConditionsMatchingNewerReturnsNilWhenStale() async throws {
+    func testConditionsMatchingNewerReturnsNilWhenStale() async {
         let cache = Cache(userDefaults: userDefaults)
         let staleDate = Date.now.addingTimeInterval(-3600)
         let entry = makeSurfEntry(date: staleDate)
 
-        try await cache.setConditions(entry)
-        let result = try await cache.conditions(matching: entry.place, newer: Date.now.addingTimeInterval(-60))
+        await cache.setConditions(entry)
+        let result = await cache.conditions(matching: entry.place, newer: Date.now.addingTimeInterval(-60))
 
         XCTAssertNil(result)
     }
 
-    func testPlacesWithTheSameNameAreStoredSeparately() async throws {
+    func testPlacesWithTheSameNameAreStoredSeparately() async {
         let cache = Cache(userDefaults: userDefaults)
         let one = makeSurfEntry(place: makePlace(key: "hanstholm", name: "Hanstholm"))
         let two = makeSurfEntry(place: makePlace(key: "hanstholm-pier", name: "Hanstholm"))
 
-        try await cache.setConditions(one)
-        try await cache.setConditions(two)
+        await cache.setConditions(one)
+        await cache.setConditions(two)
 
-        let first = try await cache.conditions(matching: one.place)
-        let second = try await cache.conditions(matching: two.place)
+        let first = await cache.conditions(matching: one.place)
+        let second = await cache.conditions(matching: two.place)
 
         XCTAssertEqual(first?.place.key, "hanstholm")
         XCTAssertEqual(second?.place.key, "hanstholm-pier")
@@ -90,43 +90,43 @@ final class CacheTests: XCTestCase {
         XCTAssertNil(selected)
     }
 
-    func testSetSelectedPlaceStoresItsIdentifier() async throws {
+    func testSetSelectedPlaceStoresItsIdentifier() async {
         let cache = Cache(userDefaults: userDefaults)
         let place = makePlace()
 
-        try await cache.setSelectedPlace(place)
+        await cache.setSelectedPlace(place)
         let selected = await cache.selectedPlaceID()
 
         XCTAssertEqual(selected, place.id)
     }
 
-    func testSelectedConditionsReadsTheSelectedPlacesEntry() async throws {
+    func testSelectedConditionsReadsTheSelectedPlacesEntry() async {
         let cache = Cache(userDefaults: userDefaults)
         let entry = makeSurfEntry()
 
-        try await cache.setConditions(entry)
-        try await cache.setSelectedPlace(entry.place)
+        await cache.setConditions(entry)
+        await cache.setSelectedPlace(entry.place)
 
-        let selected = try await cache.selectedConditions()
+        let selected = await cache.selectedConditions()
 
         XCTAssertEqual(selected, entry)
     }
 
-    func testSelectedConditionsIsNilWhenNothingSelected() async throws {
+    func testSelectedConditionsIsNilWhenNothingSelected() async {
         let cache = Cache(userDefaults: userDefaults)
 
-        try await cache.setConditions(makeSurfEntry())
+        await cache.setConditions(makeSurfEntry())
 
-        let selected = try await cache.selectedConditions()
+        let selected = await cache.selectedConditions()
 
         XCTAssertNil(selected)
     }
 
-    func testSetSettingsRoundTripsThroughSettingsFor() async throws {
+    func testSetSettingsRoundTripsThroughSettingsFor() async {
         let cache = Cache(userDefaults: userDefaults)
         let place = makePlace()
 
-        try await cache.setSettings(PlaceSettings(), for: place)
+        await cache.setSettings(PlaceSettings(), for: place)
         let fetched = await cache.settings(for: place)
 
         XCTAssertEqual(fetched, PlaceSettings())
@@ -160,23 +160,23 @@ final class CacheTests: XCTestCase {
         XCTAssertNil(ids)
     }
 
-    func testIncludedPlaceIDsRoundTripsThroughSetIncludedPlaceIDs() async throws {
+    func testIncludedPlaceIDsRoundTripsThroughSetIncludedPlaceIDs() async {
         let cache = Cache(userDefaults: userDefaults)
         let ids = [PlaceID(plugin: "test.stub", key: "hanstholm"), PlaceID(plugin: "test.stub", key: "hvide-sande")]
 
-        try await cache.setIncludedPlaceIDs(ids)
+        await cache.setIncludedPlaceIDs(ids)
         let fetched = await cache.includedPlaceIDs()
 
         XCTAssertEqual(fetched, ids)
     }
 
-    func testIncludedPlaceIDsIsIndependentOfSelectedPlaceAndSettings() async throws {
+    func testIncludedPlaceIDsIsIndependentOfSelectedPlaceAndSettings() async {
         let cache = Cache(userDefaults: userDefaults)
         let place = makePlace()
 
-        try await cache.setSelectedPlace(place)
-        try await cache.setSettings(PlaceSettings(), for: place)
-        try await cache.setIncludedPlaceIDs([place.id])
+        await cache.setSelectedPlace(place)
+        await cache.setSettings(PlaceSettings(), for: place)
+        await cache.setIncludedPlaceIDs([place.id])
 
         let selected = await cache.selectedPlaceID()
         let settings = await cache.settings(for: place)
@@ -187,12 +187,12 @@ final class CacheTests: XCTestCase {
         XCTAssertEqual(included, [place.id])
     }
 
-    func testSettingsAreIsolatedByPlace() async throws {
+    func testSettingsAreIsolatedByPlace() async {
         let cache = Cache(userDefaults: userDefaults)
         let one = makePlace(key: "hanstholm", name: "Hanstholm")
         let two = makePlace(key: "hvide-sande", name: "Hvide Sande")
 
-        try await cache.setSettings(PlaceSettings(), for: one)
+        await cache.setSettings(PlaceSettings(), for: one)
 
         let first = await cache.settings(for: one)
         let second = await cache.settings(for: two)

@@ -62,12 +62,12 @@ final class ConditionsCoordinatorTests: XCTestCase {
         return (coordinator, cache)
     }
 
-    func testThrowsWhenSelectedPlacesPluginIsGone() async throws {
+    func testThrowsWhenSelectedPlacesPluginIsGone() async {
         let plugin = makePlugin()
         let (coordinator, cache) = makeCoordinator(plugin: plugin)
         let orphan = Place(pluginID: "test.removed", key: "x", name: "X")
 
-        try await cache.setSelectedPlace(orphan)
+        await cache.setSelectedPlace(orphan)
 
         do {
             _ = try await coordinator.conditions(policy: .reload, trigger: .userInterface)
@@ -84,7 +84,7 @@ final class ConditionsCoordinatorTests: XCTestCase {
         let (coordinator, cache) = makeCoordinator(plugin: plugin)
         let stored = makeEntry()
 
-        try await cache.setConditions(stored)
+        await cache.setConditions(stored)
 
         let entry = try await coordinator.conditions(policy: .cachedOnly, trigger: .userInterface)
 
@@ -111,7 +111,7 @@ final class ConditionsCoordinatorTests: XCTestCase {
         let (coordinator, cache) = makeCoordinator(plugin: plugin)
         let stored = makeEntry()
 
-        try await cache.setConditions(stored)
+        await cache.setConditions(stored)
 
         let entry = try await coordinator.conditions(
             policy: .cached(maxAge: 5 * 60),
@@ -126,7 +126,7 @@ final class ConditionsCoordinatorTests: XCTestCase {
         let plugin = makePlugin()
         let (coordinator, cache) = makeCoordinator(plugin: plugin)
 
-        try await cache.setConditions(makeEntry(date: .now.addingTimeInterval(-3600)))
+        await cache.setConditions(makeEntry(date: .now.addingTimeInterval(-3600)))
 
         let entry = try await coordinator.conditions(
             policy: .cached(maxAge: 5 * 60),
@@ -135,7 +135,7 @@ final class ConditionsCoordinatorTests: XCTestCase {
 
         XCTAssertEqual(plugin.fetches.count, 1)
 
-        let written = try await cache.conditions(matching: makePlace())
+        let written = await cache.conditions(matching: makePlace())
         XCTAssertEqual(written, entry)
     }
 
@@ -143,7 +143,7 @@ final class ConditionsCoordinatorTests: XCTestCase {
         let plugin = makePlugin()
         let (coordinator, cache) = makeCoordinator(plugin: plugin)
 
-        try await cache.setConditions(makeEntry())
+        await cache.setConditions(makeEntry())
 
         _ = try await coordinator.conditions(policy: .reload, trigger: .userInterface)
 
@@ -156,7 +156,7 @@ final class ConditionsCoordinatorTests: XCTestCase {
         let later = stored.date.addingTimeInterval(600)
         let (coordinator, cache) = makeCoordinator(plugin: plugin, now: { later })
 
-        try await cache.setConditions(stored)
+        await cache.setConditions(stored)
 
         _ = try await coordinator.conditions(
             policy: .cached(maxAge: 5 * 60),
@@ -166,7 +166,7 @@ final class ConditionsCoordinatorTests: XCTestCase {
         XCTAssertEqual(plugin.fetches.count, 1)
     }
 
-    func testAnswerForTheWrongPlaceIsRejected() async throws {
+    func testAnswerForTheWrongPlaceIsRejected() async {
         let elsewhere = makePlace(key: "elsewhere", name: "Elsewhere")
         let plugin = makePlugin(entry: { _ in makeEntry(place: elsewhere) })
         let (coordinator, cache) = makeCoordinator(plugin: plugin)
@@ -181,7 +181,7 @@ final class ConditionsCoordinatorTests: XCTestCase {
             )
         }
 
-        let leaked = try await cache.conditions(matching: elsewhere)
+        let leaked = await cache.conditions(matching: elsewhere)
         XCTAssertNil(leaked)
     }
 
@@ -194,16 +194,16 @@ final class ConditionsCoordinatorTests: XCTestCase {
 
         XCTAssertEqual(entry.place, renamed)
 
-        let cached = try await cache.conditions(matching: makePlace())
+        let cached = await cache.conditions(matching: makePlace())
         XCTAssertEqual(cached?.place, renamed)
     }
 
-    func testFetchFailureLeavesCacheIntact() async throws {
+    func testFetchFailureLeavesCacheIntact() async {
         let plugin = makePlugin(entry: { _ in throw StubFault() })
         let (coordinator, cache) = makeCoordinator(plugin: plugin)
         let stored = makeEntry(date: .now.addingTimeInterval(-3600))
 
-        try await cache.setConditions(stored)
+        await cache.setConditions(stored)
 
         do {
             _ = try await coordinator.conditions(policy: .reload, trigger: .userInterface)
@@ -212,7 +212,7 @@ final class ConditionsCoordinatorTests: XCTestCase {
             XCTAssertTrue(error is StubFault)
         }
 
-        let survived = try await cache.conditions(matching: makePlace())
+        let survived = await cache.conditions(matching: makePlace())
         XCTAssertEqual(survived, stored)
     }
 
@@ -254,7 +254,7 @@ final class ConditionsCoordinatorTests: XCTestCase {
         XCTAssertEqual(plugin.fetches.count, 1)
     }
 
-    func testIngestWritesThroughAndReloads() async throws {
+    func testIngestWritesThroughAndReloads() async {
         let plugin = makePlugin()
         let reloads = Counter()
         let (coordinator, cache) = makeCoordinator(plugin: plugin, reload: reloads)
@@ -265,14 +265,14 @@ final class ConditionsCoordinatorTests: XCTestCase {
             token: .init(place: makePlace())
         )
 
-        let written = try await cache.conditions(matching: makePlace())
+        let written = await cache.conditions(matching: makePlace())
 
         XCTAssertNotNil(written)
         XCTAssertEqual(plugin.decodes.count, 1)
         XCTAssertEqual(reloads.count, 1)
     }
 
-    func testIngestDropsUnknownPlugin() async throws {
+    func testIngestDropsUnknownPlugin() async {
         let plugin = makePlugin()
         let (coordinator, cache) = makeCoordinator(plugin: plugin)
         let orphan = Place(pluginID: "test.removed", key: "testville", name: "Testville")
@@ -283,18 +283,18 @@ final class ConditionsCoordinatorTests: XCTestCase {
             token: .init(place: orphan)
         )
 
-        let written = try await cache.conditions(matching: orphan)
+        let written = await cache.conditions(matching: orphan)
 
         XCTAssertNil(written)
         XCTAssertEqual(plugin.decodes.count, 0)
     }
 
-    func testIngestDropsMismatchedPlace() async throws {
+    func testIngestDropsMismatchedPlace() async {
         let second = makePlace(key: "elsewhere", name: "Elsewhere")
         let plugin = makePlugin(places: [makePlace(), second])
         let (coordinator, cache) = makeCoordinator(plugin: plugin)
 
-        try await cache.setSelectedPlace(makePlace())
+        await cache.setSelectedPlace(makePlace())
 
         await coordinator.ingest(
             data: Data("payload".utf8),
@@ -302,25 +302,25 @@ final class ConditionsCoordinatorTests: XCTestCase {
             token: .init(place: second)
         )
 
-        let written = try await cache.conditions(matching: second)
+        let written = await cache.conditions(matching: second)
 
         XCTAssertNil(written)
         XCTAssertEqual(plugin.decodes.count, 0)
     }
 
-    func testIngestWithoutTokenIsDropped() async throws {
+    func testIngestWithoutTokenIsDropped() async {
         let plugin = makePlugin()
         let (coordinator, cache) = makeCoordinator(plugin: plugin)
 
         await coordinator.ingest(data: Data("payload".utf8), mimeType: "text/html", token: nil)
 
-        let written = try await cache.conditions(matching: makePlace())
+        let written = await cache.conditions(matching: makePlace())
 
         XCTAssertNil(written)
         XCTAssertEqual(plugin.decodes.count, 0)
     }
 
-    func testIngestDropsEntryForWrongPlace() async throws {
+    func testIngestDropsEntryForWrongPlace() async {
         let elsewhere = makePlace(key: "elsewhere", name: "Elsewhere")
         let plugin = makePlugin(entry: { _ in makeEntry(place: elsewhere) })
         let (coordinator, cache) = makeCoordinator(plugin: plugin)
@@ -331,8 +331,8 @@ final class ConditionsCoordinatorTests: XCTestCase {
             token: .init(place: makePlace())
         )
 
-        let written = try await cache.conditions(matching: makePlace())
-        let leaked = try await cache.conditions(matching: elsewhere)
+        let written = await cache.conditions(matching: makePlace())
+        let leaked = await cache.conditions(matching: elsewhere)
 
         XCTAssertNil(written)
         XCTAssertNil(leaked)

@@ -36,7 +36,7 @@ struct ContentView: View {
     }
 
     private func load() async {
-        surfEntry = try? await Cache().selectedConditions()
+        surfEntry = await Cache().selectedConditions()
     }
 }
 

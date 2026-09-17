@@ -11,10 +11,10 @@ import Conditions
         var cachedEntry: @Sendable () async -> SurfEntry?
         var fetchEntry: @Sendable () async throws -> SurfEntry
         var availablePlaces: @Sendable () async -> [Place]
-        var selectPlace: @Sendable (Place) async throws -> Void
+        var selectPlace: @Sendable (Place) async -> Void
         var selectedPlace: @Sendable () async throws -> Place
         var includedPlaces: @Sendable () async -> [Place]
-        var setIncludedPlaceIDs: @Sendable ([PlaceID]) async throws -> Void
+        var setIncludedPlaceIDs: @Sendable ([PlaceID]) async -> Void
     }
 
     private let dependencies: Dependencies
@@ -44,12 +44,8 @@ extension SurfProvider {
     }
 
     func selectPlace(_ place: Place) async {
-        do {
-            try await dependencies.selectPlace(place)
-            await load()
-        } catch {
-            logger.error("select place failed: \(error)")
-        }
+        await dependencies.selectPlace(place)
+        await load()
     }
 
     func selectedPlace() async -> Place? {
@@ -66,11 +62,7 @@ extension SurfProvider {
     }
 
     func setIncludedPlaceIDs(_ ids: [PlaceID]) async {
-        do {
-            try await dependencies.setIncludedPlaceIDs(ids)
-        } catch {
-            logger.error("set included places failed: \(error)")
-        }
+        await dependencies.setIncludedPlaceIDs(ids)
     }
 }
 
@@ -93,7 +85,7 @@ extension SurfProvider {
                     await coordinator.availablePlaces()
                 },
                 selectPlace: { place in
-                    try await coordinator.selectPlace(place)
+                    await coordinator.selectPlace(place)
                 },
                 selectedPlace: {
                     try await coordinator.selectedPlace()
@@ -102,7 +94,7 @@ extension SurfProvider {
                     await coordinator.includedPlaces()
                 },
                 setIncludedPlaceIDs: { ids in
-                    try await coordinator.setIncludedPlaceIDs(ids)
+                    await coordinator.setIncludedPlaceIDs(ids)
                 }
             )
         )

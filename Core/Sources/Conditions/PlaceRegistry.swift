@@ -18,7 +18,7 @@ struct PlaceRegistry: Sendable {
                 throw ConditionsFault.noPlaceSelected
             }
 
-            try? await cache.setSelectedPlace(first)
+            await cache.setSelectedPlace(first)
 
             return first
         }
@@ -30,8 +30,8 @@ struct PlaceRegistry: Sendable {
         return place
     }
 
-    func selectPlace(_ place: Place) async throws {
-        try await cache.setSelectedPlace(place)
+    func selectPlace(_ place: Place) async {
+        await cache.setSelectedPlace(place)
     }
 
     func includedPlaces() async -> [Place] {
@@ -46,8 +46,8 @@ struct PlaceRegistry: Sendable {
         return ids.compactMap { byID[$0] }
     }
 
-    func setIncludedPlaceIDs(_ ids: [PlaceID]) async throws {
-        try await cache.setIncludedPlaceIDs(ids)
+    func setIncludedPlaceIDs(_ ids: [PlaceID]) async {
+        await cache.setIncludedPlaceIDs(ids)
     }
 
     func regions() async -> [GeoRegion] {
