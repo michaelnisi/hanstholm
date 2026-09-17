@@ -21,12 +21,13 @@ public enum Trigger: Sendable, Equatable {
 
 public actor ConditionsCoordinator {
     public struct Configuration: Sendable {
-        public var plugins: [any SurfConditionsPlugin]
         public var cache: Cache
         public var session: URLSession
         public var deferredDownloads: DeferredDownloadConfiguration?
         public var reloadWidgetTimelines: @Sendable () -> Void
         public var now: @Sendable () -> Date
+
+        let registry: PlaceRegistry
 
         public init(
             plugins: [any SurfConditionsPlugin],
@@ -36,7 +37,7 @@ public actor ConditionsCoordinator {
             reloadWidgetTimelines: @escaping @Sendable () -> Void = {},
             now: @escaping @Sendable () -> Date = { .now }
         ) {
-            self.plugins = plugins
+            self.registry = PlaceRegistry(plugins: plugins, cache: cache)
             self.cache = cache
             self.session = session
             self.deferredDownloads = deferredDownloads
@@ -55,7 +56,7 @@ public actor ConditionsCoordinator {
         self.configuration = configuration
         self.downloader = configuration.deferredDownloads.map(DeferredDownloader.init(configuration:))
 
-        let plugins = configuration.plugins
+        let plugins = configuration.registry.plugins
         let cache = configuration.cache
         let reloadWidgetTimelines = configuration.reloadWidgetTimelines
 
@@ -74,23 +75,7 @@ public actor ConditionsCoordinator {
 
 extension ConditionsCoordinator {
     public func selectedPlace() async throws -> Place {
-        let all = configuration.plugins.flatMap(\.places)
-
-        guard let id = await configuration.cache.selectedPlaceID() else {
-            guard let first = all.first else {
-                throw SurfConditionsFault.noPlaceSelected
-            }
-
-            try? await configuration.cache.setSelectedPlace(first)
-
-            return first
-        }
-
-        guard let place = all.first(where: { $0.id == id }) else {
-            throw SurfConditionsFault.noPluginForPlace(id)
-        }
-
-        return place
+        try await configuration.registry.selectedPlace()
     }
 }
 
@@ -100,41 +85,23 @@ extension ConditionsCoordinator {
     }
 
     public func availablePlaces() -> [Place] {
-        configuration.plugins.flatMap(\.places)
+        configuration.registry.availablePlaces()
     }
 
     public func regions() async -> [GeoRegion] {
-        let plugins = configuration.plugins
-
-        guard let selected = try? await selectedPlace(),
-              let index = plugins.firstIndex(where: { $0.owns(selected) }) else {
-            return plugins.map(\.region)
-        }
-
-        var ordered = plugins
-        ordered.insert(ordered.remove(at: index), at: 0)
-
-        return ordered.map(\.region)
+        await configuration.registry.regions()
     }
 
     public func selectPlace(_ place: Place) async throws {
-        try await configuration.cache.setSelectedPlace(place)
+        try await configuration.registry.selectPlace(place)
     }
 
     public func includedPlaces() async -> [Place] {
-        let all = configuration.plugins.flatMap(\.places)
-
-        guard let ids = await configuration.cache.includedPlaceIDs() else {
-            return all
-        }
-
-        let byID = Dictionary(uniqueKeysWithValues: all.map { ($0.id, $0) })
-
-        return ids.compactMap { byID[$0] }
+        await configuration.registry.includedPlaces()
     }
 
     public func setIncludedPlaceIDs(_ ids: [PlaceID]) async throws {
-        try await configuration.cache.setIncludedPlaceIDs(ids)
+        try await configuration.registry.setIncludedPlaceIDs(ids)
     }
 
     public func conditions(policy: FreshnessPolicy, trigger: Trigger) async throws -> SurfEntry {
@@ -167,7 +134,7 @@ extension ConditionsCoordinator {
             return try await existing.value
         }
 
-        guard let plugin = configuration.plugins.first(where: { $0.owns(place) }) else {
+        guard let plugin = configuration.registry.plugin(for: place) else {
             throw SurfConditionsFault.noPluginForPlace(place.id)
         }
 
@@ -219,7 +186,7 @@ extension ConditionsCoordinator {
         do {
             let place = try await selectedPlace()
 
-            guard let plugin = Self.deferredPlugin(for: place, in: configuration.plugins) else {
+            guard let plugin = Self.deferredPlugin(for: place, in: configuration.registry.plugins) else {
                 return
             }
 
@@ -292,7 +259,7 @@ extension ConditionsCoordinator {
             data: data,
             mimeType: mimeType,
             token: token,
-            plugins: configuration.plugins,
+            plugins: configuration.registry.plugins,
             cache: configuration.cache,
             reloadWidgetTimelines: configuration.reloadWidgetTimelines
         )
