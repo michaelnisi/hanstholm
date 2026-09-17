@@ -1,7 +1,9 @@
 import Observation
-import MockData
 import DomainTypes
 import Conditions
+#if DEBUG
+import MockData
+#endif
 
 @Observable final class SurfProvider {
     var surfEntry: SurfEntry?
@@ -101,6 +103,7 @@ extension SurfProvider {
     }()
 }
 
+#if DEBUG
 private actor MockSelection {
     private(set) var place = MockData.SurfEntry.makePlace()
     private(set) var includedIDs: [PlaceID]?
@@ -152,3 +155,4 @@ extension SurfProvider {
         )
     }()
 }
+#endif
