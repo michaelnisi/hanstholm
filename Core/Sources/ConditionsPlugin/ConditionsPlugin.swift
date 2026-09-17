@@ -1,7 +1,7 @@
 import Foundation
 import DomainTypes
 
-public protocol SurfConditionsPlugin: Sendable {
+public protocol ConditionsPlugin: Sendable {
     var id: PluginID { get }
     var places: [Place] { get }
     var region: GeoRegion { get }
@@ -9,13 +9,13 @@ public protocol SurfConditionsPlugin: Sendable {
     func conditions(for place: Place, using session: URLSession) async throws -> SurfEntry
 }
 
-extension SurfConditionsPlugin {
+extension ConditionsPlugin {
     public func owns(_ place: Place) -> Bool {
         place.pluginID == id
     }
 }
 
-public enum SurfConditionsFault: Error, Equatable, Sendable {
+public enum ConditionsFault: Error, Equatable, Sendable {
     case unknownPlace(PlaceID)
     case noPluginForPlace(PlaceID)
     case noPlaceSelected

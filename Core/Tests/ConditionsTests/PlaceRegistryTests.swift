@@ -2,7 +2,7 @@ import XCTest
 import Foundation
 import Cache
 import DomainTypes
-import SurfConditions
+import ConditionsPlugin
 @testable import Conditions
 
 final class PlaceRegistryTests: XCTestCase {
@@ -204,7 +204,7 @@ final class PlaceRegistryTests: XCTestCase {
             _ = try await registry.selectedPlace()
             XCTFail("expected no plugin for place")
         } catch {
-            XCTAssertEqual(error as? SurfConditionsFault, .noPluginForPlace(orphan.id))
+            XCTAssertEqual(error as? ConditionsFault, .noPluginForPlace(orphan.id))
         }
     }
 }

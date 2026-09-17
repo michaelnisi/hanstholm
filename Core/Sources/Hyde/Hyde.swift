@@ -1,11 +1,11 @@
 import os.log
 import Foundation
 import DomainTypes
-import SurfConditions
+import ConditionsPlugin
 
 let logger = Logger(subsystem: "ink.codes.Patrol", category: "Hyde")
 
-public struct Hyde: SurfConditionsPlugin, DeferredDownloadable {
+public struct Hyde: ConditionsPlugin, DeferredDownloadable {
     public static let pluginID: PluginID = "ink.codes.Patrol.plugin.hyde"
 
     public enum Station: CaseIterable, Equatable, Sendable {
@@ -36,7 +36,7 @@ public struct Hyde: SurfConditionsPlugin, DeferredDownloadable {
 
     private func station(for place: Place) throws -> Station {
         guard let station = Station(place: place) else {
-            throw SurfConditionsFault.unknownPlace(place.id)
+            throw ConditionsFault.unknownPlace(place.id)
         }
 
         return station
@@ -63,7 +63,7 @@ extension Hyde {
         for place: Place
     ) async throws -> SurfEntry {
         if let mimeType, mimeType != "text/html" {
-            throw SurfConditionsFault.unexpectedMediaType(mimeType)
+            throw ConditionsFault.unexpectedMediaType(mimeType)
         }
 
         let station = try station(for: place)
@@ -72,7 +72,7 @@ extension Hyde {
             let report = try Report(station: station, data: data)
 
             guard let entry = SurfEntry(report: report, place: place) else {
-                throw SurfConditionsFault.decoding
+                throw ConditionsFault.decoding
             }
 
             return entry

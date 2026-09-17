@@ -1,6 +1,6 @@
 import XCTest
 import DomainTypes
-import SurfConditions
+import ConditionsPlugin
 @testable import Hyde
 
 final class HydeTests: XCTestCase {
@@ -59,7 +59,7 @@ final class HydeTests: XCTestCase {
 
     func testDeferredRequestThrowsForAnotherPluginsPlace() {
         XCTAssertThrowsError(try plugin.deferredRequest(for: foreign)) { error in
-            XCTAssertEqual(error as? SurfConditionsFault, .unknownPlace(foreign.id))
+            XCTAssertEqual(error as? ConditionsFault, .unknownPlace(foreign.id))
         }
     }
 
@@ -68,7 +68,7 @@ final class HydeTests: XCTestCase {
             _ = try await plugin.decodeDeferred(Data(), mimeType: "application/json", for: hanstholm)
             XCTFail("expected a media type failure")
         } catch {
-            XCTAssertEqual(error as? SurfConditionsFault, .unexpectedMediaType("application/json"))
+            XCTAssertEqual(error as? ConditionsFault, .unexpectedMediaType("application/json"))
         }
     }
 
@@ -77,7 +77,7 @@ final class HydeTests: XCTestCase {
             _ = try await plugin.decodeDeferred(Data(), mimeType: "text/html", for: foreign)
             XCTFail("expected an unknown place failure")
         } catch {
-            XCTAssertEqual(error as? SurfConditionsFault, .unknownPlace(foreign.id))
+            XCTAssertEqual(error as? ConditionsFault, .unknownPlace(foreign.id))
         }
     }
 
@@ -86,7 +86,7 @@ final class HydeTests: XCTestCase {
             _ = try await plugin.decodeDeferred(Data("nope".utf8), mimeType: "text/html", for: hanstholm)
             XCTFail("expected a decoding failure")
         } catch {
-            XCTAssertTrue(error is SurfConditionsFault || error is Hyde.Fault)
+            XCTAssertTrue(error is ConditionsFault || error is Hyde.Fault)
         }
     }
 }
