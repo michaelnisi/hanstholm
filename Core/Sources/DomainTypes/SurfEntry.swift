@@ -49,7 +49,7 @@ public struct SurfEntry: TimelineEntry, Identifiable, Hashable, Sendable, Codabl
     public let wind: Wind
 
     public var id: String {
-        "\(place.id)-\(date.formatted())"
+        "\(place.id)-\(date.timeIntervalSince1970)"
     }
 
     public static let cacheTTL: TimeInterval = 15 * 60
@@ -69,12 +69,6 @@ public struct SurfEntry: TimelineEntry, Identifiable, Hashable, Sendable, Codabl
         self.status = status
         self.wave = wave
         self.wind = wind
-    }
-}
-
-extension SurfEntry: Equatable {
-    public static func == (lhs: SurfEntry, rhs: SurfEntry) -> Bool {
-        lhs.id == rhs.id && lhs.date == rhs.date
     }
 }
 
