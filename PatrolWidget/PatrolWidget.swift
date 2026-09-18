@@ -13,16 +13,10 @@ struct PatrolWidgetEntryView : View {
     var entry: SurfEntry
 
     var body: some View {
-        Group {
-            if entry.status == .error {
-                NoDataView(family: widgetFamily)
-            } else {
-                familyView
+        familyView
+            .containerBackground(for: .widget) {
+                TileBackground(family: widgetFamily)
             }
-        }
-        .containerBackground(for: .widget) {
-            TileBackground(family: widgetFamily)
-        }
     }
 
     @ViewBuilder
@@ -30,61 +24,56 @@ struct PatrolWidgetEntryView : View {
         switch widgetFamily {
         #if os(watchOS)
         case .accessoryCorner:
-            AccessoryCorner(entry: entry)
+            if entry.status == .error {
+                ZStack {
+                    AccessoryWidgetBackground()
+                    Image(systemName: "exclamationmark.triangle")
+                }
+                .widgetLabel {
+                    Text("No Data")
+                }
+            } else {
+                AccessoryCorner(entry: entry)
+            }
         #else
         case .systemSmall:
-            HomeSmall(entry: entry)
+            if entry.status == .error {
+                NoDataHomeTile()
+            } else {
+                HomeSmall(entry: entry)
+            }
         case .systemMedium:
-            HomeMedium(entry: entry)
-        #endif
-        case .accessoryCircular:
-            AccessoryCircular(entry: entry)
-        case .accessoryInline:
-            AccessoryInline(entry: entry)
-        case .accessoryRectangular:
-            AccessoryRectangular(entry: entry)
-        default:
-            AccessoryInline(entry: entry)
-        }
-    }
-}
-
-struct NoDataView: View {
-    var family: WidgetFamily
-
-    var body: some View {
-        switch family {
-        #if !os(watchOS)
-        case .systemSmall, .systemMedium:
-            VStack(spacing: 4) {
-                Image(systemName: "exclamationmark.triangle")
-                    .font(.title2)
-                Text("No Data")
-                    .font(.caption)
-            }
-            .foregroundStyle(.secondary)
-        #endif
-        #if os(watchOS)
-        case .accessoryCorner:
-            ZStack {
-                AccessoryWidgetBackground()
-                Image(systemName: "exclamationmark.triangle")
-            }
-            .widgetLabel {
-                Text("No Data")
+            if entry.status == .error {
+                NoDataHomeTile()
+            } else {
+                HomeMedium(entry: entry)
             }
         #endif
         case .accessoryCircular:
-            ZStack {
-                AccessoryWidgetBackground()
-                Image(systemName: "exclamationmark.triangle")
-            }
-            .widgetAccentable()
-        case .accessoryRectangular:
-            Label("No Data", systemImage: "exclamationmark.triangle")
+            if entry.status == .error {
+                ZStack {
+                    AccessoryWidgetBackground()
+                    Image(systemName: "exclamationmark.triangle")
+                }
                 .widgetAccentable()
+            } else {
+                AccessoryCircular(entry: entry)
+            }
+        case .accessoryInline:
+            if entry.status == .error {
+                Text("No Data")
+            } else {
+                AccessoryInline(entry: entry)
+            }
+        case .accessoryRectangular:
+            if entry.status == .error {
+                Label("No Data", systemImage: "exclamationmark.triangle")
+                    .widgetAccentable()
+            } else {
+                AccessoryRectangular(entry: entry)
+            }
         default:
-            Text("No Data")
+            AccessoryInline(entry: entry)
         }
     }
 }
@@ -138,6 +127,18 @@ extension PatrolWidgetEntryView {
                 .font(.caption2)
                 .foregroundStyle(.secondary)
             }
+        }
+    }
+
+    struct NoDataHomeTile: View {
+        var body: some View {
+            VStack(spacing: 4) {
+                Image(systemName: "exclamationmark.triangle")
+                    .font(.title2)
+                Text("No Data")
+                    .font(.caption)
+            }
+            .foregroundStyle(.secondary)
         }
     }
 
