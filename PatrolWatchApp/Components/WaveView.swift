@@ -24,6 +24,12 @@ struct WaveView: View {
                 .font(.headline)
         }
         .fontDesign(.rounded)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(accessibilityLabel)
+    }
+
+    private var accessibilityLabel: String {
+        "\(name). \(wave.spoken). Updated \(date.formatted(date: .omitted, time: .shortened))."
     }
 }
 
