@@ -14,6 +14,7 @@ struct ManagePlacesCard: View {
                 .background(Color.gray.gradient, in: .rect(corners: .concentric(minimum: .fixed(PlaceCard.minimumCornerRadius)), isUniform: true))
         }
         .buttonStyle(.plain)
+        .accessibilityLabel("Manage Places")
     }
 }
 

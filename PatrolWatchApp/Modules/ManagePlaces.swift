@@ -35,6 +35,7 @@ struct ManagePlaces: View {
                                 } label: {
                                     Image(systemName: "xmark")
                                 }
+                                .accessibilityLabel("Remove \(place.name)")
                             }
                         }
                 }
