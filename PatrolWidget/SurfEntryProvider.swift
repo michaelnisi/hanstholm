@@ -12,6 +12,11 @@ struct SurfEntryProvider: TimelineProvider {
     }
 
     func getSnapshot(in context: Context, completion: @escaping @Sendable (SurfEntry) -> ()) {
+        if context.isPreview {
+            completion(.fallback())
+            return
+        }
+
         _ = Task {
             let entry = await coordinator.cached()
                 ?? .fallback(status: .error)
@@ -45,7 +50,7 @@ struct SurfEntryProvider: TimelineProvider {
 }
 
 extension SurfEntry {
-    fileprivate static func fallback(status: Status = .initial) -> SurfEntry {
+    fileprivate static func fallback(status: Status = .placeholder) -> SurfEntry {
         SurfEntry(
             date: .now,
             place: Hyde.Station.hanstholm.place,

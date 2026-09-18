@@ -24,19 +24,54 @@ struct PatrolWidgetEntryView : View {
         switch widgetFamily {
         #if os(watchOS)
         case .accessoryCorner:
-            AccessoryCorner(entry: entry)
+            if entry.status == .error {
+                ZStack {
+                    AccessoryWidgetBackground()
+                    Image(systemName: "exclamationmark.triangle")
+                }
+                .widgetLabel {
+                    Text("No Data")
+                }
+            } else {
+                AccessoryCorner(entry: entry)
+            }
         #else
         case .systemSmall:
-            HomeSmall(entry: entry)
+            if entry.status == .error {
+                NoDataHomeTile()
+            } else {
+                HomeSmall(entry: entry)
+            }
         case .systemMedium:
-            HomeMedium(entry: entry)
+            if entry.status == .error {
+                NoDataHomeTile()
+            } else {
+                HomeMedium(entry: entry)
+            }
         #endif
         case .accessoryCircular:
-            AccessoryCircular(entry: entry)
+            if entry.status == .error {
+                ZStack {
+                    AccessoryWidgetBackground()
+                    Image(systemName: "exclamationmark.triangle")
+                }
+                .widgetAccentable()
+            } else {
+                AccessoryCircular(entry: entry)
+            }
         case .accessoryInline:
-            AccessoryInline(entry: entry)
+            if entry.status == .error {
+                Text("No Data")
+            } else {
+                AccessoryInline(entry: entry)
+            }
         case .accessoryRectangular:
-            AccessoryRectangular(entry: entry)
+            if entry.status == .error {
+                Label("No Data", systemImage: "exclamationmark.triangle")
+                    .widgetAccentable()
+            } else {
+                AccessoryRectangular(entry: entry)
+            }
         default:
             AccessoryInline(entry: entry)
         }
@@ -92,6 +127,18 @@ extension PatrolWidgetEntryView {
                 .font(.caption2)
                 .foregroundStyle(.secondary)
             }
+        }
+    }
+
+    struct NoDataHomeTile: View {
+        var body: some View {
+            VStack(spacing: 4) {
+                Image(systemName: "exclamationmark.triangle")
+                    .font(.title2)
+                Text("No Data")
+                    .font(.caption)
+            }
+            .foregroundStyle(.secondary)
         }
     }
 
@@ -252,6 +299,12 @@ struct PatrolWidget: Widget {
     MockData.SurfEntry.makeSurfEntry()
 }
 
+#Preview("No Data", as: .accessoryRectangular) {
+    PatrolWidget()
+} timeline: {
+    MockData.SurfEntry.makeSurfEntry(status: .error)
+}
+
 #if !os(watchOS)
 #Preview(as: .systemSmall) {
     PatrolWidget()
@@ -259,9 +312,21 @@ struct PatrolWidget: Widget {
     MockData.SurfEntry.makeSurfEntry()
 }
 
+#Preview("No Data", as: .systemSmall) {
+    PatrolWidget()
+} timeline: {
+    MockData.SurfEntry.makeSurfEntry(status: .error)
+}
+
 #Preview(as: .systemMedium) {
     PatrolWidget()
 } timeline: {
     MockData.SurfEntry.makeSurfEntry()
+}
+
+#Preview("No Data", as: .systemMedium) {
+    PatrolWidget()
+} timeline: {
+    MockData.SurfEntry.makeSurfEntry(status: .error)
 }
 #endif
