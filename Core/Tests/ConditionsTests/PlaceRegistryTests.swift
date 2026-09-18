@@ -77,16 +77,7 @@ final class PlaceRegistryTests: XCTestCase {
         XCTAssertEqual(places, [makePlace(), second])
     }
 
-    func testRegionsReturnsEachConfiguredPluginsRegion() async throws {
-        let plugin = makePlugin()
-        let (registry, _) = makeRegistry(plugin: plugin)
-
-        let regions = await registry.regions()
-
-        XCTAssertEqual(regions, [plugin.region])
-    }
-
-    func testRegionsPutsTheSelectedPlacesPluginFirst() async {
+    func testSelectedRegionReturnsSelectedPlacesPluginsRegion() async {
         let first = makePlugin(
             id: "test.first",
             places: [Place(pluginID: "test.first", key: "somewhere", name: "Somewhere")],
@@ -101,27 +92,43 @@ final class PlaceRegistryTests: XCTestCase {
 
         await cache.setSelectedPlace(second.places[0])
 
-        let regions = await registry.regions()
+        let region = await registry.selectedRegion()
 
-        XCTAssertEqual(regions, [second.region, first.region])
+        XCTAssertEqual(region, second.region)
     }
 
-    func testRegionsFallsBackToPluginOrderWhenNothingSelected() async throws {
+    func testSelectedRegionFallsBackToTheFirstInstalledPlaceWhenNothingSelected() async throws {
+        let plugin = makePlugin()
+        let (registry, _) = makeRegistry(plugin: plugin)
+
+        let region = await registry.selectedRegion()
+
+        XCTAssertEqual(region, plugin.region)
+    }
+
+    func testSelectedRegionReturnsNilWhenNoPlacesAreAvailable() async {
         let first = makePlugin(
             id: "test.first",
             places: [],
             region: GeoRegion(latitude: 1, longitude: 1, radius: 1)
         )
-        let second = makePlugin(
-            id: "test.second",
-            places: [],
-            region: GeoRegion(latitude: 2, longitude: 2, radius: 2)
-        )
-        let (registry, _) = makeRegistry(plugins: [first, second])
+        let (registry, _) = makeRegistry(plugin: first)
 
-        let regions = await registry.regions()
+        let region = await registry.selectedRegion()
 
-        XCTAssertEqual(regions, [first.region, second.region])
+        XCTAssertNil(region)
+    }
+
+    func testSelectedRegionReturnsNilWhenSelectedPlacesPluginIsGone() async {
+        let plugin = makePlugin()
+        let (registry, cache) = makeRegistry(plugin: plugin)
+        let orphan = Place(pluginID: "test.removed", key: "x", name: "X")
+
+        await cache.setSelectedPlace(orphan)
+
+        let region = await registry.selectedRegion()
+
+        XCTAssertNil(region)
     }
 
     func testIncludedPlacesDefaultsToAllWhenNothingStored() async throws {

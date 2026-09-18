@@ -58,10 +58,10 @@ extension SurfEntry {
 
 extension SurfEntryProvider {
     func relevance() async -> WidgetRelevance<Void> {
-        let attributes = await coordinator.regions().map { region in
-            WidgetRelevanceAttribute<Void>(context: .location(region.clRegion))
+        guard let region = await coordinator.selectedRegion() else {
+            return WidgetRelevance([])
         }
 
-        return WidgetRelevance(attributes)
+        return WidgetRelevance([WidgetRelevanceAttribute<Void>(context: .location(region.clRegion))])
     }
 }

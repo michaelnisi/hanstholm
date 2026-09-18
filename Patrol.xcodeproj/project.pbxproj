@@ -630,6 +630,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PatrolWatchApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Patrol;
+				"INFOPLIST_KEY_NSLocationWhenInUseUsageDescription" = "Used to show this widget in your Smart Stack when you're near a surf spot.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = ink.codes.Patrol;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -662,6 +663,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PatrolWatchApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Patrol;
+				"INFOPLIST_KEY_NSLocationWhenInUseUsageDescription" = "Used to show this widget in your Smart Stack when you're near a surf spot.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = ink.codes.Patrol;
 				LD_RUNPATH_SEARCH_PATHS = (
