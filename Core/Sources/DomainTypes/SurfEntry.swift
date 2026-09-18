@@ -3,7 +3,7 @@ import SwiftUI
 
 public struct SurfEntry: TimelineEntry, Identifiable, Hashable, Sendable, Codable {
     public enum Status: Hashable, Sendable, Codable {
-        case ok, error, initial
+        case ok, error, placeholder
     }
 
     public struct Wave: Hashable, Sendable, Codable {
@@ -58,7 +58,7 @@ public struct SurfEntry: TimelineEntry, Identifiable, Hashable, Sendable, Codabl
         switch status {
         case .ok:
             TimelineEntryRelevance(score: 50, duration: Self.cacheTTL)
-        case .error, .initial:
+        case .error, .placeholder:
             TimelineEntryRelevance(score: 0)
         }
     }

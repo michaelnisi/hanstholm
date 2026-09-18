@@ -45,7 +45,7 @@ struct SurfEntryProvider: TimelineProvider {
 }
 
 extension SurfEntry {
-    fileprivate static func fallback(status: Status = .initial) -> SurfEntry {
+    fileprivate static func fallback(status: Status = .placeholder) -> SurfEntry {
         SurfEntry(
             date: .now,
             place: Hyde.Station.hanstholm.place,
