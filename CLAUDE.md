@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Patrol is a watchOS 26 app (with a WidgetKit complication) that fetches live surf and wind conditions from the weather station at Hanstholm Harbour, Denmark (`hyde.dk`). The data source is a Danish-language HTML page; parsing involves stripping HTML with `NSAttributedString` and mapping Danish labels and direction abbreviations to typed domain values.
+Patrol is a watchOS 26 app (with a WidgetKit complication) that shows live surf and wind conditions. Conditions come from pluggable sources; the first is the weather station at Hanstholm Harbour, Denmark (`hyde.dk`). More sources are expected, covering other places and publishing in other languages and formats — so how any one source represents its data is that plugin's business, documented in the plugin and pinned by its tests, not here.
 
 ## Workflow for New Features
 
@@ -56,7 +56,7 @@ swift test --filter ParserTests            # run a single test class
 swift test --filter ParserTests/testWave   # run a single test
 ```
 
-Every test runs offline: fetching lives behind `ConditionsPlugin`, which the coordinator tests stub, and `ConditionsTests` passes `deferredDownloads: nil` so no background `URLSession` is created in the test process. `ParserTests` uses a hardcoded HTML fixture but depends on `NSAttributedString` HTML parsing, so it may be sensitive to OS version differences.
+Every test runs offline: fetching lives behind `ConditionsPlugin`, which the coordinator tests stub, and `ConditionsTests` passes `deferredDownloads: nil` so no background `URLSession` is created in the test process. A plugin's parser tests run against hardcoded fixtures; any that lean on system text or markup parsing can be sensitive to OS version differences.
 
 Build and run the watch app and widget from Xcode — there is no command-line target for the app.
 
@@ -64,10 +64,10 @@ Build and run the watch app and widget from Xcode — there is no command-line t
 
 ### Core Package (dependency order)
 
-- **DomainTypes** — `SurfEntry` (clean model, also conforms to `TimelineEntry`), `Place`, `Direction` (16-point cardinal, rotation degrees, and English rendering: `formatted()` → `"NE"`, `spoken()` → `"northeast"`), and `Double` formatting extensions. Depends on nothing: the domain layer must not know about any particular source. English is the app's first language, so rendering a `Cardinal` in English belongs here — a second plugin reading a non-Danish source would want `formatted()` and `spoken()` unchanged. **Known violation** (GH-157): `Direction.danishToCardinal` and `Direction(danish:)` parse hyde.dk's `Ø`/`V` abbreviations, which is that source's vocabulary and belongs in `Hyde`; the only production caller is already `Hyde/SurfEntry+Report.swift`.
+- **DomainTypes** — `SurfEntry` (clean model, also conforms to `TimelineEntry`), `Place`, `Direction` (16-point cardinal, rotation degrees, and display rendering: `formatted()` → `"NE"`, `spoken()` → `"northeast"`), and `Double` formatting extensions. Depends on nothing, and that is load-bearing: **no source's vocabulary may appear here** — not its language, not its labels, not its abbreviations, not its wire units. Sources are plural and multilingual by design, so each plugin maps its own vocabulary into these types behind its own boundary, and adding a plugin never edits `DomainTypes`. English is the app's first language, so rendering a `Cardinal` for display belongs here. One tracked violation remains: `Direction` still carries a source-specific parsing initializer that belongs in its plugin (GH-157).
 - **ConditionsPlugin** — `ConditionsPlugin` (a source of conditions) and `DeferredDownloadable` (opt-in: "my data is one plain download whose bytes decode standalone").
 - **Cache** — `actor Cache` backed by App Group `UserDefaults` (`group.ink.codes.Patrol`), shared between app and widget. Methods are `throws` (not `async`) — actor isolation handles concurrency. Stores `SurfEntry` values keyed by `Place.id`, and the selected place as a bare id (the plugin stays the source of truth for its display name). `selectedConditions()` exists for read-only consumers like the iOS app, which has no plugins linked and so can't resolve a `Place` itself. `settings(for:)` / `setSettings(_:for:)` store one `PlaceSettings` value per place — a single concrete struct, not a generic per-consumer type, because the app's UI surface is fixed and known ahead of time; fields get added to it directly as features need them (starts empty).
-- **Hyde** — the hyde.dk data source, and the only plugin so far. `Hyde` names a specific source, so `struct Hyde` *is* the plugin (`ConditionsPlugin` + `DeferredDownloadable`) rather than a DTO that something else adapts. Everything the source's own vocabulary needs is internal behind it: `Report` is what the HTML parses into, `Parser` strips it via `NSAttributedString` and finds values by Danish label within named sections, and `SurfEntry+Report.swift` converts (returning `nil` and logging when a field is missing). Depends on `DomainTypes` + `ConditionsPlugin`, so the arrow points source→domain.
+- **Hyde** — the hyde.dk data source, and the only plugin so far. `Hyde` names a specific source, so `struct Hyde` *is* the plugin (`ConditionsPlugin` + `DeferredDownloadable`) rather than a DTO that something else adapts. Everything the source's own vocabulary needs is internal behind it: `Report` is what the HTML parses into, `Parser` finds values by label within named sections, and `SurfEntry+Report.swift` converts (returning `nil` and logging when a field is missing). Depends on `DomainTypes` + `ConditionsPlugin`, so the arrow points source→domain.
 - **Conditions** — `ConditionsCoordinator` plus the background `URLSession` machinery. Everything that isn't HTTP or parsing.
 - **MockData** — Canned `SurfEntry` values for SwiftUI previews.
 
@@ -145,12 +145,10 @@ On watchOS, `ConditionsCoordinator.app` is reused for both roles — the Watch's
 |----------|-------|
 | App Group suite | `group.ink.codes.Patrol` |
 | Background URL session ID | `<bundle id>.conditions` (was `hyde.dk`) |
-| Data source URL | `https://hyde.dk/default_hanstholm.asp` |
 | Cache TTL (app) | 5 min |
 | Cache TTL (widget) | 15 min |
 
 ## Quirks
 
 - `Direction.degrees` encodes rotation for a compass arrow that points toward the origin: South = 0°, values increase clockwise. This is intentional — the arrow rotates to show where wind/current is coming *from*.
-- Danish direction abbreviations use `Ø` (east) and `V` (west), not `E`/`W`; the full mapping is in `Direction.danishToCardinal` — which currently sits in `DomainTypes` despite being Hyde's vocabulary (see the layering note under **DomainTypes**).
-- The Parser locates values by finding the Danish label line and returning the *next* line. Repeated labels ("aktuelt", "middel") are disambiguated with `substring(after:within:)`, which scopes the search to a named section heading — section order in the HTML is the implicit contract with the data source.
+- Source-specific quirks — labels, abbreviations, section ordering, wire formats, locale assumptions — are documented in the plugin that owns them and pinned by that plugin's tests. They do not belong in this file, because they multiply with every plugin added and because writing them here invites the domain to depend on them.
