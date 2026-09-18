@@ -31,6 +31,7 @@ struct SurfSpot: View {
                 }
             } else {
                 ProgressView()
+                    .accessibilityLabel("Loading conditions for \(place.name)")
             }
         }
         .task {
@@ -46,6 +47,7 @@ struct SurfSpot: View {
                 } label: {
                     Image(systemName: "list.bullet")
                 }
+                .accessibilityLabel("Back")
             }
         }
     }
