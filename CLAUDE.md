@@ -122,7 +122,7 @@ The timeline policy is `.after(15 min)` as a guaranteed fallback; the background
 
 A background session created inside an app extension **must** set `sharedContainerIdentifier`, or downloads silently fail to start.
 
-The `PatrolWidget/` source compiles unchanged into two separate Xcode targets — `PatrolWidgetExtension` (watchOS complications) and `PatrolWidgetIOSExtension` (iOS Lock Screen widgets) — via a shared `fileSystemSynchronizedGroups` membership, plus a shared `Info.plist` and `PatrolWidgetExtension.entitlements`. Only the four accessory widget families (`.accessoryCorner/.accessoryCircular/.accessoryInline/.accessoryRectangular`) are wired up; there's no Home Screen (`.systemSmall`/`.systemMedium`) layout yet. Each extension is a separate process/bundle ID, and the session identifier is bundle-scoped, so their background sessions stay apart.
+The `PatrolWidget/` source compiles unchanged into two separate Xcode targets — `PatrolWidgetExtension` (watchOS complications) and `PatrolWidgetIOSExtension` (iOS Lock Screen widgets) — via a shared `fileSystemSynchronizedGroups` membership, plus a shared `Info.plist` and `PatrolWidgetExtension.entitlements`. The four accessory widget families (`.accessoryCorner/.accessoryCircular/.accessoryInline/.accessoryRectangular`) and the two smaller Home Screen families (`.systemSmall`/`.systemMedium`) are wired up; the larger Home Screen families (`.systemLarge`/`.systemExtraLarge`, for iPad) are the remaining gap (#110). Each extension is a separate process/bundle ID, and the session identifier is bundle-scoped, so their background sessions stay apart.
 
 ### Siri / Shortcuts (App Intents)
 
