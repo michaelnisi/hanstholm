@@ -146,15 +146,20 @@ extension ConditionsCoordinator {
         let cache = configuration.cache
 
         let task = Task<SurfEntry, Error> {
-            let entry = try await plugin.conditions(for: place, using: session)
+            do {
+                let entry = try await plugin.conditions(for: place, using: session)
 
-            guard entry.place.id == place.id else {
-                throw ConditionsFault.placeMismatch(expected: place.id, actual: entry.place.id)
+                guard entry.place.id == place.id else {
+                    throw ConditionsFault.placeMismatch(expected: place.id, actual: entry.place.id)
+                }
+
+                await cache.setConditions(entry)
+
+                return entry
+            } catch {
+                logger.error("fetch failed for \(place.id): \(error)")
+                throw error
             }
-
-            await cache.setConditions(entry)
-
-            return entry
         }
 
         inFlight[place.id] = task
