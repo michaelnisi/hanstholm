@@ -10,6 +10,7 @@ struct PatrolWatchApp: App {
         WindowGroup {
             ContentView()
                 .environment(SurfProvider.live)
+                .environment(LocationAuthorizer.shared)
         }
         .backgroundTask(.appRefresh("ink.codes.Patrol")) {
             await backgroundRefresh()

@@ -64,16 +64,12 @@ struct PlaceRegistry: Sendable {
         return true
     }
 
-    func regions() async -> [GeoRegion] {
-        guard let selected = try? await selectedPlace(),
-              let index = plugins.firstIndex(where: { $0.owns(selected) }) else {
-            return plugins.map(\.region)
+    func selectedRegion() async -> GeoRegion? {
+        guard let selected = try? await selectedPlace() else {
+            return nil
         }
 
-        var ordered = plugins
-        ordered.insert(ordered.remove(at: index), at: 0)
-
-        return ordered.map(\.region)
+        return plugin(for: selected)?.region
     }
 
     func plugin(for place: Place) -> (any ConditionsPlugin)? {

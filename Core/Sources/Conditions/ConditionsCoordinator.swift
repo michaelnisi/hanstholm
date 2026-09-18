@@ -88,8 +88,8 @@ extension ConditionsCoordinator {
         configuration.registry.availablePlaces()
     }
 
-    public func regions() async -> [GeoRegion] {
-        await configuration.registry.regions()
+    public func selectedRegion() async -> GeoRegion? {
+        await configuration.registry.selectedRegion()
     }
 
     public func selectPlace(_ place: Place) async {
