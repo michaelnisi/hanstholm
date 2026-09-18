@@ -13,10 +13,16 @@ struct PatrolWidgetEntryView : View {
     var entry: SurfEntry
 
     var body: some View {
-        familyView
-            .containerBackground(for: .widget) {
-                TileBackground(family: widgetFamily)
+        Group {
+            if entry.status == .error {
+                NoDataView(family: widgetFamily)
+            } else {
+                familyView
             }
+        }
+        .containerBackground(for: .widget) {
+            TileBackground(family: widgetFamily)
+        }
     }
 
     @ViewBuilder
@@ -39,6 +45,46 @@ struct PatrolWidgetEntryView : View {
             AccessoryRectangular(entry: entry)
         default:
             AccessoryInline(entry: entry)
+        }
+    }
+}
+
+struct NoDataView: View {
+    var family: WidgetFamily
+
+    var body: some View {
+        switch family {
+        #if !os(watchOS)
+        case .systemSmall, .systemMedium:
+            VStack(spacing: 4) {
+                Image(systemName: "exclamationmark.triangle")
+                    .font(.title2)
+                Text("No Data")
+                    .font(.caption)
+            }
+            .foregroundStyle(.secondary)
+        #endif
+        #if os(watchOS)
+        case .accessoryCorner:
+            ZStack {
+                AccessoryWidgetBackground()
+                Image(systemName: "exclamationmark.triangle")
+            }
+            .widgetLabel {
+                Text("No Data")
+            }
+        #endif
+        case .accessoryCircular:
+            ZStack {
+                AccessoryWidgetBackground()
+                Image(systemName: "exclamationmark.triangle")
+            }
+            .widgetAccentable()
+        case .accessoryRectangular:
+            Label("No Data", systemImage: "exclamationmark.triangle")
+                .widgetAccentable()
+        default:
+            Text("No Data")
         }
     }
 }
@@ -252,6 +298,12 @@ struct PatrolWidget: Widget {
     MockData.SurfEntry.makeSurfEntry()
 }
 
+#Preview("No Data", as: .accessoryRectangular) {
+    PatrolWidget()
+} timeline: {
+    MockData.SurfEntry.makeSurfEntry(status: .error)
+}
+
 #if !os(watchOS)
 #Preview(as: .systemSmall) {
     PatrolWidget()
@@ -259,9 +311,21 @@ struct PatrolWidget: Widget {
     MockData.SurfEntry.makeSurfEntry()
 }
 
+#Preview("No Data", as: .systemSmall) {
+    PatrolWidget()
+} timeline: {
+    MockData.SurfEntry.makeSurfEntry(status: .error)
+}
+
 #Preview(as: .systemMedium) {
     PatrolWidget()
 } timeline: {
     MockData.SurfEntry.makeSurfEntry()
+}
+
+#Preview("No Data", as: .systemMedium) {
+    PatrolWidget()
+} timeline: {
+    MockData.SurfEntry.makeSurfEntry(status: .error)
 }
 #endif
