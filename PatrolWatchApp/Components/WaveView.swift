@@ -16,7 +16,7 @@ struct WaveView: View {
                 max: wave.max,
                 middle: wave.middle,
                 period: wave.period,
-                degrees: wave.direction.degrees
+                direction: wave.direction
             )
         }
         .overlay(alignment: .bottom) {
@@ -39,18 +39,17 @@ struct WaveInfo: View {
     let max: Double
     let middle: Double
     let period: Double
-    let degrees: Double
-    
-    var locationDegrees: Double {
-        degrees - 45
-    }
-    
+    let direction: Direction
+
     var body: some View {
         VStack {
             HStack {
-                Image(systemName: "location.fill")
-                    .rotationEffect(.degrees(locationDegrees))
-                
+                DirectionIndicator(
+                    degrees: direction.degrees,
+                    formatted: direction.formatted(),
+                    spoken: direction.spoken()
+                )
+
                 Text(name)
                     .font(.caption)
             }
