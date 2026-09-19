@@ -164,6 +164,8 @@ extension PatrolWidgetEntryView {
                     .foregroundStyle(.secondary)
             }
             .fontDesign(.rounded)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel("\(entry.wave.spoken), and \(entry.wind.spoken).")
         }
     }
 
@@ -201,6 +203,8 @@ extension PatrolWidgetEntryView {
                 HomeFooter(entry: entry)
             }
             .fontDesign(.rounded)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(entry.spokenSummary)
         }
     }
     #endif
@@ -218,6 +222,7 @@ extension PatrolWidgetEntryView {
             }
             .widgetLabel {
                 Text(entry.wave.middle.feet() + " @ " + entry.wave.period.seconds())
+                    .accessibilityLabel(entry.wave.spoken)
             }
         }
     }
@@ -235,6 +240,8 @@ extension PatrolWidgetEntryView {
                 }
                 .widgetAccentable()
             }
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(entry.wave.spoken)
         }
     }
     
@@ -259,6 +266,8 @@ extension PatrolWidgetEntryView {
                     .font(.caption)
             }
             .widgetAccentable()
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(entry.spokenSummary)
         }
     }
 }
