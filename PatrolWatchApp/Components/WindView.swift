@@ -66,6 +66,9 @@ struct WindInfo: View {
                 .font(.caption)
                 .foregroundStyle(.teal)
         }
+        .lineLimit(1)
+        .minimumScaleFactor(0.75)
+        .dynamicTypeSize(...DynamicTypeSize.accessibility1)
     }
 }
 
