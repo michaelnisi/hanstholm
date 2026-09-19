@@ -22,6 +22,20 @@ struct WindView: View {
                 .font(.headline)
         }
         .fontDesign(.rounded)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(accessibilityLabel)
+    }
+
+    private var accessibilityLabel: String {
+        var label = "\(name). \(wind.spoken)"
+
+        if let gust = wind.speed.gust {
+            label += ", gusting \(gust.knots(width: .wide))"
+        }
+
+        label += ". Updated \(date.formatted(date: .omitted, time: .shortened))."
+
+        return label
     }
 }
 
