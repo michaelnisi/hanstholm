@@ -109,7 +109,7 @@ extension PatrolWidgetEntryView {
         var symbol: String
         var value: String
         var caption: String
-        var degrees: Double
+        var direction: Direction
 
         var body: some View {
             VStack(spacing: 2) {
@@ -120,8 +120,11 @@ extension PatrolWidgetEntryView {
                     .font(.title2)
                     .fontWeight(.black)
                 HStack(spacing: 3) {
-                    Image(systemName: "location.fill")
-                        .rotationEffect(.degrees(degrees - 45))
+                    DirectionIndicator(
+                        degrees: direction.degrees,
+                        formatted: direction.formatted(),
+                        spoken: direction.spoken()
+                    )
                     Text(caption)
                 }
                 .font(.caption2)
@@ -151,7 +154,7 @@ extension PatrolWidgetEntryView {
                     symbol: "water.waves",
                     value: entry.wave.middle.feet(),
                     caption: entry.wave.period.seconds(),
-                    degrees: entry.wave.direction.degrees
+                    direction: entry.wave.direction
                 )
             }
             .overlay(alignment: .bottom) {
@@ -176,7 +179,7 @@ extension PatrolWidgetEntryView {
                             symbol: "water.waves",
                             value: entry.wave.middle.feet(),
                             caption: entry.wave.period.seconds(),
-                            degrees: entry.wave.direction.degrees
+                            direction: entry.wave.direction
                         )
                     }
                     Spacer()
@@ -189,7 +192,7 @@ extension PatrolWidgetEntryView {
                             symbol: "wind",
                             value: entry.wind.speed.current.knots(),
                             caption: entry.wind.speed.gust.knots(),
-                            degrees: entry.wind.direction.degrees
+                            direction: entry.wind.direction
                         )
                     }
                     Spacer()

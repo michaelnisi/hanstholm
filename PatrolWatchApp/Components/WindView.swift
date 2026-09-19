@@ -14,7 +14,7 @@ struct WindView: View {
                 name: name,
                 date: date,
                 speed: wind.speed.current,
-                degrees: wind.direction.degrees
+                direction: wind.direction
             )
         }
         .overlay(alignment: .bottom) {
@@ -43,18 +43,17 @@ struct WindInfo: View {
     let name: String
     let date: Date
     let speed: Double
-    let degrees: Double
+    let direction: Direction
 
-    var locationDegrees: Double {
-        degrees - 45
-    }
-    
     var body: some View {
         VStack {
             HStack {
-                Image(systemName: "location.fill")
-                    .rotationEffect(.degrees(locationDegrees))
-                
+                DirectionIndicator(
+                    degrees: direction.degrees,
+                    formatted: direction.formatted(),
+                    spoken: direction.spoken()
+                )
+
                 Text(name)
                     .font(.caption)
             }
