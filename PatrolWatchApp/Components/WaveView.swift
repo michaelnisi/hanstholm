@@ -62,6 +62,9 @@ struct WaveInfo: View {
                 .font(.caption)
                 .foregroundStyle(.blue)
         }
+        .lineLimit(1)
+        .minimumScaleFactor(0.75)
+        .dynamicTypeSize(...DynamicTypeSize.accessibility1)
     }
 }
 
