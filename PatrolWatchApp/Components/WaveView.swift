@@ -60,7 +60,7 @@ struct WaveInfo: View {
             
             Text(date.formatted(date: .omitted, time: .shortened))
                 .font(.caption)
-                .foregroundStyle(.blue)
+                .foregroundStyle(.black)
         }
         .lineLimit(1)
         .minimumScaleFactor(0.75)
