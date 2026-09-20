@@ -64,7 +64,7 @@ struct WindInfo: View {
             
             Text(date.formatted(date: .omitted, time: .shortened))
                 .font(.caption)
-                .foregroundStyle(.teal)
+                .foregroundStyle(.black)
         }
         .lineLimit(1)
         .minimumScaleFactor(0.75)
