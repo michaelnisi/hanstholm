@@ -9,6 +9,7 @@ struct PlacePicker: View {
     let onManagePlaces: () -> Void
 
     @Environment(SurfProvider.self) private var surfProvider
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @ScaledMetric private var cardHeight: CGFloat = PlaceCard.baseHeight
     @State private var places: [Place] = []
     @State private var scrollPosition: Place.ID?
@@ -26,21 +27,13 @@ struct PlacePicker: View {
                     PlaceCard(place: place, isSelected: place.id == selected?.id) {
                         onSelect(place)
                     }
-                    .scrollTransition(.interactive, axis: .vertical) { content, phase in
-                        content
-                            .scaleEffect(1 - abs(phase.value) * 0.15)
-                            .opacity(1 - abs(phase.value) * 0.6)
-                    }
+                    .placePickerCardTransition(reduceMotion: reduceMotion)
                 }
 
                 ManagePlacesCard {
                     onManagePlaces()
                 }
-                .scrollTransition(.interactive, axis: .vertical) { content, phase in
-                    content
-                        .scaleEffect(1 - abs(phase.value) * 0.15)
-                        .opacity(1 - abs(phase.value) * 0.6)
-                }
+                .placePickerCardTransition(reduceMotion: reduceMotion)
             }
             .scrollTargetLayout()
         }
@@ -75,6 +68,14 @@ struct PlacePicker: View {
 
     private func centeringInset(forHeight height: CGFloat) -> CGFloat {
         max(0, (height - cardHeight) / 2)
+    }
+}
+
+private extension View {
+    func placePickerCardTransition(reduceMotion: Bool) -> some View {
+        scrollTransition(.interactive, axis: .vertical) { content, phase in
+            content.scaleEffect(reduceMotion ? 1 : 1 - abs(phase.value) * 0.15)
+        }
     }
 }
 
