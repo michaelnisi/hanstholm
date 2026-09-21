@@ -11,7 +11,6 @@ struct WindView: View {
     var body: some View {
         SurfGauge(value: wind.speed.middle, total: wind.speed.gust ?? wind.speed.middle, tint: .teal) {
             WindInfo(
-                name: name,
                 date: date,
                 speed: wind.speed.current,
                 direction: wind.direction
@@ -40,24 +39,18 @@ struct WindView: View {
 }
 
 struct WindInfo: View {
-    let name: String
     let date: Date
     let speed: Double
     let direction: Direction
 
     var body: some View {
         VStack {
-            HStack {
-                DirectionIndicator(
-                    degrees: direction.degrees,
-                    formatted: direction.formatted(),
-                    spoken: direction.spoken()
-                )
+            DirectionIndicator(
+                degrees: direction.degrees,
+                formatted: direction.formatted(),
+                spoken: direction.spoken()
+            )
 
-                Text(name)
-                    .font(.caption)
-            }
-            
             speed.knotsText()
                 .font(.title2)
                 .fontWeight(.bold)

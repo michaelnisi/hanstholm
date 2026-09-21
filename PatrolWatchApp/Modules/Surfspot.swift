@@ -39,6 +39,7 @@ struct SurfSpot: View {
                 await surfProvider.selectPlace(place)
             }
         }
+        .navigationTitle(place.name)
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {

@@ -11,7 +11,6 @@ struct WaveView: View {
     var body: some View {
         SurfGauge(value: wave.middle, total: wave.max, tint: .blue) {
             WaveInfo(
-                name: name,
                 date: date,
                 max: wave.max,
                 middle: wave.middle,
@@ -34,7 +33,6 @@ struct WaveView: View {
 }
 
 struct WaveInfo: View {
-    let name: String
     let date: Date
     let max: Double
     let middle: Double
@@ -43,17 +41,12 @@ struct WaveInfo: View {
 
     var body: some View {
         VStack {
-            HStack {
-                DirectionIndicator(
-                    degrees: direction.degrees,
-                    formatted: direction.formatted(),
-                    spoken: direction.spoken()
-                )
+            DirectionIndicator(
+                degrees: direction.degrees,
+                formatted: direction.formatted(),
+                spoken: direction.spoken()
+            )
 
-                Text(name)
-                    .font(.caption)
-            }
-            
             middle.feetText()
                 .font(.title2)
                 .fontWeight(.bold)
