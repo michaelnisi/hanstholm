@@ -19,6 +19,7 @@ struct WindView: View {
         .overlay(alignment: .bottom) {
             wind.speed.gust.knotsText()
                 .font(.headline)
+                .cappedDynamicType()
         }
         .fontDesign(.rounded)
         .accessibilityElement(children: .ignore)
@@ -56,9 +57,7 @@ struct WindInfo: View {
             
             TimestampCaption(date: date)
         }
-        .lineLimit(1)
-        .minimumScaleFactor(0.75)
-        .dynamicTypeSize(...DynamicTypeSize.accessibility1)
+        .cappedDynamicType()
     }
 }
 
