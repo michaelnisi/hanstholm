@@ -47,8 +47,7 @@ struct WindInfo: View {
         VStack {
             DirectionIndicator(
                 degrees: direction.degrees,
-                formatted: direction.formatted(),
-                spoken: direction.spoken()
+                formatted: direction.formatted()
             )
 
             speed.knotsText()

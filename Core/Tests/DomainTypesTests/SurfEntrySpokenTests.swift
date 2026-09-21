@@ -19,6 +19,21 @@ final class SurfEntrySpokenTests: XCTestCase {
         XCTAssertEqual(wave.spoken, "waves are 3 feet at 8 seconds from northwest")
     }
 
+    func testWindSpokenAlwaysIncludesDirection() {
+        let wind = SurfEntry.Wind(
+            speed: .init(gust: 9, middle: 6, current: 6),
+            direction: .init(cardinal: .southWest)
+        )
+
+        XCTAssertTrue(wind.spoken.contains(wind.direction.spoken()))
+    }
+
+    func testWaveSpokenAlwaysIncludesDirection() {
+        let wave = SurfEntry.Wave(max: 1.2, middle: 0.9, period: 8, direction: .init(cardinal: .northWest))
+
+        XCTAssertTrue(wave.spoken.contains(wave.direction.spoken()))
+    }
+
     func testSpokenSummaryComposesPlaceWindAndWave() {
         let wind = SurfEntry.Wind(
             speed: .init(gust: 9, middle: 6, current: 6),
