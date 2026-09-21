@@ -81,6 +81,10 @@ let package = Package(
         ),
         .target(
             name: "SurfUI"
+        ),
+        .testTarget(
+            name: "SurfUITests",
+            dependencies: ["SurfUI"]
         )
     ]
 )
