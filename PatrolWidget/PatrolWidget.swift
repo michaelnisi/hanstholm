@@ -122,8 +122,7 @@ extension PatrolWidgetEntryView {
                 HStack(spacing: 3) {
                     DirectionIndicator(
                         degrees: direction.degrees,
-                        formatted: direction.formatted(),
-                        spoken: direction.spoken()
+                        formatted: direction.formatted()
                     )
                     Text(caption)
                 }
