@@ -129,9 +129,7 @@ extension PatrolWidgetEntryView {
                 .font(.caption2)
                 .foregroundStyle(.secondary)
             }
-            .lineLimit(1)
-            .minimumScaleFactor(0.75)
-            .dynamicTypeSize(...DynamicTypeSize.accessibility1)
+            .cappedDynamicType()
         }
     }
 
@@ -164,6 +162,7 @@ extension PatrolWidgetEntryView {
                     .font(.caption)
                     .fontWeight(.semibold)
                     .foregroundStyle(.secondary)
+                    .cappedDynamicType()
             }
             .fontDesign(.rounded)
             .accessibilityElement(children: .ignore)

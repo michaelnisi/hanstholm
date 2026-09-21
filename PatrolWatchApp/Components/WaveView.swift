@@ -21,6 +21,7 @@ struct WaveView: View {
         .overlay(alignment: .bottom) {
             Text("\(wave.period.seconds(width: .narrow))")
                 .font(.headline)
+                .cappedDynamicType()
         }
         .fontDesign(.rounded)
         .accessibilityElement(children: .ignore)
@@ -52,9 +53,7 @@ struct WaveInfo: View {
             
             TimestampCaption(date: date)
         }
-        .lineLimit(1)
-        .minimumScaleFactor(0.75)
-        .dynamicTypeSize(...DynamicTypeSize.accessibility1)
+        .cappedDynamicType()
     }
 }
 
