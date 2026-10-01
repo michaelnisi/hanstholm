@@ -43,53 +43,46 @@ struct ContentView: View {
 private struct ConditionsView: View {
     let surfEntry: SurfEntry
 
-    var body: some View {
-        ArrangementView {
-            GroupedSection("Wave") {
-                WaveRows(wave: surfEntry.wave)
-            }
-            .padding()
-        } secondary: {
-            VStack(spacing: 24) {
-                GroupedSection("Wind") {
-                    WindRows(wind: surfEntry.wind)
-                }
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
-                GroupedSection {
-                    UpdatedRow(date: surfEntry.date)
+    var body: some View {
+        Group {
+            if horizontalSizeClass == .regular {
+                ArrangementView {
+                    List {
+                        Section("Wave") {
+                            WaveRows(wave: surfEntry.wave)
+                        }
+                    }
+                } secondary: {
+                    List {
+                        Section("Wind") {
+                            WindRows(wind: surfEntry.wind)
+                        }
+
+                        Section {
+                            LabeledContent("Updated", value: surfEntry.date.formatted(date: .abbreviated, time: .shortened))
+                        }
+                    }
+                }
+                .arrangementViewStyle(.split)
+            } else {
+                List {
+                    Section("Wave") {
+                        WaveRows(wave: surfEntry.wave)
+                    }
+
+                    Section("Wind") {
+                        WindRows(wind: surfEntry.wind)
+                    }
+
+                    Section {
+                        LabeledContent("Updated", value: surfEntry.date.formatted(date: .abbreviated, time: .shortened))
+                    }
                 }
             }
-            .padding()
         }
-        .arrangementViewStyle(.split)
         .navigationTitle(surfEntry.place.name)
-    }
-}
-
-private struct GroupedSection<Content: View>: View {
-    var title: String?
-    @ViewBuilder var content: Content
-
-    init(_ title: String? = nil, @ViewBuilder content: () -> Content) {
-        self.title = title
-        self.content = content()
-    }
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            if let title {
-                Text(title)
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-                    .padding(.horizontal)
-            }
-
-            VStack(spacing: 0) {
-                content
-            }
-            .padding(.horizontal)
-            .background(.background.secondary, in: RoundedRectangle(cornerRadius: 10))
-        }
     }
 }
 
@@ -97,18 +90,11 @@ private struct WaveRows: View {
     let wave: SurfEntry.Wave
 
     var body: some View {
-        VStack(spacing: 0) {
+        Group {
             LabeledContent("Height", value: wave.middle.feet())
-                .padding(.vertical, 8)
-            Divider()
             LabeledContent("Max", value: wave.max.feet())
-                .padding(.vertical, 8)
-            Divider()
             LabeledContent("Period", value: wave.period.seconds())
-                .padding(.vertical, 8)
-            Divider()
             LabeledContent("Direction", value: wave.direction.formatted())
-                .padding(.vertical, 8)
         }
     }
 }
@@ -117,25 +103,11 @@ private struct WindRows: View {
     let wind: SurfEntry.Wind
 
     var body: some View {
-        VStack(spacing: 0) {
+        Group {
             LabeledContent("Speed", value: wind.speed.current.knots())
-                .padding(.vertical, 8)
-            Divider()
             LabeledContent("Gust", value: wind.speed.gust.knots())
-                .padding(.vertical, 8)
-            Divider()
             LabeledContent("Direction", value: wind.direction.formatted())
-                .padding(.vertical, 8)
         }
-    }
-}
-
-private struct UpdatedRow: View {
-    let date: Date
-
-    var body: some View {
-        LabeledContent("Updated", value: date.formatted(date: .abbreviated, time: .shortened))
-            .padding(.vertical, 8)
     }
 }
 
@@ -143,8 +115,9 @@ private struct UpdatedRow: View {
     ConditionsView(surfEntry: MockData.SurfEntry.makeSurfEntry())
 }
 
-#Preview("Two Column", traits: .fixedLayout(width: 1000, height: 500)) {
+#Preview("Two Column") {
     ConditionsView(surfEntry: MockData.SurfEntry.makeSurfEntry())
+        .environment(\.horizontalSizeClass, .regular)
 }
 
 #Preview("No Data") {
