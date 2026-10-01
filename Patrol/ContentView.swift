@@ -52,6 +52,7 @@ private struct ConditionsView: View {
                     GroupedSection("Wave") {
                         WaveRows(wave: surfEntry.wave)
                     }
+                    .frame(maxWidth: .infinity)
 
                     VStack(spacing: 24) {
                         GroupedSection("Wind") {
@@ -62,6 +63,7 @@ private struct ConditionsView: View {
                             UpdatedRow(date: surfEntry.date)
                         }
                     }
+                    .frame(maxWidth: .infinity)
                 }
                 .padding()
             } else {
