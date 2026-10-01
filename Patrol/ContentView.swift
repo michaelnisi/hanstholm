@@ -45,6 +45,8 @@ private struct ConditionsView: View {
 
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
+    @State private var isLandscape = false
+
     var body: some View {
         Group {
             if horizontalSizeClass == .regular {
@@ -53,6 +55,8 @@ private struct ConditionsView: View {
                         Section("Wave") {
                             WaveRows(wave: surfEntry.wave)
                         }
+                        
+                        
                     }
                 } secondary: {
                     List {
@@ -82,6 +86,9 @@ private struct ConditionsView: View {
                 }
             }
         }
+        .onGeometryChange(for: Bool.self) { proxy in
+            proxy.size.width > proxy.size.height
+        } action: { isLandscape = $0 }
         .navigationTitle(surfEntry.place.name)
     }
 }
