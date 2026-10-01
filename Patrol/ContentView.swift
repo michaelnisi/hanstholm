@@ -43,23 +43,14 @@ struct ContentView: View {
 private struct ConditionsView: View {
     let surfEntry: SurfEntry
 
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+
     var body: some View {
-        List {
-            Section("Wave") {
-                LabeledContent("Height", value: surfEntry.wave.middle.feet())
-                LabeledContent("Max", value: surfEntry.wave.max.feet())
-                LabeledContent("Period", value: surfEntry.wave.period.seconds())
-                LabeledContent("Direction", value: surfEntry.wave.direction.formatted())
-            }
-
-            Section("Wind") {
-                LabeledContent("Speed", value: surfEntry.wind.speed.current.knots())
-                LabeledContent("Gust", value: surfEntry.wind.speed.gust.knots())
-                LabeledContent("Direction", value: surfEntry.wind.direction.formatted())
-            }
-
-            Section {
-                LabeledContent("Updated", value: surfEntry.date.formatted(date: .abbreviated, time: .shortened))
+        Group {
+            if horizontalSizeClass == .regular {
+                TwoColumnConditions(surfEntry: surfEntry)
+            } else {
+                OneColumnConditions(surfEntry: surfEntry)
             }
         }
         .navigationTitle(surfEntry.place.name)
@@ -68,6 +59,11 @@ private struct ConditionsView: View {
 
 #Preview {
     ConditionsView(surfEntry: MockData.SurfEntry.makeSurfEntry())
+}
+
+#Preview("Two Column") {
+    ConditionsView(surfEntry: MockData.SurfEntry.makeSurfEntry())
+        .environment(\.horizontalSizeClass, .regular)
 }
 
 #Preview("No Data") {
