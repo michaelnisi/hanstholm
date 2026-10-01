@@ -48,7 +48,7 @@ private struct ConditionsView: View {
     var body: some View {
         Group {
             if horizontalSizeClass == .regular {
-                HStack {
+                HStack(spacing: 24) {
                     List {
                         Section("Wave") {
                             WaveRows(wave: surfEntry.wave)
