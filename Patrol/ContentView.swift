@@ -45,86 +45,15 @@ private struct ConditionsView: View {
 
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
-    @State private var isLandscape = false
-
     var body: some View {
         Group {
             if horizontalSizeClass == .regular {
-                ArrangementView {
-                    List {
-                        Section("Wave") {
-                            WaveRows(wave: surfEntry.wave)
-                        }
-                        
-                        if !isLandscape {
-                            Section("Wind") {
-                                WindRows(wind: surfEntry.wind)
-                            }
-
-                            Section {
-                                LabeledContent("Updated", value: surfEntry.date.formatted(date: .abbreviated, time: .shortened))
-                            }
-                        }
-                        
-                        
-                    }
-                } secondary: {
-                    List {
-                        Section("Wind") {
-                            WindRows(wind: surfEntry.wind)
-                        }
-
-                        Section {
-                            LabeledContent("Updated", value: surfEntry.date.formatted(date: .abbreviated, time: .shortened))
-                        }
-                    }
-                }
-                .arrangementViewStyle(.split.axes(.horizontal))
+                TwoColumnConditions(surfEntry: surfEntry)
             } else {
-                List {
-                    Section("Wave") {
-                        WaveRows(wave: surfEntry.wave)
-                    }
-
-                    Section("Wind") {
-                        WindRows(wind: surfEntry.wind)
-                    }
-
-                    Section {
-                        LabeledContent("Updated", value: surfEntry.date.formatted(date: .abbreviated, time: .shortened))
-                    }
-                }
+                OneColumnConditions(surfEntry: surfEntry)
             }
         }
-        .onGeometryChange(for: Bool.self) { proxy in
-            proxy.size.width > proxy.size.height
-        } action: { isLandscape = $0 }
         .navigationTitle(surfEntry.place.name)
-    }
-}
-
-private struct WaveRows: View {
-    let wave: SurfEntry.Wave
-
-    var body: some View {
-        Group {
-            LabeledContent("Height", value: wave.middle.feet())
-            LabeledContent("Max", value: wave.max.feet())
-            LabeledContent("Period", value: wave.period.seconds())
-            LabeledContent("Direction", value: wave.direction.formatted())
-        }
-    }
-}
-
-private struct WindRows: View {
-    let wind: SurfEntry.Wind
-
-    var body: some View {
-        Group {
-            LabeledContent("Speed", value: wind.speed.current.knots())
-            LabeledContent("Gust", value: wind.speed.gust.knots())
-            LabeledContent("Direction", value: wind.direction.formatted())
-        }
     }
 }
 
