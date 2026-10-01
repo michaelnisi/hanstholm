@@ -49,11 +49,7 @@ private struct ConditionsView: View {
         Group {
             if horizontalSizeClass == .regular {
                 ArrangementView {
-                    List {
-                        Section("Wave") {
-                            WaveRows(wave: surfEntry.wave)
-                        }
-                    }
+                    PrimaryList(surfEntry: surfEntry)
                 } secondary: {
                     List {
                         Section("Wind") {
@@ -65,7 +61,7 @@ private struct ConditionsView: View {
                         }
                     }
                 }
-                .arrangementViewStyle(.split)
+                .arrangementViewStyle(.split.axes(.horizontal))
             } else {
                 List {
                     Section("Wave") {
@@ -83,6 +79,30 @@ private struct ConditionsView: View {
             }
         }
         .navigationTitle(surfEntry.place.name)
+    }
+}
+
+private struct PrimaryList: View {
+    let surfEntry: SurfEntry
+
+    @Environment(\.splitArrangementAxis) private var splitArrangementAxis
+
+    var body: some View {
+        List {
+            Section("Wave") {
+                WaveRows(wave: surfEntry.wave)
+            }
+
+            if splitArrangementAxis != .horizontal {
+                Section("Wind") {
+                    WindRows(wind: surfEntry.wind)
+                }
+
+                Section {
+                    LabeledContent("Updated", value: surfEntry.date.formatted(date: .abbreviated, time: .shortened))
+                }
+            }
+        }
     }
 }
 
