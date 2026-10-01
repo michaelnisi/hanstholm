@@ -56,6 +56,16 @@ private struct ConditionsView: View {
                             WaveRows(wave: surfEntry.wave)
                         }
                         
+                        if !isLandscape {
+                            Section("Wind") {
+                                WindRows(wind: surfEntry.wind)
+                            }
+
+                            Section {
+                                LabeledContent("Updated", value: surfEntry.date.formatted(date: .abbreviated, time: .shortened))
+                            }
+                        }
+                        
                         
                     }
                 } secondary: {
