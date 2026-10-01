@@ -43,46 +43,25 @@ struct ContentView: View {
 private struct ConditionsView: View {
     let surfEntry: SurfEntry
 
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-
     var body: some View {
-        ScrollView {
-            if horizontalSizeClass == .regular {
-                HStack(alignment: .top, spacing: 24) {
-                    GroupedSection("Wave") {
-                        WaveRows(wave: surfEntry.wave)
-                    }
-                    .frame(maxWidth: .infinity)
-
-                    VStack(spacing: 24) {
-                        GroupedSection("Wind") {
-                            WindRows(wind: surfEntry.wind)
-                        }
-
-                        GroupedSection {
-                            UpdatedRow(date: surfEntry.date)
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-                }
-                .padding()
-            } else {
-                VStack(spacing: 24) {
-                    GroupedSection("Wave") {
-                        WaveRows(wave: surfEntry.wave)
-                    }
-
-                    GroupedSection("Wind") {
-                        WindRows(wind: surfEntry.wind)
-                    }
-
-                    GroupedSection {
-                        UpdatedRow(date: surfEntry.date)
-                    }
-                }
-                .padding()
+        ArrangementView {
+            GroupedSection("Wave") {
+                WaveRows(wave: surfEntry.wave)
             }
+            .padding()
+        } secondary: {
+            VStack(spacing: 24) {
+                GroupedSection("Wind") {
+                    WindRows(wind: surfEntry.wind)
+                }
+
+                GroupedSection {
+                    UpdatedRow(date: surfEntry.date)
+                }
+            }
+            .padding()
         }
+        .arrangementViewStyle(.split)
         .navigationTitle(surfEntry.place.name)
     }
 }
@@ -164,10 +143,8 @@ private struct UpdatedRow: View {
     ConditionsView(surfEntry: MockData.SurfEntry.makeSurfEntry())
 }
 
-#Preview("Two Column") {
+#Preview("Two Column", traits: .fixedLayout(width: 1000, height: 500)) {
     ConditionsView(surfEntry: MockData.SurfEntry.makeSurfEntry())
-        .environment(\.horizontalSizeClass, .regular)
-        .previewLayout(.fixed(width: 1000, height: 500))
 }
 
 #Preview("No Data") {
