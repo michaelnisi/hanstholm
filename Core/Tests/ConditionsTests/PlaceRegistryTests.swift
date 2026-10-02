@@ -200,6 +200,27 @@ final class PlaceRegistryTests: XCTestCase {
         XCTAssertEqual(place, second)
     }
 
+    func testSelectPlaceReturnsTrueWhenSelectionChanges() async {
+        let second = makePlace(key: "elsewhere", name: "Elsewhere")
+        let plugin = makePlugin(places: [makePlace(), second])
+        let (registry, _) = makeRegistry(plugin: plugin)
+
+        let selectionChanged = await registry.selectPlace(second)
+
+        XCTAssertTrue(selectionChanged)
+    }
+
+    func testSelectPlaceReturnsFalseWhenReselectingTheSamePlace() async {
+        let plugin = makePlugin()
+        let (registry, cache) = makeRegistry(plugin: plugin)
+
+        await cache.setSelectedPlace(makePlace())
+
+        let selectionChanged = await registry.selectPlace(makePlace())
+
+        XCTAssertFalse(selectionChanged)
+    }
+
     func testSetIncludedPlaceIDsReselectsWhenSelectedPlaceIsDropped() async {
         let second = makePlace(key: "elsewhere", name: "Elsewhere")
         let third = makePlace(key: "thirdville", name: "Thirdville")
