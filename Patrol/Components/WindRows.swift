@@ -1,10 +1,3 @@
-//
-//  WindRows.swift
-//  Patrol
-//
-//  Created by Michael Nisi on 01.10.26.
-//
-
 import DomainTypes
 import SwiftUI
 
