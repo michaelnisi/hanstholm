@@ -18,3 +18,7 @@ flowchart TD
     D --> E3["iPhone app<br/>(read-only mirror)"]
     D --> E4["Lock Screen widget<br/>(iPhone)"]
 ```
+
+## Development
+
+Code is formatted with Apple's [swift-format](https://github.com/apple/swift-format), bundled with Xcode. Run `make install-hooks` once after cloning to catch unformatted commits locally; CI checks formatting on every push and pull request regardless.
