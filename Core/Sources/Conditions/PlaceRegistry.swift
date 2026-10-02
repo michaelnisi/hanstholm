@@ -30,8 +30,13 @@ struct PlaceRegistry: Sendable {
         return place
     }
 
-    func selectPlace(_ place: Place) async {
+    @discardableResult
+    func selectPlace(_ place: Place) async -> Bool {
+        let previous = await cache.selectedPlaceID()
+
         await cache.setSelectedPlace(place)
+
+        return previous != place.id
     }
 
     func includedPlaces() async -> [Place] {
