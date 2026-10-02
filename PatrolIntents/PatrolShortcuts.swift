@@ -10,7 +10,7 @@ struct PatrolShortcuts: AppShortcutsProvider {
                 "\(.applicationName) wind",
                 "\(.applicationName) conditions",
                 "How is the surf in \(.applicationName)",
-                "What's the surf like in \(.applicationName)"
+                "What's the surf like in \(.applicationName)",
             ],
             shortTitle: "How Is The Surf",
             systemImageName: "water.waves"

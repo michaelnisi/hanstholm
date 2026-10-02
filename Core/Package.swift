@@ -7,7 +7,7 @@ let package = Package(
     platforms: [
         .watchOS(.v26),
         .macOS(.v14),
-        .iOS(.v26)
+        .iOS(.v26),
     ],
     products: [
         .library(
@@ -37,7 +37,7 @@ let package = Package(
         .library(
             name: "SurfUI",
             targets: ["SurfUI"]
-        )
+        ),
     ],
     targets: [
         .target(
@@ -85,6 +85,6 @@ let package = Package(
         .testTarget(
             name: "SurfUITests",
             dependencies: ["SurfUI"]
-        )
+        ),
     ]
 )

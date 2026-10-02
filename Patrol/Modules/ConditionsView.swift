@@ -1,6 +1,6 @@
-import SwiftUI
 import DomainTypes
 import MockData
+import SwiftUI
 
 struct ConditionsView: View {
     let surfEntry: SurfEntry

@@ -1,7 +1,7 @@
-import os.log
-import Foundation
-import DomainTypes
 import ConditionsPlugin
+import DomainTypes
+import Foundation
+import os.log
 
 let logger = Logger(subsystem: "ink.codes.Patrol", category: "Hyde")
 

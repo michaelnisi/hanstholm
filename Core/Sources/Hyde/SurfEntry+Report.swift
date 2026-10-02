@@ -1,5 +1,5 @@
-import Foundation
 import DomainTypes
+import Foundation
 
 extension SurfEntry.Wave {
     init?(report: Report.Wave?) {
@@ -7,7 +7,8 @@ extension SurfEntry.Wave {
             let direction = Direction(danish: report?.direction),
             let max = report?.height?.max,
             let middle = report?.height?.middle,
-            let period = report?.period else {
+            let period = report?.period
+        else {
             logger.error("incomplete report: \(String(describing: report))")
             return nil
         }
@@ -20,7 +21,8 @@ extension SurfEntry.Wind {
     init?(report: Report.Wind?) {
         guard
             let direction = Direction(danish: report?.direction),
-            let speed = Speed(report: report?.speed) else {
+            let speed = Speed(report: report?.speed)
+        else {
             logger.error("incomplete report: \(String(describing: report))")
             return nil
         }
@@ -33,7 +35,8 @@ extension SurfEntry.Wind.Speed {
     init?(report: Report.Wind.Speed?) {
         guard
             let current = report?.current,
-            let middle = report?.middle else {
+            let middle = report?.middle
+        else {
             logger.error("incomplete report: \(String(describing: report))")
             return nil
         }
@@ -47,7 +50,8 @@ extension SurfEntry {
         guard
             let wave = Wave(report: report?.wave),
             let wind = Wind(report: report?.wind),
-            let date = report?.date else {
+            let date = report?.date
+        else {
             logger.error("incomplete report: \(String(describing: report))")
             return nil
         }

@@ -1,6 +1,6 @@
 import AppIntents
-import DomainTypes
 import Conditions
+import DomainTypes
 import os.log
 
 nonisolated let intentsLogger = Logger(subsystem: "ink.codes.Patrol", category: "Intents")

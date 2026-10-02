@@ -1,4 +1,5 @@
 import XCTest
+
 @testable import Hyde
 
 final class ParserTests: XCTestCase {
@@ -117,168 +118,168 @@ final class ParserTests: XCTestCase {
 }
 
 let html = """
-<!DOCTYPE html>
-<html lang="da-DK">
-<head><meta charset="utf-8" /></head>
-<body>
-<div class="one-half">
-    <div class="one-half block inner30">
-        <h2>Vind <span class="floatright">18,6 m/s</span></h2>
-        <table>
-            <tr><thead><td colspan="2">Vindhastighed</td></thead></tr>
-            <tr><td>aktuelt</td><td class="alignright">18,6 m/s</td></tr>
-            <tr><td>middel</td><td class="alignright">17 m/s</td></tr>
-            <tr><td>vindstød</td><td class="alignright">22 m/s</td></tr>
-            <tr><td colspan="2">&nbsp;</td></tr>
-            <tr><td>Barometer</td><td class="alignright">1002&nbsp;hPA</td></tr>
-        </table>
+    <!DOCTYPE html>
+    <html lang="da-DK">
+    <head><meta charset="utf-8" /></head>
+    <body>
+    <div class="one-half">
+        <div class="one-half block inner30">
+            <h2>Vind <span class="floatright">18,6 m/s</span></h2>
+            <table>
+                <tr><thead><td colspan="2">Vindhastighed</td></thead></tr>
+                <tr><td>aktuelt</td><td class="alignright">18,6 m/s</td></tr>
+                <tr><td>middel</td><td class="alignright">17 m/s</td></tr>
+                <tr><td>vindstød</td><td class="alignright">22 m/s</td></tr>
+                <tr><td colspan="2">&nbsp;</td></tr>
+                <tr><td>Barometer</td><td class="alignright">1002&nbsp;hPA</td></tr>
+            </table>
+        </div>
+        <div class="one-half block inner30">
+            <h2>Retning <span class="floatright">VNV</span></h2>
+            <table>
+                <tr><thead><td colspan="2">Vindretning</td></thead></tr>
+                <tr><td>aktuelt</td><td class="alignright">VNV<br><span>299&deg;</span></td></tr>
+                <tr><td>middel</td><td class="alignright">VNV<br><span>296&deg;</span></td></tr>
+            </table>
+        </div>
     </div>
-    <div class="one-half block inner30">
-        <h2>Retning <span class="floatright">VNV</span></h2>
-        <table>
-            <tr><thead><td colspan="2">Vindretning</td></thead></tr>
-            <tr><td>aktuelt</td><td class="alignright">VNV<br><span>299&deg;</span></td></tr>
-            <tr><td>middel</td><td class="alignright">VNV<br><span>296&deg;</span></td></tr>
-        </table>
+    <div class="one-half">
+        <div class="one-half block inner30">
+            <h2>Bølger<span class="floatright extra-narrow">3,88 m</span></h2>
+            <table class="mb0 pb0">
+                <tr><thead><td colspan="2">Bølger</td></thead></tr>
+                <tr><td>max</td><td class="alignright">3,88&nbsp;m</td></tr>
+                <tr><td>middel</td><td class="alignright">2,48&nbsp;m</td></tr>
+                <tr><td>Bølgeperiode</td><td class="alignright">6&nbsp;sek</td></tr>
+                <tr><td>Bølgeretning</td><td class="alignright">N<br><span>0&deg;</span></td></tr>
+                <tr><thead><td colspan="2">Strøm</td></thead></tr>
+                <tr><td>Retning</td><td class="alignright">Ø<br><span>96&deg;</span></td></tr>
+                <tr><td>Fart</td><td class="alignright">0,74&nbsp;knob</td></tr>
+            </table>
+        </div>
     </div>
-</div>
-<div class="one-half">
-    <div class="one-half block inner30">
-        <h2>Bølger<span class="floatright extra-narrow">3,88 m</span></h2>
-        <table class="mb0 pb0">
-            <tr><thead><td colspan="2">Bølger</td></thead></tr>
-            <tr><td>max</td><td class="alignright">3,88&nbsp;m</td></tr>
-            <tr><td>middel</td><td class="alignright">2,48&nbsp;m</td></tr>
-            <tr><td>Bølgeperiode</td><td class="alignright">6&nbsp;sek</td></tr>
-            <tr><td>Bølgeretning</td><td class="alignright">N<br><span>0&deg;</span></td></tr>
-            <tr><thead><td colspan="2">Strøm</td></thead></tr>
-            <tr><td>Retning</td><td class="alignright">Ø<br><span>96&deg;</span></td></tr>
-            <tr><td>Fart</td><td class="alignright">0,74&nbsp;knob</td></tr>
-        </table>
-    </div>
-</div>
-</body>
-</html>
-"""
+    </body>
+    </html>
+    """
 
 let hvideSandeHTML = """
-<!DOCTYPE html>
-<html lang="da-DK">
-<head><meta charset="utf-8" /></head>
-<body>
-<div class="one-half">
-    <div class="one-half block inner30">
-        <h2>Vind <span class="floatright">10,7 m/s</span></h2>
-        <table>
-            <tr><thead><td colspan="2">Vindhastighed</td></thead></tr>
-            <tr><td>aktuelt</td><td class="alignright">10,7 m/s</td></tr>
-            <tr><td>middel</td><td class="alignright">8,8 m/s</td></tr>
-            <tr><td>vindstød</td><td class="alignright">13 m/s</td></tr>
-            <tr><td colspan="2">&nbsp;</td></tr>
-            <tr><td>Barometer</td><td class="alignright">1010&nbsp;hPA</td></tr>
-        </table>
+    <!DOCTYPE html>
+    <html lang="da-DK">
+    <head><meta charset="utf-8" /></head>
+    <body>
+    <div class="one-half">
+        <div class="one-half block inner30">
+            <h2>Vind <span class="floatright">10,7 m/s</span></h2>
+            <table>
+                <tr><thead><td colspan="2">Vindhastighed</td></thead></tr>
+                <tr><td>aktuelt</td><td class="alignright">10,7 m/s</td></tr>
+                <tr><td>middel</td><td class="alignright">8,8 m/s</td></tr>
+                <tr><td>vindstød</td><td class="alignright">13 m/s</td></tr>
+                <tr><td colspan="2">&nbsp;</td></tr>
+                <tr><td>Barometer</td><td class="alignright">1010&nbsp;hPA</td></tr>
+            </table>
+        </div>
+        <div class="one-half block inner30">
+            <h2>Retning <span class="floatright">VNV</span></h2>
+            <table>
+                <tr><thead><td colspan="2">Vindretning</td></thead></tr>
+                <tr><td>aktuelt</td><td class="alignright">VNV<br><span>303&deg;</span></td></tr>
+                <tr><td>middel</td><td class="alignright">VNV<br><span>301&deg;</span></td></tr>
+            </table>
+        </div>
     </div>
-    <div class="one-half block inner30">
-        <h2>Retning <span class="floatright">VNV</span></h2>
-        <table>
-            <tr><thead><td colspan="2">Vindretning</td></thead></tr>
-            <tr><td>aktuelt</td><td class="alignright">VNV<br><span>303&deg;</span></td></tr>
-            <tr><td>middel</td><td class="alignright">VNV<br><span>301&deg;</span></td></tr>
-        </table>
+    <div class="one-half">
+        <div class="one-half block inner30">
+            <h2>Havn <span class="floatright">-0,25&nbsp;m</span></h2>
+            <table>
+                <tr><thead><td colspan="2">Vandstand</td></thead></tr>
+                <tr><td>Havet</td><td class="alignright">-0,25 m</td></tr>
+                <tr><td>Havnen</td><td class="alignright">-0,25 m</td></tr>
+                <tr><td>Fjorden</td><td class="alignright">0 m</td></tr>
+            </table>
+        </div>
+        <div class="one-half block inner30">
+            <h2>Bølger<span class="floatright extra-narrow">2,48 m</span></h2>
+            <table class="mb0 pb0">
+                <tr><thead><td colspan="2">Bølger</td></thead></tr>
+                <tr><td>max</td><td class="alignright">2,48&nbsp;m</td></tr>
+                <tr><td>middel</td><td class="alignright">1,59&nbsp;m</td></tr>
+                <tr><td>Bølgeperiode</td><td class="alignright">4,3&nbsp;sek</td></tr>
+                <tr><td>Bølgeretning</td><td class="alignright">VNV<br><span>291&deg;</span></td></tr>
+            </table>
+        </div>
     </div>
-</div>
-<div class="one-half">
-    <div class="one-half block inner30">
-        <h2>Havn <span class="floatright">-0,25&nbsp;m</span></h2>
-        <table>
-            <tr><thead><td colspan="2">Vandstand</td></thead></tr>
-            <tr><td>Havet</td><td class="alignright">-0,25 m</td></tr>
-            <tr><td>Havnen</td><td class="alignright">-0,25 m</td></tr>
-            <tr><td>Fjorden</td><td class="alignright">0 m</td></tr>
-        </table>
+    <div class="one-half">
+        <div class="full block inner30">
+            <h2 class="narrow">Gennemstrømning<span class="floatright">0 m<sup>3</sup>/s</span></h2>
+            <table>
+                <tr><thead><td colspan="2">Slusedrift i dag</td></thead></tr>
+                <tr><td>Strømningsretning</td><td class="alignright">neutral</td></tr>
+                <tr><td>Slusedrift</td><td class="alignright">lukket</td></tr>
+            </table>
+        </div>
     </div>
-    <div class="one-half block inner30">
-        <h2>Bølger<span class="floatright extra-narrow">2,48 m</span></h2>
-        <table class="mb0 pb0">
-            <tr><thead><td colspan="2">Bølger</td></thead></tr>
-            <tr><td>max</td><td class="alignright">2,48&nbsp;m</td></tr>
-            <tr><td>middel</td><td class="alignright">1,59&nbsp;m</td></tr>
-            <tr><td>Bølgeperiode</td><td class="alignright">4,3&nbsp;sek</td></tr>
-            <tr><td>Bølgeretning</td><td class="alignright">VNV<br><span>291&deg;</span></td></tr>
-        </table>
-    </div>
-</div>
-<div class="one-half">
-    <div class="full block inner30">
-        <h2 class="narrow">Gennemstrømning<span class="floatright">0 m<sup>3</sup>/s</span></h2>
-        <table>
-            <tr><thead><td colspan="2">Slusedrift i dag</td></thead></tr>
-            <tr><td>Strømningsretning</td><td class="alignright">neutral</td></tr>
-            <tr><td>Slusedrift</td><td class="alignright">lukket</td></tr>
-        </table>
-    </div>
-</div>
-</body>
-</html>
-"""
+    </body>
+    </html>
+    """
 
 let thorsmindeHTML = """
-<!DOCTYPE html>
-<html lang="da-DK">
-<head><meta charset="utf-8" /></head>
-<body>
-<div class="one-half">
-    <div class="one-half block inner30">
-        <h2>Vind <span class="floatright">12,3 m/s</span></h2>
-        <table>
-            <tr><thead><td colspan="2">Vindhastighed</td></thead></tr>
-            <tr><td>aktuelt</td><td class="alignright">12,3 m/s</td></tr>
-            <tr><td>middel</td><td class="alignright">11,1 m/s</td></tr>
-            <tr><td>vindstød</td><td class="alignright"> m/s</td></tr>
-            <tr><td colspan="2">&nbsp;</td></tr>
-            <tr><td>Barometer</td><td class="alignright">1012&nbsp;hPA</td></tr>
-        </table>
+    <!DOCTYPE html>
+    <html lang="da-DK">
+    <head><meta charset="utf-8" /></head>
+    <body>
+    <div class="one-half">
+        <div class="one-half block inner30">
+            <h2>Vind <span class="floatright">12,3 m/s</span></h2>
+            <table>
+                <tr><thead><td colspan="2">Vindhastighed</td></thead></tr>
+                <tr><td>aktuelt</td><td class="alignright">12,3 m/s</td></tr>
+                <tr><td>middel</td><td class="alignright">11,1 m/s</td></tr>
+                <tr><td>vindstød</td><td class="alignright"> m/s</td></tr>
+                <tr><td colspan="2">&nbsp;</td></tr>
+                <tr><td>Barometer</td><td class="alignright">1012&nbsp;hPA</td></tr>
+            </table>
+        </div>
+        <div class="one-half block inner30">
+            <h2>Retning <span class="floatright">VNV</span></h2>
+            <table>
+                <tr><thead><td colspan="2">Vindretning</td></thead></tr>
+                <tr><td>aktuelt</td><td class="alignright">VNV<br><span>302&deg;</span></td></tr>
+                <tr><td>middel</td><td class="alignright">VNV<br><span>303&deg;</span></td></tr>
+            </table>
+        </div>
     </div>
-    <div class="one-half block inner30">
-        <h2>Retning <span class="floatright">VNV</span></h2>
-        <table>
-            <tr><thead><td colspan="2">Vindretning</td></thead></tr>
-            <tr><td>aktuelt</td><td class="alignright">VNV<br><span>302&deg;</span></td></tr>
-            <tr><td>middel</td><td class="alignright">VNV<br><span>303&deg;</span></td></tr>
-        </table>
+    <div class="one-half">
+        <div class="one-half block inner30">
+            <h2>Havn <span class="floatright">-0,12&nbsp;m</span></h2>
+            <table>
+                <tr><thead><td colspan="2">Vandstand</td></thead></tr>
+                <tr><td>Havet</td><td class="alignright">-0,12 m</td></tr>
+                <tr><td>Havnen</td><td class="alignright">-0,12 m</td></tr>
+                <tr><td>Fjorden</td><td class="alignright">0,03 m</td></tr>
+            </table>
+        </div>
+        <div class="one-half block inner30">
+            <h2>Bølger<span class="floatright extra-narrow">2,65 m</span></h2>
+            <table class="mb0 pb0">
+                <tr><thead><td colspan="2">Bølger</td></thead></tr>
+                <tr><td>max</td><td class="alignright">2,65&nbsp;m</td></tr>
+                <tr><td>middel</td><td class="alignright">1,69&nbsp;m</td></tr>
+                <tr><td>Bølgeperiode</td><td class="alignright">3,6&nbsp;sek</td></tr>
+                <tr><td>Bølgeretning</td><td class="alignright">V<br><span>281&deg;</span></td></tr>
+            </table>
+        </div>
     </div>
-</div>
-<div class="one-half">
-    <div class="one-half block inner30">
-        <h2>Havn <span class="floatright">-0,12&nbsp;m</span></h2>
-        <table>
-            <tr><thead><td colspan="2">Vandstand</td></thead></tr>
-            <tr><td>Havet</td><td class="alignright">-0,12 m</td></tr>
-            <tr><td>Havnen</td><td class="alignright">-0,12 m</td></tr>
-            <tr><td>Fjorden</td><td class="alignright">0,03 m</td></tr>
-        </table>
+    <div class="one-half">
+        <div class="full block inner30">
+            <h2 class="narrow">Gennemstrømning<span class="floatright">-4 m<sup>3</sup>/s</span></h2>
+            <table>
+                <tr><thead><td colspan="2">Slusedrift i dag</td></thead></tr>
+                <tr><td>Strømningsretning</td><td class="alignright">neutral</td></tr>
+                <tr><td>Slusedrift</td><td class="alignright">lukket</td></tr>
+            </table>
+        </div>
     </div>
-    <div class="one-half block inner30">
-        <h2>Bølger<span class="floatright extra-narrow">2,65 m</span></h2>
-        <table class="mb0 pb0">
-            <tr><thead><td colspan="2">Bølger</td></thead></tr>
-            <tr><td>max</td><td class="alignright">2,65&nbsp;m</td></tr>
-            <tr><td>middel</td><td class="alignright">1,69&nbsp;m</td></tr>
-            <tr><td>Bølgeperiode</td><td class="alignright">3,6&nbsp;sek</td></tr>
-            <tr><td>Bølgeretning</td><td class="alignright">V<br><span>281&deg;</span></td></tr>
-        </table>
-    </div>
-</div>
-<div class="one-half">
-    <div class="full block inner30">
-        <h2 class="narrow">Gennemstrømning<span class="floatright">-4 m<sup>3</sup>/s</span></h2>
-        <table>
-            <tr><thead><td colspan="2">Slusedrift i dag</td></thead></tr>
-            <tr><td>Strømningsretning</td><td class="alignright">neutral</td></tr>
-            <tr><td>Slusedrift</td><td class="alignright">lukket</td></tr>
-        </table>
-    </div>
-</div>
-</body>
-</html>
-"""
+    </body>
+    </html>
+    """

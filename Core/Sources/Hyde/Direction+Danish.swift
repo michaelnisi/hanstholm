@@ -17,7 +17,7 @@ extension Direction {
         "V": .west,
         "VNV": .westNorthWest,
         "NV": .northWest,
-        "NNV": .northNorthWest
+        "NNV": .northNorthWest,
     ]
 
     init?(danish string: String?) {

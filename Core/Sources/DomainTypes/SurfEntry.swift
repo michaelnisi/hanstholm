@@ -1,5 +1,5 @@
-import WidgetKit
 import SwiftUI
+import WidgetKit
 
 public struct SurfEntry: TimelineEntry, Identifiable, Hashable, Sendable, Codable {
     public enum Status: Hashable, Sendable, Codable {
@@ -11,7 +11,7 @@ public struct SurfEntry: TimelineEntry, Identifiable, Hashable, Sendable, Codabl
         public let middle: Double
         public let period: Double
         public let direction: Direction
-        
+
         public init(max: Double, middle: Double, period: Double, direction: Direction) {
             self.max = max
             self.middle = middle
@@ -19,7 +19,7 @@ public struct SurfEntry: TimelineEntry, Identifiable, Hashable, Sendable, Codabl
             self.direction = direction
         }
     }
-    
+
     public struct Wind: Hashable, Sendable, Codable {
         public struct Speed: Hashable, Sendable, Codable {
             public let gust: Double?
@@ -32,16 +32,16 @@ public struct SurfEntry: TimelineEntry, Identifiable, Hashable, Sendable, Codabl
                 self.current = current
             }
         }
-        
+
         public let speed: Speed
         public let direction: Direction
-        
+
         public init(speed: Speed, direction: Direction) {
             self.speed = speed
             self.direction = direction
         }
     }
-    
+
     public let date: Date
     public let place: Place
     public let status: Status
@@ -71,4 +71,3 @@ public struct SurfEntry: TimelineEntry, Identifiable, Hashable, Sendable, Codabl
         self.wind = wind
     }
 }
-

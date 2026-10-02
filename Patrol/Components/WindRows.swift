@@ -5,8 +5,8 @@
 //  Created by Michael Nisi on 01.10.26.
 //
 
-import SwiftUI
 import DomainTypes
+import SwiftUI
 
 struct WindRows: View {
     let wind: SurfEntry.Wind

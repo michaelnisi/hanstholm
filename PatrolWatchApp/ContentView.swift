@@ -1,6 +1,6 @@
-import SwiftUI
 import DomainTypes
 import MockData
+import SwiftUI
 
 enum Route: Hashable {
     case surfSpot(Place)

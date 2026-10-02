@@ -1,8 +1,8 @@
-import WidgetKit
-import SwiftUI
-import DomainTypes
 import Conditions
+import DomainTypes
 import Hyde
+import SwiftUI
+import WidgetKit
 
 struct SurfEntryProvider: TimelineProvider {
     private let coordinator = ConditionsCoordinator.widget
@@ -11,21 +11,24 @@ struct SurfEntryProvider: TimelineProvider {
         .fallback()
     }
 
-    func getSnapshot(in context: Context, completion: @escaping @Sendable (SurfEntry) -> ()) {
+    func getSnapshot(in context: Context, completion: @escaping @Sendable (SurfEntry) -> Void) {
         if context.isPreview {
             completion(.fallback())
             return
         }
 
         _ = Task {
-            let entry = await coordinator.cached()
+            let entry =
+                await coordinator.cached()
                 ?? .fallback(status: .error)
 
             completion(entry)
         }
     }
 
-    func getTimeline(in context: Context, completion: @escaping @Sendable  (Timeline<SurfEntry>) -> ()) {
+    func getTimeline(
+        in context: Context, completion: @escaping @Sendable (Timeline<SurfEntry>) -> Void
+    ) {
         Task {
             await coordinator.scheduleDeferredRefresh(after: SurfEntry.cacheTTL)
 
@@ -42,7 +45,8 @@ struct SurfEntryProvider: TimelineProvider {
                 entry = .fallback(status: .error)
             }
 
-            let timeline = Timeline(entries: [entry], policy: .after(.now.addingTimeInterval(SurfEntry.cacheTTL)))
+            let timeline = Timeline(
+                entries: [entry], policy: .after(.now.addingTimeInterval(SurfEntry.cacheTTL)))
 
             completion(timeline)
         }
@@ -56,7 +60,9 @@ extension SurfEntry {
             place: Hyde.Station.hanstholm.place,
             status: status,
             wave: Wave(max: 2.0, middle: 1.2, period: 8, direction: .init(cardinal: .northWest)),
-            wind: Wind(speed: .init(gust: 10, middle: 7, current: 5), direction: .init(cardinal: .southWest))
+            wind: Wind(
+                speed: .init(gust: 10, middle: 7, current: 5),
+                direction: .init(cardinal: .southWest))
         )
     }
 }
@@ -67,6 +73,7 @@ extension SurfEntryProvider {
             return WidgetRelevance([])
         }
 
-        return WidgetRelevance([WidgetRelevanceAttribute<Void>(context: .location(region.clRegion))])
+        return WidgetRelevance([WidgetRelevanceAttribute<Void>(context: .location(region.clRegion))]
+        )
     }
 }

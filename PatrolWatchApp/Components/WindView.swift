@@ -1,15 +1,17 @@
-import SwiftUI
 import DomainTypes
 import MockData
 import SurfUI
+import SwiftUI
 
 struct WindView: View {
     let name: String
     let date: Date
     let wind: SurfEntry.Wind
-    
+
     var body: some View {
-        SurfGauge(value: wind.speed.middle, total: wind.speed.gust ?? wind.speed.middle, tint: .teal) {
+        SurfGauge(
+            value: wind.speed.middle, total: wind.speed.gust ?? wind.speed.middle, tint: .teal
+        ) {
             WindInfo(
                 date: date,
                 speed: wind.speed.current,
@@ -54,7 +56,7 @@ struct WindInfo: View {
             speed.knotsText()
                 .font(.title2)
                 .fontWeight(.bold)
-            
+
             TimestampCaption(date: date)
         }
         .cappedDynamicType()

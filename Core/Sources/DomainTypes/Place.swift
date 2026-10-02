@@ -10,7 +10,8 @@ public struct Place: Hashable, Sendable, Codable, Identifiable {
         PlaceID(plugin: pluginID, key: key)
     }
 
-    public init(pluginID: PluginID, key: String, name: String, icon: String = "mappin.and.ellipse") {
+    public init(pluginID: PluginID, key: String, name: String, icon: String = "mappin.and.ellipse")
+    {
         self.pluginID = pluginID
         self.key = key
         self.name = name

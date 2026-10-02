@@ -1,6 +1,6 @@
-import Foundation
-import DomainTypes
 import ConditionsPlugin
+import DomainTypes
+import Foundation
 
 final class Counter: @unchecked Sendable {
     private let lock = NSLock()
@@ -35,7 +35,8 @@ func makeEntry(date: Date = .now, place: Place = makePlace()) -> SurfEntry {
         place: place,
         status: .ok,
         wave: .init(max: 1.2, middle: 0.8, period: 8, direction: .init(cardinal: .west)),
-        wind: .init(speed: .init(gust: 12, middle: 9, current: 10), direction: .init(cardinal: .west))
+        wind: .init(
+            speed: .init(gust: 12, middle: 9, current: 10), direction: .init(cardinal: .west))
     )
 }
 
@@ -57,7 +58,8 @@ struct StubPlugin: ConditionsPlugin, DeferredDownloadable {
         URLRequest(url: URL(string: "https://example.invalid/\(place.key)")!)
     }
 
-    func decodeDeferred(_ data: Data, mimeType: String?, for place: Place) async throws -> SurfEntry {
+    func decodeDeferred(_ data: Data, mimeType: String?, for place: Place) async throws -> SurfEntry
+    {
         decodes.increment()
 
         return try await entry(place)

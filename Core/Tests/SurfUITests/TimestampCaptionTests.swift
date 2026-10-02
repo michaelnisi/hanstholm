@@ -1,4 +1,5 @@
 import XCTest
+
 @testable import SurfUI
 
 final class TimestampCaptionTests: XCTestCase {

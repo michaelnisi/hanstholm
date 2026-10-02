@@ -1,5 +1,5 @@
-import WatchKit
 import Conditions
+import WatchKit
 
 func backgroundRefresh() async {
     do {

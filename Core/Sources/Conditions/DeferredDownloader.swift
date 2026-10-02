@@ -1,5 +1,5 @@
-import Foundation
 import DomainTypes
+import Foundation
 
 final class DeferredDownloader: NSObject, URLSessionDownloadDelegate, @unchecked Sendable {
     struct Token: Codable, Equatable, Sendable {
@@ -15,9 +15,10 @@ final class DeferredDownloader: NSObject, URLSessionDownloadDelegate, @unchecked
 
         init?(taskDescription: String?) {
             guard let taskDescription,
-                  let data = taskDescription.data(using: .utf8),
-                  let token = try? JSONDecoder().decode(Token.self, from: data),
-                  token.version == Self.currentVersion else {
+                let data = taskDescription.data(using: .utf8),
+                let token = try? JSONDecoder().decode(Token.self, from: data),
+                token.version == Self.currentVersion
+            else {
                 return nil
             }
 
@@ -132,7 +133,8 @@ final class DeferredDownloader: NSObject, URLSessionDownloadDelegate, @unchecked
         lock.unlock()
     }
 
-    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?)
+    {
         if let error {
             logger.error("deferred download failed: \(error)")
         }

@@ -1,6 +1,6 @@
-import SwiftUI
 import DomainTypes
 import MockData
+import SwiftUI
 
 struct ManagePlaces: View {
     @Environment(SurfProvider.self) private var surfProvider

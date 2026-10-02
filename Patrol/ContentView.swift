@@ -1,7 +1,7 @@
-import SwiftUI
-import DomainTypes
 import Cache
+import DomainTypes
 import MockData
+import SwiftUI
 
 struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
@@ -16,7 +16,8 @@ struct ContentView: View {
                     ContentUnavailableView(
                         "No Data Yet",
                         systemImage: "water.waves",
-                        description: Text("Add the Patrol widget to your Lock Screen to fetch conditions.")
+                        description: Text(
+                            "Add the Patrol widget to your Lock Screen to fetch conditions.")
                     )
                 }
             }
@@ -39,4 +40,3 @@ struct ContentView: View {
         surfEntry = await Cache().selectedConditions()
     }
 }
-

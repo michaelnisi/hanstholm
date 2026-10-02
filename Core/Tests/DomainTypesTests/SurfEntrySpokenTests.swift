@@ -1,4 +1,5 @@
 import XCTest
+
 @testable import DomainTypes
 
 final class SurfEntrySpokenTests: XCTestCase {
@@ -14,7 +15,8 @@ final class SurfEntrySpokenTests: XCTestCase {
     }
 
     func testWaveSpokenDescribesHeightPeriodAndDirection() {
-        let wave = SurfEntry.Wave(max: 1.2, middle: 0.9, period: 8, direction: .init(cardinal: .northWest))
+        let wave = SurfEntry.Wave(
+            max: 1.2, middle: 0.9, period: 8, direction: .init(cardinal: .northWest))
 
         XCTAssertEqual(wave.spoken, "waves are 3 feet at 8 seconds from northwest")
     }
@@ -29,7 +31,8 @@ final class SurfEntrySpokenTests: XCTestCase {
     }
 
     func testWaveSpokenAlwaysIncludesDirection() {
-        let wave = SurfEntry.Wave(max: 1.2, middle: 0.9, period: 8, direction: .init(cardinal: .northWest))
+        let wave = SurfEntry.Wave(
+            max: 1.2, middle: 0.9, period: 8, direction: .init(cardinal: .northWest))
 
         XCTAssertTrue(wave.spoken.contains(wave.direction.spoken()))
     }
@@ -39,7 +42,8 @@ final class SurfEntrySpokenTests: XCTestCase {
             speed: .init(gust: 9, middle: 6, current: 6),
             direction: .init(cardinal: .southWest)
         )
-        let wave = SurfEntry.Wave(max: 1.2, middle: 0.9, period: 8, direction: .init(cardinal: .northWest))
+        let wave = SurfEntry.Wave(
+            max: 1.2, middle: 0.9, period: 8, direction: .init(cardinal: .northWest))
         let entry = SurfEntry(date: .now, place: place, status: .ok, wave: wave, wind: wind)
 
         XCTAssertEqual(

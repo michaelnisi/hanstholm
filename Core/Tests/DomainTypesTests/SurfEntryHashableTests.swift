@@ -1,5 +1,6 @@
-import XCTest
 import Foundation
+import XCTest
+
 @testable import DomainTypes
 
 final class SurfEntryHashableTests: XCTestCase {

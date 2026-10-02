@@ -1,7 +1,7 @@
-import SwiftUI
-import DomainTypes
 import Cache
+import DomainTypes
 import MockData
+import SwiftUI
 
 struct OneColumnConditions: View {
     let surfEntry: SurfEntry
@@ -17,7 +17,9 @@ struct OneColumnConditions: View {
             }
 
             Section {
-                LabeledContent("Updated", value: surfEntry.date.formatted(date: .abbreviated, time: .shortened))
+                LabeledContent(
+                    "Updated", value: surfEntry.date.formatted(date: .abbreviated, time: .shortened)
+                )
             }
         }
     }

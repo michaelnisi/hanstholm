@@ -7,7 +7,9 @@ public struct SurfGauge<Label: View>: View {
     let tint: Color
     let label: () -> Label
 
-    public init(value: Double, total: Double, tint: Color, @ViewBuilder label: @escaping () -> Label) {
+    public init(
+        value: Double, total: Double, tint: Color, @ViewBuilder label: @escaping () -> Label
+    ) {
         self.value = value
         self.total = total
         self.tint = tint

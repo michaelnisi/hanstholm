@@ -1,5 +1,6 @@
-import XCTest
 import DomainTypes
+import XCTest
+
 @testable import Cache
 
 final class CacheTests: XCTestCase {
@@ -31,7 +32,8 @@ final class CacheTests: XCTestCase {
             place: place ?? makePlace(),
             status: .ok,
             wave: .init(max: 1.2, middle: 0.8, period: 8, direction: .init(cardinal: .west)),
-            wind: .init(speed: .init(gust: 12, middle: 9, current: 10), direction: .init(cardinal: .west))
+            wind: .init(
+                speed: .init(gust: 12, middle: 9, current: 10), direction: .init(cardinal: .west))
         )
     }
 
@@ -51,7 +53,8 @@ final class CacheTests: XCTestCase {
         let entry = makeSurfEntry(date: now)
 
         await cache.setConditions(entry)
-        let fresh = await cache.conditions(matching: entry.place, newer: now.addingTimeInterval(-60))
+        let fresh = await cache.conditions(
+            matching: entry.place, newer: now.addingTimeInterval(-60))
 
         XCTAssertEqual(fresh, entry)
     }
@@ -62,7 +65,8 @@ final class CacheTests: XCTestCase {
         let entry = makeSurfEntry(date: staleDate)
 
         await cache.setConditions(entry)
-        let result = await cache.conditions(matching: entry.place, newer: Date.now.addingTimeInterval(-60))
+        let result = await cache.conditions(
+            matching: entry.place, newer: Date.now.addingTimeInterval(-60))
 
         XCTAssertNil(result)
     }
@@ -162,7 +166,10 @@ final class CacheTests: XCTestCase {
 
     func testIncludedPlaceIDsRoundTripsThroughSetIncludedPlaceIDs() async {
         let cache = Cache(userDefaults: userDefaults)
-        let ids = [PlaceID(plugin: "test.stub", key: "hanstholm"), PlaceID(plugin: "test.stub", key: "hvide-sande")]
+        let ids = [
+            PlaceID(plugin: "test.stub", key: "hanstholm"),
+            PlaceID(plugin: "test.stub", key: "hvide-sande"),
+        ]
 
         await cache.setIncludedPlaceIDs(ids)
         let fetched = await cache.includedPlaceIDs()

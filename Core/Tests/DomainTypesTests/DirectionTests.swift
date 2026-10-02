@@ -1,4 +1,5 @@
 import XCTest
+
 @testable import DomainTypes
 
 final class DirectionTests: XCTestCase {

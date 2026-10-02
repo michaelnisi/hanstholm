@@ -1,5 +1,5 @@
-import Foundation
 import DomainTypes
+import Foundation
 
 public protocol ConditionsPlugin: Sendable {
     var id: PluginID { get }

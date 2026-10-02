@@ -1,5 +1,6 @@
-import XCTest
 import DomainTypes
+import XCTest
+
 @testable import Hyde
 
 final class DirectionTests: XCTestCase {

@@ -1,5 +1,6 @@
-import XCTest
 import DomainTypes
+import XCTest
+
 @testable import Conditions
 
 final class DeferredDownloadTokenTests: XCTestCase {
@@ -16,7 +17,8 @@ final class DeferredDownloadTokenTests: XCTestCase {
         let token = DeferredDownloader.Token(place: place)
         let encoded = try XCTUnwrap(token.encoded())
 
-        XCTAssertEqual(DeferredDownloader.Token(taskDescription: encoded)?.place.pluginID, "test.stub")
+        XCTAssertEqual(
+            DeferredDownloader.Token(taskDescription: encoded)?.place.pluginID, "test.stub")
     }
 
     func testRoundTripPreservesNonASCIIName() throws {
@@ -35,7 +37,8 @@ final class DeferredDownloadTokenTests: XCTestCase {
     }
 
     func testRejectsUnknownVersion() {
-        let future = #"{"version":99,"place":{"pluginID":"test.stub","key":"hanstholm","name":"Hanstholm"}}"#
+        let future =
+            #"{"version":99,"place":{"pluginID":"test.stub","key":"hanstholm","name":"Hanstholm"}}"#
 
         XCTAssertNil(DeferredDownloader.Token(taskDescription: future))
     }

@@ -1,5 +1,6 @@
-import XCTest
 import DomainTypes
+import XCTest
+
 @testable import Conditions
 
 private actor EventLog {
@@ -37,11 +38,15 @@ final class DeferredDownloaderTests: XCTestCase {
         let log = EventLog()
 
         downloader.setIngest { data, mimeType, receivedToken in
-            await log.record("data:\(data == payload) mimeType:\(mimeType ?? "nil") token:\(receivedToken == token)")
+            await log.record(
+                "data:\(data == payload) mimeType:\(mimeType ?? "nil") token:\(receivedToken == token)"
+            )
             ingested.fulfill()
         }
 
-        downloader.urlSession(session, downloadTask: makeDownloadTask(taskDescription: token.encoded()), didFinishDownloadingTo: fileURL)
+        downloader.urlSession(
+            session, downloadTask: makeDownloadTask(taskDescription: token.encoded()),
+            didFinishDownloadingTo: fileURL)
 
         await fulfillment(of: [ingested], timeout: 1)
 
@@ -52,7 +57,8 @@ final class DeferredDownloaderTests: XCTestCase {
     func testDidFinishDownloadingSkipsIngestWhenPayloadIsUnreadable() async throws {
         let downloader = DeferredDownloader(configuration: .init())
         let token = DeferredDownloader.Token(place: place)
-        let missingFileURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        let missingFileURL = FileManager.default.temporaryDirectory.appendingPathComponent(
+            UUID().uuidString)
 
         let log = EventLog()
 
@@ -60,7 +66,9 @@ final class DeferredDownloaderTests: XCTestCase {
             await log.record("ingest")
         }
 
-        downloader.urlSession(session, downloadTask: makeDownloadTask(taskDescription: token.encoded()), didFinishDownloadingTo: missingFileURL)
+        downloader.urlSession(
+            session, downloadTask: makeDownloadTask(taskDescription: token.encoded()),
+            didFinishDownloadingTo: missingFileURL)
 
         try await Task.sleep(nanoseconds: 100_000_000)
 
