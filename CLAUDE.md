@@ -28,6 +28,8 @@ Every distinct piece of work gets its own issue, branch, and PR — never stack 
 
 Comments are treated as a code smell in this project. Prefer clear naming, extracted functions, and types that make constraints unrepresentable over prose explaining "why." If you feel the urge to write a comment — including for a non-obvious invariant, a fallback, or a tolerated failure — prefer writing a test that demonstrates the behavior instead: the test name carries the "why" and the assertion pins it down. This overrides the global CLAUDE.md's "comments are fine when the WHY is non-obvious" carve-out; for this project, treat that carve-out as effectively unused. It's fine to leave existing comments alone, but don't add new ones as a way to explain a design decision — put that explanation in the PR description or commit message instead.
 
+Group assignment statements and call statements separately within a block, and separate each group with a single blank line. Reorder interleaved statements to form groups only when doing so doesn't change behavior — e.g. don't reorder across a dependency, where a call's effect feeds a later assignment or an assignment's value feeds a later call. For example, in an initializer, a call like `super.init()` is followed by a blank line before a run of property assignments.
+
 ## Repository Structure
 
 The product is now called Patrol (GH-76). The project file is `Patrol.xcodeproj`, the four targets are `Patrol`, `Patrol Watch App`, `PatrolWidgetExtension`, and `PatrolWidgetIOSExtension`, and the synced folders and scheme filenames below have been renamed to match.

@@ -9,6 +9,7 @@ import Observation
 
     override init() {
         super.init()
+
         manager.delegate = self
         status = manager.authorizationStatus
     }
