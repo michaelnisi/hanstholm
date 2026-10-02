@@ -1,5 +1,5 @@
-import Foundation
 import DomainTypes
+import Foundation
 
 extension UserDefaults: @retroactive @unchecked Sendable {}
 
@@ -22,7 +22,7 @@ public actor Cache {
         self.db = userDefaults
     }
 
-    public func dump() -> [String : Any] {
+    public func dump() -> [String: Any] {
         db?.dictionaryRepresentation() ?? [:]
     }
 }

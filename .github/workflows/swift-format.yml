@@ -1,0 +1,16 @@
+name: swift-format
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: macos-26
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check formatting
+        run: xcrun swift-format lint --configuration .swift-format --strict --recursive Core Patrol PatrolWatchApp PatrolWidget PatrolIntents

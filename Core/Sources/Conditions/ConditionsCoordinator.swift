@@ -1,8 +1,8 @@
+import Cache
+import ConditionsPlugin
+import DomainTypes
 import Foundation
 import os.log
-import Cache
-import DomainTypes
-import ConditionsPlugin
 
 let logger = Logger(subsystem: "ink.codes.Patrol", category: "Conditions")
 
@@ -54,7 +54,8 @@ public actor ConditionsCoordinator {
 
     public init(configuration: Configuration) {
         self.configuration = configuration
-        self.downloader = configuration.deferredDownloads.map(DeferredDownloader.init(configuration:))
+        self.downloader = configuration.deferredDownloads.map(
+            DeferredDownloader.init(configuration:))
 
         let plugins = configuration.registry.plugins
         let cache = configuration.cache
@@ -199,7 +200,8 @@ extension ConditionsCoordinator {
         do {
             let place = try await selectedPlace()
 
-            guard let plugin = Self.deferredPlugin(for: place, in: configuration.registry.plugins) else {
+            guard let plugin = Self.deferredPlugin(for: place, in: configuration.registry.plugins)
+            else {
                 return
             }
 

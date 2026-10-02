@@ -1,5 +1,5 @@
-import SwiftUI
 import Foundation
+import SwiftUI
 
 extension Double {
     func feetText(unitFont: Font = .caption) -> Text {
@@ -9,7 +9,8 @@ extension Double {
     }
 
     func knotsText(unitFont: Font = .caption) -> Text {
-        let converted = Measurement<UnitSpeed>(value: self, unit: .metersPerSecond).converted(to: .knots)
+        let converted = Measurement<UnitSpeed>(value: self, unit: .metersPerSecond).converted(
+            to: .knots)
         let value = Int(ceil(converted.value))
         return Text("\(value)\(Text("kn").font(unitFont))")
     }

@@ -1,6 +1,7 @@
-import Observation
-import DomainTypes
 import Conditions
+import DomainTypes
+import Observation
+
 #if DEBUG
 import MockData
 #endif

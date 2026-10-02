@@ -1,5 +1,5 @@
-import SwiftUI
 import DomainTypes
+import SwiftUI
 
 struct PlaceCard: View {
     static let baseHeight: CGFloat = 72
@@ -23,7 +23,12 @@ struct PlaceCard: View {
             }
             .frame(maxWidth: .infinity)
             .frame(height: height)
-            .background(Color.blue.gradient, in: .rect(corners: .concentric(minimum: .fixed(Self.minimumCornerRadius)), isUniform: true))
+            .background(
+                Color.blue.gradient,
+                in: .rect(
+                    corners: .concentric(minimum: .fixed(Self.minimumCornerRadius)), isUniform: true
+                )
+            )
             .overlay(alignment: .topTrailing) {
                 if isSelected {
                     Image(systemName: "checkmark.circle.fill")
@@ -38,8 +43,16 @@ struct PlaceCard: View {
 
 #Preview {
     VStack(spacing: 12) {
-        PlaceCard(place: .init(pluginID: "mock", key: "hanstholm", name: "Hanstholm", icon: "water.waves"), isSelected: true) {}
-        PlaceCard(place: .init(pluginID: "mock", key: "hvide-sande", name: "Hvide Sande", icon: "water.waves"), isSelected: false) {}
+        PlaceCard(
+            place: .init(
+                pluginID: "mock", key: "hanstholm", name: "Hanstholm", icon: "water.waves"),
+            isSelected: true
+        ) {}
+        PlaceCard(
+            place: .init(
+                pluginID: "mock", key: "hvide-sande", name: "Hvide Sande", icon: "water.waves"),
+            isSelected: false
+        ) {}
     }
     .padding()
 }

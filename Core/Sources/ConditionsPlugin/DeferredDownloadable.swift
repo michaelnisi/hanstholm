@@ -1,5 +1,5 @@
-import Foundation
 import DomainTypes
+import Foundation
 
 public protocol DeferredDownloadable: ConditionsPlugin {
     func deferredRequest(for place: Place) throws -> URLRequest

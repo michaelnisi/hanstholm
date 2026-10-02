@@ -1,13 +1,13 @@
-import SwiftUI
 import DomainTypes
 import MockData
 import SurfUI
+import SwiftUI
 
 struct WaveView: View {
     let name: String
     let date: Date
     let wave: SurfEntry.Wave
-    
+
     var body: some View {
         SurfGauge(value: wave.middle, total: wave.max, tint: .blue) {
             WaveInfo(
@@ -50,7 +50,7 @@ struct WaveInfo: View {
             middle.feetText()
                 .font(.title2)
                 .fontWeight(.bold)
-            
+
             TimestampCaption(date: date)
         }
         .cappedDynamicType()

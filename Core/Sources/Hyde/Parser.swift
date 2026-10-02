@@ -10,7 +10,8 @@ extension Data {
             throw Hyde.Fault.parsing
         }
 
-        return try string
+        return
+            try string
             .stripOutHtml()
             .splitLines()
     }
@@ -24,9 +25,10 @@ extension String {
 
         let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
             .documentType: NSAttributedString.DocumentType.html,
-            .characterEncoding: String.Encoding.utf8.rawValue
+            .characterEncoding: String.Encoding.utf8.rawValue,
         ]
-        let attributed = try NSAttributedString(data: data, options: options, documentAttributes: nil)
+        let attributed = try NSAttributedString(
+            data: data, options: options, documentAttributes: nil)
 
         return attributed.string
     }
@@ -65,11 +67,13 @@ extension Array where Element == String.SubSequence {
     }
 
     func windCurrent(for station: Hyde.Station = .hanstholm) -> Substring? {
-        substring(after: "aktuelt", within: "Vindhastighed", sectionHeadings: station.sectionHeadings)
+        substring(
+            after: "aktuelt", within: "Vindhastighed", sectionHeadings: station.sectionHeadings)
     }
 
     func windMiddle(for station: Hyde.Station = .hanstholm) -> Substring? {
-        substring(after: "middel", within: "Vindhastighed", sectionHeadings: station.sectionHeadings)
+        substring(
+            after: "middel", within: "Vindhastighed", sectionHeadings: station.sectionHeadings)
     }
 
     func windGust() -> Substring? {
@@ -91,15 +95,17 @@ extension Array where Element == String.SubSequence {
         if let section {
             guard let sectionIndex = firstIndex(of: section) else { return nil }
             startIndex = sectionIndex + 1
-            endIndex = self[startIndex...].firstIndex(where: { sectionHeadings.contains($0) }) ?? count
+            endIndex =
+                self[startIndex...].firstIndex(where: { sectionHeadings.contains($0) }) ?? count
         } else {
             startIndex = 0
             endIndex = count
         }
 
         guard startIndex < endIndex,
-              let labelIndex = self[startIndex..<endIndex].firstIndex(of: label),
-              labelIndex + 1 < endIndex else {
+            let labelIndex = self[startIndex..<endIndex].firstIndex(of: label),
+            labelIndex + 1 < endIndex
+        else {
             return nil
         }
 

@@ -1,7 +1,7 @@
-import SwiftUI
-import DomainTypes
 import Cache
+import DomainTypes
 import MockData
+import SwiftUI
 
 @available(iOS 27.1, *)
 struct TwoColumnConditions: View {
@@ -22,7 +22,9 @@ struct TwoColumnConditions: View {
                     }
 
                     Section {
-                        LabeledContent("Updated", value: surfEntry.date.formatted(date: .abbreviated, time: .shortened))
+                        LabeledContent(
+                            "Updated",
+                            value: surfEntry.date.formatted(date: .abbreviated, time: .shortened))
                     }
                 }
             }
@@ -33,13 +35,17 @@ struct TwoColumnConditions: View {
                 }
 
                 Section {
-                    LabeledContent("Updated", value: surfEntry.date.formatted(date: .abbreviated, time: .shortened))
+                    LabeledContent(
+                        "Updated",
+                        value: surfEntry.date.formatted(date: .abbreviated, time: .shortened))
                 }
             }
         }
         .arrangementViewStyle(.split.axes(.horizontal))
         .onGeometryChange(for: Bool.self) { proxy in
             proxy.size.width > proxy.size.height
-        } action: { isLandscape = $0 }
+        } action: {
+            isLandscape = $0
+        }
     }
 }

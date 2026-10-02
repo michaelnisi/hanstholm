@@ -1,6 +1,6 @@
-import SwiftUI
 import DomainTypes
 import MockData
+import SwiftUI
 
 struct PlacePicker: View {
     private static let cardSpacing: CGFloat = 12
@@ -71,8 +71,8 @@ struct PlacePicker: View {
     }
 }
 
-private extension View {
-    func placePickerCardTransition(reduceMotion: Bool) -> some View {
+extension View {
+    fileprivate func placePickerCardTransition(reduceMotion: Bool) -> some View {
         scrollTransition(.interactive, axis: .vertical) { content, phase in
             content.scaleEffect(reduceMotion ? 1 : 1 - abs(phase.value) * 0.15)
         }

@@ -1,6 +1,7 @@
-import XCTest
-import DomainTypes
 import ConditionsPlugin
+import DomainTypes
+import XCTest
+
 @testable import Hyde
 
 final class HydeTests: XCTestCase {
@@ -23,7 +24,8 @@ final class HydeTests: XCTestCase {
     func testPlaceKeyIsStableAndDistinctFromTheDisplayName() {
         XCTAssertEqual(hanstholm.key, "hanstholm")
         XCTAssertEqual(hanstholm.name, "Hanstholm")
-        XCTAssertEqual(hanstholm.id, PlaceID(plugin: "ink.codes.Patrol.plugin.hyde", key: "hanstholm"))
+        XCTAssertEqual(
+            hanstholm.id, PlaceID(plugin: "ink.codes.Patrol.plugin.hyde", key: "hanstholm"))
     }
 
     func testRegionCoversAllStations() {
@@ -65,7 +67,8 @@ final class HydeTests: XCTestCase {
 
     func testDecodeRejectsUnexpectedMediaType() async {
         do {
-            _ = try await plugin.decodeDeferred(Data(), mimeType: "application/json", for: hanstholm)
+            _ = try await plugin.decodeDeferred(
+                Data(), mimeType: "application/json", for: hanstholm)
             XCTFail("expected a media type failure")
         } catch {
             XCTAssertEqual(error as? ConditionsFault, .unexpectedMediaType("application/json"))
@@ -83,7 +86,8 @@ final class HydeTests: XCTestCase {
 
     func testDecodeThrowsOnUnparseablePayload() async {
         do {
-            _ = try await plugin.decodeDeferred(Data("nope".utf8), mimeType: "text/html", for: hanstholm)
+            _ = try await plugin.decodeDeferred(
+                Data("nope".utf8), mimeType: "text/html", for: hanstholm)
             XCTFail("expected a decoding failure")
         } catch {
             XCTAssertTrue(error is ConditionsFault || error is Hyde.Fault)

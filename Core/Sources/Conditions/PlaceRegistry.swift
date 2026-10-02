@@ -1,6 +1,6 @@
 import Cache
-import DomainTypes
 import ConditionsPlugin
+import DomainTypes
 
 struct PlaceRegistry: Sendable {
     let plugins: [any ConditionsPlugin]
@@ -60,7 +60,8 @@ struct PlaceRegistry: Sendable {
         }
 
         guard let fallbackID = ids.first,
-              let fallback = availablePlaces().first(where: { $0.id == fallbackID }) else {
+            let fallback = availablePlaces().first(where: { $0.id == fallbackID })
+        else {
             return false
         }
 

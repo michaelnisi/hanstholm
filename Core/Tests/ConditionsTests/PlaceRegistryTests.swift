@@ -1,8 +1,9 @@
-import XCTest
-import Foundation
 import Cache
-import DomainTypes
 import ConditionsPlugin
+import DomainTypes
+import Foundation
+import XCTest
+
 @testable import Conditions
 
 final class PlaceRegistryTests: XCTestCase {
@@ -158,7 +159,9 @@ final class PlaceRegistryTests: XCTestCase {
         let plugin = makePlugin()
         let (registry, _) = makeRegistry(plugin: plugin)
 
-        await registry.setIncludedPlaceIDs([makePlace().id, PlaceID(plugin: "gone.plugin", key: "nowhere")])
+        await registry.setIncludedPlaceIDs([
+            makePlace().id, PlaceID(plugin: "gone.plugin", key: "nowhere"),
+        ])
 
         let places = await registry.includedPlaces()
 

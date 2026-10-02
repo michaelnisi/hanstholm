@@ -1,8 +1,9 @@
-import XCTest
-import Foundation
 import Cache
-import DomainTypes
 import ConditionsPlugin
+import DomainTypes
+import Foundation
+import XCTest
+
 @testable import Conditions
 
 final class ConditionsCoordinatorTests: XCTestCase {
@@ -186,7 +187,8 @@ final class ConditionsCoordinatorTests: XCTestCase {
     }
 
     func testAnswerForARenamedPlaceIsAccepted() async throws {
-        let renamed = Place(pluginID: stubPluginID, key: makePlace().key, name: "New Name", icon: "new-icon")
+        let renamed = Place(
+            pluginID: stubPluginID, key: makePlace().key, name: "New Name", icon: "new-icon")
         let plugin = makePlugin(entry: { _ in makeEntry(place: renamed) })
         let (coordinator, cache) = makeCoordinator(plugin: plugin)
 

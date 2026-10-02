@@ -1,6 +1,6 @@
-import WidgetKit
 import Conditions
 import Hyde
+import WidgetKit
 
 extension ConditionsCoordinator {
     nonisolated static let widget = ConditionsCoordinator(

@@ -19,10 +19,10 @@ public struct Direction: Hashable, Equatable, Sendable, Codable {
         case northWest
         case northNorthWest
     }
-    
+
     public init(cardinal: Cardinal) {
         self.cardinal = cardinal
-        
+
         switch cardinal {
         case .north:
             degrees = 180
@@ -58,7 +58,7 @@ public struct Direction: Hashable, Equatable, Sendable, Codable {
             degrees = 157.5
         }
     }
-    
+
     public let cardinal: Cardinal
     public let degrees: Double
 }

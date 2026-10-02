@@ -1,5 +1,5 @@
-import SwiftUI
 import MockData
+import SwiftUI
 import os.log
 
 nonisolated let logger = Logger(subsystem: "ink.codes.Patrol", category: "App")

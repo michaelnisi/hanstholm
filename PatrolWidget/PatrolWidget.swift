@@ -1,14 +1,15 @@
-import WidgetKit
-import SwiftUI
 import Conditions
 import DomainTypes
 import MockData
 import SurfUI
+import SwiftUI
+import WidgetKit
+
 #if canImport(UIKit)
 import UIKit
 #endif
 
-struct PatrolWidgetEntryView : View {
+struct PatrolWidgetEntryView: View {
     @Environment(\.widgetFamily) var widgetFamily
     var entry: SurfEntry
 
@@ -231,7 +232,7 @@ extension PatrolWidgetEntryView {
 
     struct AccessoryCircular: View {
         var entry: SurfEntry
-        
+
         var body: some View {
             ZStack {
                 AccessoryWidgetBackground()
@@ -245,26 +246,32 @@ extension PatrolWidgetEntryView {
             .accessibilityLabel(entry.wave.spoken)
         }
     }
-    
+
     struct AccessoryInline: View {
         var entry: SurfEntry
-        
+
         var body: some View {
             Text("\(entry.wave.middle.feet()) @ \(entry.wave.period.seconds())")
         }
     }
-    
+
     struct AccessoryRectangular: View {
         var entry: SurfEntry
-        
+
         var body: some View {
             VStack(alignment: .leading) {
-                Text("\(Image(systemName: "water.waves")) \(Text(entry.wave.middle.feet()).fontWeight(.black)) @ \(entry.wave.period.seconds())")
+                Text(
+                    "\(Image(systemName: "water.waves")) \(Text(entry.wave.middle.feet()).fontWeight(.black)) @ \(entry.wave.period.seconds())"
+                )
 
-                Text("\(Image(systemName: "wind")) \(Text(entry.wind.direction.formatted()).fontWeight(.black)) \(entry.wind.speed.current.knots())")
-               
-                Text("\(entry.place.name), \(entry.date.formatted(date: .omitted, time: .shortened))")
-                    .font(.caption)
+                Text(
+                    "\(Image(systemName: "wind")) \(Text(entry.wind.direction.formatted()).fontWeight(.black)) \(entry.wind.speed.current.knots())"
+                )
+
+                Text(
+                    "\(entry.place.name), \(entry.date.formatted(date: .omitted, time: .shortened))"
+                )
+                .font(.caption)
             }
             .widgetAccentable()
             .accessibilityElement(children: .ignore)
@@ -276,7 +283,7 @@ extension PatrolWidgetEntryView {
 @main
 struct PatrolWidget: Widget {
     let kind: String = "PatrolWidget"
-    
+
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: SurfEntryProvider()) { entry in
             PatrolWidgetEntryView(entry: entry)
@@ -291,20 +298,20 @@ struct PatrolWidget: Widget {
         .configurationDisplayName("Patrol")
         .description("Vejret Hanstholm Havn")
         #if os(watchOS)
-        .supportedFamilies([.accessoryCorner, .accessoryCircular, .accessoryInline, .accessoryRectangular])
+        .supportedFamilies([
+            .accessoryCorner, .accessoryCircular, .accessoryInline, .accessoryRectangular,
+        ])
         #else
         .supportedFamilies([
             .systemSmall,
             .systemMedium,
             .accessoryCircular,
             .accessoryInline,
-            .accessoryRectangular
+            .accessoryRectangular,
         ])
         #endif
     }
 }
-
-
 
 #Preview(as: .accessoryRectangular) {
     PatrolWidget()

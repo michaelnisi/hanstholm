@@ -1,6 +1,6 @@
-import SwiftUI
 import DomainTypes
 import MockData
+import SwiftUI
 
 struct SurfSpot: View {
     let place: Place
@@ -64,14 +64,15 @@ struct SurfSpot: View {
 #Preview("Error") {
     SurfSpot(place: MockData.SurfEntry.makePlace())
         .environment(
-            SurfProvider(dependencies: .init(
-                cachedEntry: { nil },
-                fetchEntry: { throw URLError(.notConnectedToInternet) },
-                availablePlaces: { [] },
-                selectPlace: { _ in },
-                selectedPlace: { MockData.SurfEntry.makePlace() },
-                includedPlaces: { [] },
-                setIncludedPlaceIDs: { _ in }
-            ))
+            SurfProvider(
+                dependencies: .init(
+                    cachedEntry: { nil },
+                    fetchEntry: { throw URLError(.notConnectedToInternet) },
+                    availablePlaces: { [] },
+                    selectPlace: { _ in },
+                    selectedPlace: { MockData.SurfEntry.makePlace() },
+                    includedPlaces: { [] },
+                    setIncludedPlaceIDs: { _ in }
+                ))
         )
 }

@@ -1,5 +1,6 @@
-import XCTest
 import DomainTypes
+import XCTest
+
 @testable import Hyde
 
 final class SurfEntryReportTests: XCTestCase {
@@ -72,7 +73,8 @@ final class SurfEntryReportTests: XCTestCase {
     }
 
     func testWindInitFailsWhenDirectionInvalid() {
-        let report = Report.Wind(speed: .init(gust: 15, middle: 7, current: 8), direction: "not-a-direction")
+        let report = Report.Wind(
+            speed: .init(gust: 15, middle: 7, current: 8), direction: "not-a-direction")
         XCTAssertNil(SurfEntry.Wind(report: report))
     }
 
