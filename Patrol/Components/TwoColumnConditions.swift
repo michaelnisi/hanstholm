@@ -3,6 +3,7 @@ import DomainTypes
 import Cache
 import MockData
 
+@available(iOS 27.1, *)
 struct TwoColumnConditions: View {
     let surfEntry: SurfEntry
 
