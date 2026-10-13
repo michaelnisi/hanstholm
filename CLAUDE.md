@@ -24,6 +24,8 @@ Every distinct piece of work gets its own issue, branch, and PR — never stack 
 
 **Reviewing a PR**: fetch the base branch first, then check out the PR's branch (or open a worktree) so that any direct file reads — by you or a subagent — see the PR's actual content rather than whatever the working tree happened to have. Don't rely on `git diff` alone once files are being read by path.
 
+**Exception — `check-scrapers`**: the `/check-scrapers` skill (`.claude/skills/check-scrapers/`) verifies that scraping plugins still parse their live sources. When a source is broken it may file (or reuse) the issue, branch, repair the parser, and open the PR without a plan-mode round, because the issue and PR are its transparency. It still never merges, and it still opens one issue/branch/PR per distinct cause.
+
 ## Code Style
 
 Comments are treated as a code smell in this project. Prefer clear naming, extracted functions, and types that make constraints unrepresentable over prose explaining "why." If you feel the urge to write a comment — including for a non-obvious invariant, a fallback, or a tolerated failure — prefer writing a test that demonstrates the behavior instead: the test name carries the "why" and the assertion pins it down. This overrides the global CLAUDE.md's "comments are fine when the WHY is non-obvious" carve-out; for this project, treat that carve-out as effectively unused. It's fine to leave existing comments alone, but don't add new ones as a way to explain a design decision — put that explanation in the PR description or commit message instead.
