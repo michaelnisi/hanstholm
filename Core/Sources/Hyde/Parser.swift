@@ -38,24 +38,13 @@ extension String {
     }
 }
 
-extension Hyde.Station {
-    var sectionHeadings: Set<Substring> {
-        switch self {
-        case .hanstholm:
-            return ["Vindhastighed", "Vindretning", "Bølger", "Strøm"]
-        case .hvideSande, .thorsminde:
-            return ["Vindhastighed", "Vindretning", "Vandstand", "Bølger", "Slusedrift i dag"]
-        }
-    }
-}
-
 extension Array where Element == String.SubSequence {
-    func maxWaveHeight(for station: Hyde.Station = .hanstholm) -> Substring? {
-        substring(after: "max", within: "Bølger", sectionHeadings: station.sectionHeadings)
+    func maxWaveHeight() -> Substring? {
+        substring(after: "Max Bølgehøjde")
     }
 
-    func middleWaveHeight(for station: Hyde.Station = .hanstholm) -> Substring? {
-        substring(after: "middel", within: "Bølger", sectionHeadings: station.sectionHeadings)
+    func middleWaveHeight() -> Substring? {
+        substring(after: "Middel Bølgehøjde")
     }
 
     func wavePeriod() -> Substring? {
@@ -63,49 +52,27 @@ extension Array where Element == String.SubSequence {
     }
 
     func waveDirection() -> Substring? {
-        substring(after: "Bølgeretning")
+        substring(after: "Bølgeretning")?.withoutDegreeSign()
     }
 
-    func windCurrent(for station: Hyde.Station = .hanstholm) -> Substring? {
-        substring(
-            after: "aktuelt", within: "Vindhastighed", sectionHeadings: station.sectionHeadings)
+    func windCurrent() -> Substring? {
+        substring(after: "Aktuel vindhastighed")
     }
 
-    func windMiddle(for station: Hyde.Station = .hanstholm) -> Substring? {
-        substring(
-            after: "middel", within: "Vindhastighed", sectionHeadings: station.sectionHeadings)
+    func windMiddle() -> Substring? {
+        substring(after: "Middel vindhastighed")
     }
 
     func windGust() -> Substring? {
-        substring(after: "vindstød")
+        substring(after: "Vindstød")
     }
 
-    func windDirection(for station: Hyde.Station = .hanstholm) -> Substring? {
-        substring(after: "middel", within: "Vindretning", sectionHeadings: station.sectionHeadings)
+    func windDirection() -> Substring? {
+        substring(after: "Vindretning middel")?.withoutDegreeSign()
     }
 
-    func substring(
-        after label: Substring,
-        within section: Substring? = nil,
-        sectionHeadings: Set<Substring> = Hyde.Station.hanstholm.sectionHeadings
-    ) -> Substring? {
-        let startIndex: Int
-        let endIndex: Int
-
-        if let section {
-            guard let sectionIndex = firstIndex(of: section) else { return nil }
-            startIndex = sectionIndex + 1
-            endIndex =
-                self[startIndex...].firstIndex(where: { sectionHeadings.contains($0) }) ?? count
-        } else {
-            startIndex = 0
-            endIndex = count
-        }
-
-        guard startIndex < endIndex,
-            let labelIndex = self[startIndex..<endIndex].firstIndex(of: label),
-            labelIndex + 1 < endIndex
-        else {
+    func substring(after label: Substring) -> Substring? {
+        guard let labelIndex = firstIndex(of: label), labelIndex + 1 < count else {
             return nil
         }
 
@@ -122,10 +89,14 @@ private let decimalFormatter: NumberFormatter = {
 
 extension Substring {
     func double() -> Double? {
-        let numeric = prefix(while: { !$0.isWhitespace })
+        let numeric = prefix(while: { $0.isNumber || $0 == "," || $0 == "-" })
         guard let number = decimalFormatter.number(from: String(numeric)) else {
             return nil
         }
         return Double(truncating: number)
+    }
+
+    func withoutDegreeSign() -> Substring {
+        prefix(while: { $0 != "°" })
     }
 }

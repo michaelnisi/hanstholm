@@ -59,6 +59,39 @@ final class HydeTests: XCTestCase {
         XCTAssertEqual(request.url, Hyde.Station.hanstholm.url)
     }
 
+    func testDeferredRequestsPointAtTheMonitorPages() throws {
+        let urls = try plugin.places.map { try plugin.deferredRequest(for: $0).url?.absoluteString }
+
+        XCTAssertEqual(
+            urls,
+            [
+                "https://hyde.dk/monitor/hanstholm",
+                "https://hyde.dk/monitor/hvide-sande",
+                "https://hyde.dk/monitor/thorsminde",
+            ])
+    }
+
+    func testDecodesHvideSandeMonitorPage() async throws {
+        let place = Hyde.Station.hvideSande.place
+
+        let entry = try await plugin.decodeDeferred(
+            Data(hvideSandeHTML.utf8), mimeType: "text/html", for: place)
+
+        XCTAssertEqual(entry.wave.max, 2.84)
+        XCTAssertEqual(entry.wave.direction.cardinal, .southWest)
+        XCTAssertEqual(entry.wind.speed.current, 12.2)
+    }
+
+    func testDecodingFailsWhileHanstholmPublishesDashesForWaves() async {
+        do {
+            _ = try await plugin.decodeDeferred(
+                Data(hanstholmHTML.utf8), mimeType: "text/html", for: hanstholm)
+            XCTFail("expected a decoding failure")
+        } catch {
+            XCTAssertEqual(error as? ConditionsFault, .decoding)
+        }
+    }
+
     func testDeferredRequestThrowsForAnotherPluginsPlace() {
         XCTAssertThrowsError(try plugin.deferredRequest(for: foreign)) { error in
             XCTAssertEqual(error as? ConditionsFault, .unknownPlace(foreign.id))
