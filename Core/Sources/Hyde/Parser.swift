@@ -38,37 +38,50 @@ extension String {
     }
 }
 
+extension Hyde {
+    enum Label {
+        static let maxWaveHeight: Substring = "Max Bølgehøjde"
+        static let middleWaveHeight: Substring = "Middel Bølgehøjde"
+        static let wavePeriod: Substring = "Bølgeperiode"
+        static let waveDirection: Substring = "Bølgeretning"
+        static let windCurrent: Substring = "Aktuel vindhastighed"
+        static let windMiddle: Substring = "Middel vindhastighed"
+        static let windGust: Substring = "Vindstød"
+        static let windDirection: Substring = "Vindretning middel"
+    }
+}
+
 extension Array where Element == String.SubSequence {
     func maxWaveHeight() -> Substring? {
-        substring(after: "Max Bølgehøjde")
+        substring(after: Hyde.Label.maxWaveHeight)
     }
 
     func middleWaveHeight() -> Substring? {
-        substring(after: "Middel Bølgehøjde")
+        substring(after: Hyde.Label.middleWaveHeight)
     }
 
     func wavePeriod() -> Substring? {
-        substring(after: "Bølgeperiode")
+        substring(after: Hyde.Label.wavePeriod)
     }
 
     func waveDirection() -> Substring? {
-        substring(after: "Bølgeretning")?.withoutDegreeSign()
+        substring(after: Hyde.Label.waveDirection)?.withoutDegreeSign()
     }
 
     func windCurrent() -> Substring? {
-        substring(after: "Aktuel vindhastighed")
+        substring(after: Hyde.Label.windCurrent)
     }
 
     func windMiddle() -> Substring? {
-        substring(after: "Middel vindhastighed")
+        substring(after: Hyde.Label.windMiddle)
     }
 
     func windGust() -> Substring? {
-        substring(after: "Vindstød")
+        substring(after: Hyde.Label.windGust)
     }
 
     func windDirection() -> Substring? {
-        substring(after: "Vindretning middel")?.withoutDegreeSign()
+        substring(after: Hyde.Label.windDirection)?.withoutDegreeSign()
     }
 
     func substring(after label: Substring) -> Substring? {
@@ -77,6 +90,14 @@ extension Array where Element == String.SubSequence {
         }
 
         return self[labelIndex + 1]
+    }
+
+    func required(_ label: Substring) throws -> Substring {
+        guard let value = substring(after: label) else {
+            throw Hyde.Fault.missing(String(label))
+        }
+
+        return value
     }
 }
 
@@ -94,6 +115,10 @@ extension Substring {
             return nil
         }
         return Double(truncating: number)
+    }
+
+    var containsDigit: Bool {
+        contains { $0.isASCII && $0.isNumber }
     }
 
     func withoutDegreeSign() -> Substring {

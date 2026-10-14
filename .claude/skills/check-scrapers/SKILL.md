@@ -23,6 +23,7 @@ The probe fetches each place of each plugin listed in `probe/Sources/probe/main.
 | --- | --- |
 | `healthy` | fetched and decoded into a `SurfEntry` |
 | `broken` | the source answered but the plugin cannot use it: HTTP 4xx (page moved or removed) or a decoding failure |
+| `unavailable` | the page is understood, but the provider intentionally left a part (wave or wind) out: every numeric reading of that part holds a placeholder without digits; `detail` names the part |
 | `unreachable` | transport error or HTTP 5xx; the site is down, which is not a parser bug |
 
 Exit code 0: no place is broken. 1: at least one is broken. 2: bad arguments.
@@ -34,7 +35,7 @@ New plugin: add one line to the `plugins` array in `main.swift`, and the matchin
 ## 2. Decide
 
 - All `healthy`: report per place and stop. No issue, no PR.
-- Only `unreachable`: report and stop.
+- Only `healthy`, `unavailable` and `unreachable`: report each and stop. An `unavailable` part is the provider's choice, not a parser bug, so there is no issue and no PR. A part that is partly filled, a renamed label, or numbers that no longer parse is `broken`, never `unavailable`.
 - Any `broken`: continue.
 
 ## 3. Issue
