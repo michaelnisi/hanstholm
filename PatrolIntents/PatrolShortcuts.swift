@@ -15,5 +15,15 @@ struct PatrolShortcuts: AppShortcutsProvider {
             shortTitle: "How Is The Surf",
             systemImageName: "water.waves"
         )
+
+        AppShortcut(
+            intent: SelectPlaceIntent(),
+            phrases: [
+                "Switch \(.applicationName) to \(\.$place)",
+                "\(.applicationName) switch to \(\.$place)",
+            ],
+            shortTitle: "Select Surf Spot",
+            systemImageName: "mappin.and.ellipse"
+        )
     }
 }

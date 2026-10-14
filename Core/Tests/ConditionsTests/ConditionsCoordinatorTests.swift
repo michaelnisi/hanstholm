@@ -263,6 +263,31 @@ final class ConditionsCoordinatorTests: XCTestCase {
         XCTAssertEqual(reloads.count, 0)
     }
 
+    func testSelectNextPlaceReloadsTimelinesWhenSelectionChanges() async {
+        let second = makePlace(key: "elsewhere", name: "Elsewhere")
+        let plugin = makePlugin(places: [makePlace(), second])
+        let reloads = Counter()
+        let (coordinator, cache) = makeCoordinator(plugin: plugin, reload: reloads)
+
+        await cache.setSelectedPlace(makePlace())
+
+        await coordinator.selectNextPlace()
+
+        XCTAssertEqual(reloads.count, 1)
+    }
+
+    func testSelectNextPlaceDoesNotReloadWithASingleIncludedPlace() async {
+        let plugin = makePlugin()
+        let reloads = Counter()
+        let (coordinator, cache) = makeCoordinator(plugin: plugin, reload: reloads)
+
+        await cache.setSelectedPlace(makePlace())
+
+        await coordinator.selectNextPlace()
+
+        XCTAssertEqual(reloads.count, 0)
+    }
+
     func testSetIncludedPlaceIDsReloadsTimelinesWhenSelectionChanges() async {
         let second = makePlace(key: "elsewhere", name: "Elsewhere")
         let plugin = makePlugin(places: [makePlace(), second])

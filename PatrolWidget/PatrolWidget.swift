@@ -100,9 +100,15 @@ extension PatrolWidgetEntryView {
         var entry: SurfEntry
 
         var body: some View {
-            Text("\(entry.place.name), \(entry.date.formatted(date: .omitted, time: .shortened))")
+            Button(intent: CycleToNextPlaceIntent()) {
+                Text(
+                    "\(entry.place.name), \(entry.date.formatted(date: .omitted, time: .shortened))"
+                )
                 .font(.caption)
                 .foregroundStyle(.secondary)
+            }
+            .buttonStyle(.plain)
+            .accessibilityHint("Switches to the next surf spot")
         }
     }
 
@@ -268,14 +274,28 @@ extension PatrolWidgetEntryView {
                     "\(Image(systemName: "wind")) \(Text(entry.wind.direction.formatted()).fontWeight(.black)) \(entry.wind.speed.current.knots())"
                 )
 
-                Text(
-                    "\(entry.place.name), \(entry.date.formatted(date: .omitted, time: .shortened))"
-                )
-                .font(.caption)
+                footer
             }
             .widgetAccentable()
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(entry.spokenSummary)
+        }
+
+        private var footerLabel: some View {
+            Text("\(entry.place.name), \(entry.date.formatted(date: .omitted, time: .shortened))")
+                .font(.caption)
+        }
+
+        @ViewBuilder
+        private var footer: some View {
+            #if os(watchOS)
+            footerLabel
+            #else
+            Button(intent: CycleToNextPlaceIntent()) {
+                footerLabel
+            }
+            .buttonStyle(.plain)
+            #endif
         }
     }
 }

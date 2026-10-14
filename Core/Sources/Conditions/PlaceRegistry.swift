@@ -39,6 +39,25 @@ struct PlaceRegistry: Sendable {
         return previous != place.id
     }
 
+    @discardableResult
+    func selectNextPlace() async -> Bool {
+        let included = await includedPlaces()
+
+        guard included.count > 1 else {
+            return false
+        }
+
+        let selectedID = await cache.selectedPlaceID()
+
+        guard let selectedIndex = included.firstIndex(where: { $0.id == selectedID }) else {
+            return await selectPlace(included[0])
+        }
+
+        let nextIndex = (selectedIndex + 1) % included.count
+
+        return await selectPlace(included[nextIndex])
+    }
+
     func includedPlaces() async -> [Place] {
         let all = availablePlaces()
 
