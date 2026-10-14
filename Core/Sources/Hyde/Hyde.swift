@@ -122,11 +122,11 @@ extension Hyde.Station {
     public var url: URL {
         switch self {
         case .hanstholm:
-            return URL(string: "https://hyde.dk/default_hanstholm.asp")!
+            return URL(string: "https://hyde.dk/monitor/hanstholm")!
         case .hvideSande:
-            return URL(string: "https://hyde.dk/default.asp")!
+            return URL(string: "https://hyde.dk/monitor/hvide-sande")!
         case .thorsminde:
-            return URL(string: "https://hyde.dk/default_thorsminde.asp")!
+            return URL(string: "https://hyde.dk/monitor/thorsminde")!
         }
     }
 

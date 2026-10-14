@@ -37,8 +37,8 @@ extension Report {
 
         let wave = Wave(
             height: .init(
-                max: parts.maxWaveHeight(for: station)?.double(),
-                middle: parts.middleWaveHeight(for: station)?.double()
+                max: parts.maxWaveHeight()?.double(),
+                middle: parts.middleWaveHeight()?.double()
             ),
             period: parts.wavePeriod()?.double(),
             direction: String(parts.waveDirection() ?? "")
@@ -47,10 +47,10 @@ extension Report {
         let wind = Wind(
             speed: .init(
                 gust: parts.windGust()?.double(),
-                middle: parts.windMiddle(for: station)?.double(),
-                current: parts.windCurrent(for: station)?.double()
+                middle: parts.windMiddle()?.double(),
+                current: parts.windCurrent()?.double()
             ),
-            direction: String(parts.windDirection(for: station) ?? "")
+            direction: String(parts.windDirection() ?? "")
         )
 
         self.init(station: station, date: .now, wave: wave, wind: wind)
