@@ -68,8 +68,7 @@ struct PatrolWidgetEntryView: View {
             }
         case .accessoryRectangular:
             if entry.status == .error {
-                Label("No Data", systemImage: "exclamationmark.triangle")
-                    .widgetAccentable()
+                NoDataAccessoryRectangular()
             } else {
                 AccessoryRectangular(entry: entry)
             }
@@ -96,19 +95,30 @@ struct TileBackground: View {
 
 extension PatrolWidgetEntryView {
     #if !os(watchOS)
+    struct NextPlaceButton<Content: View>: View {
+        @ViewBuilder var content: Content
+
+        var body: some View {
+            Button(intent: CycleToNextPlaceIntent()) {
+                content
+            }
+            .buttonStyle(.plain)
+            .accessibilityHint("Switches to the next surf spot")
+        }
+    }
+
     struct HomeFooter: View {
         var entry: SurfEntry
 
         var body: some View {
-            Button(intent: CycleToNextPlaceIntent()) {
-                Text(
-                    "\(entry.place.name), \(entry.date.formatted(date: .omitted, time: .shortened))"
+            NextPlaceButton {
+                Label(
+                    "\(entry.place.name), \(entry.date.formatted(date: .omitted, time: .shortened))",
+                    systemImage: "mappin.and.ellipse"
                 )
                 .font(.caption)
                 .foregroundStyle(.secondary)
             }
-            .buttonStyle(.plain)
-            .accessibilityHint("Switches to the next surf spot")
         }
     }
 
@@ -147,6 +157,10 @@ extension PatrolWidgetEntryView {
                     .font(.title2)
                 Text("No Data")
                     .font(.caption)
+                NextPlaceButton {
+                    Label("Next Spot", systemImage: "mappin.and.ellipse")
+                        .font(.caption)
+                }
             }
             .foregroundStyle(.secondary)
         }
@@ -281,20 +295,38 @@ extension PatrolWidgetEntryView {
             .accessibilityLabel(entry.spokenSummary)
         }
 
-        private var footerLabel: some View {
-            Text("\(entry.place.name), \(entry.date.formatted(date: .omitted, time: .shortened))")
-                .font(.caption)
-        }
-
         @ViewBuilder
         private var footer: some View {
+            let text =
+                "\(entry.place.name), \(entry.date.formatted(date: .omitted, time: .shortened))"
+
             #if os(watchOS)
-            footerLabel
+            Text(text)
+                .font(.caption)
             #else
-            Button(intent: CycleToNextPlaceIntent()) {
-                footerLabel
+            NextPlaceButton {
+                Label(text, systemImage: "mappin.and.ellipse")
+                    .font(.caption)
             }
-            .buttonStyle(.plain)
+            #endif
+        }
+    }
+
+    struct NoDataAccessoryRectangular: View {
+        var body: some View {
+            #if os(watchOS)
+            Label("No Data", systemImage: "exclamationmark.triangle")
+                .widgetAccentable()
+            #else
+            VStack(alignment: .leading) {
+                Label("No Data", systemImage: "exclamationmark.triangle")
+
+                NextPlaceButton {
+                    Label("Next Spot", systemImage: "mappin.and.ellipse")
+                        .font(.caption)
+                }
+            }
+            .widgetAccentable()
             #endif
         }
     }
