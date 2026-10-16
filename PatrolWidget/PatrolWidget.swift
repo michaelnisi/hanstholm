@@ -95,31 +95,13 @@ struct TileBackground: View {
 
 extension PatrolWidgetEntryView {
     #if !os(watchOS)
-    struct NextPlaceButton<Content: View>: View {
-        @ViewBuilder var content: Content
-
-        var body: some View {
-            Button(intent: CycleToNextPlaceIntent()) {
-                content
-            }
-            .buttonStyle(.plain)
-            .accessibilityHint("Switches to the next surf spot")
-        }
-    }
-
     struct HomeFooter: View {
         var entry: SurfEntry
 
         var body: some View {
-            NextPlaceButton {
-                Label(
-                    "\(entry.place.name), \(entry.date.formatted(date: .omitted, time: .shortened))",
-                    systemImage: "mappin.and.ellipse"
-                )
+            Text("\(entry.place.name), \(entry.date.formatted(date: .omitted, time: .shortened))")
                 .font(.caption)
                 .foregroundStyle(.secondary)
-                .invalidatableContent()
-            }
         }
     }
 
@@ -162,11 +144,6 @@ extension PatrolWidgetEntryView {
                     .font(.caption)
                 Text(entry.place.name)
                     .font(.caption2)
-                    .invalidatableContent()
-                NextPlaceButton {
-                    Label("Next Spot", systemImage: "mappin.and.ellipse")
-                        .font(.caption)
-                }
             }
             .foregroundStyle(.secondary)
         }
@@ -301,21 +278,9 @@ extension PatrolWidgetEntryView {
             .accessibilityLabel(entry.spokenSummary)
         }
 
-        @ViewBuilder
         private var footer: some View {
-            let text =
-                "\(entry.place.name), \(entry.date.formatted(date: .omitted, time: .shortened))"
-
-            #if os(watchOS)
-            Text(text)
+            Text("\(entry.place.name), \(entry.date.formatted(date: .omitted, time: .shortened))")
                 .font(.caption)
-            #else
-            NextPlaceButton {
-                Label(text, systemImage: "mappin.and.ellipse")
-                    .font(.caption)
-                    .invalidatableContent()
-            }
-            #endif
         }
     }
 
@@ -323,7 +288,6 @@ extension PatrolWidgetEntryView {
         var entry: SurfEntry
 
         var body: some View {
-            #if os(watchOS)
             VStack(alignment: .leading) {
                 Label("No Data", systemImage: "exclamationmark.triangle")
 
@@ -331,21 +295,6 @@ extension PatrolWidgetEntryView {
                     .font(.caption)
             }
             .widgetAccentable()
-            #else
-            VStack(alignment: .leading) {
-                Label("No Data", systemImage: "exclamationmark.triangle")
-
-                Text(entry.place.name)
-                    .font(.caption)
-                    .invalidatableContent()
-
-                NextPlaceButton {
-                    Label("Next Spot", systemImage: "mappin.and.ellipse")
-                        .font(.caption)
-                }
-            }
-            .widgetAccentable()
-            #endif
         }
     }
 }
@@ -355,18 +304,22 @@ struct PatrolWidget: Widget {
     let kind: String = "PatrolWidget"
 
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: SurfEntryProvider()) { entry in
+        AppIntentConfiguration(
+            kind: kind,
+            intent: SurfPlaceConfigurationIntent.self,
+            provider: SurfEntryProvider()
+        ) { entry in
             PatrolWidgetEntryView(entry: entry)
         }
         .onBackgroundURLSessionEvents(
             matching: DeferredDownloadConfiguration.defaultSessionIdentifier()
         ) { urlSessionEvent, completion in
-            ConditionsCoordinator.widget.handleBackgroundSessionEvents {
+            ConditionsCoordinator.shared.handleBackgroundSessionEvents {
                 completion()
             }
         }
         .configurationDisplayName("Patrol")
-        .description("Vejret Hanstholm Havn")
+        .description("Surf and wind conditions for your spot.")
         #if os(watchOS)
         .supportedFamilies([
             .accessoryCorner, .accessoryCircular, .accessoryInline, .accessoryRectangular,

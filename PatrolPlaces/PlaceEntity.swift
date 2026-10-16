@@ -20,7 +20,7 @@ nonisolated struct PlaceEntity: AppEntity {
 nonisolated struct PlaceEntityQuery: EntityQuery {
     func entities(for identifiers: [String]) async throws -> [PlaceEntity] {
         let wanted = Set(identifiers)
-        let places = await ConditionsCoordinator.app.availablePlaces()
+        let places = ConditionsCoordinator.shared.availablePlaces()
 
         return
             places
@@ -29,6 +29,6 @@ nonisolated struct PlaceEntityQuery: EntityQuery {
     }
 
     func suggestedEntities() async throws -> [PlaceEntity] {
-        await ConditionsCoordinator.app.includedPlaces().map(PlaceEntity.init(place:))
+        await ConditionsCoordinator.shared.includedPlaces().map(PlaceEntity.init(place:))
     }
 }
