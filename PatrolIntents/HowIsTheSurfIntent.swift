@@ -15,7 +15,7 @@ struct HowIsTheSurfIntent: AppIntent {
 
     func perform() async throws -> some IntentResult & ProvidesDialog {
         do {
-            let entry = try await ConditionsCoordinator.app.conditions(
+            let entry = try await ConditionsCoordinator.shared.conditions(
                 policy: .cached(maxAge: 5 * 60),
                 trigger: .userInterface
             )

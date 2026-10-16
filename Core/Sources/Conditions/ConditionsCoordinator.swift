@@ -94,11 +94,11 @@ extension ConditionsCoordinator {
         )
     }
 
-    public func availablePlaces() -> [Place] {
+    public nonisolated func availablePlaces() -> [Place] {
         configuration.registry.availablePlaces()
     }
 
-    public func region(for place: Place) -> GeoRegion? {
+    public nonisolated func region(for place: Place) -> GeoRegion? {
         configuration.registry.region(for: place)
     }
 

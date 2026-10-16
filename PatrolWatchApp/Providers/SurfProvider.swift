@@ -72,7 +72,7 @@ extension SurfProvider {
 
 extension SurfProvider {
     nonisolated static let live: SurfProvider = {
-        let coordinator = ConditionsCoordinator.app
+        let coordinator = ConditionsCoordinator.shared
 
         return .init(
             dependencies: .init(
@@ -86,7 +86,7 @@ extension SurfProvider {
                     )
                 },
                 availablePlaces: {
-                    await coordinator.availablePlaces()
+                    coordinator.availablePlaces()
                 },
                 selectPlace: { place in
                     await coordinator.selectPlace(place)

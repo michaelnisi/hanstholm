@@ -15,7 +15,7 @@ struct SelectPlaceIntent: AppIntent {
     }
 
     func perform() async throws -> some IntentResult & ProvidesDialog {
-        await ConditionsCoordinator.app.selectPlace(place.place)
+        await ConditionsCoordinator.shared.selectPlace(place.place)
 
         return .result(dialog: "Switched to \(place.place.name).")
     }
