@@ -54,6 +54,12 @@ public struct SurfEntry: TimelineEntry, Identifiable, Hashable, Sendable, Codabl
 
     public static let cacheTTL: TimeInterval = 15 * 60
 
+    public static let maxCachedAge: TimeInterval = 6 * 60 * 60
+
+    public static func oldestUsableDate(now: Date) -> Date {
+        now.addingTimeInterval(-maxCachedAge)
+    }
+
     public var relevance: TimelineEntryRelevance? {
         switch status {
         case .ok:
