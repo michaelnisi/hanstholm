@@ -7,6 +7,7 @@ struct Finding: Encodable {
     enum Status: String, Encodable {
         case healthy
         case broken
+        case unavailable
         case unreachable
     }
 
@@ -98,6 +99,8 @@ func finding(for place: Place, plugin: any DeferredDownloadable, arguments: Argu
             fetched.data, mimeType: fetched.mimeType, for: place)
 
         return Finding(place: label(for: place), status: .healthy, detail: "\(entry)")
+    } catch ConditionsFault.unavailable(let readings) {
+        return Finding(place: label(for: place), status: .unavailable, detail: readings)
     } catch {
         return Finding(place: label(for: place), status: .broken, detail: "\(error)")
     }

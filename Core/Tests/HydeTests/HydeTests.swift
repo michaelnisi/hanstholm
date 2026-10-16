@@ -82,14 +82,110 @@ final class HydeTests: XCTestCase {
         XCTAssertEqual(entry.wind.speed.current, 12.2)
     }
 
-    func testDecodingFailsWhileHanstholmPublishesDashesForWaves() async {
+    private func failure(decoding html: String, for place: Place) async -> Error? {
         do {
             _ = try await plugin.decodeDeferred(
-                Data(hanstholmHTML.utf8), mimeType: "text/html", for: hanstholm)
-            XCTFail("expected a decoding failure")
+                Data(html.utf8), mimeType: "text/html", for: place)
+
+            return nil
         } catch {
-            XCTAssertEqual(error as? ConditionsFault, .decoding)
+            return error
         }
+    }
+
+    private func replacingValues(_ old: String, with new: String, in html: String) -> String {
+        html.replacingOccurrences(
+            of: "<span class=\"cell-value\">\(old)</span>",
+            with: "<span class=\"cell-value\">\(new)</span>")
+    }
+
+    func testHanstholmWavesAreUnavailableWhileTheProviderPublishesDashes() async {
+        let error = await failure(decoding: hanstholmHTML, for: hanstholm)
+
+        XCTAssertEqual(error as? ConditionsFault, .unavailable("wave"))
+    }
+
+    func testThorsmindeWavesAreUnavailableWhileTheProviderPublishesDashes() async {
+        let error = await failure(
+            decoding: thorsmindeHTML, for: Hyde.Station.thorsminde.place)
+
+        XCTAssertEqual(error as? ConditionsFault, .unavailable("wave"))
+    }
+
+    func testAnyPlaceholderWithoutDigitsMeansTheProviderLeftTheReadingOut() async {
+        for placeholder in ["n/a", "--", "–", "ukendt", ""] {
+            let html = replacingValues("-", with: placeholder, in: hanstholmHTML)
+
+            let error = await failure(decoding: html, for: hanstholm)
+
+            XCTAssertEqual(error as? ConditionsFault, .unavailable("wave"), placeholder)
+        }
+    }
+
+    func testWindIsUnavailableWhenItsReadingsHaveNoDigits() async {
+        var html = replacingValues("12,2", with: "-", in: hvideSandeHTML)
+        html = replacingValues("10,6", with: "-", in: html)
+
+        let error = await failure(decoding: html, for: Hyde.Station.hvideSande.place)
+
+        XCTAssertEqual(error as? ConditionsFault, .unavailable("wind"))
+    }
+
+    func testRenamedLabelMeansThePageChanged() async {
+        let html = hanstholmHTML.replacingOccurrences(of: "Bølgeperiode", with: "Bølgeperioden")
+
+        let error = await failure(decoding: html, for: hanstholm)
+
+        guard case .missing(let label)? = error as? Hyde.Fault else {
+            return XCTFail("expected a missing label, got \(String(describing: error))")
+        }
+
+        XCTAssertEqual(label, "Bølgeperiode")
+    }
+
+    func testPartlyFilledWavesMeanThePageChanged() async {
+        let html = replacingValues("4,6", with: "-", in: hvideSandeHTML)
+
+        let error = await failure(decoding: html, for: Hyde.Station.hvideSande.place)
+
+        XCTAssertEqual(error as? ConditionsFault, .decoding)
+    }
+
+    func testReadingWithDigitsThatDoesNotParseMeansThePageChanged() async {
+        let html = replacingValues("2,84", with: "ca. 2,84", in: hvideSandeHTML)
+
+        let error = await failure(decoding: html, for: Hyde.Station.hvideSande.place)
+
+        XCTAssertEqual(error as? ConditionsFault, .decoding)
+    }
+
+    func testUnknownWaveDirectionNextToNumbersMeansThePageChanged() async {
+        let html = hvideSandeHTML.replacingOccurrences(
+            of: "<span class=\"cell-value\">SV</span>",
+            with: "<span class=\"cell-value\">Sydvest</span>")
+
+        let error = await failure(decoding: html, for: Hyde.Station.hvideSande.place)
+
+        XCTAssertEqual(error as? ConditionsFault, .decoding)
+    }
+
+    func testUnavailableWavesDoNotHideARenamedWindLabel() async {
+        let html = hanstholmHTML.replacingOccurrences(
+            of: "Aktuel vindhastighed", with: "Aktuel vindhastigheden")
+
+        let error = await failure(decoding: html, for: hanstholm)
+
+        guard case .missing? = error as? Hyde.Fault else {
+            return XCTFail("expected a missing label, got \(String(describing: error))")
+        }
+    }
+
+    func testUnavailableWavesDoNotHideAnUnparseableWindReading() async {
+        let html = replacingValues("9,2", with: "ca. 9,2", in: hanstholmHTML)
+
+        let error = await failure(decoding: html, for: hanstholm)
+
+        XCTAssertEqual(error as? ConditionsFault, .decoding)
     }
 
     func testDeferredRequestThrowsForAnotherPluginsPlace() {

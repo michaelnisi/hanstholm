@@ -23,4 +23,5 @@ public enum ConditionsFault: Error, Equatable, Sendable {
     case placeMismatch(expected: PlaceID, actual: PlaceID)
     case unexpectedMediaType(String?)
     case decoding
+    case unavailable(String)
 }
