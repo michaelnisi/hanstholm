@@ -80,6 +80,32 @@ final class ConditionsCoordinatorTests: XCTestCase {
         XCTAssertEqual(plugin.fetches.count, 0)
     }
 
+    func testCachedReturnsEntryJustInsideTheMaximumAge() async {
+        let now = Date.now
+        let (coordinator, cache) = makeCoordinator(plugin: makePlugin(), now: { now })
+        let stored = makeEntry(date: now.addingTimeInterval(-SurfEntry.maxCachedAge + 1))
+
+        await cache.setConditions(stored)
+        await cache.setSelectedPlace(stored.place)
+
+        let entry = await coordinator.cached()
+
+        XCTAssertEqual(entry, stored)
+    }
+
+    func testCachedIsNilJustOutsideTheMaximumAge() async {
+        let now = Date.now
+        let (coordinator, cache) = makeCoordinator(plugin: makePlugin(), now: { now })
+        let stored = makeEntry(date: now.addingTimeInterval(-SurfEntry.maxCachedAge - 1))
+
+        await cache.setConditions(stored)
+        await cache.setSelectedPlace(stored.place)
+
+        let entry = await coordinator.cached()
+
+        XCTAssertNil(entry)
+    }
+
     func testCachedOnlyReturnsCachedWithoutFetching() async throws {
         let plugin = makePlugin()
         let (coordinator, cache) = makeCoordinator(plugin: plugin)

@@ -82,7 +82,9 @@ extension ConditionsCoordinator {
 
 extension ConditionsCoordinator {
     public func cached() async -> SurfEntry? {
-        await configuration.cache.selectedConditions()
+        await configuration.cache.selectedConditions(
+            newer: SurfEntry.oldestUsableDate(now: configuration.now())
+        )
     }
 
     public func availablePlaces() -> [Place] {

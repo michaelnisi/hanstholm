@@ -118,12 +118,14 @@ extension Cache {
         return try? decoder.decode(PlaceID.self, from: data)
     }
 
-    public func selectedConditions() -> SurfEntry? {
-        guard let id = selectedPlaceID(), let data = db?.data(forKey: .makeKey(placeID: id)) else {
+    public func selectedConditions(newer: Date) -> SurfEntry? {
+        guard let id = selectedPlaceID(), let data = db?.data(forKey: .makeKey(placeID: id)),
+            let entry = try? decoder.decode(SurfEntry.self, from: data), entry.date >= newer
+        else {
             return nil
         }
 
-        return try? decoder.decode(SurfEntry.self, from: data)
+        return entry
     }
 }
 

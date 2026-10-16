@@ -151,6 +151,7 @@ On watchOS, `ConditionsCoordinator.app` is reused for both roles — the Watch's
 | Background URL session ID | `<bundle id>.conditions` (was `hyde.dk`) |
 | Cache TTL (app) | 5 min |
 | Cache TTL (widget) | 15 min |
+| Max age of a cached reading shown | 6 h |
 
 ## Quirks
 

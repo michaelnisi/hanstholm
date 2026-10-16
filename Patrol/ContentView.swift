@@ -37,6 +37,8 @@ struct ContentView: View {
     }
 
     private func load() async {
-        surfEntry = await Cache().selectedConditions()
+        surfEntry = await Cache().selectedConditions(
+            newer: SurfEntry.oldestUsableDate(now: .now)
+        )
     }
 }
