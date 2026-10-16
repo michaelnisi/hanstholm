@@ -39,13 +39,13 @@ struct PatrolWidgetEntryView: View {
         #else
         case .systemSmall:
             if entry.status == .error {
-                NoDataHomeTile()
+                NoDataHomeTile(entry: entry)
             } else {
                 HomeSmall(entry: entry)
             }
         case .systemMedium:
             if entry.status == .error {
-                NoDataHomeTile()
+                NoDataHomeTile(entry: entry)
             } else {
                 HomeMedium(entry: entry)
             }
@@ -68,7 +68,7 @@ struct PatrolWidgetEntryView: View {
             }
         case .accessoryRectangular:
             if entry.status == .error {
-                NoDataAccessoryRectangular()
+                NoDataAccessoryRectangular(entry: entry)
             } else {
                 AccessoryRectangular(entry: entry)
             }
@@ -118,6 +118,7 @@ extension PatrolWidgetEntryView {
                 )
                 .font(.caption)
                 .foregroundStyle(.secondary)
+                .invalidatableContent()
             }
         }
     }
@@ -151,12 +152,17 @@ extension PatrolWidgetEntryView {
     }
 
     struct NoDataHomeTile: View {
+        var entry: SurfEntry
+
         var body: some View {
             VStack(spacing: 4) {
                 Image(systemName: "exclamationmark.triangle")
                     .font(.title2)
                 Text("No Data")
                     .font(.caption)
+                Text(entry.place.name)
+                    .font(.caption2)
+                    .invalidatableContent()
                 NextPlaceButton {
                     Label("Next Spot", systemImage: "mappin.and.ellipse")
                         .font(.caption)
@@ -307,19 +313,31 @@ extension PatrolWidgetEntryView {
             NextPlaceButton {
                 Label(text, systemImage: "mappin.and.ellipse")
                     .font(.caption)
+                    .invalidatableContent()
             }
             #endif
         }
     }
 
     struct NoDataAccessoryRectangular: View {
+        var entry: SurfEntry
+
         var body: some View {
             #if os(watchOS)
-            Label("No Data", systemImage: "exclamationmark.triangle")
-                .widgetAccentable()
+            VStack(alignment: .leading) {
+                Label("No Data", systemImage: "exclamationmark.triangle")
+
+                Text(entry.place.name)
+                    .font(.caption)
+            }
+            .widgetAccentable()
             #else
             VStack(alignment: .leading) {
                 Label("No Data", systemImage: "exclamationmark.triangle")
+
+                Text(entry.place.name)
+                    .font(.caption)
+                    .invalidatableContent()
 
                 NextPlaceButton {
                     Label("Next Spot", systemImage: "mappin.and.ellipse")

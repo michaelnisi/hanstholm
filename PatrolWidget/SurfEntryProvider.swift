@@ -18,9 +18,14 @@ struct SurfEntryProvider: TimelineProvider {
         }
 
         _ = Task {
-            let entry =
-                await coordinator.cached()
-                ?? .fallback(status: .error)
+            let cached = await coordinator.cached()
+            let entry: SurfEntry
+
+            if let cached {
+                entry = cached
+            } else {
+                entry = await noDataEntry()
+            }
 
             completion(entry)
         }
@@ -42,7 +47,7 @@ struct SurfEntryProvider: TimelineProvider {
             } else if let cached = await coordinator.cached() {
                 entry = cached
             } else {
-                entry = .fallback(status: .error)
+                entry = await noDataEntry()
             }
 
             let timeline = Timeline(
@@ -53,11 +58,22 @@ struct SurfEntryProvider: TimelineProvider {
     }
 }
 
+extension SurfEntryProvider {
+    fileprivate func noDataEntry() async -> SurfEntry {
+        let selected = try? await coordinator.selectedPlace()
+
+        return .fallback(place: selected ?? Hyde.Station.hanstholm.place, status: .error)
+    }
+}
+
 extension SurfEntry {
-    fileprivate static func fallback(status: Status = .placeholder) -> SurfEntry {
+    fileprivate static func fallback(
+        place: Place = Hyde.Station.hanstholm.place,
+        status: Status = .placeholder
+    ) -> SurfEntry {
         SurfEntry(
             date: .now,
-            place: Hyde.Station.hanstholm.place,
+            place: place,
             status: status,
             wave: Wave(max: 2.0, middle: 1.2, period: 8, direction: .init(cardinal: .northWest)),
             wind: Wind(
