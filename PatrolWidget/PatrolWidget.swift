@@ -39,13 +39,13 @@ struct PatrolWidgetEntryView: View {
         #else
         case .systemSmall:
             if entry.status == .error {
-                NoDataHomeTile()
+                NoDataHomeTile(entry: entry)
             } else {
                 HomeSmall(entry: entry)
             }
         case .systemMedium:
             if entry.status == .error {
-                NoDataHomeTile()
+                NoDataHomeTile(entry: entry)
             } else {
                 HomeMedium(entry: entry)
             }
@@ -68,8 +68,7 @@ struct PatrolWidgetEntryView: View {
             }
         case .accessoryRectangular:
             if entry.status == .error {
-                Label("No Data", systemImage: "exclamationmark.triangle")
-                    .widgetAccentable()
+                NoDataAccessoryRectangular(entry: entry)
             } else {
                 AccessoryRectangular(entry: entry)
             }
@@ -96,13 +95,31 @@ struct TileBackground: View {
 
 extension PatrolWidgetEntryView {
     #if !os(watchOS)
+    struct NextPlaceButton<Content: View>: View {
+        @ViewBuilder var content: Content
+
+        var body: some View {
+            Button(intent: CycleToNextPlaceIntent()) {
+                content
+            }
+            .buttonStyle(.plain)
+            .accessibilityHint("Switches to the next surf spot")
+        }
+    }
+
     struct HomeFooter: View {
         var entry: SurfEntry
 
         var body: some View {
-            Text("\(entry.place.name), \(entry.date.formatted(date: .omitted, time: .shortened))")
+            NextPlaceButton {
+                Label(
+                    "\(entry.place.name), \(entry.date.formatted(date: .omitted, time: .shortened))",
+                    systemImage: "mappin.and.ellipse"
+                )
                 .font(.caption)
                 .foregroundStyle(.secondary)
+                .invalidatableContent()
+            }
         }
     }
 
@@ -135,12 +152,21 @@ extension PatrolWidgetEntryView {
     }
 
     struct NoDataHomeTile: View {
+        var entry: SurfEntry
+
         var body: some View {
             VStack(spacing: 4) {
                 Image(systemName: "exclamationmark.triangle")
                     .font(.title2)
                 Text("No Data")
                     .font(.caption)
+                Text(entry.place.name)
+                    .font(.caption2)
+                    .invalidatableContent()
+                NextPlaceButton {
+                    Label("Next Spot", systemImage: "mappin.and.ellipse")
+                        .font(.caption)
+                }
             }
             .foregroundStyle(.secondary)
         }
@@ -268,14 +294,58 @@ extension PatrolWidgetEntryView {
                     "\(Image(systemName: "wind")) \(Text(entry.wind.direction.formatted()).fontWeight(.black)) \(entry.wind.speed.current.knots())"
                 )
 
-                Text(
-                    "\(entry.place.name), \(entry.date.formatted(date: .omitted, time: .shortened))"
-                )
-                .font(.caption)
+                footer
             }
             .widgetAccentable()
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(entry.spokenSummary)
+        }
+
+        @ViewBuilder
+        private var footer: some View {
+            let text =
+                "\(entry.place.name), \(entry.date.formatted(date: .omitted, time: .shortened))"
+
+            #if os(watchOS)
+            Text(text)
+                .font(.caption)
+            #else
+            NextPlaceButton {
+                Label(text, systemImage: "mappin.and.ellipse")
+                    .font(.caption)
+                    .invalidatableContent()
+            }
+            #endif
+        }
+    }
+
+    struct NoDataAccessoryRectangular: View {
+        var entry: SurfEntry
+
+        var body: some View {
+            #if os(watchOS)
+            VStack(alignment: .leading) {
+                Label("No Data", systemImage: "exclamationmark.triangle")
+
+                Text(entry.place.name)
+                    .font(.caption)
+            }
+            .widgetAccentable()
+            #else
+            VStack(alignment: .leading) {
+                Label("No Data", systemImage: "exclamationmark.triangle")
+
+                Text(entry.place.name)
+                    .font(.caption)
+                    .invalidatableContent()
+
+                NextPlaceButton {
+                    Label("Next Spot", systemImage: "mappin.and.ellipse")
+                        .font(.caption)
+                }
+            }
+            .widgetAccentable()
+            #endif
         }
     }
 }

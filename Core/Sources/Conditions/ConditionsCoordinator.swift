@@ -101,6 +101,14 @@ extension ConditionsCoordinator {
         }
     }
 
+    public func selectNextPlace() async {
+        let selectionChanged = await configuration.registry.selectNextPlace()
+
+        if selectionChanged {
+            configuration.reloadWidgetTimelines()
+        }
+    }
+
     public func includedPlaces() async -> [Place] {
         await configuration.registry.includedPlaces()
     }
