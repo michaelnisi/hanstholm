@@ -39,11 +39,6 @@ struct PlacesView: View {
                 await load()
             }
         }
-        .onChange(of: model.selection) {
-            Task {
-                await model.persistSelection()
-            }
-        }
     }
 
     private func load() async {
