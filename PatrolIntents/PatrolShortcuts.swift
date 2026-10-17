@@ -6,11 +6,9 @@ struct PatrolShortcuts: AppShortcutsProvider {
             intent: HowIsTheSurfIntent(),
             phrases: [
                 "\(.applicationName) surf",
-                "\(.applicationName) waves",
-                "\(.applicationName) wind",
-                "\(.applicationName) conditions",
+                "\(.applicationName) \(\.$place)",
                 "How is the surf in \(.applicationName)",
-                "What's the surf like in \(.applicationName)",
+                "How is the surf at \(\.$place) in \(.applicationName)",
             ],
             shortTitle: "How Is The Surf",
             systemImageName: "water.waves"
@@ -19,8 +17,7 @@ struct PatrolShortcuts: AppShortcutsProvider {
         AppShortcut(
             intent: SelectPlaceIntent(),
             phrases: [
-                "Switch \(.applicationName) to \(\.$place)",
-                "\(.applicationName) switch to \(\.$place)",
+                "Switch \(.applicationName) to \(\.$place)"
             ],
             shortTitle: "Select Surf Spot",
             systemImageName: "mappin.and.ellipse"
