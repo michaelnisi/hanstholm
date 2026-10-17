@@ -27,7 +27,7 @@ struct PlacesView: View {
                     entry: model.entries[place.id],
                     phase: model.phase(for: place),
                     onRefresh: {
-                        await model.refresh(place, policy: .reload)
+                        await model.refresh(place, policy: PlacesModel.pullToRefreshPolicy)
                     }
                 )
                 .task(id: place.id) {

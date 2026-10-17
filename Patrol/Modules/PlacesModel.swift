@@ -14,6 +14,9 @@ nonisolated private let placesLogger = Logger(subsystem: "ink.codes.Patrol", cat
         var fetch: @Sendable (Place, FreshnessPolicy) async throws -> SurfEntry
     }
 
+    static let automaticPolicy = FreshnessPolicy.cached(maxAge: 5 * 60)
+    static let pullToRefreshPolicy = FreshnessPolicy.cached(maxAge: 60)
+
     enum Phase {
         case idle
         case loading
@@ -53,7 +56,7 @@ extension PlacesModel {
         entries = loaded
     }
 
-    func refresh(_ place: Place, policy: FreshnessPolicy = .cached(maxAge: 5 * 60)) async {
+    func refresh(_ place: Place, policy: FreshnessPolicy = PlacesModel.automaticPolicy) async {
         phases[place.id] = .loading
 
         do {
