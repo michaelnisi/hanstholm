@@ -22,7 +22,17 @@ struct PlacesView: View {
             .navigationTitle("Places")
         } detail: {
             if let place = model.selectedPlace {
-                PlaceDetailView(place: place, entry: model.entries[place.id])
+                PlaceDetailView(
+                    place: place,
+                    entry: model.entries[place.id],
+                    phase: model.phase(for: place),
+                    onRefresh: {
+                        await model.refresh(place, policy: PlacesModel.pullToRefreshPolicy)
+                    }
+                )
+                .task(id: place.id) {
+                    await model.refresh(place)
+                }
             } else {
                 ContentUnavailableView("Select a Place", systemImage: "water.waves")
             }
@@ -37,6 +47,10 @@ struct PlacesView: View {
 
             Task {
                 await load()
+
+                if let place = model.selectedPlace {
+                    await model.refresh(place)
+                }
             }
         }
     }
