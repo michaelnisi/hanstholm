@@ -8,7 +8,6 @@ import Observation
         var availablePlaces: @Sendable () -> [Place]
         var selectedPlace: @Sendable () async -> Place?
         var cached: @Sendable (Place) async -> SurfEntry?
-        var selectPlace: @Sendable (Place) async -> Void
     }
 
     private(set) var places: [Place] = []
@@ -46,14 +45,6 @@ extension PlacesModel {
 
         selection = await dependencies.selectedPlace()?.id
     }
-
-    func persistSelection() async {
-        guard let selectedPlace else {
-            return
-        }
-
-        await dependencies.selectPlace(selectedPlace)
-    }
 }
 
 extension PlacesModel {
@@ -67,9 +58,6 @@ extension PlacesModel {
             },
             cached: { place in
                 await ConditionsCoordinator.shared.cached(for: place)
-            },
-            selectPlace: { place in
-                await ConditionsCoordinator.shared.selectPlace(place)
             }
         )
     )
@@ -84,8 +72,7 @@ extension PlacesModel {
                 cached: { place in
                     place == places.last
                         ? nil : MockData.SurfEntry.makeSurfEntry(place: place)
-                },
-                selectPlace: { _ in }
+                }
             )
         )
     }
