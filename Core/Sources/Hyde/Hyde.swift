@@ -72,7 +72,7 @@ extension Hyde {
             let report = try Report(station: station, data: data)
 
             guard let entry = SurfEntry(report: report, place: place) else {
-                throw ConditionsFault.decoding
+                throw report.fault
             }
 
             return entry
