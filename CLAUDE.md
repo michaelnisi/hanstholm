@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Patrol is a watchOS 26 app (with a WidgetKit complication) that shows live surf and wind conditions. Conditions come from pluggable sources; the first is the weather station at Hanstholm Harbour, Denmark (`hyde.dk`). More sources are expected, covering other places and publishing in other languages and formats — so how any one source represents its data is that plugin's business, documented in the plugin and pinned by its tests, not here.
+Patrol is a watchOS, iOS and iPadOS app that shows live surf and wind conditions for places: in the app, in WidgetKit widgets and complications, and by voice through Siri and Shortcuts. Conditions come from pluggable sources; more are expected, covering other places and publishing in other languages and formats — so how any one source represents its data is that plugin's business, documented in the plugin and pinned by its tests, not here.
 
 ## Workflow for New Features
 
