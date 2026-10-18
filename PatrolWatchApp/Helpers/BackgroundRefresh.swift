@@ -3,7 +3,7 @@ import WatchKit
 
 func backgroundRefresh() async {
     do {
-        _ = try await ConditionsCoordinator.app.conditions(
+        _ = try await ConditionsCoordinator.shared.conditions(
             policy: .reload,
             trigger: .appBackgroundRefresh
         )

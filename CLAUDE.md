@@ -43,10 +43,14 @@ PatrolWatchApp/  # watchOS target
 PatrolWidget/    # WidgetKit extension source, shared by two Xcode targets:
                  #   PatrolWidgetExtension    (watchOS, embedded in the Watch App)
                  #   PatrolWidgetIOSExtension (iOS, embedded in the "Patrol" container app)
-PatrolIntents/   # App Intents source, shared by two Xcode targets:
+PatrolIntents/   # Siri / Shortcuts App Intents source, shared by two Xcode targets:
                  #   Patrol Watch App (watchOS)
                  #   Patrol           (iOS)
+PatrolPlaces/    # PlaceEntity (the place picker's AppEntity), shared by all four targets, because the
+                 # widget configuration UI runs its query inside the widget extension
 ```
+
+Each target that runs coordinator code defines its own `ConditionsCoordinator.shared` (`Patrol/`, `PatrolWatchApp/`, `PatrolWidget/` each have a `Conditions+…` file), so code shared across targets names one thing and every process still has exactly one coordinator.
 
 ## Building and Testing
 
@@ -70,7 +74,7 @@ Build and run the watch app and widget from Xcode — there is no command-line t
 
 - **DomainTypes** — `SurfEntry` (clean model, also conforms to `TimelineEntry`), `Place`, `Direction` (16-point cardinal, rotation degrees, and display rendering: `formatted()` → `"NE"`, `spoken()` → `"northeast"`), and `Double` formatting extensions. Depends on nothing, and that is load-bearing: **no source's vocabulary may appear here** — not its language, not its labels, not its abbreviations, not its wire units. Sources are plural and multilingual by design, so each plugin maps its own vocabulary into these types behind its own boundary, and adding a plugin never edits `DomainTypes`. English is the app's first language, so rendering a `Cardinal` for display belongs here.
 - **ConditionsPlugin** — `ConditionsPlugin` (a source of conditions) and `DeferredDownloadable` (opt-in: "my data is one plain download whose bytes decode standalone").
-- **Cache** — `actor Cache` backed by App Group `UserDefaults` (`group.ink.codes.Patrol`), shared between app and widget. Methods are `throws` (not `async`) — actor isolation handles concurrency. Stores `SurfEntry` values keyed by `Place.id`, and the selected place as a bare id (the plugin stays the source of truth for its display name). `selectedConditions()` exists for read-only consumers like the iOS app, which has no plugins linked and so can't resolve a `Place` itself. `settings(for:)` / `setSettings(_:for:)` store one `PlaceSettings` value per place — a single concrete struct, not a generic per-consumer type, because the app's UI surface is fixed and known ahead of time; fields get added to it directly as features need them (starts empty).
+- **Cache** — `actor Cache` backed by App Group `UserDefaults` (`group.ink.codes.Patrol`), shared between app and widget. Methods are `throws` (not `async`) — actor isolation handles concurrency. Stores `SurfEntry` values keyed by `Place.id`, and the default place (stored under the "selected" key, one per device) as a bare id (the plugin stays the source of truth for its display name). `selectedConditions(newer:)` exists for read-only consumers like the iOS app, which has no plugins linked and so can't resolve a `Place` itself; every cache fallback takes a cutoff (`SurfEntry.oldestUsableDate`), so a reading older than `SurfEntry.maxCachedAge` counts as no data. `settings(for:)` / `setSettings(_:for:)` store one `PlaceSettings` value per place — a single concrete struct, not a generic per-consumer type, because the app's UI surface is fixed and known ahead of time; fields get added to it directly as features need them (starts empty).
 - **Hyde** — the hyde.dk data source, and the only plugin so far. `Hyde` names a specific source, so `struct Hyde` *is* the plugin (`ConditionsPlugin` + `DeferredDownloadable`) rather than a DTO that something else adapts. Everything the source's own vocabulary needs is internal behind it: `Report` is what the HTML parses into, `Parser` finds each value on the line after its label (a missing label throws, so a changed page is never mistaken for a reading the provider left out, which surfaces as `ConditionsFault.unavailable`), and `SurfEntry+Report.swift` converts (returning `nil` and logging when a field is missing). Depends on `DomainTypes` + `ConditionsPlugin`, so the arrow points source→domain.
 - **Conditions** — `ConditionsCoordinator` plus the background `URLSession` machinery. Everything that isn't HTTP or parsing.
 - **MockData** — Canned `SurfEntry` values for SwiftUI previews.
@@ -95,22 +99,26 @@ ConditionsCoordinator
                               → UI / Widget timeline
 
 Deferred path (widget extensions only):
-  scheduleDeferredRefresh → background URLSession → DeferredDownloader
+  scheduleDeferredRefresh(for: place) → background URLSession → DeferredDownloader
                                       ↓
                     plugin.decodeDeferred → Cache (same write-through)
 ```
+
+Every coordinator call that fetches or reads takes a `Place`. The overloads without one resolve the default place (one per device, stored as the selected place) and delegate, so the Watch app and the Siri intents keep working on the default place while each widget passes its own.
 
 ### Container App
 
 `Patrol/` uses `fileSystemSynchronizedGroups`, like the Watch App and widget targets — files dropped in the folder are picked up automatically, no manual pbxproj membership needed. The target is a real `application` product type (not the watch-only-companion stub it started as), declaring `INFOPLIST_KEY_WKCompanionAppBundleIdentifier` to pair with the Watch app.
 
-`ContentView.swift` is a minimal, read-only screen: it reads `Cache().conditions(matching:)` on `.task` and whenever `scenePhase` becomes `.active`, and renders the resulting `SurfEntry` (or a `ContentUnavailableView` prompt if nothing's cached yet). It never fetches — it only shows what some other *iOS-side* process has already written to the shared App Group `Cache`. Note the Watch app doesn't count: App Groups only share storage between processes on the same device, so the Watch's cache and the iPhone's cache are entirely separate — this screen only has data once the iOS widget extension (or some other iOS-side fetcher) has populated the cache. `MockData` is preview-only here, never a runtime fallback, so the screen can't show fabricated data as if it were live.
+`ContentView.swift` is a `TabView` with one tab, "Places", for now. `PlacesView` is a `NavigationSplitView`: the sidebar lists every available place (`ConditionsCoordinator.shared.availablePlaces()`, a registry read, not a fetch), and the detail (`PlaceDetailView`) shows that place's `SurfEntry`, with a progress indicator while it loads, a `ContentUnavailableView` offering "Try Again" when there is nothing to show and the fetch failed, and pull-to-refresh as an explicit reload. In compact width the split view collapses into a stack, so choosing a place pushes its conditions; in regular width the columns sit side by side and the default place is preselected. Choosing a place only shows it: the iOS app neither shows nor changes the default place (the Watch app's picker and the "Switch Patrol to <spot>" intent set it), so browsing never changes what Siri or an unconfigured widget reports. `PlacesModel` (with a `Dependencies` struct, like the Watch's `SurfProvider`) reads each place through `ConditionsCoordinator.cached(for:)` on `.task` and whenever `scenePhase` becomes `.active`, and fetches the place being viewed through `conditions(for:policy:trigger:)` (`PlacesModel.refresh`).
 
-`Patrol` also links `Conditions`+`Hyde` — not for `ContentView` (still untouched and still never fetches), but for the `PatrolIntents/` App Intent it hosts (see "Siri / Shortcuts" below).
+The iOS app fetches only the place it is showing, in the foreground: cache first with the same 5 minute limit as the Watch app when a place is opened and when the app becomes active, and a one minute limit on pull-to-refresh and "Try Again", so repeated pulls within a minute of the last fetch are served from the cache. It does not fetch every place for the list; list rows show cached summaries and update once their place has been opened. There is no background refresh in the iOS app; the widget extension keeps that. A successful fetch reloads widget timelines through the coordinator, so widgets pick up the reading. The Watch app doesn't count: App Groups only share storage between processes on the same device, so the Watch's cache and the iPhone's cache are entirely separate. `MockData` is preview-only here, never a runtime fallback, so the screen can't show fabricated data as if it were live.
+
+`Patrol` links `Conditions`+`Hyde` for the place list, the selection and cached reads above, and for the `PatrolIntents/` App Intents it hosts (see "Siri / Shortcuts" below).
 
 ### Watch App
 
-`SurfProvider` is `@Observable` (Observation framework) and is injected into the view hierarchy via `.environment(SurfProvider.live)`. It uses a `Dependencies` struct for injection (swap `.live` for `.mock` in previews). `.live` is a thin wrapper over `ConditionsCoordinator.app`, asking for `.cached(maxAge: 5 * 60)`; the coordinator owns the caching and the timeline reload.
+`SurfProvider` is `@Observable` (Observation framework) and is injected into the view hierarchy via `.environment(SurfProvider.live)`. It uses a `Dependencies` struct for injection (swap `.live` for `.mock` in previews). `.live` is a thin wrapper over `ConditionsCoordinator.shared`, asking for `.cached(maxAge: 5 * 60)`; the coordinator owns the caching and the timeline reload.
 
 The watch app's coordinator sets `deferredDownloads: nil` — it refreshes through `WKApplication` background tasks, not a background `URLSession`, so it creates no download session. The widget extension owns that path; the two meet in the shared `Cache`, never in memory.
 
@@ -120,7 +128,9 @@ The watch app's coordinator sets `deferredDownloads: nil` — it refreshes throu
 
 ### Widget Extension
 
-`SurfEntryProvider` implements `TimelineProvider`. `getTimeline` schedules a deferred download (earliest begin: 15 minutes), then resolves data in **two** tiers: cached (<15 min old) → foreground fetch. There is no third "background result" tier, because a finished download is written straight through to the `Cache` by `DeferredDownloader` — by the time anything asks, it *is* the cache. That also means the result survives the extension process being relaunched, which the old in-memory handoff did not.
+The place is chosen per widget. `SurfPlaceConfigurationIntent` (a `WidgetConfigurationIntent`) has an optional `PlaceEntity` parameter edited in Edit Widget; empty means "follow the default place". The app (Watch app, iOS app, Siri) keeps one default place per device and widgets are independent of it. watchOS has no dedicated configuration UI for complications, so the provider's `recommendations()` offers one preconfigured configuration per place.
+
+`SurfEntryProvider` implements `AppIntentTimelineProvider`. `timeline(for:in:)` resolves the widget's place (configured, else selected), schedules a deferred download for it (earliest begin: 15 minutes), then resolves data in **two** tiers: cached (<15 min old) → foreground fetch. There is no third "background result" tier, because a finished download is written straight through to the `Cache` by `DeferredDownloader` — by the time anything asks, it *is* the cache. That also means the result survives the extension process being relaunched, which the old in-memory handoff did not.
 
 The timeline policy is `.after(15 min)` as a guaranteed fallback; the background session also drives refresh. The widget registers for `onBackgroundURLSessionEvents` matching `DeferredDownloadConfiguration.defaultSessionIdentifier()` — the same helper that builds the session identifier, so the two cannot drift apart.
 
@@ -130,11 +140,11 @@ The `PatrolWidget/` source compiles unchanged into two separate Xcode targets �
 
 ### Siri / Shortcuts (App Intents)
 
-`PatrolIntents/` holds `HowIsTheSurfIntent` (an `AppIntent` answering "how is the surf" with a spoken `IntentDialog`) and `PatrolShortcuts` (its `AppShortcutsProvider` phrases), plus `Conditions+Live.swift`, which defines the `ConditionsCoordinator.app` singleton both consume. Unlike `PatrolWidget/`, this needs no separate extension target or Info.plist/entitlement keys — App Intents are just Swift code the OS discovers in a linked app binary, so the same folder compiles straight into both `Patrol` (iOS) and `Patrol Watch App`.
+`PatrolIntents/` holds `HowIsTheSurfIntent` (an `AppIntent` answering "how is the surf" with a spoken `IntentDialog`; an optional `place` names the spot, empty means the default place, and answering for a named place never changes the default) and `PatrolShortcuts` (its `AppShortcutsProvider`; phrases: "Patrol surf", "Patrol <place>", "How is the surf in Patrol", "How is the surf at <place> in Patrol", and "Switch Patrol to <spot>" for the switch intent; both apps call `updateAppShortcutParameters()` at launch so Siri learns the place names), plus `SelectPlaceIntent` ("Switch Patrol to <spot>", which changes the default place). Unlike `PatrolWidget/`, this needs no separate extension target or Info.plist/entitlement keys — App Intents are just Swift code the OS discovers in a linked app binary, so the same folder compiles straight into both `Patrol` (iOS) and `Patrol Watch App`.
 
-**Widget-first design**: the Watch app is the only "driver" surface — it owns a live, `@Observable`-driven UI (`SurfProvider`) and its own background-refresh lifecycle (`BackgroundRefresh`, via `WKApplication` background tasks). Every other surface — the widget, this Intent, and any future iPad/Mac target — is a stateless *consumer*: it calls `ConditionsCoordinator` once per invocation (`TimelineProvider.getTimeline`, `AppIntent.perform()`, `ContentView`'s `.task`) and reports the result, without owning a refresh lifecycle of its own. When adding a new non-Watch surface, model it after the widget's `TimelineProvider`-style one-shot call, not after `SurfProvider`.
+**Widget-first design**: the Watch app and the iOS Places screen are the foreground "driver" surfaces — each owns a live, `@Observable`-driven UI (`SurfProvider`, `PlacesModel`) that fetches while it is on screen, and only the Watch app also owns a background-refresh lifecycle (`BackgroundRefresh`, via `WKApplication` background tasks). Every other surface — the widget, the Intents, and any future Mac target — is a stateless *consumer*: it calls `ConditionsCoordinator` once per invocation (`TimelineProvider.timeline(for:in:)`, `AppIntent.perform()`) and reports the result, without owning a refresh lifecycle of its own. When adding a new non-Watch surface, model it after the widget's `TimelineProvider`-style one-shot call, not after `SurfProvider`.
 
-On watchOS, `ConditionsCoordinator.app` is reused for both roles — the Watch's own driving (`SurfProvider`, `BackgroundRefresh`) and the Intent's on-demand consumer use — rather than standing up a second instance, so the existing `inFlight` de-dup in `ConditionsCoordinator` covers both call paths and they share one network session. On iOS, `.app` serves only the Intent; `ContentView` never touches it.
+On watchOS, `ConditionsCoordinator.shared` is reused for both roles — the Watch's own driving (`SurfProvider`, `BackgroundRefresh`) and the Intent's on-demand consumer use — rather than standing up a second instance, so the existing `inFlight` de-dup in `ConditionsCoordinator` covers both call paths and they share one network session. On iOS, `.shared` in the app serves the Intents and the Places screen. The widget extension has its own `.shared`, in its own process.
 
 ## Concurrency Model
 
@@ -151,6 +161,7 @@ On watchOS, `ConditionsCoordinator.app` is reused for both roles — the Watch's
 | Background URL session ID | `<bundle id>.conditions` (was `hyde.dk`) |
 | Cache TTL (app) | 5 min |
 | Cache TTL (widget) | 15 min |
+| Max age of a cached reading shown | 6 h |
 
 ## Quirks
 

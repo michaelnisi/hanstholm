@@ -146,6 +146,7 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		4C10AF8F2BCC261B000F2D2B /* PatrolWatchApp */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (4C7DC2892FFE99DC000D63F0 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PatrolWatchApp; sourceTree = "<group>"; };
 		4C10AFAE2BCC264E000F2D2B /* PatrolWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (4C10AFBC2BCC265000000001 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 24C74C2453259CA10F892A07 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PatrolWidget; sourceTree = "<group>"; };
+		A0B1C2D3E4F5061728394A5B /* PatrolPlaces */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = PatrolPlaces; sourceTree = "<group>"; };
 		AB12CD34EF56AB78CD90EF12 /* PatrolIntents */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = PatrolIntents; sourceTree = "<group>"; };
 		E1F2A3B4C5D6E7F8A9B0C1D2 /* Patrol */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (E4F3021AC6D7B8E9FA0B1C2D /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Patrol; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -220,6 +221,7 @@
 				4C10AFAE2BCC264E000F2D2B /* PatrolWidget */,
 				E1F2A3B4C5D6E7F8A9B0C1D2 /* Patrol */,
 				AB12CD34EF56AB78CD90EF12 /* PatrolIntents */,
+				A0B1C2D3E4F5061728394A5B /* PatrolPlaces */,
 				4C10AF862BCC261B000F2D2B /* Products */,
 				4C10AFA22BCC2637000F2D2B /* Frameworks */,
 			);
@@ -265,6 +267,7 @@
 				9162AAE923B350CB47D1F533 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
+				A0B1C2D3E4F5061728394A5B /* PatrolPlaces */,
 				AB12CD34EF56AB78CD90EF12 /* PatrolIntents */,
 				E1F2A3B4C5D6E7F8A9B0C1D2 /* Patrol */,
 			);
@@ -296,6 +299,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				4C10AF8F2BCC261B000F2D2B /* PatrolWatchApp */,
+				A0B1C2D3E4F5061728394A5B /* PatrolPlaces */,
 				AB12CD34EF56AB78CD90EF12 /* PatrolIntents */,
 			);
 			name = "Patrol Watch App";
@@ -325,6 +329,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				4C10AFAE2BCC264E000F2D2B /* PatrolWidget */,
+				A0B1C2D3E4F5061728394A5B /* PatrolPlaces */,
 			);
 			name = PatrolWidgetExtension;
 			packageProductDependencies = (
@@ -353,6 +358,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				4C10AFAE2BCC264E000F2D2B /* PatrolWidget */,
+				A0B1C2D3E4F5061728394A5B /* PatrolPlaces */,
 			);
 			name = PatrolWidgetIOSExtension;
 			packageProductDependencies = (

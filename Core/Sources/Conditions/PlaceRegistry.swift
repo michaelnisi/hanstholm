@@ -70,12 +70,8 @@ struct PlaceRegistry: Sendable {
         return true
     }
 
-    func selectedRegion() async -> GeoRegion? {
-        guard let selected = try? await selectedPlace() else {
-            return nil
-        }
-
-        return plugin(for: selected)?.region
+    func region(for place: Place) -> GeoRegion? {
+        plugin(for: place)?.region
     }
 
     func plugin(for place: Place) -> (any ConditionsPlugin)? {

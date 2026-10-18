@@ -111,9 +111,35 @@ final class CacheTests: XCTestCase {
         await cache.setConditions(entry)
         await cache.setSelectedPlace(entry.place)
 
-        let selected = await cache.selectedConditions()
+        let selected = await cache.selectedConditions(newer: .distantPast)
 
         XCTAssertEqual(selected, entry)
+    }
+
+    func testSelectedConditionsReturnsEntryAtTheCutoff() async {
+        let cache = Cache(userDefaults: userDefaults)
+        let cutoff = Date.now
+        let entry = makeSurfEntry(date: cutoff)
+
+        await cache.setConditions(entry)
+        await cache.setSelectedPlace(entry.place)
+
+        let selected = await cache.selectedConditions(newer: cutoff)
+
+        XCTAssertEqual(selected, entry)
+    }
+
+    func testSelectedConditionsIsNilWhenEntryIsOlderThanTheCutoff() async {
+        let cache = Cache(userDefaults: userDefaults)
+        let cutoff = Date.now
+        let entry = makeSurfEntry(date: cutoff.addingTimeInterval(-1))
+
+        await cache.setConditions(entry)
+        await cache.setSelectedPlace(entry.place)
+
+        let selected = await cache.selectedConditions(newer: cutoff)
+
+        XCTAssertNil(selected)
     }
 
     func testSelectedConditionsIsNilWhenNothingSelected() async {
@@ -121,7 +147,7 @@ final class CacheTests: XCTestCase {
 
         await cache.setConditions(makeSurfEntry())
 
-        let selected = await cache.selectedConditions()
+        let selected = await cache.selectedConditions(newer: .distantPast)
 
         XCTAssertNil(selected)
     }

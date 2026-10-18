@@ -39,13 +39,13 @@ struct PatrolWidgetEntryView: View {
         #else
         case .systemSmall:
             if entry.status == .error {
-                NoDataHomeTile()
+                NoDataHomeTile(entry: entry)
             } else {
                 HomeSmall(entry: entry)
             }
         case .systemMedium:
             if entry.status == .error {
-                NoDataHomeTile()
+                NoDataHomeTile(entry: entry)
             } else {
                 HomeMedium(entry: entry)
             }
@@ -68,8 +68,7 @@ struct PatrolWidgetEntryView: View {
             }
         case .accessoryRectangular:
             if entry.status == .error {
-                Label("No Data", systemImage: "exclamationmark.triangle")
-                    .widgetAccentable()
+                NoDataAccessoryRectangular(entry: entry)
             } else {
                 AccessoryRectangular(entry: entry)
             }
@@ -135,12 +134,16 @@ extension PatrolWidgetEntryView {
     }
 
     struct NoDataHomeTile: View {
+        var entry: SurfEntry
+
         var body: some View {
             VStack(spacing: 4) {
                 Image(systemName: "exclamationmark.triangle")
                     .font(.title2)
                 Text("No Data")
                     .font(.caption)
+                Text(entry.place.name)
+                    .font(.caption2)
             }
             .foregroundStyle(.secondary)
         }
@@ -268,14 +271,30 @@ extension PatrolWidgetEntryView {
                     "\(Image(systemName: "wind")) \(Text(entry.wind.direction.formatted()).fontWeight(.black)) \(entry.wind.speed.current.knots())"
                 )
 
-                Text(
-                    "\(entry.place.name), \(entry.date.formatted(date: .omitted, time: .shortened))"
-                )
-                .font(.caption)
+                footer
             }
             .widgetAccentable()
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(entry.spokenSummary)
+        }
+
+        private var footer: some View {
+            Text("\(entry.place.name), \(entry.date.formatted(date: .omitted, time: .shortened))")
+                .font(.caption)
+        }
+    }
+
+    struct NoDataAccessoryRectangular: View {
+        var entry: SurfEntry
+
+        var body: some View {
+            VStack(alignment: .leading) {
+                Label("No Data", systemImage: "exclamationmark.triangle")
+
+                Text(entry.place.name)
+                    .font(.caption)
+            }
+            .widgetAccentable()
         }
     }
 }
@@ -285,18 +304,22 @@ struct PatrolWidget: Widget {
     let kind: String = "PatrolWidget"
 
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: SurfEntryProvider()) { entry in
+        AppIntentConfiguration(
+            kind: kind,
+            intent: SurfPlaceConfigurationIntent.self,
+            provider: SurfEntryProvider()
+        ) { entry in
             PatrolWidgetEntryView(entry: entry)
         }
         .onBackgroundURLSessionEvents(
             matching: DeferredDownloadConfiguration.defaultSessionIdentifier()
         ) { urlSessionEvent, completion in
-            ConditionsCoordinator.widget.handleBackgroundSessionEvents {
+            ConditionsCoordinator.shared.handleBackgroundSessionEvents {
                 completion()
             }
         }
         .configurationDisplayName("Patrol")
-        .description("Vejret Hanstholm Havn")
+        .description("Surf and wind conditions for your spot.")
         #if os(watchOS)
         .supportedFamilies([
             .accessoryCorner, .accessoryCircular, .accessoryInline, .accessoryRectangular,

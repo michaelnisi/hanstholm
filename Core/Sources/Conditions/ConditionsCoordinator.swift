@@ -82,15 +82,24 @@ extension ConditionsCoordinator {
 
 extension ConditionsCoordinator {
     public func cached() async -> SurfEntry? {
-        await configuration.cache.selectedConditions()
+        await configuration.cache.selectedConditions(
+            newer: SurfEntry.oldestUsableDate(now: configuration.now())
+        )
     }
 
-    public func availablePlaces() -> [Place] {
+    public func cached(for place: Place) async -> SurfEntry? {
+        await configuration.cache.conditions(
+            matching: place,
+            newer: SurfEntry.oldestUsableDate(now: configuration.now())
+        )
+    }
+
+    public nonisolated func availablePlaces() -> [Place] {
         configuration.registry.availablePlaces()
     }
 
-    public func selectedRegion() async -> GeoRegion? {
-        await configuration.registry.selectedRegion()
+    public nonisolated func region(for place: Place) -> GeoRegion? {
+        configuration.registry.region(for: place)
     }
 
     public func selectPlace(_ place: Place) async {
@@ -114,8 +123,14 @@ extension ConditionsCoordinator {
     }
 
     public func conditions(policy: FreshnessPolicy, trigger: Trigger) async throws -> SurfEntry {
-        let place = try await selectedPlace()
+        try await conditions(for: selectedPlace(), policy: policy, trigger: trigger)
+    }
 
+    public func conditions(
+        for place: Place,
+        policy: FreshnessPolicy,
+        trigger: Trigger
+    ) async throws -> SurfEntry {
         switch policy {
         case .cachedOnly:
             guard let entry = await configuration.cache.conditions(matching: place) else {
@@ -191,6 +206,14 @@ extension ConditionsCoordinator {
 
 extension ConditionsCoordinator {
     public func scheduleDeferredRefresh(after delay: TimeInterval) async {
+        do {
+            await scheduleDeferredRefresh(for: try await selectedPlace(), after: delay)
+        } catch {
+            logger.error("scheduling deferred refresh failed: \(error)")
+        }
+    }
+
+    public func scheduleDeferredRefresh(for place: Place, after delay: TimeInterval) async {
         guard let downloader else {
             return
         }
@@ -198,8 +221,6 @@ extension ConditionsCoordinator {
         await LegacySessionCleanup.flushIfNeeded()
 
         do {
-            let place = try await selectedPlace()
-
             guard let plugin = Self.deferredPlugin(for: place, in: configuration.registry.plugins)
             else {
                 return
@@ -237,15 +258,8 @@ extension ConditionsCoordinator {
         cache: Cache,
         reloadWidgetTimelines: @Sendable () -> Void
     ) async {
-        let selected = await cache.selectedPlaceID()
-
         guard let place = token?.place else {
             logger.error("deferred ingest: missing token")
-            return
-        }
-
-        if let selected, place.id != selected {
-            logger.error("deferred ingest: dropping \(place.id), selected is \(selected)")
             return
         }
 

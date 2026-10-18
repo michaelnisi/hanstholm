@@ -80,6 +80,83 @@ final class ConditionsCoordinatorTests: XCTestCase {
         XCTAssertEqual(plugin.fetches.count, 0)
     }
 
+    func testCachedReturnsEntryJustInsideTheMaximumAge() async {
+        let now = Date.now
+        let (coordinator, cache) = makeCoordinator(plugin: makePlugin(), now: { now })
+        let stored = makeEntry(date: now.addingTimeInterval(-SurfEntry.maxCachedAge + 1))
+
+        await cache.setConditions(stored)
+        await cache.setSelectedPlace(stored.place)
+
+        let entry = await coordinator.cached()
+
+        XCTAssertEqual(entry, stored)
+    }
+
+    func testCachedIsNilJustOutsideTheMaximumAge() async {
+        let now = Date.now
+        let (coordinator, cache) = makeCoordinator(plugin: makePlugin(), now: { now })
+        let stored = makeEntry(date: now.addingTimeInterval(-SurfEntry.maxCachedAge - 1))
+
+        await cache.setConditions(stored)
+        await cache.setSelectedPlace(stored.place)
+
+        let entry = await coordinator.cached()
+
+        XCTAssertNil(entry)
+    }
+
+    func testConditionsForPlaceFetchesThatPlaceWhileAnotherIsSelected() async throws {
+        let second = makePlace(key: "elsewhere", name: "Elsewhere")
+        let plugin = makePlugin(places: [makePlace(), second])
+        let (coordinator, cache) = makeCoordinator(plugin: plugin)
+
+        await cache.setSelectedPlace(makePlace())
+
+        let entry = try await coordinator.conditions(
+            for: second,
+            policy: .reload,
+            trigger: .widgetTimeline
+        )
+
+        let written = await cache.conditions(matching: second)
+        let selectedEntry = await cache.conditions(matching: makePlace())
+
+        XCTAssertEqual(entry.place, second)
+        XCTAssertEqual(written, entry)
+        XCTAssertNil(selectedEntry)
+    }
+
+    func testCachedForPlaceReturnsThatPlacesEntryJustInsideTheMaximumAge() async {
+        let now = Date.now
+        let second = makePlace(key: "elsewhere", name: "Elsewhere")
+        let plugin = makePlugin(places: [makePlace(), second])
+        let (coordinator, cache) = makeCoordinator(plugin: plugin, now: { now })
+        let stored = makeEntry(
+            date: now.addingTimeInterval(-SurfEntry.maxCachedAge + 1),
+            place: second
+        )
+
+        await cache.setConditions(stored)
+        await cache.setSelectedPlace(makePlace())
+
+        let entry = await coordinator.cached(for: second)
+
+        XCTAssertEqual(entry, stored)
+    }
+
+    func testCachedForPlaceIsNilJustOutsideTheMaximumAge() async {
+        let now = Date.now
+        let (coordinator, cache) = makeCoordinator(plugin: makePlugin(), now: { now })
+        let stored = makeEntry(date: now.addingTimeInterval(-SurfEntry.maxCachedAge - 1))
+
+        await cache.setConditions(stored)
+
+        let entry = await coordinator.cached(for: stored.place)
+
+        XCTAssertNil(entry)
+    }
+
     func testCachedOnlyReturnsCachedWithoutFetching() async throws {
         let plugin = makePlugin()
         let (coordinator, cache) = makeCoordinator(plugin: plugin)
@@ -340,7 +417,7 @@ final class ConditionsCoordinatorTests: XCTestCase {
         XCTAssertEqual(plugin.decodes.count, 0)
     }
 
-    func testIngestDropsMismatchedPlace() async {
+    func testIngestFilesEntryForANonSelectedPlace() async {
         let second = makePlace(key: "elsewhere", name: "Elsewhere")
         let plugin = makePlugin(places: [makePlace(), second])
         let (coordinator, cache) = makeCoordinator(plugin: plugin)
@@ -355,8 +432,8 @@ final class ConditionsCoordinatorTests: XCTestCase {
 
         let written = await cache.conditions(matching: second)
 
-        XCTAssertNil(written)
-        XCTAssertEqual(plugin.decodes.count, 0)
+        XCTAssertNotNil(written)
+        XCTAssertEqual(plugin.decodes.count, 1)
     }
 
     func testIngestWithoutTokenIsDropped() async {

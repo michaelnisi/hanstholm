@@ -8,17 +8,35 @@ nonisolated let intentsLogger = Logger(subsystem: "ink.codes.Patrol", category: 
 struct HowIsTheSurfIntent: AppIntent {
     static let title: LocalizedStringResource = "How Is The Surf"
     static let description = IntentDescription(
-        "Reports current wind and wave conditions for your selected surf spot."
+        "Reports current wind and wave conditions for the surf spot you name, or your default spot."
     )
 
     static let openAppWhenRun: Bool = false
 
+    @Parameter(title: "Surf Spot")
+    var place: PlaceEntity?
+
+    static var parameterSummary: some ParameterSummary {
+        Summary("How is the surf at \(\.$place)")
+    }
+
     func perform() async throws -> some IntentResult & ProvidesDialog {
         do {
-            let entry = try await ConditionsCoordinator.app.conditions(
-                policy: .cached(maxAge: 5 * 60),
-                trigger: .userInterface
-            )
+            let policy = FreshnessPolicy.cached(maxAge: 5 * 60)
+
+            let entry =
+                if let place = place?.place {
+                    try await ConditionsCoordinator.shared.conditions(
+                        for: place,
+                        policy: policy,
+                        trigger: .userInterface
+                    )
+                } else {
+                    try await ConditionsCoordinator.shared.conditions(
+                        policy: policy,
+                        trigger: .userInterface
+                    )
+                }
 
             return .result(dialog: IntentDialog(stringLiteral: entry.spokenSummary))
         } catch is CancellationError {
