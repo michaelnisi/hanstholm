@@ -6,6 +6,10 @@ nonisolated let logger = Logger(subsystem: "ink.codes.Patrol", category: "App")
 
 @main
 struct PatrolWatchApp: App {
+    init() {
+        PatrolShortcuts.updateAppShortcutParameters()
+    }
+
     var body: some Scene {
         WindowGroup {
             ContentView()
