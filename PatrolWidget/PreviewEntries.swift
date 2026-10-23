@@ -2,19 +2,27 @@
 import DomainTypes
 import MockData
 
-extension SurfEntry {
-    static var typical: SurfEntry {
-        MockData.SurfEntry.makeSurfEntry()
-    }
+struct PreviewState {
+    let name: String
+    let entry: SurfEntry
+}
 
-    static var longPlaceName: SurfEntry {
-        let place = Place(pluginID: "mock", key: "long", name: "Hvide Sande Nordre Strand")
+extension PreviewState {
+    static let typical = PreviewState(
+        name: "Typical",
+        entry: MockData.SurfEntry.makeSurfEntry()
+    )
 
-        return MockData.SurfEntry.makeSurfEntry(place: place)
-    }
+    static let longPlaceName = PreviewState(
+        name: "Long place name",
+        entry: MockData.SurfEntry.makeSurfEntry(
+            place: Place(pluginID: "mock", key: "long", name: "Hvide Sande Nordre Strand")
+        )
+    )
 
-    static var noGust: SurfEntry {
-        SurfEntry(
+    static let noGust = PreviewState(
+        name: "No gust",
+        entry: SurfEntry(
             date: .now,
             place: MockData.SurfEntry.makePlace(),
             status: .ok,
@@ -24,10 +32,11 @@ extension SurfEntry {
                 direction: .init(cardinal: .southWest)
             )
         )
-    }
+    )
 
-    static var highSurf: SurfEntry {
-        SurfEntry(
+    static let highSurf = PreviewState(
+        name: "High surf",
+        entry: SurfEntry(
             date: .now,
             place: MockData.SurfEntry.makePlace(),
             status: .ok,
@@ -37,10 +46,19 @@ extension SurfEntry {
                 direction: .init(cardinal: .north)
             )
         )
-    }
+    )
 
-    static var noData: SurfEntry {
-        MockData.SurfEntry.makeSurfEntry(status: .error)
-    }
+    static let noData = PreviewState(
+        name: "No data",
+        entry: MockData.SurfEntry.makeSurfEntry(status: .error)
+    )
+}
+
+extension SurfEntry {
+    static var typical: SurfEntry { PreviewState.typical.entry }
+    static var longPlaceName: SurfEntry { PreviewState.longPlaceName.entry }
+    static var noGust: SurfEntry { PreviewState.noGust.entry }
+    static var highSurf: SurfEntry { PreviewState.highSurf.entry }
+    static var noData: SurfEntry { PreviewState.noData.entry }
 }
 #endif

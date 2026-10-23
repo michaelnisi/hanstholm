@@ -19,9 +19,13 @@ struct AccessoryCircular: View {
     }
 }
 
-#Preview("Wave and period", as: .accessoryCircular) {
-    PatrolWidget()
+#if DEBUG
+#Preview("Circular", as: .accessoryCircular) {
+    PreviewWidget { AccessoryCircular(entry: $0) }
 } timeline: {
     SurfEntry.typical
+    SurfEntry.longPlaceName
+    SurfEntry.noGust
     SurfEntry.highSurf
 }
+#endif

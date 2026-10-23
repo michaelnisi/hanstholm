@@ -20,11 +20,14 @@ struct AccessoryCorner: View {
     }
 }
 
+#if DEBUG
 #Preview("Corner", as: .accessoryCorner) {
-    PatrolWidget()
+    PreviewWidget { AccessoryCorner(entry: $0) }
 } timeline: {
     SurfEntry.typical
+    SurfEntry.longPlaceName
+    SurfEntry.noGust
     SurfEntry.highSurf
-    SurfEntry.noData
 }
+#endif
 #endif

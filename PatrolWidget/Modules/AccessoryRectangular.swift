@@ -28,10 +28,13 @@ struct AccessoryRectangular: View {
     }
 }
 
-#Preview("Wave and wind", as: .accessoryRectangular) {
-    PatrolWidget()
+#if DEBUG
+#Preview("Rectangular", as: .accessoryRectangular) {
+    PreviewWidget { AccessoryRectangular(entry: $0) }
 } timeline: {
     SurfEntry.typical
-    SurfEntry.highSurf
     SurfEntry.longPlaceName
+    SurfEntry.noGust
+    SurfEntry.highSurf
 }
+#endif

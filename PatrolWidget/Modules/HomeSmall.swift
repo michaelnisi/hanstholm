@@ -29,12 +29,14 @@ struct HomeSmall: View {
     }
 }
 
+#if DEBUG
 #Preview("Small", as: .systemSmall) {
-    PatrolWidget()
+    PreviewWidget { HomeSmall(entry: $0) }
 } timeline: {
     SurfEntry.typical
-    SurfEntry.highSurf
-    SurfEntry.noGust
     SurfEntry.longPlaceName
+    SurfEntry.noGust
+    SurfEntry.highSurf
 }
+#endif
 #endif

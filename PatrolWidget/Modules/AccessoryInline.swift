@@ -10,9 +10,13 @@ struct AccessoryInline: View {
     }
 }
 
-#Preview("Wave and period", as: .accessoryInline) {
-    PatrolWidget()
+#if DEBUG
+#Preview("Inline", as: .accessoryInline) {
+    PreviewWidget { AccessoryInline(entry: $0) }
 } timeline: {
     SurfEntry.typical
+    SurfEntry.longPlaceName
+    SurfEntry.noGust
     SurfEntry.highSurf
 }
+#endif

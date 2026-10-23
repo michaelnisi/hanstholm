@@ -18,24 +18,15 @@ struct GaugeReadout: View {
             Text(value)
                 .font(.title2)
                 .fontWeight(.black)
-            HStack(spacing: 3) {
-                DirectionIndicator(
-                    degrees: direction.degrees,
-                    formatted: direction.formatted()
-                )
-                Text(caption)
-            }
-            .font(.caption2)
-            .foregroundStyle(.secondary)
+            DirectionIndicator(
+                degrees: direction.degrees,
+                formatted: direction.formatted()
+            )
+            Text(caption)
+                .font(.caption2)
+                .foregroundStyle(.secondary)
         }
         .cappedDynamicType()
     }
-}
-
-#Preview("Wave", as: .systemSmall) {
-    PatrolWidget()
-} timeline: {
-    SurfEntry.typical
-    SurfEntry.highSurf
 }
 #endif

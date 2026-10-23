@@ -12,11 +12,4 @@ struct HomeFooter: View {
             .foregroundStyle(.secondary)
     }
 }
-
-#Preview("Footer", as: .systemMedium) {
-    PatrolWidget()
-} timeline: {
-    SurfEntry.typical
-    SurfEntry.longPlaceName
-}
 #endif

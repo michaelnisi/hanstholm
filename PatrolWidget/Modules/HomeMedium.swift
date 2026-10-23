@@ -43,12 +43,14 @@ struct HomeMedium: View {
     }
 }
 
+#if DEBUG
 #Preview("Medium", as: .systemMedium) {
-    PatrolWidget()
+    PreviewWidget { HomeMedium(entry: $0) }
 } timeline: {
     SurfEntry.typical
-    SurfEntry.highSurf
-    SurfEntry.noGust
     SurfEntry.longPlaceName
+    SurfEntry.noGust
+    SurfEntry.highSurf
 }
+#endif
 #endif
