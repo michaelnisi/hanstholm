@@ -71,6 +71,7 @@ struct PatrolWidgetEntryView: View {
     }
 }
 
+#if DEBUG
 #Preview("Every state", as: .accessoryRectangular) {
     PatrolWidget()
 } timeline: {
@@ -91,3 +92,4 @@ struct PatrolWidgetEntryView: View {
     SurfEntry.typical
     SurfEntry.noData
 }
+#endif
