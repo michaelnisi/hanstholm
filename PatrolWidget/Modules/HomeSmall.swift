@@ -8,24 +8,31 @@ struct HomeSmall: View {
     var entry: SurfEntry
 
     var body: some View {
-        SurfGauge(value: entry.wave.middle, total: entry.wave.max, tint: .blue) {
-            GaugeReadout(
-                symbol: "water.waves",
-                value: entry.wave.middle.feet(),
-                caption: entry.wave.period.seconds(),
-                direction: entry.wave.direction
-            )
-        }
-        .overlay(alignment: .bottom) {
-            Text("\(entry.wind.direction.formatted()) \(entry.wind.speed.current.knots())")
+        VStack(spacing: 4) {
+            Text(entry.place.name)
                 .font(.caption)
                 .fontWeight(.semibold)
-                .foregroundStyle(.secondary)
                 .cappedDynamicType()
+
+            SurfGauge(value: entry.wave.middle, total: entry.wave.max, tint: .blue) {
+                GaugeReadout(
+                    symbol: "water.waves",
+                    value: entry.wave.middle.feet(),
+                    caption: entry.wave.period.seconds(),
+                    direction: entry.wave.direction
+                )
+            }
+            .overlay(alignment: .bottom) {
+                Text("\(entry.wind.direction.formatted()) \(entry.wind.speed.current.knots())")
+                    .font(.caption)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.secondary)
+                    .cappedDynamicType()
+            }
         }
         .fontDesign(.rounded)
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("\(entry.wave.spoken), and \(entry.wind.spoken).")
+        .accessibilityLabel(entry.spokenSummary)
     }
 }
 
