@@ -40,6 +40,14 @@ struct PlacesView: View {
         .task {
             await load()
         }
+        .onOpenURL { url in
+            guard let id = PlaceID(url: url) else {
+                return
+            }
+
+            model.selection = id
+            preferredCompactColumn = .detail
+        }
         .onChange(of: scenePhase) {
             guard scenePhase == .active else {
                 return

@@ -11,6 +11,7 @@ struct PatrolWidgetEntryView: View {
             .containerBackground(for: .widget) {
                 TileBackground(family: widgetFamily)
             }
+            .widgetURL(entry.place.id.url)
     }
 
     @ViewBuilder

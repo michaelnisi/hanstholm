@@ -38,6 +38,11 @@ struct ContentView: View {
         .task {
             await surfProvider.load()
         }
+        .onOpenURL { url in
+            Task {
+                await open(url)
+            }
+        }
         .onChange(of: scenePhase) {
             switch scenePhase {
             case .active:
@@ -51,6 +56,17 @@ struct ContentView: View {
                 break
             }
         }
+    }
+
+    private func open(_ url: URL) async {
+        guard let id = PlaceID(url: url),
+            let place = await surfProvider.availablePlaces().first(where: { $0.id == id })
+        else {
+            logger.error("unknown place link: \(url, privacy: .public)")
+            return
+        }
+
+        path = [.surfSpot(place)]
     }
 }
 
