@@ -14,10 +14,7 @@ struct GaugeReadout: View {
             value.text(element: element)
                 .font(.title2)
                 .fontWeight(.black)
-            DirectionIndicator(
-                degrees: direction.degrees,
-                formatted: direction.formatted()
-            )
+            DirectionIndicator(degrees: direction.degrees)
             Text(direction.formatted())
                 .font(.caption2)
         }

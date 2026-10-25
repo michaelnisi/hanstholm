@@ -30,7 +30,7 @@ struct HomeSmall: View {
         }
         .fontDesign(.rounded)
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel(entry.spokenSummary)
+        .accessibilityLabel("At \(entry.place.name), \(entry.wave.spoken).")
     }
 }
 

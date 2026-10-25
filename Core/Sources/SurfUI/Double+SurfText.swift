@@ -6,7 +6,6 @@ extension Double {
         case wind, wave
     }
 
-    /// A view that displays wind in knots or wave in feet with low set measure unit.
     public func text(element: Element) -> Text {
         switch element {
         case .wave:

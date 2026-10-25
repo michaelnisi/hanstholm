@@ -43,15 +43,12 @@ struct WaveInfo: View {
     var body: some View {
         VStack {
             HStack {
-                DirectionIndicator(
-                    degrees: direction.degrees,
-                    formatted: direction.formatted()
-                )
+                DirectionIndicator(degrees: direction.degrees)
                 Text(direction.formatted())
                     .font(.caption2)
             }
 
-            middle.feetText().font(.title2)
+            middle.feetText()
                 .font(.title2)
                 .fontWeight(.bold)
 
