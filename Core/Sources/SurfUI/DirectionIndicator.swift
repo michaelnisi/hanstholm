@@ -14,7 +14,7 @@ public struct DirectionIndicator: View {
         HStack(spacing: 2) {
             Image(systemName: "location.fill")
                 .rotationEffect(.degrees(degrees - 45))
-            Text(formatted)
+
         }
         .accessibilityHidden(true)
     }

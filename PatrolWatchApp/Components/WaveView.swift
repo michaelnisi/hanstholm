@@ -42,19 +42,36 @@ struct WaveInfo: View {
 
     var body: some View {
         VStack {
-            DirectionIndicator(
-                degrees: direction.degrees,
-                formatted: direction.formatted()
-            )
+            HStack {
+                DirectionIndicator(
+                    degrees: direction.degrees,
+                    formatted: direction.formatted()
+                )
+                Text(direction.formatted())
+                    .font(.caption2)
+            }
 
-            middle.feetText()
+            middle.feetText().font(.title2)
                 .font(.title2)
                 .fontWeight(.bold)
 
             TimestampCaption(date: date)
         }
+        .padding()
         .cappedDynamicType()
     }
+}
+
+#Preview {
+    WaveInfo(
+        date: .now,
+        max: 1.4,
+        middle: 0.9,
+        period: 7,
+        direction: Direction(cardinal: .westNorthWest)
+    )
+    .padding()
+    .background(Color.accentColor.gradient)
 }
 
 #Preview {

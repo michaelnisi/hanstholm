@@ -7,17 +7,31 @@ import WidgetKit
 struct HomeMedium: View {
     var entry: SurfEntry
 
+    var wave: SurfEntry.Wave {
+        entry.wave
+    }
+
+    var wind: SurfEntry.Wind {
+        entry.wind
+    }
+
     var body: some View {
         VStack(spacing: 6) {
             HStack(spacing: 24) {
                 Spacer()
-                SurfGauge(value: entry.wave.middle, total: entry.wave.max, tint: .blue) {
+                SurfGauge(value: wave.middle, total: wave.max, tint: .blue) {
                     GaugeReadout(
-                        symbol: "water.waves",
-                        value: entry.wave.middle.feet(),
-                        caption: entry.wave.period.seconds(),
+                        element: .wave,
+                        value: entry.wave.middle,
                         direction: entry.wave.direction
                     )
+                }
+                .overlay(alignment: .bottom) {
+                    Text(entry.wave.period.seconds())
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.secondary)
+                        .cappedDynamicType()
                 }
                 Spacer()
                 SurfGauge(
@@ -26,9 +40,8 @@ struct HomeMedium: View {
                     tint: .teal
                 ) {
                     GaugeReadout(
-                        symbol: "wind",
-                        value: entry.wind.speed.current.knots(),
-                        caption: entry.wind.speed.gust.knots(),
+                        element: .wind,
+                        value: entry.wind.speed.current,
                         direction: entry.wind.direction
                     )
                 }

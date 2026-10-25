@@ -48,10 +48,14 @@ struct WindInfo: View {
 
     var body: some View {
         VStack {
-            DirectionIndicator(
-                degrees: direction.degrees,
-                formatted: direction.formatted()
-            )
+            HStack {
+                DirectionIndicator(
+                    degrees: direction.degrees,
+                    formatted: direction.formatted()
+                )
+                Text(direction.formatted())
+                    .font(.caption2)
+            }
 
             speed.knotsText()
                 .font(.title2)
@@ -61,6 +65,16 @@ struct WindInfo: View {
         }
         .cappedDynamicType()
     }
+}
+
+#Preview {
+    WindInfo(
+        date: .now,
+        speed: 7.2,
+        direction: Direction(cardinal: .westSouthWest)
+    )
+    .padding()
+    .background(Color.accentColor.gradient)
 }
 
 #Preview {

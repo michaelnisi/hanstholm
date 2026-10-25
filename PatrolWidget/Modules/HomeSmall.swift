@@ -9,26 +9,24 @@ struct HomeSmall: View {
 
     var body: some View {
         VStack(spacing: 4) {
-            Text(entry.place.name)
-                .font(.caption)
-                .fontWeight(.semibold)
-                .cappedDynamicType()
-
             SurfGauge(value: entry.wave.middle, total: entry.wave.max, tint: .blue) {
                 GaugeReadout(
-                    symbol: "water.waves",
-                    value: entry.wave.middle.feet(),
-                    caption: entry.wave.period.seconds(),
+                    element: .wave,
+                    value: entry.wave.middle,
                     direction: entry.wave.direction
                 )
             }
             .overlay(alignment: .bottom) {
-                Text("\(entry.wind.direction.formatted()) \(entry.wind.speed.current.knots())")
+                Text(entry.wave.period.seconds())
                     .font(.caption)
                     .fontWeight(.semibold)
                     .foregroundStyle(.secondary)
                     .cappedDynamicType()
             }
+            Text(entry.place.name)
+                .font(.caption)
+                .fontWeight(.semibold)
+                .cappedDynamicType()
         }
         .fontDesign(.rounded)
         .accessibilityElement(children: .ignore)
