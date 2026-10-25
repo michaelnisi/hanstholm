@@ -33,30 +33,6 @@ struct WaveView: View {
     }
 }
 
-struct WaveInfo: View {
-    let date: Date
-    let max: Double
-    let middle: Double
-    let period: Double
-    let direction: Direction
-
-    var body: some View {
-        VStack {
-            DirectionIndicator(
-                degrees: direction.degrees,
-                formatted: direction.formatted()
-            )
-
-            middle.feetText()
-                .font(.title2)
-                .fontWeight(.bold)
-
-            TimestampCaption(date: date)
-        }
-        .cappedDynamicType()
-    }
-}
-
 #Preview {
     WaveView(name: "Hanstholm", date: .now, wave: MockData.SurfEntry.makeWave())
 }

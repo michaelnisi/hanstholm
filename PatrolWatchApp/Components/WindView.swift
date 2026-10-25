@@ -41,28 +41,6 @@ struct WindView: View {
     }
 }
 
-struct WindInfo: View {
-    let date: Date
-    let speed: Double
-    let direction: Direction
-
-    var body: some View {
-        VStack {
-            DirectionIndicator(
-                degrees: direction.degrees,
-                formatted: direction.formatted()
-            )
-
-            speed.knotsText()
-                .font(.title2)
-                .fontWeight(.bold)
-
-            TimestampCaption(date: date)
-        }
-        .cappedDynamicType()
-    }
-}
-
 #Preview {
     WindView(
         name: "Hanstholm",
