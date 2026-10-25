@@ -15,7 +15,8 @@ struct WaveView: View {
                 max: wave.max,
                 middle: wave.middle,
                 period: wave.period,
-                direction: wave.direction
+                directionDegrees: wave.direction.degrees,
+                directionLabel: wave.direction.formatted()
             )
         }
         .overlay(alignment: .bottom) {

@@ -1,4 +1,3 @@
-import DomainTypes
 import SwiftUI
 
 @MainActor
@@ -7,21 +6,30 @@ public struct WaveInfo: View {
     let max: Double
     let middle: Double
     let period: Double
-    let direction: Direction
+    let directionDegrees: Double
+    let directionLabel: String
 
-    public init(date: Date, max: Double, middle: Double, period: Double, direction: Direction) {
+    public init(
+        date: Date,
+        max: Double,
+        middle: Double,
+        period: Double,
+        directionDegrees: Double,
+        directionLabel: String
+    ) {
         self.date = date
         self.max = max
         self.middle = middle
         self.period = period
-        self.direction = direction
+        self.directionDegrees = directionDegrees
+        self.directionLabel = directionLabel
     }
 
     public var body: some View {
         VStack {
             DirectionIndicator(
-                degrees: direction.degrees,
-                formatted: direction.formatted()
+                degrees: directionDegrees,
+                formatted: directionLabel
             )
 
             middle.feetText()

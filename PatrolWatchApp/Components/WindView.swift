@@ -15,7 +15,8 @@ struct WindView: View {
             WindInfo(
                 date: date,
                 speed: wind.speed.current,
-                direction: wind.direction
+                directionDegrees: wind.direction.degrees,
+                directionLabel: wind.direction.formatted()
             )
         }
         .overlay(alignment: .bottom) {

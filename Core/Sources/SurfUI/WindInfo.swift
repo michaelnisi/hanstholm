@@ -1,23 +1,24 @@
-import DomainTypes
 import SwiftUI
 
 @MainActor
 public struct WindInfo: View {
     let date: Date
     let speed: Double
-    let direction: Direction
+    let directionDegrees: Double
+    let directionLabel: String
 
-    public init(date: Date, speed: Double, direction: Direction) {
+    public init(date: Date, speed: Double, directionDegrees: Double, directionLabel: String) {
         self.date = date
         self.speed = speed
-        self.direction = direction
+        self.directionDegrees = directionDegrees
+        self.directionLabel = directionLabel
     }
 
     public var body: some View {
         VStack {
             DirectionIndicator(
-                degrees: direction.degrees,
-                formatted: direction.formatted()
+                degrees: directionDegrees,
+                formatted: directionLabel
             )
 
             speed.knotsText()
