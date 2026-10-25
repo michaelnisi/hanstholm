@@ -71,6 +71,18 @@ final class CacheTests: XCTestCase {
         XCTAssertNil(result)
     }
 
+    func testConditionsMatchingNewerReturnsEntryAtTheCutoff() async {
+        let cache = Cache(userDefaults: userDefaults)
+        let cutoff = Date.now
+        let entry = makeSurfEntry(date: cutoff)
+
+        await cache.setConditions(entry)
+
+        let result = await cache.conditions(matching: entry.place, newer: cutoff)
+
+        XCTAssertEqual(result, entry)
+    }
+
     func testPlacesWithTheSameNameAreStoredSeparately() async {
         let cache = Cache(userDefaults: userDefaults)
         let one = makeSurfEntry(place: makePlace(key: "hanstholm", name: "Hanstholm"))

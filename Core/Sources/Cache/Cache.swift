@@ -37,7 +37,7 @@ extension Cache {
     }
 
     public func conditions(matching place: Place, newer: Date) -> SurfEntry? {
-        guard let data = conditions(matching: place), data.date >= newer else {
+        guard let data = conditions(matching: place), data.isUsable(newer: newer) else {
             return nil
         }
 
@@ -120,12 +120,22 @@ extension Cache {
 
     public func selectedConditions(newer: Date) -> SurfEntry? {
         guard let id = selectedPlaceID(), let data = db?.data(forKey: .makeKey(placeID: id)),
-            let entry = try? decoder.decode(SurfEntry.self, from: data), entry.date >= newer
+            let entry = try? decoder.decode(SurfEntry.self, from: data),
+            entry.isUsable(newer: newer)
         else {
             return nil
         }
 
         return entry
+    }
+}
+
+extension SurfEntry {
+    // Compares raw intervals instead of `Date >=`: the 27.2 SDK back-deploys
+    // `Date.>=`/`<=` through a weak-linked Foundation symbol that some OS builds
+    // reporting 27.2 don't export, which crashes with a jump to 0x0 (GH-230).
+    fileprivate func isUsable(newer cutoff: Date) -> Bool {
+        date.timeIntervalSinceReferenceDate >= cutoff.timeIntervalSinceReferenceDate
     }
 }
 
