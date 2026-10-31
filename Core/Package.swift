@@ -80,11 +80,8 @@ let package = Package(
             dependencies: ["Conditions", "ConditionsPlugin", "Cache", "DomainTypes"]
         ),
         .target(
-            name: "SurfUI"
-        ),
-        .testTarget(
-            name: "SurfUITests",
-            dependencies: ["SurfUI"]
+            name: "SurfUI",
+            dependencies: ["DomainTypes"]
         ),
     ]
 )

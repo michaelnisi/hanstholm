@@ -10,25 +10,26 @@ struct HomeSmall: View {
     var body: some View {
         VStack(spacing: 4) {
             SurfGauge(value: entry.wave.middle, total: entry.wave.max, tint: .blue) {
-                GaugeReadout(
-                    element: .wave,
-                    value: entry.wave.middle,
-                    direction: entry.wave.direction
-                )
+                VStack {
+                    entry.wave.middle.feetText()
+                        .font(.title2)
+                        .fontWeight(.black)
+
+                    Text(entry.wave.period.seconds())
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.secondary)
+                        .cappedDynamicType()
+                }
             }
             .overlay(alignment: .bottom) {
-                Text(entry.wave.period.seconds())
-                    .font(.caption)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(.secondary)
-                    .cappedDynamicType()
+                DirectionIndicator(direction: entry.wave.direction)
             }
             Text(entry.place.name)
                 .font(.caption)
                 .fontWeight(.semibold)
                 .cappedDynamicType()
         }
-        .fontDesign(.rounded)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel("At \(entry.place.name), \(entry.wave.spoken).")
     }

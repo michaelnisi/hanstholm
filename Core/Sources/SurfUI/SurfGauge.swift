@@ -1,6 +1,5 @@
 import SwiftUI
 
-@MainActor
 public struct SurfGauge<Label: View>: View {
     let value: Double
     let total: Double

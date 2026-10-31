@@ -12,7 +12,7 @@ extension Double {
         return "\(Int(value))ft"
     }
 
-    public func seconds(width: Measurement<UnitDuration>.FormatStyle.UnitWidth = .abbreviated)
+    public func seconds(width: Measurement<UnitDuration>.FormatStyle.UnitWidth = .narrow)
         -> String
     {
         Measurement<UnitDuration>(value: self, unit: .seconds)

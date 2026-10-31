@@ -10,7 +10,7 @@ struct AccessoryCircular: View {
             AccessoryWidgetBackground()
             VStack {
                 Text(entry.wave.middle.feet(width: .narrow))
-                Text(entry.wave.period.seconds(width: .narrow))
+                Text(entry.wave.period.seconds())
             }
             .widgetAccentable()
         }

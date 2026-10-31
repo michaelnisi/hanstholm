@@ -10,18 +10,16 @@ struct WindView: View {
 
     var body: some View {
         SurfGauge(
-            value: wind.speed.middle, total: wind.speed.gust ?? wind.speed.middle, tint: .teal
+            value: wind.speed.middle,
+            total: wind.speed.gust ?? wind.speed.middle,
+            tint: .teal
         ) {
-            WindInfo(
-                date: date,
-                speed: wind.speed.current,
-                direction: wind.direction
-            )
+            wind.speed.middle.knotsText()
+                .font(.title2)
+                .fontWeight(.black)
         }
         .overlay(alignment: .bottom) {
-            wind.speed.gust.knotsText()
-                .font(.headline)
-                .cappedDynamicType()
+            DirectionIndicator(direction: wind.direction)
         }
         .fontDesign(.rounded)
         .accessibilityElement(children: .ignore)
@@ -39,39 +37,6 @@ struct WindView: View {
 
         return label
     }
-}
-
-struct WindInfo: View {
-    let date: Date
-    let speed: Double
-    let direction: Direction
-
-    var body: some View {
-        VStack {
-            HStack {
-                DirectionIndicator(degrees: direction.degrees)
-                Text(direction.formatted())
-                    .font(.caption2)
-            }
-
-            speed.knotsText()
-                .font(.title2)
-                .fontWeight(.bold)
-
-            TimestampCaption(date: date)
-        }
-        .cappedDynamicType()
-    }
-}
-
-#Preview {
-    WindInfo(
-        date: .now,
-        speed: 7.2,
-        direction: Direction(cardinal: .westSouthWest)
-    )
-    .padding()
-    .background(Color.accentColor.gradient)
 }
 
 #Preview {

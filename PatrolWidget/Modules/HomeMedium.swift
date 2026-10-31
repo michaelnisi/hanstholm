@@ -20,37 +20,39 @@ struct HomeMedium: View {
             HStack(spacing: 24) {
                 Spacer()
                 SurfGauge(value: wave.middle, total: wave.max, tint: .blue) {
-                    GaugeReadout(
-                        element: .wave,
-                        value: entry.wave.middle,
-                        direction: entry.wave.direction
-                    )
+                    VStack {
+                        wave.middle.feetText()
+                            .font(.title2)
+                            .fontWeight(.black)
+
+                        Text(wave.period.seconds())
+                            .font(.caption)
+                            .fontWeight(.semibold)
+                            .foregroundStyle(.secondary)
+                            .cappedDynamicType()
+                    }
                 }
                 .overlay(alignment: .bottom) {
-                    Text(entry.wave.period.seconds())
-                        .font(.caption)
-                        .fontWeight(.semibold)
-                        .foregroundStyle(.secondary)
-                        .cappedDynamicType()
+                    DirectionIndicator(direction: wave.direction)
                 }
                 Spacer()
                 SurfGauge(
-                    value: entry.wind.speed.middle,
-                    total: entry.wind.speed.gust ?? entry.wind.speed.middle,
+                    value: wind.speed.middle,
+                    total: wind.speed.gust ?? wind.speed.middle,
                     tint: .teal
                 ) {
-                    GaugeReadout(
-                        element: .wind,
-                        value: entry.wind.speed.current,
-                        direction: entry.wind.direction
-                    )
+                    wind.speed.middle.knotsText()
+                        .font(.title2)
+                        .fontWeight(.black)
+                }
+                .overlay(alignment: .bottom) {
+                    DirectionIndicator(direction: wind.direction)
                 }
                 Spacer()
             }
 
             HomeFooter(entry: entry)
         }
-        .fontDesign(.rounded)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(entry.spokenSummary)
     }

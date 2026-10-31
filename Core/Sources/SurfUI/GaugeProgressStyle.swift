@@ -1,6 +1,5 @@
 import SwiftUI
 
-@MainActor
 public struct GaugeProgressStyle: ProgressViewStyle {
     let strokeColor: Color
 
