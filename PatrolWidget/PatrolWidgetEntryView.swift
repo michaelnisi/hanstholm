@@ -8,6 +8,7 @@ struct PatrolWidgetEntryView: View {
 
     var body: some View {
         familyView
+            .fontDesign(.rounded)
             .containerBackground(for: .widget) {
                 TileBackground(family: widgetFamily)
             }

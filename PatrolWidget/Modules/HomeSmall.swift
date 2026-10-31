@@ -9,30 +9,29 @@ struct HomeSmall: View {
 
     var body: some View {
         VStack(spacing: 4) {
+            SurfGauge(value: entry.wave.middle, total: entry.wave.max, tint: .blue) {
+                VStack {
+                    entry.wave.middle.feetText()
+                        .font(.title2)
+                        .fontWeight(.black)
+
+                    Text(entry.wave.period.seconds())
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.secondary)
+                        .cappedDynamicType()
+                }
+            }
+            .overlay(alignment: .bottom) {
+                DirectionIndicator(direction: entry.wave.direction)
+            }
             Text(entry.place.name)
                 .font(.caption)
                 .fontWeight(.semibold)
                 .cappedDynamicType()
-
-            SurfGauge(value: entry.wave.middle, total: entry.wave.max, tint: .blue) {
-                GaugeReadout(
-                    symbol: "water.waves",
-                    value: entry.wave.middle.feet(),
-                    caption: entry.wave.period.seconds(),
-                    direction: entry.wave.direction
-                )
-            }
-            .overlay(alignment: .bottom) {
-                Text("\(entry.wind.direction.formatted()) \(entry.wind.speed.current.knots())")
-                    .font(.caption)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(.secondary)
-                    .cappedDynamicType()
-            }
         }
-        .fontDesign(.rounded)
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel(entry.spokenSummary)
+        .accessibilityLabel("At \(entry.place.name), \(entry.wave.spoken).")
     }
 }
 
