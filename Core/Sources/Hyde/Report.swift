@@ -63,10 +63,10 @@ extension Report {
         let maxHeight = try parts.required(Hyde.Label.maxWaveHeight)
         let middleHeight = try parts.required(Hyde.Label.middleWaveHeight)
         let period = try parts.required(Hyde.Label.wavePeriod)
-        let waveDirection = try parts.required(Hyde.Label.waveDirection).withoutDegreeSign()
+        let waveDirection = try parts.required(Hyde.Label.waveDirection).withoutBearing()
         let windCurrent = try parts.required(Hyde.Label.windCurrent)
         let windMiddle = try parts.required(Hyde.Label.windMiddle)
-        let windDirection = try parts.required(Hyde.Label.windDirection).withoutDegreeSign()
+        let windDirection = try parts.required(Hyde.Label.windDirection).withoutBearing()
 
         let wave = Wave(
             height: .init(max: maxHeight.double(), middle: middleHeight.double()),
