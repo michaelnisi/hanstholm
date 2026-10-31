@@ -81,7 +81,16 @@ final class ParserTests: XCTestCase {
     }
 
     func testDegreeSignIsNotPartOfTheDirection() {
-        XCTAssertEqual(Substring("SSØ°").withoutDegreeSign(), "SSØ")
+        XCTAssertEqual(Substring("SSØ°").withoutBearing(), "SSØ")
+    }
+
+    func testBearingIsNotPartOfTheDirection() {
+        XCTAssertEqual(Substring("V276°").withoutBearing(), "V")
+        XCTAssertEqual(Substring("VNV297°").withoutBearing(), "VNV")
+    }
+
+    func testPlaceholderDirectionKeepsItsDash() {
+        XCTAssertEqual(Substring("-°").withoutBearing(), "-")
     }
 }
 
@@ -97,7 +106,7 @@ let hanstholmHTML = """
     </div>
     <div class="dash-cell">
         <div class="cell-label">Vindretning middel</div>
-        <div class="cell-body"><span class="cell-value">S</span><span class="cell-unit">°</span></div>
+        <div class="cell-body"><span class="cell-value">S</span><span class="cell-unit">180°</span></div>
     </div>
     <div class="dash-cell">
         <div class="cell-label">Vindstød</div>
@@ -134,7 +143,7 @@ let hvideSandeHTML = """
     </div>
     <div class="dash-cell">
         <div class="cell-label">Vindretning middel</div>
-        <div class="cell-body"><span class="cell-value">S</span><span class="cell-unit">°</span></div>
+        <div class="cell-body"><span class="cell-value">S</span><span class="cell-unit">180°</span></div>
     </div>
     <div class="dash-cell">
         <div class="cell-label">Vindstød</div>
@@ -154,7 +163,7 @@ let hvideSandeHTML = """
     </div>
     <div class="dash-cell">
         <div class="cell-label">Bølgeretning</div>
-        <div class="cell-body"><span class="cell-value">SV</span><span class="cell-unit">°</span></div>
+        <div class="cell-body"><span class="cell-value">SV</span><span class="cell-unit">225°</span></div>
     </div>
     </div>
     """
@@ -171,7 +180,7 @@ let thorsmindeHTML = """
     </div>
     <div class="dash-cell">
         <div class="cell-label">Vindretning middel</div>
-        <div class="cell-body"><span class="cell-value">SSØ</span><span class="cell-unit">°</span></div>
+        <div class="cell-body"><span class="cell-value">SSØ</span><span class="cell-unit">158°</span></div>
     </div>
     <div class="dash-cell">
         <div class="cell-label">Vindstød</div>

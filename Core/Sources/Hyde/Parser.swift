@@ -65,7 +65,7 @@ extension Array where Element == String.SubSequence {
     }
 
     func waveDirection() -> Substring? {
-        substring(after: Hyde.Label.waveDirection)?.withoutDegreeSign()
+        substring(after: Hyde.Label.waveDirection)?.withoutBearing()
     }
 
     func windCurrent() -> Substring? {
@@ -81,7 +81,7 @@ extension Array where Element == String.SubSequence {
     }
 
     func windDirection() -> Substring? {
-        substring(after: Hyde.Label.windDirection)?.withoutDegreeSign()
+        substring(after: Hyde.Label.windDirection)?.withoutBearing()
     }
 
     func substring(after label: Substring) -> Substring? {
@@ -121,7 +121,7 @@ extension Substring {
         contains { $0.isASCII && $0.isNumber }
     }
 
-    func withoutDegreeSign() -> Substring {
-        prefix(while: { $0 != "°" })
+    func withoutBearing() -> Substring {
+        prefix(while: { !$0.isNumber && $0 != "°" })
     }
 }
