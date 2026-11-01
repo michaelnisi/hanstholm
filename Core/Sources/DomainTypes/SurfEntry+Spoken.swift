@@ -1,3 +1,5 @@
+import Foundation
+
 extension SurfEntry.Wind {
     public var spoken: String {
         "wind is \(speed.current.knots(width: .wide)) from \(direction.spoken())"
