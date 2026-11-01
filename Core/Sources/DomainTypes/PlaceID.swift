@@ -1,3 +1,5 @@
+import Foundation
+
 public struct PluginID: RawRepresentable, Hashable, Sendable, Codable, ExpressibleByStringLiteral {
     public let rawValue: String
 

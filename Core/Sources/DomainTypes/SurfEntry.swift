@@ -1,7 +1,6 @@
-import SwiftUI
-import WidgetKit
+import Foundation
 
-public struct SurfEntry: TimelineEntry, Identifiable, Hashable, Sendable, Codable {
+public struct SurfEntry: Identifiable, Hashable, Sendable, Codable {
     public enum Status: Hashable, Sendable, Codable {
         case ok, error, placeholder
     }
@@ -58,15 +57,6 @@ public struct SurfEntry: TimelineEntry, Identifiable, Hashable, Sendable, Codabl
 
     public static func oldestUsableDate(now: Date) -> Date {
         now.addingTimeInterval(-maxCachedAge)
-    }
-
-    public var relevance: TimelineEntryRelevance? {
-        switch status {
-        case .ok:
-            TimelineEntryRelevance(score: 50, duration: Self.cacheTTL)
-        case .error, .placeholder:
-            TimelineEntryRelevance(score: 0)
-        }
     }
 
     public init(date: Date, place: Place, status: Status, wave: Wave, wind: Wind) {

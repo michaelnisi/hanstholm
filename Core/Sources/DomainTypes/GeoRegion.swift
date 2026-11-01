@@ -1,3 +1,5 @@
+import Foundation
+
 public struct GeoRegion: Hashable, Sendable, Codable {
     public let latitude: Double
     public let longitude: Double
