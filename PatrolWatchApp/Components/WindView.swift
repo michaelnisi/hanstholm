@@ -19,7 +19,10 @@ struct WindView: View {
                 .fontWeight(.black)
         }
         .overlay(alignment: .bottom) {
-            DirectionIndicator(direction: wind.direction)
+            DirectionIndicator(
+                degrees: wind.direction.degrees,
+                direction: wind.direction.formatted()
+            )
         }
         .fontDesign(.rounded)
         .accessibilityElement(children: .ignore)
