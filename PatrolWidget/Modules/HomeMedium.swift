@@ -33,7 +33,10 @@ struct HomeMedium: View {
                     }
                 }
                 .overlay(alignment: .bottom) {
-                    DirectionIndicator(direction: wave.direction)
+                    DirectionIndicator(
+                        degrees: wave.direction.degrees,
+                        direction: wave.direction.formatted()
+                    )
                 }
                 Spacer()
                 SurfGauge(
@@ -46,7 +49,10 @@ struct HomeMedium: View {
                         .fontWeight(.black)
                 }
                 .overlay(alignment: .bottom) {
-                    DirectionIndicator(direction: wind.direction)
+                    DirectionIndicator(
+                        degrees: wind.direction.degrees,
+                        direction: wind.direction.formatted()
+                    )
                 }
                 Spacer()
             }

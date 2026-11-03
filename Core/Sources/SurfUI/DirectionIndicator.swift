@@ -1,19 +1,20 @@
-import DomainTypes
 import SwiftUI
 
 public struct DirectionIndicator: View {
-    let direction: Direction
+    private let degrees: Double
+    private let direction: String
 
-    public init(direction: Direction) {
+    public init(degrees: Double, direction: String) {
+        self.degrees = degrees
         self.direction = direction
     }
 
     public var body: some View {
         VStack {
             Image(systemName: "location.fill")
-                .rotationEffect(.degrees(direction.degrees - 45))
+                .rotationEffect(.degrees(degrees - 45))
                 .accessibilityHidden(true)
-            Text(direction.formatted())
+            Text(direction)
                 .font(.caption2)
         }
     }

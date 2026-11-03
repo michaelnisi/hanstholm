@@ -23,7 +23,10 @@ struct HomeSmall: View {
                 }
             }
             .overlay(alignment: .bottom) {
-                DirectionIndicator(direction: entry.wave.direction)
+                DirectionIndicator(
+                    degrees: entry.wave.direction.degrees,
+                    direction: entry.wave.direction.formatted()
+                )
             }
             Text(entry.place.name)
                 .font(.caption)

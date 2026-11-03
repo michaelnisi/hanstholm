@@ -23,7 +23,10 @@ struct WaveView: View {
             }
         }
         .overlay(alignment: .bottom) {
-            DirectionIndicator(direction: wave.direction)
+            DirectionIndicator(
+                degrees: wave.direction.degrees,
+                direction: wave.direction.formatted()
+            )
         }
         .fontDesign(.rounded)
         .accessibilityElement(children: .ignore)

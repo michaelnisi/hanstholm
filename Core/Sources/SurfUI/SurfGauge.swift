@@ -21,6 +21,6 @@ public struct SurfGauge<Label: View>: View {
             total: total > 0 ? total : 1
         )
         .progressViewStyle(GaugeProgressStyle(strokeColor: tint))
-        .overlay { label() }
+        .overlay { label().padding(.bottom, 12) }
     }
 }
