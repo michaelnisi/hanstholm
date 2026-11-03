@@ -47,6 +47,7 @@ public struct SurfEntry: TimelineEntry, Identifiable, Hashable, Sendable, Codabl
     public let status: Status
     public let wave: Wave
     public let wind: Wind
+    public let tide: Tide?
 
     public var id: String {
         "\(place.id)-\(date.timeIntervalSince1970)"
@@ -69,11 +70,19 @@ public struct SurfEntry: TimelineEntry, Identifiable, Hashable, Sendable, Codabl
         }
     }
 
-    public init(date: Date, place: Place, status: Status, wave: Wave, wind: Wind) {
+    public init(
+        date: Date,
+        place: Place,
+        status: Status,
+        wave: Wave,
+        wind: Wind,
+        tide: Tide? = nil
+    ) {
         self.date = date
         self.place = place
         self.status = status
         self.wave = wave
         self.wind = wind
+        self.tide = tide
     }
 }
