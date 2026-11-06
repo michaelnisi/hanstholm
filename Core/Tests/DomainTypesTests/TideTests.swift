@@ -22,7 +22,8 @@ final class TideTests: XCTestCase {
                 speed: SurfEntry.Wind.Speed(gust: 12, middle: 9, current: 10),
                 direction: Direction(cardinal: .west)
             ),
-            tide: tide
+            tide: tide,
+            light: nil
         )
     }
 

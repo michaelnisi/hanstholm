@@ -56,6 +56,7 @@ extension SurfEntry {
             return nil
         }
 
-        self.init(date: date, place: place, status: .ok, wave: wave, wind: wind, tide: nil)
+        self.init(
+            date: date, place: place, status: .ok, wave: wave, wind: wind, tide: nil, light: nil)
     }
 }

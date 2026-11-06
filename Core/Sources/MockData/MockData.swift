@@ -26,7 +26,8 @@ public struct MockData {
                 status: status,
                 wave: makeWave(),
                 wind: makeWind(),
-                tide: nil
+                tide: nil,
+                light: nil
             )
         }
 
