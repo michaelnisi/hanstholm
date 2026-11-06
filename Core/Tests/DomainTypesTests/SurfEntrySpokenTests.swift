@@ -44,7 +44,8 @@ final class SurfEntrySpokenTests: XCTestCase {
         )
         let wave = SurfEntry.Wave(
             max: 1.2, middle: 0.9, period: 8, direction: .init(cardinal: .northWest))
-        let entry = SurfEntry(date: .now, place: place, status: .ok, wave: wave, wind: wind)
+        let entry = SurfEntry(
+            date: .now, place: place, status: .ok, wave: wave, wind: wind, tide: nil)
 
         XCTAssertEqual(
             entry.spokenSummary,

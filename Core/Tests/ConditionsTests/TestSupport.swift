@@ -36,7 +36,8 @@ func makeEntry(date: Date = .now, place: Place = makePlace()) -> SurfEntry {
         status: .ok,
         wave: .init(max: 1.2, middle: 0.8, period: 8, direction: .init(cardinal: .west)),
         wind: .init(
-            speed: .init(gust: 12, middle: 9, current: 10), direction: .init(cardinal: .west))
+            speed: .init(gust: 12, middle: 9, current: 10), direction: .init(cardinal: .west)),
+        tide: nil
     )
 }
 

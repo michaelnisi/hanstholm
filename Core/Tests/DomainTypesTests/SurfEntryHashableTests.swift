@@ -29,7 +29,8 @@ final class SurfEntryHashableTests: XCTestCase {
             place: makePlace(),
             status: .ok,
             wave: wave ?? makeWave(),
-            wind: wind ?? makeWind()
+            wind: wind ?? makeWind(),
+            tide: nil
         )
     }
 

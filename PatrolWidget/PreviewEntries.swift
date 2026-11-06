@@ -30,7 +30,8 @@ extension PreviewState {
             wind: .init(
                 speed: .init(gust: nil, middle: 7, current: 5),
                 direction: .init(cardinal: .southWest)
-            )
+            ),
+            tide: nil
         )
     )
 
@@ -44,7 +45,8 @@ extension PreviewState {
             wind: .init(
                 speed: .init(gust: 32, middle: 24, current: 21),
                 direction: .init(cardinal: .north)
-            )
+            ),
+            tide: nil
         )
     )
 

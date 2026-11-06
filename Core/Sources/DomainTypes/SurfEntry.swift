@@ -76,7 +76,7 @@ public struct SurfEntry: TimelineEntry, Identifiable, Hashable, Sendable, Codabl
         status: Status,
         wave: Wave,
         wind: Wind,
-        tide: Tide? = nil
+        tide: Tide?
     ) {
         self.date = date
         self.place = place

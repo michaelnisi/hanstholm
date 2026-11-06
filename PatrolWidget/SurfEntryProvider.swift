@@ -101,7 +101,8 @@ extension SurfEntry {
             wave: Wave(max: 2.0, middle: 1.2, period: 8, direction: .init(cardinal: .northWest)),
             wind: Wind(
                 speed: .init(gust: 10, middle: 7, current: 5),
-                direction: .init(cardinal: .southWest))
+                direction: .init(cardinal: .southWest)),
+            tide: nil
         )
     }
 }
