@@ -102,7 +102,8 @@ extension SurfEntry {
             wind: Wind(
                 speed: .init(gust: 10, middle: 7, current: 5),
                 direction: .init(cardinal: .southWest)),
-            tide: nil
+            tide: nil,
+            light: nil
         )
     }
 }
