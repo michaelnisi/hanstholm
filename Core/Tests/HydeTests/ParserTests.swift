@@ -10,9 +10,9 @@ final class ParserTests: XCTestCase {
     override func setUp() async throws {
         try await super.setUp()
 
-        self.hanstholmParts = try hanstholmHTML.stripOutHtml().splitLines()
-        self.hvideSandeParts = try hvideSandeHTML.stripOutHtml().splitLines()
-        self.thorsmindeParts = try thorsmindeHTML.stripOutHtml().splitLines()
+        self.hanstholmParts = hanstholmHTML.stripOutHtml().splitLines()
+        self.hvideSandeParts = hvideSandeHTML.stripOutHtml().splitLines()
+        self.thorsmindeParts = thorsmindeHTML.stripOutHtml().splitLines()
     }
 
     func testWaveHvideSande() {
