@@ -14,7 +14,7 @@ This skill is a deliberate exception to the plan-mode rule in CLAUDE.md: it may 
 Run from the repository root, with a directory in the scratchpad for the saved pages:
 
 ```bash
-swift run --package-path .claude/skills/check-scrapers/probe probe <scratchpad>/live
+swift run --scratch-path /tmp/probe-build --package-path .claude/skills/check-scrapers/probe probe <scratchpad>/live
 ```
 
 The probe fetches each place of each plugin listed in `probe/Sources/probe/main.swift`, saves the raw bytes as `<place key>.html`, runs the plugin's own `decodeDeferred`, and prints one JSON line per place:
@@ -25,6 +25,13 @@ The probe fetches each place of each plugin listed in `probe/Sources/probe/main.
 | `broken` | the source answered but the plugin cannot use it: HTTP 4xx (page moved or removed) or a decoding failure |
 | `unavailable` | the page is understood, but the provider intentionally left a part (wave or wind) out: every numeric reading of that part holds a placeholder without digits; `detail` names the part |
 | `unreachable` | transport error or HTTP 5xx; the site is down, which is not a parser bug |
+
+The probe builds on macOS and on Linux, because the plugin stack it links (`DomainTypes`, `ConditionsPlugin`, `Hyde`) uses only Foundation. To run it on Linux from a Mac, use a container:
+
+```bash
+docker run --rm -v "$PWD":/src -v <scratchpad>:/scratch -w /src swift:6.2 \
+    swift run --scratch-path /tmp/probe-build --package-path .claude/skills/check-scrapers/probe probe /scratch/live
+```
 
 Exit code 0: no place is broken. 1: at least one is broken. 2: bad arguments.
 

@@ -3,6 +3,10 @@ import DomainTypes
 import Foundation
 import Hyde
 
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
+
 struct Finding: Encodable {
     enum Status: String, Encodable {
         case healthy

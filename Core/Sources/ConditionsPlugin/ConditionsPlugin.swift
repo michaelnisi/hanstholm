@@ -1,6 +1,10 @@
 import DomainTypes
 import Foundation
 
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
+
 public protocol ConditionsPlugin: Sendable {
     var id: PluginID { get }
     var places: [Place] { get }

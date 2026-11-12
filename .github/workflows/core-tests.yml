@@ -5,10 +5,12 @@ on:
     branches: [main]
     paths:
       - "Core/**"
+      - ".claude/skills/check-scrapers/probe/**"
       - ".github/workflows/core-tests.yml"
   pull_request:
     paths:
       - "Core/**"
+      - ".claude/skills/check-scrapers/probe/**"
       - ".github/workflows/core-tests.yml"
 
 jobs:
@@ -23,3 +25,17 @@ jobs:
       - name: Run tests
         working-directory: Core
         run: swift test
+
+  linux:
+    runs-on: ubuntu-latest
+    container: swift:6.2
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run tests
+        working-directory: Core
+        run: swift test
+
+      - name: Build the check-scrapers probe
+        run: swift build --package-path .claude/skills/check-scrapers/probe

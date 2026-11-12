@@ -2,6 +2,49 @@
 
 import PackageDescription
 
+#if canImport(Darwin)
+let appleOnlyProducts: [Product] = [
+    .library(
+        name: "Cache",
+        targets: ["Cache"]
+    ),
+    .library(
+        name: "Conditions",
+        targets: ["Conditions"]
+    ),
+    .library(
+        name: "SurfUI",
+        targets: ["SurfUI"]
+    ),
+]
+
+let appleOnlyTargets: [Target] = [
+    .target(
+        name: "Cache",
+        dependencies: ["DomainTypes"]
+    ),
+    .testTarget(
+        name: "CacheTests",
+        dependencies: ["Cache", "DomainTypes"]
+    ),
+    .target(
+        name: "Conditions",
+        dependencies: ["ConditionsPlugin", "Cache", "DomainTypes"]
+    ),
+    .testTarget(
+        name: "ConditionsTests",
+        dependencies: ["Conditions", "ConditionsPlugin", "Cache", "DomainTypes"]
+    ),
+    .target(
+        name: "SurfUI"
+    ),
+]
+#else
+let appleOnlyProducts: [Product] = []
+
+let appleOnlyTargets: [Target] = []
+#endif
+
 let package = Package(
     name: "Core",
     platforms: [
@@ -23,22 +66,10 @@ let package = Package(
             targets: ["MockData"]
         ),
         .library(
-            name: "Cache",
-            targets: ["Cache"]
-        ),
-        .library(
             name: "ConditionsPlugin",
             targets: ["ConditionsPlugin"]
         ),
-        .library(
-            name: "Conditions",
-            targets: ["Conditions"]
-        ),
-        .library(
-            name: "SurfUI",
-            targets: ["SurfUI"]
-        ),
-    ],
+    ] + appleOnlyProducts,
     targets: [
         .target(
             name: "DomainTypes"
@@ -63,24 +94,5 @@ let package = Package(
             name: "MockData",
             dependencies: ["DomainTypes"]
         ),
-        .target(
-            name: "Cache",
-            dependencies: ["DomainTypes"]
-        ),
-        .testTarget(
-            name: "CacheTests",
-            dependencies: ["Cache", "DomainTypes"]
-        ),
-        .target(
-            name: "Conditions",
-            dependencies: ["ConditionsPlugin", "Cache", "DomainTypes"]
-        ),
-        .testTarget(
-            name: "ConditionsTests",
-            dependencies: ["Conditions", "ConditionsPlugin", "Cache", "DomainTypes"]
-        ),
-        .target(
-            name: "SurfUI"
-        ),
-    ]
+    ] + appleOnlyTargets
 )

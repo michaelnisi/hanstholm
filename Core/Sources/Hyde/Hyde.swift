@@ -1,9 +1,10 @@
 import ConditionsPlugin
 import DomainTypes
 import Foundation
-import os.log
 
-let logger = Logger(subsystem: "ink.codes.Patrol", category: "Hyde")
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 public struct Hyde: ConditionsPlugin, DeferredDownloadable {
     public static let pluginID: PluginID = "ink.codes.Patrol.plugin.hyde"

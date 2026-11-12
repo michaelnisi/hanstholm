@@ -1,5 +1,6 @@
 import Foundation
 
+#if canImport(Darwin)
 extension Double {
     public func feet(width: Measurement<UnitLength>.FormatStyle.UnitWidth = .abbreviated) -> String
     {
@@ -34,3 +35,4 @@ extension Optional where Wrapped == Double {
         self?.knots(width: width) ?? "–"
     }
 }
+#endif
