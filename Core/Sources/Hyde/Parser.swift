@@ -11,26 +11,15 @@ extension Data {
         }
 
         return
-            try string
+            string
             .stripOutHtml()
             .splitLines()
     }
 }
 
 extension String {
-    func stripOutHtml() throws -> String {
-        guard let data = self.data(using: .unicode) else {
-            throw Hyde.Fault.parsing
-        }
-
-        let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
-            .documentType: NSAttributedString.DocumentType.html,
-            .characterEncoding: String.Encoding.utf8.rawValue,
-        ]
-        let attributed = try NSAttributedString(
-            data: data, options: options, documentAttributes: nil)
-
-        return attributed.string
+    func stripOutHtml() -> String {
+        HTMLTextExtractor.text(from: self)
     }
 
     func splitLines() -> [Self.SubSequence] {
