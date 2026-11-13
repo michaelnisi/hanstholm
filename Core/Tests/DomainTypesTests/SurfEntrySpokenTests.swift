@@ -2,6 +2,7 @@ import XCTest
 
 @testable import DomainTypes
 
+#if canImport(Darwin)
 final class SurfEntrySpokenTests: XCTestCase {
     private let place = Place(pluginID: "test", key: "spot", name: "Hanstholm")
 
@@ -53,3 +54,4 @@ final class SurfEntrySpokenTests: XCTestCase {
         )
     }
 }
+#endif
