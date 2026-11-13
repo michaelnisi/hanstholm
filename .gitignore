@@ -7,3 +7,4 @@ DerivedData/
 .swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
 .netrc
 /.claude/skills/check-scrapers/probe/.build
+/Server/.build

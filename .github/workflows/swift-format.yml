@@ -13,4 +13,4 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Check formatting
-        run: xcrun swift-format lint --configuration .swift-format --strict --recursive Core Patrol PatrolWatchApp PatrolWidget PatrolIntents
+        run: xcrun swift-format lint --configuration .swift-format --strict --recursive Core Server Patrol PatrolWatchApp PatrolWidget PatrolIntents

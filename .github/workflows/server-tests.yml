@@ -1,0 +1,38 @@
+name: Server tests
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "Server/**"
+      - "Core/Package.swift"
+      - "Core/Sources/DomainTypes/**"
+      - ".github/workflows/server-tests.yml"
+  pull_request:
+    paths:
+      - "Server/**"
+      - "Core/Package.swift"
+      - "Core/Sources/DomainTypes/**"
+      - ".github/workflows/server-tests.yml"
+
+jobs:
+  macos:
+    runs-on: macos-26
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run tests
+        working-directory: Server
+        run: swift test
+
+  linux:
+    runs-on: ubuntu-latest
+    container: swift:6.2
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run tests
+        working-directory: Server
+        run: swift test

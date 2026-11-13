@@ -46,6 +46,8 @@ PatrolWidget/    # WidgetKit extension source, shared by two Xcode targets:
 PatrolIntents/   # Siri / Shortcuts App Intents source, shared by two Xcode targets:
                  #   Patrol Watch App (watchOS)
                  #   Patrol           (iOS)
+Server/          # Swift Package — Hummingbird backend-for-frontend; depends on Core's DomainTypes by path,
+                 # so Hummingbird never enters the app builds
 PatrolPlaces/    # PlaceEntity (the place picker's AppEntity), shared by all four targets, because the
                  # widget configuration UI runs its query inside the widget extension
 ```
@@ -65,6 +67,14 @@ swift test --filter ParserTests/testWave   # run a single test
 ```
 
 Every test runs offline: fetching lives behind `ConditionsPlugin`, which the coordinator tests stub, and `ConditionsTests` passes `deferredDownloads: nil` so no background `URLSession` is created in the test process. A plugin's parser tests run against hardcoded fixtures; any that lean on system text or markup parsing can be sensitive to OS version differences.
+
+The Server package is separate, builds on macOS and Linux, and has its own tests:
+
+```bash
+cd Server
+swift test
+swift run Server        # serves GET /health on localhost:8080
+```
 
 Build and run the watch app and widget from Xcode — there is no command-line target for the app.
 
